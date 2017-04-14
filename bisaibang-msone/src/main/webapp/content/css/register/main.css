@@ -1,0 +1,420 @@
+/*Home 主页*/
+
+.homepage-bg {
+    background-color: #21242b;
+}
+
+.homepage-content-0 {
+    height: 75px;
+}
+
+.homepage-content-1 {
+    width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+    /*min-height: 55em;*/
+}
+
+.homepage-content-2 {
+    width: 100%;
+}
+
+.homepage-banner {
+    margin-top: 11em;
+    text-align: center;
+    margin-bottom: 12em;
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+    .homepage-banner {
+        margin-top: 5.5em;
+        text-align: center;
+        margin-bottom: 6em;
+    }
+
+    .homepage-banner h1 {
+        font-size: 2em;
+    }
+}
+
+.homepage-create-button {
+    color: #fff;
+    display: inline-block;
+    font-size: 1.5em;
+    background-color: #cb6228;
+    padding: .4em 1.8em;
+    border-radius: 2px;
+    font-weight: 300;
+    margin-top: 3em;
+}
+
+.homepage-create-button:hover {
+    color: inherit;
+    background-color: #b95400;
+    transition: background-color 0.5s;
+}
+
+.homepage-create-button:active, .homepage-create-button:focus {
+    color: #fff;
+}
+
+.homepage-tournament {
+    padding-top: 2em;
+    padding-bottom: 3em;
+}
+
+.homepage-tournament .title {
+    font-size: 1.6em;
+    margin-right: 0.5em;
+}
+
+.homepage-tournament .more-tournament {
+    color: #ababab;
+}
+
+.homepage-tournament .more-tournament:hover {
+    color: #ccc;
+}
+
+.homepage-tournament-wrapper {
+    width: 100%;
+    margin-top: 2em;
+    min-height: 16em;
+    background: url(/content/images/home/no-bg.png) center no-repeat;
+}
+
+.homepage-tournament-wrapper.t0:hover {
+    width: 100%;
+    background: url(/content/images/home/0.png) center no-repeat;
+}
+
+/*注册页面和登录页面*/
+.inputArea {
+    background-color: #0f0f0f;
+    border: 2px #4a505f solid;
+    margin-bottom: 9px;
+    position: relative;
+    border-radius: 1px;
+}
+
+.register-icon {
+    background: url(/content/images/msone/register-icon.png) no-repeat;
+}
+
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0;
+}
+
+.inputArea .code {
+    height: 15px;
+    width: 15px;
+    background-position: 0 0;
+}
+
+.inputArea .nickname {
+    height: 15px;
+    width: 15px;
+    background-position: 0 -15px;
+}
+
+.inputArea .mobile {
+    height: 15px;
+    width: 15px;
+    background-position: 0 -30px;
+}
+
+.inputArea .password {
+    height: 15px;
+    width: 15px;
+    background-position: 0 -45px;
+}
+
+.inputArea .repassword {
+    height: 15px;
+    width: 15px;
+    background-position: 0 -60px;
+}
+
+.inputArea input {
+    width: 100%;
+    color: #eee;
+    height: 34px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 45px;
+    background-color: transparent;
+    border: none;
+}
+
+.inputArea .input-wrapper {
+    margin-left: 0;
+    background-color: #0f0f0f;
+}
+
+.login-help .btn-modal {
+    float: right;
+    display: block;
+}
+
+/*Register*/
+.register-get-code {
+    right: 5px;
+    height: 34px;
+    font-size: 0.6em;
+    padding-left: 1em;
+    padding-right: 1em;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    background: linear-gradient(to bottom, #353b49, #2f323c);
+    transition: all 0.2s ease-out;
+}
+
+.register-submit .green-button {
+    width: 80%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.register-phone {
+    margin-top: 10px;
+}
+
+.register-help-block {
+    margin-top: 0;
+    color: #c4570c;
+    display: inline-block;
+}
+
+.sign-nav {
+    text-align: center;
+    width: 100%;
+    background-color: transparent;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    margin-top: 22px;
+    margin-bottom: 30px;
+}
+
+.sign-nav .active.navlink {
+    border-bottom: 3px #ff9b00 solid;
+    background-color: transparent;
+}
+
+.sign-nav h3 {
+    font-size: 18px;
+}
+
+.close {
+    text-shadow: none;
+}
+
+.login-header {
+    font-size: 1.5em;
+    margin-bottom: 2em;
+    font-weight: 400;
+}
+
+/*.forget-password {*/
+    /*line-height: 6em;*/
+    /*white-space: nowrap;*/
+    /*font-size: 0.9em;*/
+    /*color: #8d8f93;*/
+    /*margin-left: -15px;*/
+/*}*/
+
+/*.forget-password:hover {*/
+    /*color: #888;*/
+/*}*/
+
+.get-code-button-wrapper {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-left: 1px #494f5d solid;
+}
+
+.register-icon-wrapper {
+    position: absolute;
+    left: 0;
+    padding: 10px;
+    width: 35px;
+    height: 34px;
+    /* background-color: #eee; */
+    /* border-radius: 1px; */
+    border-right: 1px #4a505f solid;
+}
+
+.register-button {
+    width: 100%;
+    padding: 0.4em 1.5em;
+    margin: 1.5em 0;
+    color: #fff !important;
+    border-radius: 2px !important;
+    border: 2px solid #f39700 !important;
+    background-color: #0f0f0f !important;
+}
+
+/*reset密码页面*/
+.reset-request-container {
+    padding-bottom: 40px;
+}
+
+.reset-request-getcode {
+    margin-top: 45px;
+}
+
+.reset-request-test {
+    margin-top: 10px;
+}
+
+/*about 关于我们 等*/
+.about-content {
+    padding: 20px 0 40px 0;
+    /*min-height: 560px;*/
+}
+
+.about-link {
+    padding: 50px 15px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.about-link ul {
+    list-style: none;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.about-link a:hover, .about-link a:visited {
+    text-decoration: none;
+}
+
+.about-link span {
+    display: block;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, .1);
+    border-radius: 2px;
+    background-color: #272a33;
+    color: rgb(157, 157, 157);
+}
+
+.about-panel {
+    border-radius: 10px;
+}
+
+.about-panel-title {
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+    padding-top: 12px;
+}
+
+.about-panel-title h3 {
+    margin-top: 0;
+    color: #00aaff;
+}
+
+.about-panel-body {
+    padding: 40px 40px;
+}
+
+.about-panel-body p {
+    color: rgb(200, 200, 200);
+}
+
+.about-blog-content {
+    border: 1px solid rgba(255, 255, 255, .1);
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+}
+
+.about-border {
+    border: 1px solid rgba(255, 255, 255, .1);
+}
+.homepage-search{
+    margin: 50px 0;
+    font-size: 21px;
+    line-height: 2.4em;
+}
+.homepage-bsb-qr {
+    background-color: #303641;
+    position:absolute;
+    padding: 25px 20px;
+    width: 200px;
+    display: none;
+    color: #fff;
+    z-index: 99;
+}
+.homepage-bsb-span:hover .homepage-bsb-qr {
+    display: block;
+}
+
+.homepage-bsb-span {
+    display: inline-block;
+    font-size: 21px;
+    color: #6499c7;
+}
+
+.homepage-search-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.homepage-search-input {
+    padding-right: 70px;
+}
+
+.homepage-go-button {
+    color: #fff;
+    display: inline-block;
+    background-color: #cb6228;
+    padding: 0 1em;
+    border-radius: 0 2px 2px 0;
+    font-weight: 300;
+    margin-top: 0;
+    font-size: 18px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+}
+.homepage-go-button:hover{
+    color: #fff;
+}
+.homepage-bsb-span-div{
+    position:relative;
+    text-align: center;
+}
+@media (max-width: 768px) {
+    .homepage-go-button{
+        margin-top: 0;
+    }
+    .homepage-search{
+        font-size: 16px;
+        margin-bottom: 0;
+        position: absolute;
+        z-index: 100;
+    }
+    .homepage-bsb-span {
+
+    }
+    .homepage-bsb-span-div {
+        text-align: center;
+        padding-bottom: 35px;
+    }
+}
+@media (max-width: 350px) {
+    .homepage-search{
+        font-size: 1em;
+    }
+    .homepage-go-button{
+        font-size: 1.5em;
+    }
+}
+
+
+

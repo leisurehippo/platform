@@ -1,0 +1,43 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "title",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "content",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "state",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "isRead",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "createDate",
+            "fieldType": "ZonedDateTime"
+        }
+    ],
+    "changelogDate": "20170206063318",
+    "entityTableName": "notice",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no"
+}

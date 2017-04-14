@@ -1,0 +1,87 @@
+<div class="content-wraper">
+    <h1 class="header-title">所有选手</h1>
+    <div class="Tbtn-group">
+        <button type="submit" ng-click="vm.confirmDelete()" class="btn btn-danger btn-sm">
+            <span class="glyphicon glyphicon-remove-circle"></span>
+            <span class="hidden-xs hidden-sm ng-scope" data-translate="entity.action.delete">删除</span>
+        </button>
+    <!--</div>-->
+    <!--<div class="goPages">-->
+        <button class="prev-page btn  btn-success goPages" ng-click="vm.loadPage(vm.page-1)" ng-disabled="vm.page < 2">
+            <span class="screen-reader-text">上一页</span><span aria-hidden="true">&lt;</span>
+        </button>
+        <form class="form-inline postArticle-form">
+            <div  class="form-group">
+                <div class="input-group prev-page">
+                    <div class="input-group-addon">第</div>
+                    <input class="current-page" ng-keyup="$event.keyCode == 13 && vm.loadPage(vm.inputValue)" type="number"
+                           min="1" ng-model="vm.inputValue" value="{{vm.page}}" aria-describedby="table-paging">
+                    <div class="input-group-addon">页</div>
+                </div>
+            </div>
+        </form>
+        <button class="prev-page btn  btn-success" ng-click="vm.loadPage(vm.page+1)" ng-disabled="vm.playersList.length < 12">
+            <span class="screen-reader-text">下一页</span><span aria-hidden="true">&gt;</span>
+        </button>
+    </div>
+    <table class="jh-table table newsList">
+        <thead>
+        <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()" class="ng-isolate-scope">
+            <th></th>
+            <th jh-sort-by="id"><span class="ng-scope">ID</span> <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th jh-sort-by="title"><span class="ng-scope">Name</span> <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th jh-sort-by="name"><span class="ng-scope">Sex</span> <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th jh-sort-by="authorName"><span class="ng-scope">Phone</span>
+                <span class="glyphicon glyphicon-sort-by-attributes-alt"></span></th>
+            <th jh-sort-by="createDate"><span class="ng-scope">Team Name</span>
+                <span class="glyphicon glyphicon-sort"></span></th>
+            <th jh-sort-by="editDate"><span class="ng-scope">Team Mate</span> <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th jh-sort-by="state"><span class="ng-scope">Type</span> <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th jh-sort-by="creator.id"><span class="ng-scope">Email</span> <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="player in vm.playersList track by player.id" class="ng-scope">
+            <td class="text-left">
+                <div class="btn-group flex-btn-group-container">
+                    <input type="checkbox" ng-checked="vm.isChecked($index)"
+                        ng-click="vm.updateSelection($event,$index)">
+                </div>
+            </td>
+            <td><a ui-sref="#">{{player.id}}</a></td>
+            <td>{{player.name}}</td>
+            <td>{{player.sex}}</td>
+            <td>{{player.phone}}</td>
+            <td>{{player.teamName}}</td>
+            <td>{{player.teamMate}}</td>
+            <td>{{player.type}}</td>
+            <td>{{player.Email}}</td>
+            <!--<td class="text-right">-->
+                <!--<div class="btn-group flex-btn-group-container">-->
+                    <!--<button type="submit" ui-sref="player-detail({id:player.id})" class="btn btn-info btn-sm"-->
+                            <!--href="#/article/1">-->
+                        <!--<span class="glyphicon glyphicon-eye-open"></span>-->
+                        <!--<span class="hidden-xs hidden-sm ng-scope" data-translate="entity.action.view">查看</span>-->
+                    <!--</button>-->
+                    <!--<button type="submit" ui-sref="player.edit({id:player.id})" class="btn btn-primary btn-sm"-->
+                            <!--href="#/article/1/edit?sort=authorName%2Cdesc">-->
+                        <!--<span class="glyphicon glyphicon-pencil"></span>-->
+                        <!--<span class="hidden-xs hidden-sm ng-scope" data-translate="entity.action.edit">编辑</span>-->
+                    <!--</button>-->
+                    <!--<button type="submit" ng-click="vm.confirmDelete(player.id)" class="btn btn-danger btn-sm">-->
+                        <!--<span class="glyphicon glyphicon-remove-circle"></span>-->
+                        <!--<span class="hidden-xs hidden-sm ng-scope" data-translate="entity.action.delete">删除</span>-->
+                    <!--</button>-->
+                <!--</div>-->
+            <!--</td>-->
+        </tr><!-- end ngRepeat: article in vm.videos track by article.id -->
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,55 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "type",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "sex",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "phone",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "email",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "idCard",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "idGame",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "teamName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "teamMate",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        }
+    ],
+    "changelogDate": "20170206063318",
+    "entityTableName": "registration",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no"
+}

@@ -1,0 +1,161 @@
+.form-control {
+    color: #333;
+    border-color: #8c8c8c;
+    background-color: #fff;
+}
+
+/*个人信息 上传头像*/
+
+.cropper-menu {
+    display: flex;
+    border: 1px #eee solid;
+    border-bottom: none;
+}
+
+.img-container button {
+    padding: 10px 20px;
+    position: absolute;
+    top: 0;
+    margin-top: 106px;
+    margin-left: 43px;
+    display: block;
+}
+
+.cropper-btn {
+    display: flex;
+}
+
+.cropper-btn a {
+    width: 50%;
+}
+
+.crop-preview {
+    margin-bottom: 10px;
+}
+
+.round-preview img {
+    border-radius: 75px;
+}
+
+/*xeditable*/
+/*xeditable-component*/
+
+.editable-controls {
+    margin-top: 5px;
+}
+
+.editable-wrap .editable-input {
+    display: block;
+    /*color: white;*/
+    font-weight: 400;
+}
+
+.editable-combodate .combodate {
+    display: block;
+}
+
+.editable-combodate select {
+    font-size: .8em;
+    border-radius: 4px;
+    margin-right: 5px;
+    margin-bottom: 3px;
+}
+
+.editable-combodate .year, .editable-combodate .month,
+.editable-combodate .day, .editable-combodate .hour {
+    display: block;
+    float: left;
+}
+
+.editable-combodate .minute {
+    display: block;
+}
+
+.editable-click {
+    font-size: 14px;
+}
+
+.editable-click, a.editable-click {
+    color: #ddd;
+}
+
+.editable-click:hover, a.editable-click:hover {
+    color: #428bca
+}
+
+.editable-input {
+    background: white;
+}
+
+.editable-buttons .btn-primary, .editable-buttons .btn-default {
+    border-radius: 4px;
+    padding: 4px 6px;
+}
+
+/*xeditable-custom*/
+
+.editable-short {
+    margin-top: 10px;
+}
+
+.editable-short .editable-input.editable-has-buttons {
+    width: 150px;
+}
+
+.editable-short .editable-buttons {
+    margin-top: 5px;
+    margin-left: -5px;
+}
+
+/* personinfo-edit */
+.info-edit-maininfo {
+    padding: 10px 20px 0px 20px;
+}
+
+.info-edit-maininfo span {
+    text-align: left;
+    display: block;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.info-edit-maininfo .editable-wrap {
+    display: block;
+}
+
+.info-edit-img {
+    text-align: center;
+    width: 200px;
+}
+
+.info-edit-img img {
+    width: 100%;
+    height: 200px;
+}
+
+.info-edit-img a {
+    color: #eee;
+    display: block;
+    font-size: 15px;
+    width: 100%;
+    padding: 2px;
+    text-decoration: none;
+    background-color: #272a33;
+}
+
+.info-edit-img a:hover {
+    background-color: #444444;
+}
+
+.col-info-edit-img{
+    vertical-align:top;
+    display: inline-block;
+    float: none;
+    margin-left: 20px
+}
+
+.col-preview-container{
+    display: inline-block;
+    float: none;
+    margin-left: 50px;
+}

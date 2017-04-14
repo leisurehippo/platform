@@ -1,0 +1,25 @@
+{
+    "register": {
+        "title": "注册",
+        "form": {
+            "button": "注册",
+            "getsmscode": "获取验证码"
+        },
+        "messages": {
+            "validate": {
+                "login": {
+                    "required": "该项是必填项",
+                    "minlength": "您的账号长度至少要有1个字符",
+                    "maxlength": "您的账号长度不能超过50个字符",
+                    "pattern": "你的账号只能使用小写英文以及数字"
+                }
+            },
+            "success": "<strong>注册成功!</strong>欢迎您的加入,请返回首页登录. 5秒后跳转",
+            "error": {
+                "fail": "<strong>注册失败!</strong> 请稍后再试.",
+                "userexists": "<strong>账号已被注册!</strong> 请选择其它账号.",
+                "emailexists": "<strong>E-mail已经被注册!</strong> 请选择其它E-mail."
+            }
+        }
+    }
+}

@@ -1,0 +1,86 @@
+<div>
+    <h2 data-translate="bsbmsoneApp.thread.home.title">Threads</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="thread.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span  data-translate="bsbmsoneApp.thread.home.createLabel">
+                        Create new Thread
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="name"><span data-translate="bsbmsoneApp.thread.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="authorName"><span data-translate="bsbmsoneApp.thread.authorName">Author Name</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="title"><span data-translate="bsbmsoneApp.thread.title">Title</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="content"><span data-translate="bsbmsoneApp.thread.content">Content</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="viewNum"><span data-translate="bsbmsoneApp.thread.viewNum">View Num</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="postNum"><span data-translate="bsbmsoneApp.thread.postNum">Post Num</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="createDate"><span data-translate="bsbmsoneApp.thread.createDate">Create Date</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="editDate"><span data-translate="bsbmsoneApp.thread.editDate">Edit Date</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="state"><span data-translate="bsbmsoneApp.thread.state">State</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="isAbandon"><span data-translate="bsbmsoneApp.thread.isAbandon">Is Abandon</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="forum.id"><span data-translate="bsbmsoneApp.thread.forum">Forum</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="creator.id"><span data-translate="bsbmsoneApp.thread.creator">Creator</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="thread in vm.threads track by thread.id">
+                    <td><a ui-sref="thread-detail({id:thread.id})">{{thread.id}}</a></td>
+                    <td>{{thread.name}}</td>
+                    <td>{{thread.authorName}}</td>
+                    <td>{{thread.title}}</td>
+                    <td>{{thread.content}}</td>
+                    <td>{{thread.viewNum}}</td>
+                    <td>{{thread.postNum}}</td>
+                    <td>{{thread.createDate | date:'medium'}}</td>
+                    <td>{{thread.editDate | date:'medium'}}</td>
+                    <td>{{thread.state}}</td>
+                    <td>{{thread.isAbandon}}</td>
+                    <td>
+                        <a ui-sref="forum-detail({id:thread.forum.id})">{{thread.forum.id}}</a>
+                    </td>
+                    <td>
+                        {{thread.creator.id}}
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="thread-detail({id:thread.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="thread.edit({id:thread.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="thread.delete({id:thread.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
+    </div>
+</div>

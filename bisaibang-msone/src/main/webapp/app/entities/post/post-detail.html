@@ -1,0 +1,55 @@
+
+<div>
+    <h2><span data-translate="bsbmsoneApp.post.detail.title">Post</span> {{vm.post.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row jh-entity-details">
+        <dt><span data-translate="bsbmsoneApp.post.createDate">Create Date</span></dt>
+        <dd>
+            <span>{{vm.post.createDate | date:'medium'}}</span>
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.post.editDate">Edit Date</span></dt>
+        <dd>
+            <span>{{vm.post.editDate | date:'medium'}}</span>
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.post.authorName">Author Name</span></dt>
+        <dd>
+            <span>{{vm.post.authorName}}</span>
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.post.title">Title</span></dt>
+        <dd>
+            <span>{{vm.post.title}}</span>
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.post.content">Content</span></dt>
+        <dd>
+            <span>{{vm.post.content}}</span>
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.post.state">State</span></dt>
+        <dd>
+            <span>{{vm.post.state}}</span>
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.post.isAbandon">Is Abandon</span></dt>
+        <dd>
+            <span>{{vm.post.isAbandon}}</span>
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.post.creator">Creator</span></dt>
+        <dd>
+            {{vm.post.creator.id}}
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.post.thread">Thread</span></dt>
+        <dd>
+            <a ui-sref="thread-detail({id:vm.post.thread.id})">{{vm.post.thread.id}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="post-detail.edit({id:vm.post.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

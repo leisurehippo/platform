@@ -1,0 +1,75 @@
+<div class="content-wraper">
+    <h1 class="header-title">所有文章</h1>
+   <div class="Tbtn-group">
+       <button type="submit" ng-click="vm.confirmDelete()" class="btn btn-danger btn-sm">
+           <span class="glyphicon glyphicon-remove-circle"></span>
+           <span class="hidden-xs hidden-sm ng-scope" data-translate="entity.action.delete">删除</span>
+       </button>
+   </div>
+   <div class="goPages-article">
+       <a class="prev-page btn  btn-success" ng-click="vm.loadPage(vm.page-1)" ng-disabled="vm.page < 2">
+           <span class="screen-reader-text">上一页</span><span aria-hidden="true">&lt;</span>
+       </a>
+       <form class="form-inline postArticle-form">
+           <div  class="form-group">
+               <div class="input-group prev-page">
+                   <div class="input-group-addon">第</div>
+                   <input class="current-page" ng-keyup="$event.keyCode == 13 && vm.loadPage(vm.inputValue)" type="number"
+                          min="1" ng-model="vm.inputValue" value="{{vm.page}}" aria-describedby="table-paging">
+                   <div class="input-group-addon">页</div>
+               </div>
+           </div>
+       </form>
+       <a class="prev-page btn  btn-success" ng-click="vm.loadPage(vm.page+1)" ng-disabled="vm.articles.length < 20">
+           <span class="screen-reader-text">下一页</span><span aria-hidden="true">&gt;</span>
+       </a>
+   </div>
+
+    <table class="jh-table table newsList">
+        <thead>
+        <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()" class="ng-isolate-scope">
+            <th>
+                <input type="checkbox" ng-model="allSelect" ng-change="vm.selectAll(allSelect)">
+            </th>
+            <!--<th jh-sort-by="id"><span class="ng-scope">ID</span> <span-->
+                <!--class="glyphicon glyphicon-sort"></span></th>-->
+            <th jh-sort-by="title"><span class="ng-scope">Title</span> <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th jh-sort-by="name"><span class="ng-scope">Name</span> <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th jh-sort-by="authorName"><span class="ng-scope">Author Name</span>
+                <span class="glyphicon glyphicon-sort-by-attributes-alt"></span></th>
+            <th jh-sort-by="createDate"><span class="ng-scope">Create Date</span>
+                <span class="glyphicon glyphicon-sort"></span></th>
+            <th jh-sort-by="editDate"><span class="ng-scope">Edit Date</span> <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <!--<th jh-sort-by="state"><span class="ng-scope">State</span> <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <th jh-sort-by="creator.id"><span class="ng-scope">Creator</span> <span
+                class="glyphicon glyphicon-sort"></span></th>
+            <!--<th jh-sort-by="setNews"><span class="ng-scope">设置首页新闻</span> <span-->
+                <!--class="glyphicon glyphicon-sort"></span></th>-->
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="article in vm.articles track by article.id" class="ng-scope">
+            <td>
+                <div class="btn-group flex-btn-group-container">
+                    <input type="checkbox" ng-model="vm.checkboxValue[article.id]">
+                </div>
+            </td>
+            <!--<td><a ui-sref="article-detail({id:article.id})">{{article.id}}</a></td>-->
+            <td><a ng-click="vm.gotoEdit(article)">{{article.title}}</a></td>
+            <td>{{article.name}}</td>
+            <td>{{article.authorName}}</td>
+            <td>{{article.createDate}}</td>
+            <td>{{article.editDate}}</td>
+            <!--<td>{{article.state}}</td>
+            <td>{{article.creator}}</td>
+            <!--<td><button class="orange-button" ng-click="vm.setHomeNews()">点我</button></td>-->
+
+        </tr><!-- end ngRepeat: article in vm.articles track by article.id -->
+        </tbody>
+    </table>
+</div>

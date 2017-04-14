@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet author="szzz (generated)" id="1">
+        <createTable tableName="sms_code">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="phone" type="varchar(100)"/>
+            <column name="code" type="varchar(20)"/>
+            <column name="created_date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint columnNames="phone" constraintName="UC_JHI_USERPHONE_COL" tableName="jhi_user"/>
+        <addUniqueConstraint columnNames="phone" constraintName="UC_SMS_CODEPHONE_COL" tableName="sms_code"/>
+        <dropDefaultValue columnDataType="timestamp" columnName="created_date" tableName="jhi_user"/>
+        <addColumn tableName="jhi_user">
+            <column name="confirm_code" type="varchar(50)" />
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

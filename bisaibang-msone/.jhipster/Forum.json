@@ -1,0 +1,31 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "manager",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "state",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "isAbandon",
+            "fieldType": "Boolean"
+        }
+    ],
+    "changelogDate": "20170206063318",
+    "entityTableName": "forum",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no"
+}

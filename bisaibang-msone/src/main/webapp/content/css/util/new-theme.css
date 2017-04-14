@@ -1,0 +1,79 @@
+.forums-new-theme {
+    color: #fff;
+    padding: 30px 0;
+    background-color: rgba(255,255,255,.05);
+    border-bottom: 1px solid rgba(255,255,255,.1);
+    border-top: 1px solid rgba(255,255,255,.1);
+}
+
+.new-theme-header {
+    font-weight: 100;
+    margin-bottom: 30px;
+}
+
+.new-theme-header .cancel-btn {
+    color: rgba(255,255,255,.7);
+}
+
+.new-theme-header .cancel-btn:hover {
+    color: #fff;
+}
+
+.new-theme-content {
+    position: relative;
+    max-width: 700px;
+    min-height: 200px;
+    background-color: transparent;
+}
+
+.new-theme-content-input-wrapper {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.new-theme-content-input-wrapper span {
+    white-space: nowrap;
+}
+
+.new-theme-content-input {
+    width: 100%;
+    border: 2px solid rgba(255,255,255,.3);
+    border-radius: 3px;
+    background-color: transparent;
+    resize:none;
+}
+
+.new-theme-content-input.thread-content {
+    height: 200px;
+}
+
+.new-theme-content-input:focus {
+    border-color: #00b4ff;
+}
+
+.new-theme-content .forbidden-tip {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    font-size: 18px;
+    padding-top: 90px;
+    text-align: center;
+    border: 2px solid rgba(255,255,255,.3);
+    border-radius: 3px;
+    color: rgba(255,255,255,.7);
+}
+
+.publish-theme-btn {
+    margin-left: 1%;
+    width: 120px;
+    font-size: 18px;
+    line-height: 40px;
+    height: 40px;
+    background-color: #0e86ca;
+    border: 1px #10a1de solid;
+    color: #fff;
+}
+
+.publish-theme-btn:disabled {
+    opacity: .5;
+}

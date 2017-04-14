@@ -1,0 +1,59 @@
+
+<div>
+    <h2><span data-translate="bsbmsoneApp.registration.detail.title">Registration</span> {{vm.registration.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row jh-entity-details">
+        <dt><span data-translate="bsbmsoneApp.registration.type">Type</span></dt>
+        <dd>
+            <span>{{vm.registration.type}}</span>
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.registration.name">Name</span></dt>
+        <dd>
+            <span>{{vm.registration.name}}</span>
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.registration.sex">Sex</span></dt>
+        <dd>
+            <span>{{vm.registration.sex}}</span>
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.registration.phone">Phone</span></dt>
+        <dd>
+            <span>{{vm.registration.phone}}</span>
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.registration.email">Email</span></dt>
+        <dd>
+            <span>{{vm.registration.email}}</span>
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.registration.idCard">Id Card</span></dt>
+        <dd>
+            <span>{{vm.registration.idCard}}</span>
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.registration.idGame">Id Game</span></dt>
+        <dd>
+            <span>{{vm.registration.idGame}}</span>
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.registration.teamName">Team Name</span></dt>
+        <dd>
+            <span>{{vm.registration.teamName}}</span>
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.registration.teamMate">Team Mate</span></dt>
+        <dd>
+            <span>{{vm.registration.teamMate}}</span>
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.registration.user">User</span></dt>
+        <dd>
+            {{vm.registration.user.id}}
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="registration-detail.edit({id:vm.registration.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

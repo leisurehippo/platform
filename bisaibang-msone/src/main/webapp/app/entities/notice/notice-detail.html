@@ -1,0 +1,47 @@
+
+<div>
+    <h2><span data-translate="bsbmsoneApp.notice.detail.title">Notice</span> {{vm.notice.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row jh-entity-details">
+        <dt><span data-translate="bsbmsoneApp.notice.title">Title</span></dt>
+        <dd>
+            <span>{{vm.notice.title}}</span>
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.notice.content">Content</span></dt>
+        <dd>
+            <span>{{vm.notice.content}}</span>
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.notice.type">Type</span></dt>
+        <dd>
+            <span>{{vm.notice.type}}</span>
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.notice.state">State</span></dt>
+        <dd>
+            <span>{{vm.notice.state}}</span>
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.notice.isRead">Is Read</span></dt>
+        <dd>
+            <span>{{vm.notice.isRead}}</span>
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.notice.createDate">Create Date</span></dt>
+        <dd>
+            <span>{{vm.notice.createDate | date:'medium'}}</span>
+        </dd>
+        <dt><span data-translate="bsbmsoneApp.notice.user">User</span></dt>
+        <dd>
+            {{vm.notice.user.id}}
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="notice-detail.edit({id:vm.notice.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>
