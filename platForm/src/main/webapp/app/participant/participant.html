@@ -1,0 +1,347 @@
+<!-- https://www.battlenet.com.cn/forums/zh/bnet/9318529/ -->
+<div ng-cloak>
+    <home-menu></home-menu>
+    <div class="participant-team-content" ng-show="vm.dataIsReady" style="min-height: 600px">
+        <div class="container" ng-if="!vm.hasNickName">
+            <div class="row is-team-tips">
+                <p  class="is-team-tips-header text-center">
+                    您还未绑定战网ID，请移步<a href="../personInfo">个人信息</a>去绑定战网ID
+                </p>
+            </div>
+        </div>
+        <div class="container" ng-if="vm.hasNickName">
+            <div class="row is-team-tips" ng-if="!vm.canParticipant">
+                <h3 class="is-team-tips-header text-center">您已经报名</h3>
+                <h3 class="is-team-tips-header text-center">小队名：{{vm.isTeam.teamName}}</h3>
+                <h3 class="is-team-tips-header text-center">队长姓名：{{vm.isTeam.name}}</h3>
+                <h3 class="is-team-tips-header text-center">队长战网ID：{{vm.isTeam.idGame}}</h3>
+                <p  class="is-team-tips-header text-center">如果您发现被误报名情况，请到交流社区-<a href="/forums/3/page/1">赛事投诉及举报专区</a>投诉此队长</p>
+            </div>
+            <div class="row" ng-if="vm.canParticipant">
+                <div class="col-sm-12 col-xs-12 text-center team-info">
+                    <!-- 战队与队长信息 -->
+                    <h3 class="participant-header-team">队伍报名信息</h3>
+                    <h3 class="participant-header col-sm-offset-2" style="text-align: left">战队信息</h3>
+                    <div  class="col-sm-offset-3 col-sm-9 col-xs-12 register-header-label" style="margin-top: 20px">
+                        <label class="control-label register-label col-sm-2 text-left">
+                            <span> 战队名：</span>
+                        </label>
+                        <input class="form-control col-sm-6"
+                               type="text" ng-model="vm.teamName"/>
+                        <button class="register-check" ng-click="vm.checkTeamName()">检查</button>
+                    </div>
+                    <div class="participant-sishen"> </div>
+                    <span class="glyphicon glyphicon-ok-circle" style="color: green" ng-show="vm.teamName && !vm.isTeamNameSame && vm.isCheck">小队名可用 </span>
+                    <span class="glyphicon glyphicon-remove-circle" style="color: red" ng-show="vm.teamName && vm.isTeamNameSame && vm.isCheck">小队名重复，请更换</span>
+                    <span class="register-header-span" ng-show="vm.teamName.gblen() > 16">*战队名的长度不应大于16个字符</span>
+                </div>
+                <div class="col-sm-12 col-xs-12 text-center">
+                    <!-- 队长信息 -->
+                    <h3 class="participant-header col-sm-offset-2" style="text-align: left">队长信息</h3>
+                    <div class="col-sm-offset-3 col-sm-9 col-xs-12 register-header-label">
+                        <label class="control-label register-label col-sm-2 text-left">
+                            <span> 姓名：</span>
+                        </label>
+                        <input class="form-control col-sm-6"
+                               type="text" ng-model="vm.teamLeader.name"/>
+                    </div>
+                    <div class="col-sm-offset-3 col-sm-9 col-xs-12 register-header-label">
+                        <label class="control-label register-label col-sm-2 text-left ">
+                            <span> 性别：</span>
+                        </label>
+                        <select name="win_type" class="form-control text-center" style="width: 160px; padding: 2px 10px;"
+                                required="required"
+                                ng-model="vm.teamLeader.sex">
+                            <option ng-repeat="f in vm.sex" value="{{f.value}}">
+                                {{f.text}}
+                            </option>
+                        </select>
+
+                    </div>
+                    <div class="col-sm-offset-3 col-sm-9 col-xs-12 register-header-label">
+                        <label class="control-label register-label col-sm-2 text-left">
+                            <span> 身份证号：</span>
+                        </label>
+                        <input class="form-control col-sm-6"
+                               type="text" ng-model="vm.teamLeader.idCard"/>
+                        <div class="register-header-label-warn">
+                            <span class="register-header-span" ng-show="vm.idCardIsOk">*请检查身份证号格式</span>
+                        </div>
+                    </div>
+                    <div class="col-sm-offset-3 col-sm-9 col-xs-12 register-header-label">
+                        <label class="control-label register-label col-sm-2 text-left">
+                            <span> 手机号：</span>
+                        </label>
+                        <input class="form-control col-sm-6"
+                               type="text" ng-model="vm.teamLeader.phone" />
+                    </div>
+                    <div class="col-sm-offset-3 col-sm-9 col-xs-12 register-header-label">
+                        <label class="control-label register-label col-sm-2 text-left">
+                            <span> 战网ID：</span>
+                        </label>
+                        <input class="form-control col-sm-6"
+                               type="text" ng-model="vm.teamLeader.idGame" disabled/>
+                    </div>
+                    <div class="col-sm-offset-3 col-sm-9 col-xs-12 register-header-label">
+                        <label class="control-label register-label col-sm-2 text-left">
+                            <span> 联系邮箱：</span>
+                        </label>
+                        <input class="form-control col-sm-6"
+                               type="text" ng-model="vm.teamLeader.email"/>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-xs-12 register-teammate-info text-center">
+                    <!-- 队员信息 -->
+                    <i></i>
+                    <h3 class="participant-header-team" style="margin-bottom: 50px;display: inline-block">队员信息</h3>
+                    <i></i>
+                    <div class="register-info info-edit-maininfo">
+                        <!--占位-->
+                        <!--<div class="col-sm-1"></div>-->
+                        <div class="col-sm-2 participant-card" ng-repeat="player in vm.players track by $index">
+                            <span class="id-card">
+                                <p>身份证号</p>
+                                <!--<a href="#" editable-text="player.idCard"-->
+                                   <!--onaftersave="vm.updatePlayerName(player.idCard)">{{ player.idCard || '暂无' }}</a>-->
+                                <div class="input-group fix-width">
+                                    <a href="#"
+                                       ng-click="editInputIdCard = false;tmpTeamName = participantTeam.name"
+                                       ng-class="{hidden: editInputIdCard == false}">{{player.idCard || '暂无'}}</a>
+                                    <input type="text" class="form-control team-name" name="teamName"
+                                           ng-class="{hidden: editInputIdCard != false}" autofocus="autofocus"
+                                           ng-keydown="($event.keyCode === 13) && vm.changeTeamName(player.email)"
+                                           ng-model="player.idCard">
+                                    <span class="input-group-btn" ng-class="{hidden: editInputIdCard != false}">
+                                        <button class="team-self-right" type="button"
+                                                ng-click="vm.changeTeamName(player.email);editInputIdCard = true;"
+                                                ng-disabled="form.$invalid">
+                                        </button>
+                                        <button class="team-self-wrong" type="button"
+                                                ng-click="editInputIdCard = true; participantTeam.name = tmpTeamName">
+                                        </button>
+                                    </span>
+                                </div>
+                            </span>
+                            <span class="id-game">
+                                <p>战网ID</p>
+                                <!--<a href="#" editable-text="player.idGame"-->
+                                   <!--onaftersave="vm.updatePlayerName(player.idGame)">{{ player.idGame || '暂无' }}</a>-->
+                                <div class="input-group fix-width">
+                                    <a href="#"
+                                       ng-click="editInputIdGame = false;tmpTeamName = participantTeam.name"
+                                       ng-class="{hidden: editInputIdGame == false}">{{player.idGame || '暂无'}}</a>
+                                    <input type="text" class="form-control team-name" name="teamName"
+                                           ng-class="{hidden: editInputIdGame != false}" autofocus="autofocus"
+                                           ng-keydown="($event.keyCode === 13) && vm.changeTeamName(player.email)"
+                                           ng-model="player.idGame">
+                                    <span class="input-group-btn" ng-class="{hidden: editInputIdGame != false}">
+                                        <button class="team-self-right" type="button"
+                                                ng-click="vm.changeTeamName(player.email);editInputIdGame = true;"
+                                                ng-disabled="form.$invalid">
+                                        </button>
+                                        <button class="team-self-wrong" type="button"
+                                                ng-click="editInputIdGame = true; participantTeam.name = tmpTeamName">
+                                        </button>
+                                    </span>
+                                </div>
+                            </span>
+                            <span class="email">
+                                <p>联系邮箱</p>
+                                <!--<a href="#" editable-text="player.email"-->
+                                   <!--onaftersave="vm.updatePlayerName(player.email)">{{ player.email || '暂无' }}</a>-->
+                                <div class="input-group fix-width">
+                                    <a href="#"
+                                       ng-click="editInputEmail = false;tmpTeamName = participantTeam.name"
+                                       ng-class="{hidden: editInputEmail == false}">{{player.email || '暂无'}}</a>
+                                    <input type="text" class="form-control team-name" name="teamName"
+                                           ng-class="{hidden: editInputEmail != false}" autofocus="autofocus"
+                                           ng-keydown="($event.keyCode === 13) && vm.changeTeamName(player.email)"
+                                           ng-model="player.email">
+                                    <span class="input-group-btn" ng-class="{hidden: editInputEmail != false}">
+                                        <button class="team-self-right" type="button"
+                                                ng-click="vm.changeTeamName(player.email);editInputEmail = true;"
+                                                ng-disabled="form.$invalid">
+                                        </button>
+                                        <button class="team-self-wrong" type="button"
+                                                ng-click="editInputEmail = true; participantTeam.name = tmpTeamName">
+                                        </button>
+                                    </span>
+                                </div>
+                            </span>
+                            <span class="name">
+                                <!--<p>姓名</p>-->
+                                <!--<a href="#" editable-text="player.name"-->
+                                   <!--onaftersave="vm.updatePlayerName(player.name)">{{ player.name || '姓名' }}</a>-->
+                                <div class="input-group fix-width">
+                                    <a href="#"
+                                       ng-click="editInputName = false;tmpTeamName = participantTeam.name"
+                                       ng-class="{hidden: editInputName == false}">{{player.name || '姓名'}}</a>
+                                    <input type="text" class="form-control team-name" name="teamName"
+                                           ng-class="{hidden: editInputName != false}" autofocus="autofocus"
+                                           ng-keydown="($event.keyCode === 13) && vm.changeTeamName(player.email)"
+                                           ng-model="player.name">
+                                    <span class="input-group-btn" ng-class="{hidden: editInputName != false}">
+                                        <button class="team-self-right" type="button"
+                                                ng-click="vm.changeTeamName(player.email);editInputName = true;"
+                                                ng-disabled="form.$invalid">
+                                        </button>
+                                        <button class="team-self-wrong" type="button"
+                                                ng-click="editInputName = true; participantTeam.name = tmpTeamName">
+                                        </button>
+                                    </span>
+                                </div>
+                            </span>
+                            <span class="phone">
+                                <!--<p>手机号</p>-->
+                                <!--<a href="#" editable-text="player.phone"-->
+                                   <!--onaftersave="vm.updatePlayerName(player.phone)">{{ player.phone || '手机号' }}</a>-->
+                                <div class="input-group fix-width">
+                                    <a href="#"
+                                       ng-click="editInputPhone = false;tmpTeamName = participantTeam.name"
+                                       ng-class="{hidden: editInputPhone == false}">{{player.phone || '手机号'}}</a>
+                                    <input type="text" class="form-control team-name" name="teamName"
+                                           ng-class="{hidden: editInputPhone != false}" autofocus="autofocus"
+                                           ng-keydown="($event.keyCode === 13) && vm.changeTeamName(player.email)"
+                                           ng-model="player.phone">
+                                    <span class="input-group-btn" ng-class="{hidden: editInputPhone != false}">
+                                        <button class="team-self-right" type="button"
+                                                ng-click="vm.changeTeamName(player.email);editInputPhone = true;"
+                                                ng-disabled="form.$invalid">
+                                        </button>
+                                        <button class="team-self-wrong" type="button"
+                                                ng-click="editInputPhone = true; participantTeam.name = tmpTeamName">
+                                        </button>
+                                    </span>
+                                </div>
+                            </span>
+                        </div>
+                        <div class="col-sm-5 participant-card-reverse" ng-repeat="player in vm.reservePlayers track by $index" style="margin-left: 25px">
+                            <span class="id-card">身份证号：
+                                <!--<a href="#" editable-text="player.name"-->
+                                   <!--onaftersave="vm.updatePlayerName(player.name)">{{ player.name || '暂无' }}</a>-->
+                                <div class="input-group fix-width">
+                                    <a href="#"
+                                       ng-click="editInputIdCard = false;tmpTeamName = participantTeam.name"
+                                       ng-class="{hidden: editInputIdCard == false}">{{player.idCard || '暂无'}}</a>
+                                    <input type="text" class="form-control team-name" name="teamName"
+                                           ng-class="{hidden: editInputIdCard != false}" autofocus="autofocus"
+                                           ng-keydown="($event.keyCode === 13) && vm.changeTeamName(player.email)"
+                                           ng-model="player.idCard">
+                                    <span class="input-group-btn" ng-class="{hidden: editInputIdCard != false}">
+                                        <button class="team-self-right" type="button"
+                                                ng-click="vm.changeTeamName(player.email);editInputIdCard = true;"
+                                                ng-disabled="form.$invalid">
+                                        </button>
+                                        <button class="team-self-wrong" type="button"
+                                                ng-click="editInputIdCard = true; participantTeam.name = tmpTeamName">
+                                        </button>
+                                    </span>
+                                </div>
+                            </span>
+                            <span class="id-game">战网ID：
+                                <!--<a href="#" editable-text="player.idCard"-->
+                                   <!--onaftersave="vm.updatePlayerName(player.name)">{{ player.idCard || '暂无' }}</a>-->
+                                <div class="input-group fix-width">
+                                    <a href="#"
+                                       ng-click="editInputIdGame = false;tmpTeamName = participantTeam.name"
+                                       ng-class="{hidden: editInputIdGame == false}">{{player.idGame || '暂无'}}</a>
+                                    <input type="text" class="form-control team-name" name="teamName"
+                                           ng-class="{hidden: editInputIdGame != false}" autofocus="autofocus"
+                                           ng-keydown="($event.keyCode === 13) && vm.changeTeamName(player.email)"
+                                           ng-model="player.idGame">
+                                    <span class="input-group-btn" ng-class="{hidden: editInputIdGame != false}">
+                                        <button class="team-self-right" type="button"
+                                                ng-click="vm.changeTeamName(player.email);editInputIdGame = true;"
+                                                ng-disabled="form.$invalid">
+                                        </button>
+                                        <button class="team-self-wrong" type="button"
+                                                ng-click="editInputIdGame = true; participantTeam.name = tmpTeamName">
+                                        </button>
+                                    </span>
+                                </div>
+                            </span>
+                            <span class="email">联系邮箱：
+                                <!--<a href="#" editable-text="player.idGame"-->
+                                   <!--onaftersave="vm.updatePlayerName(player.name)">{{ player.idGame || '暂无' }}</a>-->
+                                <div class="input-group fix-width">
+                                    <a href="#"
+                                       ng-click="editInputEmail = false;tmpTeamName = participantTeam.name"
+                                       ng-class="{hidden: editInputEmail == false}">{{player.email || '暂无'}}</a>
+                                    <input type="text" class="form-control team-name" name="teamName"
+                                           ng-class="{hidden: editInputEmail != false}" autofocus="autofocus"
+                                           ng-keydown="($event.keyCode === 13) && vm.changeTeamName(player.email)"
+                                           ng-model="player.email">
+                                    <span class="input-group-btn" ng-class="{hidden: editInputEmail != false}">
+                                        <button class="team-self-right" type="button"
+                                                ng-click="vm.changeTeamName(player.email);editInputEmail = true;"
+                                                ng-disabled="form.$invalid">
+                                        </button>
+                                        <button class="team-self-wrong" type="button"
+                                                ng-click="editInputEmail = true; participantTeam.name = tmpTeamName">
+                                        </button>
+                                    </span>
+                                </div>
+                            </span>
+                            <span class="name">姓名：
+                                <!--<a href="#" editable-text="player.phone"-->
+                                   <!--onaftersave="vm.updatePlayerName(player.name)">{{ player.phone || '暂无' }}</a>-->
+                                <div class="input-group fix-width">
+                                    <a href="#"
+                                       ng-click="editInputName = false;tmpTeamName = participantTeam.name"
+                                       ng-class="{hidden: editInputName == false}">{{player.name || '暂无'}}</a>
+                                    <input type="text" class="form-control team-name" name="teamName"
+                                           ng-class="{hidden: editInputName != false}" autofocus="autofocus"
+                                           ng-keydown="($event.keyCode === 13) && vm.changeTeamName(player.email)"
+                                           ng-model="player.name">
+                                    <span class="input-group-btn" ng-class="{hidden: editInputName != false}">
+                                        <button class="team-self-right" type="button"
+                                                ng-click="vm.changeTeamName(player.email);editInputName = true;"
+                                                ng-disabled="form.$invalid">
+                                        </button>
+                                        <button class="team-self-wrong" type="button"
+                                                ng-click="editInputName = true; participantTeam.name = tmpTeamName">
+                                        </button>
+                                    </span>
+                                </div>
+                            </span>
+                            <span class="phone">手机号：
+                                <!--<a href="#" editable-text="player.email"-->
+                                   <!--onaftersave="vm.updatePlayerName(player.name)">{{ player.email || '暂无' }}</a>-->
+                                <div class="input-group fix-width">
+                                    <a href="#"
+                                       ng-click="editInputPhone = false;tmpTeamName = participantTeam.name"
+                                       ng-class="{hidden: editInputPhone == false}">{{player.phone || '暂无'}}</a>
+                                    <input type="text" class="form-control team-name" name="teamName"
+                                           ng-class="{hidden: editInputPhone != false}" autofocus="autofocus"
+                                           ng-keydown="($event.keyCode === 13) && vm.changeTeamName(player.email)"
+                                           ng-model="player.phone">
+                                    <span class="input-group-btn" ng-class="{hidden: editInputPhone != false}">
+                                        <button class="team-self-right" type="button"
+                                                ng-click="vm.changeTeamName(player.email);editInputPhone = true;"
+                                                ng-disabled="form.$invalid">
+                                        </button>
+                                        <button class="team-self-wrong" type="button"
+                                                ng-click="editInputPhone = true; participantTeam.name = tmpTeamName">
+                                        </button>
+                                    </span>
+                                </div>
+                            </span>
+                            <span class="blue">替补#{{$index+1}}</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-12 col-xs-12 text-center">
+                    <!-- 队员信息 -->
+                    <span class="register-submit-span" ng-show="vm.isTeamNameSame">*请先检查小队名是否可用</span>
+                    <button class="ow-register-submit btn"
+                            ng-disabled="!(vm.teamName.gblen() > 16 || !vm.teamName) && vm.isTeamNameSame"
+                            ng-click="vm.submit()">立即报名</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer" ng-cloak>
+    <span>底栏内容</span>
+</div>

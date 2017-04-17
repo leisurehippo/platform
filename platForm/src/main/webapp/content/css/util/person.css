@@ -1,0 +1,161 @@
+.personInfo {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: #fff;
+}
+
+.personInfo .personInfo-title {
+    font-size: 30px;
+    line-height: 150px;
+    font-style: italic;
+    text-align: center;
+}
+
+.personInfo .personInfo-pi {
+    text-align: center;
+    border-bottom: 1px solid #555;
+    padding-bottom: 50px;
+}
+
+.personInfo .personInfo-pi-img {
+    vertical-align: top;
+    margin-top: 10px;
+    border: 1px solid #aaa;
+}
+
+.personInfo .personInfo-pi-info {
+    text-align: left;
+    font-size: 20px;
+    display: inline-block;
+    color: #ddd;
+    margin-left: 28px;
+}
+
+.personInfo .personInfo-pi-info > div{
+    line-height: 40px;
+}
+
+.personInfo .personInfo-pi-btn {
+    width: 80px;
+    height: 30px;
+    background-color: #e89930;
+    border-radius: 3px;
+    border: none;
+    font-size: 14px;
+    color: #fff;
+    line-height: 30px;
+    margin-left: 15px;
+}
+
+.personInfo .personInfo-pi-info-tips {
+    font-size: 14px;
+    color: #666;
+}
+
+.personInfo .personInfo-subtitle {
+    font-size: 20px;
+    margin: -20px 0 23px 40px;
+}
+
+.personInfo .cards {
+    text-align: center;
+}
+
+.personInfo .card {
+    background: url("/content/images/participant/card2.png") no-repeat center center;
+    width: 394px;
+    height: 157px;
+    display: inline-block;
+    margin: 12px 3px;
+    font-size: 18px;
+    text-align: left;
+    padding-top: 35px;
+    position: relative;
+    vertical-align: top;
+}
+
+.personInfo .card.captain {
+    padding: 17px;
+}
+
+.personInfo .card.teammate {
+
+}
+
+.personInfo .card .tm-word {
+    height: 48px;
+    line-height: 48px;
+}
+
+.personInfo .card.captain .tm-word {
+    font-size: 14px;
+    height: 24px;
+    line-height: 24px;
+}
+
+.personInfo .card .card-tips {
+    width: 82px;
+    height: 35px;
+    line-height: 35px;
+    background-color: red;
+    transform: skew(-11deg);
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    position: absolute;
+    top: 10px;
+    right: 19px;
+    text-align: center;
+}
+
+.personInfo .card:nth-child(7) > .card-tips, .personInfo .card:nth-child(8) > .card-tips {
+    background-color: blue;
+    display: block;
+}
+
+.personInfo .participant-card-reverse .input-group-btn {
+    top: -3px;
+    right: 0;
+}
+
+.personInfo .participant-card-reverse .input-group-btn button {
+    width: 30px;
+    height: 26px;
+    outline: none;
+}
+
+.personInfo .participant-card-reverse .operation-btn-group {
+    position: absolute;
+    right: -120px;
+    bottom: 5px;
+}
+
+.personInfo .addPlayerBtn {
+    outline: none;
+    text-align: center;
+    /*font-size: 50px;*/
+    /*cursor: pointer;*/
+    /*border: 2px solid #fff;*/
+    /*width: 75px;*/
+    display: inline-block;
+}
+
+.personInfo .g-ml1 {
+    margin-left: 55px;
+}
+
+.personInfo .g-ml2 {
+    margin-left: 51px;
+}
+
+.personInfo .g-ml3 {
+    margin-left: 47px;
+}
+
+.personInfo .g-ml4 {
+    margin-left: 43px;
+}
+
+.personInfo .g-ml5 {
+    margin-left: 39px;
+}
