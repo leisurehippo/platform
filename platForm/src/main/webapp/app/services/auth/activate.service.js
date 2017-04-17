@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .factory('Activate', Activate);
 
     Activate.$inject = ['$resource'];

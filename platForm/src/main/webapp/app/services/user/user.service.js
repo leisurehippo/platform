@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .factory('User', User);
 
     User.$inject = ['$resource'];

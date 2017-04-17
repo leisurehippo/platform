@@ -4,7 +4,7 @@
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                 ng-click="vm.clear()">&times;</button>
-        <h4 class="modal-title" id="myNoticeLabel" data-translate="bsbmsoneApp.notice.home.createOrEditLabel">Create or edit a Notice</h4>
+        <h4 class="modal-title" id="myNoticeLabel" data-translate="app.notice.home.createOrEditLabel">Create or edit a Notice</h4>
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
@@ -14,36 +14,36 @@
                     ng-model="vm.notice.id" readonly />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.notice.title" for="field_title">Title</label>
+            <label class="control-label" data-translate="app.notice.title" for="field_title">Title</label>
             <input type="text" class="form-control" name="title" id="field_title"
                     ng-model="vm.notice.title"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.notice.content" for="field_content">Content</label>
+            <label class="control-label" data-translate="app.notice.content" for="field_content">Content</label>
                 <textarea class="form-control" name="content" id="field_content"
                     ng-model="vm.notice.content" ></textarea>
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.notice.type" for="field_type">Type</label>
+            <label class="control-label" data-translate="app.notice.type" for="field_type">Type</label>
             <input type="text" class="form-control" name="type" id="field_type"
                     ng-model="vm.notice.type"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.notice.state" for="field_state">State</label>
+            <label class="control-label" data-translate="app.notice.state" for="field_state">State</label>
             <input type="text" class="form-control" name="state" id="field_state"
                     ng-model="vm.notice.state"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.notice.isRead" for="field_isRead">Is Read</label>
+            <label class="control-label" data-translate="app.notice.isRead" for="field_isRead">Is Read</label>
             <input type="checkbox" class="form-control" name="isRead" id="field_isRead"
                     ng-model="vm.notice.isRead"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.notice.createDate" for="field_createDate">Create Date</label>
+            <label class="control-label" data-translate="app.notice.createDate" for="field_createDate">Create Date</label>
                 <div class="input-group">
                     <input id="field_createDate" type="text" class="form-control" name="createDate" datetime-picker="{{dateformat}}" ng-model="vm.notice.createDate" is-open="vm.datePickerOpenStatus.createDate"
                     />
@@ -54,7 +54,7 @@
         </div>
 
         <div class="form-group">
-            <label data-translate="bsbmsoneApp.notice.user" for="field_user">User</label>
+            <label data-translate="app.notice.user" for="field_user">User</label>
             <select class="form-control" id="field_user" name="user" ng-model="vm.notice.user" ng-options="user as user.id for user in vm.users track by user.id">
                 <option value=""></option>
             </select>

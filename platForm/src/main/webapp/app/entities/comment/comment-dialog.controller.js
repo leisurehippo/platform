@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('CommentDialogController', CommentDialogController);
 
     CommentDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Comment', 'User', 'Article'];
@@ -38,7 +38,7 @@
         }
 
         function onSaveSuccess (result) {
-            $scope.$emit('bsbmsoneApp:commentUpdate', result);
+            $scope.$emit('app:commentUpdate', result);
             $uibModalInstance.close(result);
             vm.isSaving = false;
         }

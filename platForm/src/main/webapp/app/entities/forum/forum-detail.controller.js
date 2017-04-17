@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('ForumDetailController', ForumDetailController);
 
     ForumDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Forum'];
@@ -13,7 +13,7 @@
         vm.forum = entity;
         vm.previousState = previousState.name;
 
-        var unsubscribe = $rootScope.$on('bsbmsoneApp:forumUpdate', function(event, result) {
+        var unsubscribe = $rootScope.$on('app:forumUpdate', function(event, result) {
             vm.forum = result;
         });
         $scope.$on('$destroy', unsubscribe);

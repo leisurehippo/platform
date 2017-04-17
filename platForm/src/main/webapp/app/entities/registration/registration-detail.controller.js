@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('RegistrationDetailController', RegistrationDetailController);
 
     RegistrationDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'DataUtils', 'entity', 'Registration', 'User'];
@@ -15,7 +15,7 @@
         vm.byteSize = DataUtils.byteSize;
         vm.openFile = DataUtils.openFile;
 
-        var unsubscribe = $rootScope.$on('bsbmsoneApp:registrationUpdate', function(event, result) {
+        var unsubscribe = $rootScope.$on('app:registrationUpdate', function(event, result) {
             vm.registration = result;
         });
         $scope.$on('$destroy', unsubscribe);

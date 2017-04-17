@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('PostDeleteController',PostDeleteController);
 
     PostDeleteController.$inject = ['$uibModalInstance', 'entity', 'Post'];

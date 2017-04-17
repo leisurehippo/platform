@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('PostDetailController', PostDetailController);
 
     PostDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'DataUtils', 'entity', 'Post', 'User', 'Thread'];
@@ -15,7 +15,7 @@
         vm.byteSize = DataUtils.byteSize;
         vm.openFile = DataUtils.openFile;
 
-        var unsubscribe = $rootScope.$on('bsbmsoneApp:postUpdate', function(event, result) {
+        var unsubscribe = $rootScope.$on('app:postUpdate', function(event, result) {
             vm.post = result;
         });
         $scope.$on('$destroy', unsubscribe);

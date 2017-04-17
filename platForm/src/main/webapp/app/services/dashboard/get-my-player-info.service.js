@@ -5,7 +5,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .factory('GetMyPlayersInfo', GetMyPlayersInfo);
 
     GetMyPlayersInfo.$inject = ['$resource'];

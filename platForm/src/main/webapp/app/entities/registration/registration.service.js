@@ -1,7 +1,7 @@
 (function() {
     'use strict';
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .factory('Registration', Registration);
 
     Registration.$inject = ['$resource'];

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .filter('findLanguageFromKey', findLanguageFromKey);
 
     function findLanguageFromKey() {

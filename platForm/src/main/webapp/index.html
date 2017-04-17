@@ -25,12 +25,11 @@
     <link rel="stylesheet" href="content/css/main.css">
     <link rel="stylesheet" href="content/css/goldblizzard/index.css">
     <link rel="stylesheet" href="content/css/util/component.css">
-    <link rel="stylesheet" href="content/css/home.css">
     <link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css">
 
     <!-- endbuild -->
 </head>
-<body ng-app="bsbmsoneApp" ng-strict-di>
+<body ng-app="app" ng-strict-di>
     <!--[if lt IE 9]>
     <preloader></preloader>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
@@ -55,6 +54,14 @@
 
     <!-- build:js app/vendor.js -->
     <!-- bower:js -->
+    <script src="js/lib/angular.min.js"></script>
+    <script src="js/lib/angular-ui-router.min.js"></script>
+    <script src="js/lib/jquery.min.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+    <script src="js/lib/echarts.min.js"></script>
+    <script src="js/lib/tm.pagination.js"></script>
+    <script src="js/lib/d3.js"></script>
+    <script src="js/lib/shandong.js"></script>
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/messageformat/messageformat.js"></script>
     <script src="bower_components/json3/lib/json3.js"></script>
@@ -98,6 +105,9 @@
     <!-- build:js app/app.js  -->
     <!-- inject:js -->
     <script src="app/app.module.js"></script>
+    <script src="app/weather/weather.controller_t.js"></script>
+    <script src="app/weather/weather.controller.js"></script>
+    <script src="app/transformers/transformers.controller.js"></script>
     <script src="app/services/user/user.service.js"></script>
     <script src="app/services/profiles/profile.service.js"></script>
     <script src="app/services/profiles/page-ribbon.directive.js"></script>
@@ -139,12 +149,19 @@
     <script src="app/participant/participant.state.js"></script>
     <script src="app/participant/participant.filter.js"></script>
     <script src="app/participant/participant.controller.js"></script>
+    <script src="app/map/map.state.js"></script>
+    <script src="app/map/map.controller.js"></script>
+    <script src="app/lines/lines.controller.js"></script>
+    <script src="app/line-status/line-status.controller_t.js"></script>
+    <script src="app/line-status/line-status.controller.js"></script>
     <script src="app/layouts/navbar/navbar.controller.js"></script>
     <script src="app/layouts/navbar/active-menu.directive.js"></script>
     <script src="app/layouts/error/error.state.js"></script>
     <script src="app/i18n/angular-locale_zh-cn.js"></script>
     <script src="app/home/home.state.js"></script>
     <script src="app/home/home.controller.js"></script>
+    <script src="app/gas/gas.controller_t.js"></script>
+    <script src="app/gas/gas.controller.js"></script>
     <script src="app/entities/thread/thread-dialog.controller.js"></script>
     <script src="app/entities/thread/thread-detail.controller.js"></script>
     <script src="app/entities/thread/thread-delete-dialog.controller.js"></script>
@@ -200,6 +217,10 @@
     <script src="app/entities/article/article.state.js"></script>
     <script src="app/entities/article/article.service.js"></script>
     <script src="app/entities/article/article.controller.js"></script>
+    <script src="app/defect-transformers/defect-transformers.controller_t.js"></script>
+    <script src="app/defect-transformers/defect-transformers.controller.js"></script>
+    <script src="app/defect-lines/defect-lines.controller_t.js"></script>
+    <script src="app/defect-lines/defect-lines.controller.js"></script>
     <script src="app/components/util/truncate-words.filter.js"></script>
     <script src="app/components/util/truncate-characters.filter.js"></script>
     <script src="app/components/util/sort-by.directive.js"></script>
@@ -222,8 +243,6 @@
     <script src="app/components/form/pagination.constants.js"></script>
     <script src="app/components/form/minbytes.directive.js"></script>
     <script src="app/components/form/maxbytes.directive.js"></script>
-    <script src="app/components/deleteThreadModal/delete-thread.service.js"></script>
-    <script src="app/components/deleteThreadModal/delete-thread.controller.js"></script>
     <script src="app/components/avatar-upload/avatar-upload.service.js"></script>
     <script src="app/components/avatar-upload/avatar-upload.controller.js"></script>
     <script src="app/components/alert/alert-error.directive.js"></script>

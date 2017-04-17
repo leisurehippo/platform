@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('TermController', TermController);
 
     TermController.$inject = ['$scope', '$state', 'Term', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];

@@ -5,7 +5,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .factory('CreateArticle', CreateArticle);
 
     CreateArticle.$inject = ['$resource'];

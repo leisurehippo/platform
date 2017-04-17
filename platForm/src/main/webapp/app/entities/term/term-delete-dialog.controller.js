@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('TermDeleteController',TermDeleteController);
 
     TermDeleteController.$inject = ['$uibModalInstance', 'entity', 'Term'];

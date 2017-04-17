@@ -3,7 +3,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .factory('Base64', Base64);
 
     function Base64 () {

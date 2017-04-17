@@ -4,7 +4,7 @@
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                 ng-click="vm.clear()">&times;</button>
-        <h4 class="modal-title" id="myArticleLabel" data-translate="bsbmsoneApp.article.home.createOrEditLabel">Create or edit a Article</h4>
+        <h4 class="modal-title" id="myArticleLabel" data-translate="app.article.home.createOrEditLabel">Create or edit a Article</h4>
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
@@ -14,30 +14,30 @@
                     ng-model="vm.article.id" readonly />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.article.title" for="field_title">Title</label>
+            <label class="control-label" data-translate="app.article.title" for="field_title">Title</label>
             <input type="text" class="form-control" name="title" id="field_title"
                     ng-model="vm.article.title"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.article.name" for="field_name">Name</label>
+            <label class="control-label" data-translate="app.article.name" for="field_name">Name</label>
             <input type="text" class="form-control" name="name" id="field_name"
                     ng-model="vm.article.name"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.article.authorName" for="field_authorName">Author Name</label>
+            <label class="control-label" data-translate="app.article.authorName" for="field_authorName">Author Name</label>
             <input type="text" class="form-control" name="authorName" id="field_authorName"
                     ng-model="vm.article.authorName"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.article.content" for="field_content">Content</label>
+            <label class="control-label" data-translate="app.article.content" for="field_content">Content</label>
                 <textarea class="form-control" name="content" id="field_content"
                     ng-model="vm.article.content" ></textarea>
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.article.createDate" for="field_createDate">Create Date</label>
+            <label class="control-label" data-translate="app.article.createDate" for="field_createDate">Create Date</label>
                 <div class="input-group">
                     <input id="field_createDate" type="text" class="form-control" name="createDate" datetime-picker="{{dateformat}}" ng-model="vm.article.createDate" is-open="vm.datePickerOpenStatus.createDate"
                     />
@@ -47,7 +47,7 @@
                 </div>
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.article.editDate" for="field_editDate">Edit Date</label>
+            <label class="control-label" data-translate="app.article.editDate" for="field_editDate">Edit Date</label>
                 <div class="input-group">
                     <input id="field_editDate" type="text" class="form-control" name="editDate" datetime-picker="{{dateformat}}" ng-model="vm.article.editDate" is-open="vm.datePickerOpenStatus.editDate"
                     />
@@ -57,32 +57,32 @@
                 </div>
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.article.type" for="field_type">Type</label>
+            <label class="control-label" data-translate="app.article.type" for="field_type">Type</label>
             <input type="text" class="form-control" name="type" id="field_type"
                     ng-model="vm.article.type"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.article.state" for="field_state">State</label>
+            <label class="control-label" data-translate="app.article.state" for="field_state">State</label>
             <input type="text" class="form-control" name="state" id="field_state"
                     ng-model="vm.article.state"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.article.isAbandon" for="field_isAbandon">Is Abandon</label>
+            <label class="control-label" data-translate="app.article.isAbandon" for="field_isAbandon">Is Abandon</label>
             <input type="checkbox" class="form-control" name="isAbandon" id="field_isAbandon"
                     ng-model="vm.article.isAbandon"
                     />
         </div>
 
         <div class="form-group">
-            <label data-translate="bsbmsoneApp.article.term" for="field_term">Term</label>
+            <label data-translate="app.article.term" for="field_term">Term</label>
             <select class="form-control" id="field_term" name="term" ng-model="vm.article.term" ng-options="term as term.id for term in vm.terms track by term.id">
                 <option value=""></option>
             </select>
         </div>
         <div class="form-group">
-            <label data-translate="bsbmsoneApp.article.creator" for="field_creator">Creator</label>
+            <label data-translate="app.article.creator" for="field_creator">Creator</label>
             <select class="form-control" id="field_creator" name="creator" ng-model="vm.article.creator" ng-options="user as user.id for user in vm.users track by user.id">
                 <option value=""></option>
             </select>

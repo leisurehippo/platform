@@ -11,7 +11,7 @@
     };
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .component('jhiAlert', jhiAlert);
 
     jhiAlertController.$inject = ['$scope', 'AlertService'];

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .directive('jhSortBy', jhSortBy);
 
     function jhSortBy() {

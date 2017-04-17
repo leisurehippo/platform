@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('NoticeController', NoticeController);
 
     NoticeController.$inject = ['$scope', '$state', 'DataUtils', 'Notice', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];

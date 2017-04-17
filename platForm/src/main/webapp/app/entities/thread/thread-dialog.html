@@ -4,7 +4,7 @@
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                 ng-click="vm.clear()">&times;</button>
-        <h4 class="modal-title" id="myThreadLabel" data-translate="bsbmsoneApp.thread.home.createOrEditLabel">Create or edit a Thread</h4>
+        <h4 class="modal-title" id="myThreadLabel" data-translate="app.thread.home.createOrEditLabel">Create or edit a Thread</h4>
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
@@ -14,42 +14,42 @@
                     ng-model="vm.thread.id" readonly />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.thread.name" for="field_name">Name</label>
+            <label class="control-label" data-translate="app.thread.name" for="field_name">Name</label>
             <input type="text" class="form-control" name="name" id="field_name"
                     ng-model="vm.thread.name"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.thread.authorName" for="field_authorName">Author Name</label>
+            <label class="control-label" data-translate="app.thread.authorName" for="field_authorName">Author Name</label>
             <input type="text" class="form-control" name="authorName" id="field_authorName"
                     ng-model="vm.thread.authorName"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.thread.title" for="field_title">Title</label>
+            <label class="control-label" data-translate="app.thread.title" for="field_title">Title</label>
             <input type="text" class="form-control" name="title" id="field_title"
                     ng-model="vm.thread.title"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.thread.content" for="field_content">Content</label>
+            <label class="control-label" data-translate="app.thread.content" for="field_content">Content</label>
                 <textarea class="form-control" name="content" id="field_content"
                     ng-model="vm.thread.content" ></textarea>
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.thread.viewNum" for="field_viewNum">View Num</label>
+            <label class="control-label" data-translate="app.thread.viewNum" for="field_viewNum">View Num</label>
             <input type="number" class="form-control" name="viewNum" id="field_viewNum"
                     ng-model="vm.thread.viewNum"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.thread.postNum" for="field_postNum">Post Num</label>
+            <label class="control-label" data-translate="app.thread.postNum" for="field_postNum">Post Num</label>
             <input type="number" class="form-control" name="postNum" id="field_postNum"
                     ng-model="vm.thread.postNum"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.thread.createDate" for="field_createDate">Create Date</label>
+            <label class="control-label" data-translate="app.thread.createDate" for="field_createDate">Create Date</label>
                 <div class="input-group">
                     <input id="field_createDate" type="text" class="form-control" name="createDate" datetime-picker="{{dateformat}}" ng-model="vm.thread.createDate" is-open="vm.datePickerOpenStatus.createDate"
                     />
@@ -59,7 +59,7 @@
                 </div>
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.thread.editDate" for="field_editDate">Edit Date</label>
+            <label class="control-label" data-translate="app.thread.editDate" for="field_editDate">Edit Date</label>
                 <div class="input-group">
                     <input id="field_editDate" type="text" class="form-control" name="editDate" datetime-picker="{{dateformat}}" ng-model="vm.thread.editDate" is-open="vm.datePickerOpenStatus.editDate"
                     />
@@ -69,26 +69,26 @@
                 </div>
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.thread.state" for="field_state">State</label>
+            <label class="control-label" data-translate="app.thread.state" for="field_state">State</label>
             <input type="text" class="form-control" name="state" id="field_state"
                     ng-model="vm.thread.state"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.thread.isAbandon" for="field_isAbandon">Is Abandon</label>
+            <label class="control-label" data-translate="app.thread.isAbandon" for="field_isAbandon">Is Abandon</label>
             <input type="checkbox" class="form-control" name="isAbandon" id="field_isAbandon"
                     ng-model="vm.thread.isAbandon"
                     />
         </div>
 
         <div class="form-group">
-            <label data-translate="bsbmsoneApp.thread.forum" for="field_forum">Forum</label>
+            <label data-translate="app.thread.forum" for="field_forum">Forum</label>
             <select class="form-control" id="field_forum" name="forum" ng-model="vm.thread.forum" ng-options="forum as forum.id for forum in vm.forums track by forum.id">
                 <option value=""></option>
             </select>
         </div>
         <div class="form-group">
-            <label data-translate="bsbmsoneApp.thread.creator" for="field_creator">Creator</label>
+            <label data-translate="app.thread.creator" for="field_creator">Creator</label>
             <select class="form-control" id="field_creator" name="creator" ng-model="vm.thread.creator" ng-options="user as user.id for user in vm.users track by user.id">
                 <option value=""></option>
             </select>

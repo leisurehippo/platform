@@ -4,7 +4,7 @@
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                 ng-click="vm.clear()">&times;</button>
-        <h4 class="modal-title" id="myRegistrationLabel" data-translate="bsbmsoneApp.registration.home.createOrEditLabel">Create or edit a Registration</h4>
+        <h4 class="modal-title" id="myRegistrationLabel" data-translate="app.registration.home.createOrEditLabel">Create or edit a Registration</h4>
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
@@ -14,61 +14,61 @@
                     ng-model="vm.registration.id" readonly />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.registration.type" for="field_type">Type</label>
+            <label class="control-label" data-translate="app.registration.type" for="field_type">Type</label>
             <input type="text" class="form-control" name="type" id="field_type"
                     ng-model="vm.registration.type"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.registration.name" for="field_name">Name</label>
+            <label class="control-label" data-translate="app.registration.name" for="field_name">Name</label>
             <input type="text" class="form-control" name="name" id="field_name"
                     ng-model="vm.registration.name"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.registration.sex" for="field_sex">Sex</label>
+            <label class="control-label" data-translate="app.registration.sex" for="field_sex">Sex</label>
             <input type="text" class="form-control" name="sex" id="field_sex"
                     ng-model="vm.registration.sex"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.registration.phone" for="field_phone">Phone</label>
+            <label class="control-label" data-translate="app.registration.phone" for="field_phone">Phone</label>
             <input type="text" class="form-control" name="phone" id="field_phone"
                     ng-model="vm.registration.phone"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.registration.email" for="field_email">Email</label>
+            <label class="control-label" data-translate="app.registration.email" for="field_email">Email</label>
             <input type="text" class="form-control" name="email" id="field_email"
                     ng-model="vm.registration.email"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.registration.idCard" for="field_idCard">Id Card</label>
+            <label class="control-label" data-translate="app.registration.idCard" for="field_idCard">Id Card</label>
             <input type="text" class="form-control" name="idCard" id="field_idCard"
                     ng-model="vm.registration.idCard"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.registration.idGame" for="field_idGame">Id Game</label>
+            <label class="control-label" data-translate="app.registration.idGame" for="field_idGame">Id Game</label>
             <input type="text" class="form-control" name="idGame" id="field_idGame"
                     ng-model="vm.registration.idGame"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.registration.teamName" for="field_teamName">Team Name</label>
+            <label class="control-label" data-translate="app.registration.teamName" for="field_teamName">Team Name</label>
             <input type="text" class="form-control" name="teamName" id="field_teamName"
                     ng-model="vm.registration.teamName"
                     />
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="bsbmsoneApp.registration.teamMate" for="field_teamMate">Team Mate</label>
+            <label class="control-label" data-translate="app.registration.teamMate" for="field_teamMate">Team Mate</label>
                 <textarea class="form-control" name="teamMate" id="field_teamMate"
                     ng-model="vm.registration.teamMate" ></textarea>
         </div>
 
         <div class="form-group">
-            <label data-translate="bsbmsoneApp.registration.user" for="field_user">User</label>
+            <label data-translate="app.registration.user" for="field_user">User</label>
             <select class="form-control" id="field_user" name="user" ng-model="vm.registration.user" ng-options="user as user.id for user in vm.users track by user.id">
                 <option value=""></option>
             </select>

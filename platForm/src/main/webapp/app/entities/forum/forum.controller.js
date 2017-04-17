@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('ForumController', ForumController);
 
     ForumController.$inject = ['$scope', '$state', 'Forum', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];

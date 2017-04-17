@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('ParticipantController', ParticipantController);
 
     ParticipantController.$inject = ['$state', 'RegistrationsEnrollTeamPlayer', 'toaster','CheckTeamName', 'SweetAlert', 'Principal',

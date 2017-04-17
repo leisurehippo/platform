@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('RegistrationController', RegistrationController);
 
     RegistrationController.$inject = ['$scope', '$state', 'DataUtils', 'Registration', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];

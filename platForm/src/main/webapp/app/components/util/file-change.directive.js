@@ -5,7 +5,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .directive('fileChange', fileChange);
 
     fileChange.$inject = [];

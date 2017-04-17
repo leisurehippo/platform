@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('ArticleDialogController', ArticleDialogController);
 
     ArticleDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Article', 'Term', 'User'];
@@ -38,7 +38,7 @@
         }
 
         function onSaveSuccess (result) {
-            $scope.$emit('bsbmsoneApp:articleUpdate', result);
+            $scope.$emit('app:articleUpdate', result);
             $uibModalInstance.close(result);
             vm.isSaving = false;
         }

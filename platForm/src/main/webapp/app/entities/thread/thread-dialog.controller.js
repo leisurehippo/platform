@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('ThreadDialogController', ThreadDialogController);
 
     ThreadDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Thread', 'Forum', 'User'];
@@ -38,7 +38,7 @@
         }
 
         function onSaveSuccess (result) {
-            $scope.$emit('bsbmsoneApp:threadUpdate', result);
+            $scope.$emit('app:threadUpdate', result);
             $uibModalInstance.close(result);
             vm.isSaving = false;
         }

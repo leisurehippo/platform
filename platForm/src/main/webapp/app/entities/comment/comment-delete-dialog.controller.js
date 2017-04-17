@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('CommentDeleteController',CommentDeleteController);
 
     CommentDeleteController.$inject = ['$uibModalInstance', 'entity', 'Comment'];

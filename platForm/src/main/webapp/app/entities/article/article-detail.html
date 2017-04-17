@@ -1,50 +1,50 @@
 
 <div>
-    <h2><span data-translate="bsbmsoneApp.article.detail.title">Article</span> {{vm.article.id}}</h2>
+    <h2><span data-translate="app.article.detail.title">Article</span> {{vm.article.id}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="row jh-entity-details">
-        <dt><span data-translate="bsbmsoneApp.article.title">Title</span></dt>
+        <dt><span data-translate="app.article.title">Title</span></dt>
         <dd>
             <span>{{vm.article.title}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.article.name">Name</span></dt>
+        <dt><span data-translate="app.article.name">Name</span></dt>
         <dd>
             <span>{{vm.article.name}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.article.authorName">Author Name</span></dt>
+        <dt><span data-translate="app.article.authorName">Author Name</span></dt>
         <dd>
             <span>{{vm.article.authorName}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.article.content">Content</span></dt>
+        <dt><span data-translate="app.article.content">Content</span></dt>
         <dd>
             <span>{{vm.article.content}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.article.createDate">Create Date</span></dt>
+        <dt><span data-translate="app.article.createDate">Create Date</span></dt>
         <dd>
             <span>{{vm.article.createDate | date:'medium'}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.article.editDate">Edit Date</span></dt>
+        <dt><span data-translate="app.article.editDate">Edit Date</span></dt>
         <dd>
             <span>{{vm.article.editDate | date:'medium'}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.article.type">Type</span></dt>
+        <dt><span data-translate="app.article.type">Type</span></dt>
         <dd>
             <span>{{vm.article.type}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.article.state">State</span></dt>
+        <dt><span data-translate="app.article.state">State</span></dt>
         <dd>
             <span>{{vm.article.state}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.article.isAbandon">Is Abandon</span></dt>
+        <dt><span data-translate="app.article.isAbandon">Is Abandon</span></dt>
         <dd>
             <span>{{vm.article.isAbandon}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.article.term">Term</span></dt>
+        <dt><span data-translate="app.article.term">Term</span></dt>
         <dd>
             <a ui-sref="term-detail({id:vm.article.term.id})">{{vm.article.term.id}}</a>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.article.creator">Creator</span></dt>
+        <dt><span data-translate="app.article.creator">Creator</span></dt>
         <dd>
             {{vm.article.creator.id}}
         </dd>

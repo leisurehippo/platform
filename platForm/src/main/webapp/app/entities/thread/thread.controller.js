@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('ThreadController', ThreadController);
 
     ThreadController.$inject = ['$scope', '$state', 'DataUtils', 'Thread', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];

@@ -5,7 +5,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .factory('ThreadsBatchDelete', ThreadsBatchDelete);
 
     ThreadsBatchDelete.$inject = ['$resource'];

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('PersonDialogController', PersonDialogController);
 
     PersonDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'Person', 'User'];
@@ -33,7 +33,7 @@
         }
 
         function onSaveSuccess (result) {
-            $scope.$emit('bsbmsoneApp:personUpdate', result);
+            $scope.$emit('app:personUpdate', result);
             $uibModalInstance.close(result);
             vm.isSaving = false;
         }

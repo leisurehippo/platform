@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('ThreadDetailController', ThreadDetailController);
 
     ThreadDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'DataUtils', 'entity', 'Thread', 'Forum', 'User'];
@@ -15,7 +15,7 @@
         vm.byteSize = DataUtils.byteSize;
         vm.openFile = DataUtils.openFile;
 
-        var unsubscribe = $rootScope.$on('bsbmsoneApp:threadUpdate', function(event, result) {
+        var unsubscribe = $rootScope.$on('app:threadUpdate', function(event, result) {
             vm.thread = result;
         });
         $scope.$on('$destroy', unsubscribe);

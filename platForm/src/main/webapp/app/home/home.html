@@ -1,501 +1,140 @@
-<!--<div ng-cloak>-->
-    <!--<div class="nav-background-pic"></div>-->
-    <!--<home-menu></home-menu>-->
-    <!--<div class="homepage homepage-size">-->
-        <!--<div class="home-news">-->
-            <!--<div class="container">-->
-                <!--<div class="home-news-content">-->
-                    <!--<div class="row">-->
-                        <!--<div class="col-xs-7">-->
-                            <!--<div class="gold-game-tv">-->
-                                <!--<div class="gold-blizzard-tab">-->
-                                    <!--<div class="tab-content">-->
-                                        <!--<div class="tab-content-pic"></div>-->
-                                        <!--<div class="tab-content-text"></div>-->
-                                        <!--<span class="tab-content-text-span">IG战队成员首次亮相欧美</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="col-xs-5" style="z-index: 2;">-->
-                            <!--<div class="tab-underline">-->
-                                <!--<div class="tab-title-news">-->
-                                    <!--<span class="tab-title-logo"></span>-->
-                                    <!--<h3 class="tab-title-content">综合新闻</h3>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<div class="news-content" style="margin-top: 1px">-->
-                                <!--<span>《星际争霸II》黄金职业联赛落幕 明皇</span>-->
-                            <!--</div>-->
-                            <!--<div class="news-content">-->
-                                <!--<span>《星际争霸II》黄金职业联赛落幕 明皇</span>-->
-                            <!--</div>-->
-                            <!--<div class="news-content">-->
-                                <!--<span>《星际争霸II》黄金职业联赛落幕 明皇</span>-->
-                            <!--</div>-->
-                            <!--<div class="news-content">-->
-                                <!--<span>《星际争霸II》黄金职业联赛落幕 明皇</span>-->
-                            <!--</div>-->
-                            <!--<div class="news-content">-->
-                                <!--<span>《星际争霸II》黄金职业联赛落幕 明皇</span>-->
-                            <!--</div>-->
-                            <!--<div class="news-content">-->
-                                <!--<span>《星际争霸II》黄金职业联赛落幕 明皇</span>-->
-                            <!--</div>-->
-                            <!--<div class="news-load-more-btn">-->
-                                <!--<a ui-sref="news-list">＋查看更多</a>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<img class="home-maikelei" src="/content/images/home/maikelei.png" alt="麦克雷">-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="home-score">-->
-            <!--<div class="container">-->
-                <!--<div class="tab-title">-->
-                    <!--<span class="tab-title-logo"></span>-->
-                    <!--<h3 class="tab-title-content">赛事积分</h3>-->
-                <!--</div>-->
-                <!--<div class="home-score-border">-->
-                    <!--<div class="home-score-header">-->
-                        <!--<div class="home-score-header-tag-wrap">-->
-                            <!--<a class="home-score-header-tag" ng-class="{active: vm.currentTag === 1}"-->
-                               <!--ng-click="vm.selectTag(1)"><span>A组</span></a>-->
-                            <!--<a class="home-score-header-tag" ng-class="{active: vm.currentTag === 2}"-->
-                               <!--ng-click="vm.selectTag(2)"><span>B组</span></a>-->
-                            <!--<a class="home-score-header-tag" ng-class="{active: vm.currentTag === 3}"-->
-                               <!--ng-click="vm.selectTag(3)"><span>C组</span></a>-->
-                            <!--<a class="home-score-header-tag" ng-class="{active: vm.currentTag === 4}"-->
-                               <!--ng-click="vm.selectTag(4)"><span>D组</span></a>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="home-score-content">-->
-                        <!--<table class="table home-score-table" ng-show="vm.currentTag === 1">-->
-                            <!--<tr>-->
-                                <!--<th>排名</th>-->
-                                <!--<th>战队名字</th>-->
-                                <!--<th>胜</th>-->
-                                <!--<th>负</th>-->
-                                <!--<th>积分</th>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td><img src="/content/images/home/1.png" alt=""></td>-->
-                                <!--<td>宇宙第一无敌战队</td>-->
-                                <!--<td>3</td>-->
-                                <!--<td>1</td>-->
-                                <!--<td>9</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td><img src="/content/images/home/2.png" alt=""></td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td><img src="/content/images/home/3.png" alt=""></td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>4</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>5</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>6</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>7</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                        <!--</table>-->
-                        <!--<table class="table home-score-table" ng-show="vm.currentTag === 2">-->
-                            <!--<tr>-->
-                                <!--<th>排名</th>-->
-                                <!--<th>战队名字</th>-->
-                                <!--<th>胜</th>-->
-                                <!--<th>负</th>-->
-                                <!--<th>积分</th>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td><img src="/content/images/home/1.png" alt=""></td>-->
-                                <!--<td>宇宙第二无敌战队</td>-->
-                                <!--<td>4</td>-->
-                                <!--<td>9</td>-->
-                                <!--<td>12</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td><img src="/content/images/home/2.png" alt=""></td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td><img src="/content/images/home/3.png" alt=""></td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>4</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>5</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>6</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>7</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                        <!--</table>-->
-                        <!--<table class="table home-score-table" ng-show="vm.currentTag === 3">-->
-                            <!--<tr>-->
-                                <!--<th>排名</th>-->
-                                <!--<th>战队名字</th>-->
-                                <!--<th>胜</th>-->
-                                <!--<th>负</th>-->
-                                <!--<th>积分</th>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td><img src="/content/images/home/1.png" alt=""></td>-->
-                                <!--<td>宇宙第三无敌战队</td>-->
-                                <!--<td>1</td>-->
-                                <!--<td>0</td>-->
-                                <!--<td>3</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td><img src="/content/images/home/2.png" alt=""></td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td><img src="/content/images/home/3.png" alt=""></td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>4</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>5</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>6</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>7</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                        <!--</table>-->
-                        <!--<table class="table home-score-table" ng-show="vm.currentTag === 4">-->
-                            <!--<tr>-->
-                                <!--<th>排名</th>-->
-                                <!--<th>战队名字</th>-->
-                                <!--<th>胜</th>-->
-                                <!--<th>负</th>-->
-                                <!--<th>积分</th>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td><img src="/content/images/home/1.png" alt=""></td>-->
-                                <!--<td>宇宙第四无敌战队</td>-->
-                                <!--<td>6</td>-->
-                                <!--<td>4</td>-->
-                                <!--<td>18</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td><img src="/content/images/home/2.png" alt=""></td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td><img src="/content/images/home/3.png" alt=""></td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>4</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>5</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>6</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>7</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                            <!--<tr>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                                <!--<td>-</td>-->
-                            <!--</tr>-->
-                        <!--</table>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<img class="home-shibing76" src="/content/images/home/shibing76.png" alt="士兵76">-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="home-bracket">-->
-            <!--<div class="container">-->
-                <!--&lt;!&ndash;<div class="tab-title">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<span class="tab-title-logo"></span>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<h3 class="tab-title-content">赛程对阵</h3>&ndash;&gt;-->
-                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--&lt;!&ndash;<div class="home-bracket-all-wrap">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="home-bracket-tag-wrap">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<a class="home-bracket-tag" ng-class="{active: vm.currentBracketTag === 1}"&ndash;&gt;-->
-                           <!--&lt;!&ndash;ng-click="vm.selectBracketTag(1)"><span>A组</span></a>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<a class="home-bracket-tag" ng-class="{active: vm.currentBracketTag === 2}"&ndash;&gt;-->
-                           <!--&lt;!&ndash;ng-click="vm.selectBracketTag(2)"><span>B组</span></a>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<a class="home-bracket-tag" ng-class="{active: vm.currentBracketTag === 3}"&ndash;&gt;-->
-                           <!--&lt;!&ndash;ng-click="vm.selectBracketTag(3)"><span>C组</span></a>&ndash;&gt;-->
-                        <!--&lt;!&ndash;<a class="home-bracket-tag" ng-class="{active: vm.currentBracketTag === 4}"&ndash;&gt;-->
-                           <!--&lt;!&ndash;ng-click="vm.selectBracketTag(4)"><span>D组</span></a>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;&lt;!&ndash;<div class="home-bracket-round-wrap">&ndash;&gt;&ndash;&gt;-->
-                    <!--&lt;!&ndash;&lt;!&ndash;<div>第一轮</div>&ndash;&gt;&ndash;&gt;-->
-                    <!--&lt;!&ndash;&lt;!&ndash;</div>&ndash;&gt;&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="home-bracket-wrap">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<iframe width="1040px" height="560px"&ndash;&gt;-->
-                                <!--&lt;!&ndash;style="border: none;"&ndash;&gt;-->
-                                <!--&lt;!&ndash;src="http://www.bisaibang.com/widget/tournament/bracket/387"></iframe>&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                <!--<div class="home-bracket-content">-->
-                    <!--<div class="tab-title homebra">-->
-                        <!--<span class="tab-title-logo"></span>-->
-                        <!--<h3 class="tab-title-content">赛程对阵</h3>-->
-                    <!--</div>-->
-                    <!--<div class="home-bracket-all-wrap">-->
-                        <!--<div class="home-bracket-tag-wrap">-->
-                            <!--<div class="home-bracket-tag-trapezoid">-->
-                                <!--<a class="home-bracket-tag" ng-class="{active: vm.currentBracketTag === 1}"-->
-                                   <!--ng-click="vm.selectBracketTag(1)"><span>A组</span></a>-->
-                            <!--</div>-->
-                            <!--<div class="home-bracket-tag-trapezoid">-->
-                                <!--<a class="home-bracket-tag" ng-class="{active: vm.currentBracketTag === 2}"-->
-                                   <!--ng-click="vm.selectBracketTag(2)"><span>B组</span></a>-->
-                            <!--</div>-->
-                            <!--<div class="home-bracket-tag-trapezoid">-->
-                                <!--<a class="home-bracket-tag" ng-class="{active: vm.currentBracketTag === 3}"-->
-                                   <!--ng-click="vm.selectBracketTag(3)"><span>C组</span></a>-->
-                            <!--</div>-->
-                            <!--<div class="home-bracket-tag-trapezoid">-->
-                                <!--<a class="home-bracket-tag" ng-class="{active: vm.currentBracketTag === 4}"-->
-                                   <!--ng-click="vm.selectBracketTag(4)"><span>D组</span></a>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--&lt;!&ndash;<div class="home-bracket-round-wrap">&ndash;&gt;-->
-                        <!--&lt;!&ndash;<div>第一轮</div>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                        <!--<div class="home-bracket-wrap">-->
-                            <!--<iframe width="1034px" height="550px"-->
-                                    <!--style="border: none; margin-top: 10px;"-->
-                                    <!--src="https://www.bisaibang.com/widget/tournament/bracket/387"></iframe>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="home-video">-->
-            <!--<div class="container">-->
-                <!--<div class="tab-title">-->
-                    <!--<span class="tab-title-logo video-home"></span>-->
-                    <!--<h3 class="tab-title-content video-home">赛事视频</h3>-->
-                <!--</div>-->
-                <!--<div class="home-video-content">-->
-                    <!--<div class="row">-->
-                        <!--<div class="col-md-3 col-xs-6">-->
-                            <!--<div class="home-video-1">-->
-                                <!--<div class="home-video-video">-->
-                                    <!--<a class="home-video-link" ui-sref="video"><img src="/content/images/video/threeicon2.png" alt="视频"></a>-->
-                                    <!--<div class="home-video-text">-->
-                                        <!--<span>守望先锋决赛</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="col-md-3 col-xs-6">-->
-                            <!--<div class="home-video-2">-->
-                                <!--<div class="home-video-video">-->
-                                    <!--<a class="home-video-link" ui-sref="video"><img src="/content/images/video/threeicon2.png" alt="视频"></a>-->
-                                    <!--<div class="home-video-text">-->
-                                        <!--<span>守望先锋决赛</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="col-md-3 col-xs-6">-->
-                            <!--<div class="home-video-3">-->
-                                <!--<div class="home-video-video">-->
-                                    <!--<a class="home-video-link" ui-sref="video"><img src="/content/images/video/threeicon2.png" alt="视频"></a>-->
-                                    <!--<div class="home-video-text">-->
-                                        <!--<span>守望先锋决赛</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="col-md-3 col-xs-6">-->
-                            <!--<div class="home-video-4">-->
-                                <!--<div class="home-video-video">-->
-                                    <!--<a class="home-video-link" ui-sref="video"><img src="/content/images/video/threeicon2.png" alt="视频"></a>-->
-                                    <!--<div class="home-video-text">-->
-                                        <!--<span>守望先锋决赛</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="row row2nd">-->
-                        <!--<div class="col-md-3 col-xs-6">-->
-                            <!--<div class="home-video-5">-->
-                                <!--<div class="home-video-video">-->
-                                    <!--<a class="home-video-link" ui-sref="video"><img src="/content/images/video/threeicon2.png" alt="视频"></a>-->
-                                    <!--<div class="home-video-text">-->
-                                        <!--<span>守望先锋决赛</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="col-md-3 col-xs-6">-->
-                            <!--<div class="home-video-6">-->
-                                <!--<div class="home-video-video">-->
-                                    <!--<a class="home-video-link" ui-sref="video"><img src="/content/images/video/threeicon2.png" alt="视频"></a>-->
-                                    <!--<div class="home-video-text">-->
-                                        <!--<span>守望先锋决赛</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="col-md-3 col-xs-6">-->
-                            <!--<div class="home-video-7">-->
-                                <!--<div class="home-video-video">-->
-                                    <!--<a class="home-video-link" ui-sref="video"><img src="/content/images/video/threeicon2.png" alt="视频"></a>-->
-                                    <!--<div class="home-video-text">-->
-                                        <!--<span>守望先锋决赛</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                        <!--<div class="col-md-3 col-xs-6">-->
-                            <!--<div class="home-video-8">-->
-                                <!--<div class="home-video-video">-->
-                                    <!--<a class="home-video-link" ui-sref="video"><img src="/content/images/video/threeicon2.png" alt="视频"></a>-->
-                                    <!--<div class="home-video-text">-->
-                                        <!--<span>守望先锋决赛</span>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->
-
-<!--<div class="footer" ng-cloak>-->
-    <!--<span>新页脚</span>-->
-<!--</div>-->
-
+<div class="container-fluid">
+    <topnavigation></topnavigation>
+    <br>  
+        <carousel></carousel>
+    <br>
+</div>
+<div id="parts" style="margin-top: 100px">
+    <div class="col-md-3 col-md-offset-1">
+        <img class="img-circle" src='img/5.png' width="140" height="140">
+        <h2>电网地图展示</h2>
+        <!--<p class="lead">{{description}}</p>-->
+        <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+        <p><a class="btn btn-info active" role="button" href="#">View details</a></p>
+        <div class="col-md-12">
+            <div style="padding: 30px"></div>
+        </div>
+    </div>
+    <div class="col-md-3 col-md-offset-1">
+        <img class="img-circle" src='img/6.png' width="140" height="140">
+        <h2>数据可视化</h2>
+        <!--<p class="lead">{{description}}</p>-->
+        <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+        <p><a class="btn btn-info active" role="button" href="#">View details</a></p>
+        <div class="col-md-12">
+            <div style="padding: 30px"></div>
+        </div>
+    </div>
+    <div class="col-md-3 col-md-offset-1">
+        <img class="img-circle" src='img/7.png' width="140" height="140">
+        <h2>大数据预测</h2>
+        <!--<p class="lead">{{description}}</p>-->
+        <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+        <p><a class="btn btn-info active" role="button" href="#">View details</a></p>
+        <div class="col-md-12">
+            <div style="padding: 30px"></div>
+        </div>
+    </div>
+    <div class="col-md-3 col-md-offset-1">
+        <img class="img-circle" src='img/10.png' width="140" height="140">
+        <h2>设备线路详情</h2>
+        <!--<p class="lead">{{description}}</p>-->
+        <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+        <p><a class="btn btn-info active" role="button" href="#">View details</a></p>
+        <div class="col-md-12">
+            <div style="padding: 30px"></div>
+        </div>
+    </div>
+    <div class="col-md-3 col-md-offset-1">
+        <img class="img-circle" src='img/9.png' width="140" height="140">
+        <h2>历史数据展示</h2>
+        <!--<p class="lead">{{description}}</p>-->
+        <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+        <p><a class="btn btn-info active" role="button" href="#">View details</a></p>
+        <div class="col-md-12">
+            <div style="padding: 30px"></div>
+        </div>
+    </div>
+    <div class="col-md-3 col-md-offset-1">
+        <img class="img-circle" src='img/8.png' width="140" height="140">
+        <h2>故障缺陷排查</h2>
+        <!--<p class="lead">{{description}}</p>-->
+        <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+        <p><a class="btn btn-info active" role="button" href="#">View details</a></p>
+        <div class="col-md-12">
+            <div style="padding: 30px"></div>
+        </div>
+    </div>
+</div>
+<div id="feature">
+    <div style="margin-top: 100px">
+        <div class="row featurette">
+            <!--<hr class="featurette-divider">-->
+            <div class="col-md-6 col-md-offset-1">
+                <h2 class="featurette-heading" style="color: #419641">
+                        数据可视化1
+                        <!--<span class="text-muted">{{text-muted}}</span>-->
+                    </h2>
+                <hr>
+                <p class="lead" style="color: #5bc0de">
+                    数据可视化，是关于数据视觉表现形式的科学技术研究。其中，这种数据的视觉表现形式被定义为，一种以某种概要形式抽提出来的信息，包括相应信息单位的各种属性和变量。</p>
+            </div>
+            <div class="col-md-5">
+                <img class="featurette-image img-responsive center-block" src="img/1.png" />
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 100px; margin-bottom: 100px">
+        <div class="row featurette">
+            <div class="col-md-6 col-md-push-5">
+                <h2 class="featurette-heading" style="color: #419641">
+                        数据可视化2
+                        <!--<span class="text-muted">{{text-muted}}</span>-->
+                    </h2>
+                <hr>
+                <p class="lead" style="color: #5bc0de">
+                    数据可视化，是关于数据视觉表现形式的科学技术研究。其中，这种数据的视觉表现形式被定义为，一种以某种概要形式抽提出来的信息，包括相应信息单位的各种属性和变量。</p>
+            </div>
+            <div class="col-md-5 col-md-pull-6">
+                <img class="featurette-image img-responsive center-block" src='img/2.png' />
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 100px; margin-bottom: 100px">
+        <div class="row featurette">
+            <div class="col-md-6 col-md-push-5">
+                <h2 class="featurette-heading" style="color: #419641">
+                        数据可视化2
+                        <!--<span class="text-muted">{{text-muted}}</span>-->
+                    </h2>
+                <hr>
+                <p class="lead" style="color: #5bc0de">
+                    数据可视化，是关于数据视觉表现形式的科学技术研究。其中，这种数据的视觉表现形式被定义为，一种以某种概要形式抽提出来的信息，包括相应信息单位的各种属性和变量。</p>
+            </div>
+            <div class="col-md-4 col-md-pull-5">
+                <img class="featurette-image img-responsive center-block" src='img/4.png' />
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 100px;">
+        <div class="row featurette">
+            <!--<hr class="featurette-divider">-->
+            <div class="col-md-6 col-md-offset-1">
+                <h2 class="featurette-heading" style="color: #419641">
+                        数据可视化1
+                        <!--<span class="text-muted">{{text-muted}}</span>-->
+                    </h2>
+                <hr>
+                <p class="lead" style="color: #5bc0de">
+                    数据可视化，是关于数据视觉表现形式的科学技术研究。其中，这种数据的视觉表现形式被定义为，一种以某种概要形式抽提出来的信息，包括相应信息单位的各种属性和变量。</p>
+            </div>
+            <div class="col-md-4">
+                <img class="featurette-image img-responsive center-block" src="img/3.png" />
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<br>
+<hr class="featurette-divider">
+<footer></footer>

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('CommentController', CommentController);
 
     CommentController.$inject = ['$scope', '$state', 'DataUtils', 'Comment', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];

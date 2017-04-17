@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .config(stateConfig);
 
     stateConfig.$inject = ['$stateProvider'];
@@ -14,7 +14,7 @@
             url: '/person?page&sort&search',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'bsbmsoneApp.person.home.title'
+                pageTitle: 'app.person.home.title'
             },
             views: {
                 'content@': {
@@ -56,7 +56,7 @@
             url: '/person/{id}',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'bsbmsoneApp.person.detail.title'
+                pageTitle: 'app.person.detail.title'
             },
             views: {
                 'content@': {

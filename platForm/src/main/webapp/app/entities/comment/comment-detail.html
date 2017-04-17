@@ -1,50 +1,50 @@
 
 <div>
-    <h2><span data-translate="bsbmsoneApp.comment.detail.title">Comment</span> {{vm.comment.id}}</h2>
+    <h2><span data-translate="app.comment.detail.title">Comment</span> {{vm.comment.id}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="row jh-entity-details">
-        <dt><span data-translate="bsbmsoneApp.comment.name">Name</span></dt>
+        <dt><span data-translate="app.comment.name">Name</span></dt>
         <dd>
             <span>{{vm.comment.name}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.comment.authorName">Author Name</span></dt>
+        <dt><span data-translate="app.comment.authorName">Author Name</span></dt>
         <dd>
             <span>{{vm.comment.authorName}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.comment.title">Title</span></dt>
+        <dt><span data-translate="app.comment.title">Title</span></dt>
         <dd>
             <span>{{vm.comment.title}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.comment.content">Content</span></dt>
+        <dt><span data-translate="app.comment.content">Content</span></dt>
         <dd>
             <span>{{vm.comment.content}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.comment.type">Type</span></dt>
+        <dt><span data-translate="app.comment.type">Type</span></dt>
         <dd>
             <span>{{vm.comment.type}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.comment.createDate">Create Date</span></dt>
+        <dt><span data-translate="app.comment.createDate">Create Date</span></dt>
         <dd>
             <span>{{vm.comment.createDate | date:'medium'}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.comment.editDate">Edit Date</span></dt>
+        <dt><span data-translate="app.comment.editDate">Edit Date</span></dt>
         <dd>
             <span>{{vm.comment.editDate | date:'medium'}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.comment.state">State</span></dt>
+        <dt><span data-translate="app.comment.state">State</span></dt>
         <dd>
             <span>{{vm.comment.state}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.comment.isAbandon">Is Abandon</span></dt>
+        <dt><span data-translate="app.comment.isAbandon">Is Abandon</span></dt>
         <dd>
             <span>{{vm.comment.isAbandon}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.comment.creator">Creator</span></dt>
+        <dt><span data-translate="app.comment.creator">Creator</span></dt>
         <dd>
             {{vm.comment.creator.id}}
         </dd>
-        <dt><span data-translate="bsbmsoneApp.comment.article">Article</span></dt>
+        <dt><span data-translate="app.comment.article">Article</span></dt>
         <dd>
             <a ui-sref="article-detail({id:vm.comment.article.id})">{{vm.comment.article.id}}</a>
         </dd>

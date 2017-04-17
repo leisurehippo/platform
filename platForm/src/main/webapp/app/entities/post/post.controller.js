@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('PostController', PostController);
 
     PostController.$inject = ['$scope', '$state', 'DataUtils', 'Post', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];

@@ -1,54 +1,54 @@
 
 <div>
-    <h2><span data-translate="bsbmsoneApp.thread.detail.title">Thread</span> {{vm.thread.id}}</h2>
+    <h2><span data-translate="app.thread.detail.title">Thread</span> {{vm.thread.id}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="row jh-entity-details">
-        <dt><span data-translate="bsbmsoneApp.thread.name">Name</span></dt>
+        <dt><span data-translate="app.thread.name">Name</span></dt>
         <dd>
             <span>{{vm.thread.name}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.thread.authorName">Author Name</span></dt>
+        <dt><span data-translate="app.thread.authorName">Author Name</span></dt>
         <dd>
             <span>{{vm.thread.authorName}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.thread.title">Title</span></dt>
+        <dt><span data-translate="app.thread.title">Title</span></dt>
         <dd>
             <span>{{vm.thread.title}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.thread.content">Content</span></dt>
+        <dt><span data-translate="app.thread.content">Content</span></dt>
         <dd>
             <span>{{vm.thread.content}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.thread.viewNum">View Num</span></dt>
+        <dt><span data-translate="app.thread.viewNum">View Num</span></dt>
         <dd>
             <span>{{vm.thread.viewNum}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.thread.postNum">Post Num</span></dt>
+        <dt><span data-translate="app.thread.postNum">Post Num</span></dt>
         <dd>
             <span>{{vm.thread.postNum}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.thread.createDate">Create Date</span></dt>
+        <dt><span data-translate="app.thread.createDate">Create Date</span></dt>
         <dd>
             <span>{{vm.thread.createDate | date:'medium'}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.thread.editDate">Edit Date</span></dt>
+        <dt><span data-translate="app.thread.editDate">Edit Date</span></dt>
         <dd>
             <span>{{vm.thread.editDate | date:'medium'}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.thread.state">State</span></dt>
+        <dt><span data-translate="app.thread.state">State</span></dt>
         <dd>
             <span>{{vm.thread.state}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.thread.isAbandon">Is Abandon</span></dt>
+        <dt><span data-translate="app.thread.isAbandon">Is Abandon</span></dt>
         <dd>
             <span>{{vm.thread.isAbandon}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.thread.forum">Forum</span></dt>
+        <dt><span data-translate="app.thread.forum">Forum</span></dt>
         <dd>
             <a ui-sref="forum-detail({id:vm.thread.forum.id})">{{vm.thread.forum.id}}</a>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.thread.creator">Creator</span></dt>
+        <dt><span data-translate="app.thread.creator">Creator</span></dt>
         <dd>
             {{vm.thread.creator.id}}
         </dd>

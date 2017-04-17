@@ -1,7 +1,7 @@
 (function() {
     'use strict';
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .factory('Notice', Notice);
 
     Notice.$inject = ['$resource', 'DateUtils'];

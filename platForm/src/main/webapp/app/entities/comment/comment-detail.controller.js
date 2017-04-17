@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('CommentDetailController', CommentDetailController);
 
     CommentDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'DataUtils', 'entity', 'Comment', 'User', 'Article'];
@@ -15,7 +15,7 @@
         vm.byteSize = DataUtils.byteSize;
         vm.openFile = DataUtils.openFile;
 
-        var unsubscribe = $rootScope.$on('bsbmsoneApp:commentUpdate', function(event, result) {
+        var unsubscribe = $rootScope.$on('app:commentUpdate', function(event, result) {
             vm.comment = result;
         });
         $scope.$on('$destroy', unsubscribe);

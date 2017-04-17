@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('TermDetailController', TermDetailController);
 
     TermDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Term'];
@@ -13,7 +13,7 @@
         vm.term = entity;
         vm.previousState = previousState.name;
 
-        var unsubscribe = $rootScope.$on('bsbmsoneApp:termUpdate', function(event, result) {
+        var unsubscribe = $rootScope.$on('app:termUpdate', function(event, result) {
             vm.term = result;
         });
         $scope.$on('$destroy', unsubscribe);

@@ -5,7 +5,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .factory('QiniuUploadArticleImage', QiniuUploadArticleImage);
 
     QiniuUploadArticleImage.$inject = ['$resource'];

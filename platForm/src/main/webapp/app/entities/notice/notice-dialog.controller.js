@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('NoticeDialogController', NoticeDialogController);
 
     NoticeDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Notice', 'User'];
@@ -37,7 +37,7 @@
         }
 
         function onSaveSuccess (result) {
-            $scope.$emit('bsbmsoneApp:noticeUpdate', result);
+            $scope.$emit('app:noticeUpdate', result);
             $uibModalInstance.close(result);
             vm.isSaving = false;
         }

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .factory('stateHandler', stateHandler);
 
     stateHandler.$inject = ['$rootScope', '$state', '$sessionStorage', '$translate', 'JhiLanguageService', 'translationHandler', '$window',
@@ -42,9 +42,9 @@
                 var titleKey = 'global.title' ;
 
                 // Set the page title key to the one configured in state or use default one
-                if (toState.data.pageTitle) {
-                    titleKey = toState.data.pageTitle;
-                }
+                // if (toState.data.pageTitle) {
+                //     titleKey = toState.data.pageTitle;
+                // }
                 translationHandler.updateTitle(titleKey);
             });
 

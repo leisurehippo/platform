@@ -1,42 +1,42 @@
 
 <div>
-    <h2><span data-translate="bsbmsoneApp.post.detail.title">Post</span> {{vm.post.id}}</h2>
+    <h2><span data-translate="app.post.detail.title">Post</span> {{vm.post.id}}</h2>
     <hr>
     <jhi-alert-error></jhi-alert-error>
     <dl class="row jh-entity-details">
-        <dt><span data-translate="bsbmsoneApp.post.createDate">Create Date</span></dt>
+        <dt><span data-translate="app.post.createDate">Create Date</span></dt>
         <dd>
             <span>{{vm.post.createDate | date:'medium'}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.post.editDate">Edit Date</span></dt>
+        <dt><span data-translate="app.post.editDate">Edit Date</span></dt>
         <dd>
             <span>{{vm.post.editDate | date:'medium'}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.post.authorName">Author Name</span></dt>
+        <dt><span data-translate="app.post.authorName">Author Name</span></dt>
         <dd>
             <span>{{vm.post.authorName}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.post.title">Title</span></dt>
+        <dt><span data-translate="app.post.title">Title</span></dt>
         <dd>
             <span>{{vm.post.title}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.post.content">Content</span></dt>
+        <dt><span data-translate="app.post.content">Content</span></dt>
         <dd>
             <span>{{vm.post.content}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.post.state">State</span></dt>
+        <dt><span data-translate="app.post.state">State</span></dt>
         <dd>
             <span>{{vm.post.state}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.post.isAbandon">Is Abandon</span></dt>
+        <dt><span data-translate="app.post.isAbandon">Is Abandon</span></dt>
         <dd>
             <span>{{vm.post.isAbandon}}</span>
         </dd>
-        <dt><span data-translate="bsbmsoneApp.post.creator">Creator</span></dt>
+        <dt><span data-translate="app.post.creator">Creator</span></dt>
         <dd>
             {{vm.post.creator.id}}
         </dd>
-        <dt><span data-translate="bsbmsoneApp.post.thread">Thread</span></dt>
+        <dt><span data-translate="app.post.thread">Thread</span></dt>
         <dd>
             <a ui-sref="thread-detail({id:vm.post.thread.id})">{{vm.post.thread.id}}</a>
         </dd>

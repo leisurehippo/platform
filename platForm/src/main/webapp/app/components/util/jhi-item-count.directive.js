@@ -15,6 +15,6 @@
     };
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .component('jhiItemCount', jhiItemCount);
 })();

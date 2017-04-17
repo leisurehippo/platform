@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('NoticeDetailController', NoticeDetailController);
 
     NoticeDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'DataUtils', 'entity', 'Notice', 'User'];
@@ -15,7 +15,7 @@
         vm.byteSize = DataUtils.byteSize;
         vm.openFile = DataUtils.openFile;
 
-        var unsubscribe = $rootScope.$on('bsbmsoneApp:noticeUpdate', function(event, result) {
+        var unsubscribe = $rootScope.$on('app:noticeUpdate', function(event, result) {
             vm.notice = result;
         });
         $scope.$on('$destroy', unsubscribe);

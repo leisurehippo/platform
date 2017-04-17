@@ -5,7 +5,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .factory('GetArticleById', GetArticleById);
 
     GetArticleById.$inject = ['$resource'];

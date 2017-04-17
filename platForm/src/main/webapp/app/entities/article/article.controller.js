@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('ArticleController', ArticleController);
 
     ArticleController.$inject = ['$scope', '$state', 'DataUtils', 'Article', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('PersonController', PersonController);
 
     PersonController.$inject = ['$scope', '$state', 'Person', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];

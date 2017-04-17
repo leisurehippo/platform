@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .directive('hasAuthority', hasAuthority);
 
     hasAuthority.$inject = ['Principal'];

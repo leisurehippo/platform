@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('PersonController', PersonController);
 
     PersonController.$inject = ['$state', '$rootScope', 'Auth', 'Principal', 'AccountCurrent', 'RegisterService', 'GetMyPlayersInfo', 'AvatarUploadService', 'QiniuUploadAvatar',

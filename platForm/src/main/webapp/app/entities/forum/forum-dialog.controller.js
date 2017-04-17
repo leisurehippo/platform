@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('ForumDialogController', ForumDialogController);
 
     ForumDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Forum'];
@@ -32,7 +32,7 @@
         }
 
         function onSaveSuccess (result) {
-            $scope.$emit('bsbmsoneApp:forumUpdate', result);
+            $scope.$emit('app:forumUpdate', result);
             $uibModalInstance.close(result);
             vm.isSaving = false;
         }

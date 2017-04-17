@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('TermDialogController', TermDialogController);
 
     TermDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Term'];
@@ -32,7 +32,7 @@
         }
 
         function onSaveSuccess (result) {
-            $scope.$emit('bsbmsoneApp:termUpdate', result);
+            $scope.$emit('app:termUpdate', result);
             $uibModalInstance.close(result);
             vm.isSaving = false;
         }

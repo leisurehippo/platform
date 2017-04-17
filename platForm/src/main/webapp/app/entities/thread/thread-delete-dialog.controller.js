@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('ThreadDeleteController',ThreadDeleteController);
 
     ThreadDeleteController.$inject = ['$uibModalInstance', 'entity', 'Thread'];

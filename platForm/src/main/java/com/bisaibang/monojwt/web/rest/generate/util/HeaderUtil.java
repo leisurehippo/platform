@@ -11,15 +11,15 @@ public final class HeaderUtil {
 
     private static final Logger log = LoggerFactory.getLogger(HeaderUtil.class);
 
-    private static final String APPLICATION_NAME = "bsbmsoneApp";
+    private static final String APPLICATION_NAME = "app";
 
     private HeaderUtil() {
     }
 
     public static HttpHeaders createAlert(String message, String param) {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-bsbmsoneApp-alert", message);
-        headers.add("X-bsbmsoneApp-params", param);
+        headers.add("X-app-alert", message);
+        headers.add("X-app-params", param);
         return headers;
     }
 
@@ -38,8 +38,8 @@ public final class HeaderUtil {
     public static HttpHeaders createFailureAlert(String entityName, String errorKey, String defaultMessage) {
         log.error("Entity creation failed, {}", defaultMessage);
         HttpHeaders headers = new HttpHeaders();
-        headers.add("X-bsbmsoneApp-error", "error." + errorKey);
-        headers.add("X-bsbmsoneApp-params", entityName);
+        headers.add("X-app-error", "error." + errorKey);
+        headers.add("X-app-params", entityName);
         return headers;
     }
 }

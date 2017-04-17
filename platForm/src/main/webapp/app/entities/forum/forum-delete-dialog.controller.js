@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('ForumDeleteController',ForumDeleteController);
 
     ForumDeleteController.$inject = ['$uibModalInstance', 'entity', 'Forum'];

@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('RegistrationDeleteController',RegistrationDeleteController);
 
     RegistrationDeleteController.$inject = ['$uibModalInstance', 'entity', 'Registration'];

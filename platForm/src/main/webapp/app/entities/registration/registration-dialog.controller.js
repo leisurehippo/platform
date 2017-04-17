@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('RegistrationDialogController', RegistrationDialogController);
 
     RegistrationDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'DataUtils', 'entity', 'Registration', 'User'];
@@ -35,7 +35,7 @@
         }
 
         function onSaveSuccess (result) {
-            $scope.$emit('bsbmsoneApp:registrationUpdate', result);
+            $scope.$emit('app:registrationUpdate', result);
             $uibModalInstance.close(result);
             vm.isSaving = false;
         }

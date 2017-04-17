@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .controller('AvatarUploadController', AvatarUploadController);
 
     AvatarUploadController.$inject = ['$scope', '$uibModalInstance', '$timeout', 'Cropper', 'QiniuUploadService',

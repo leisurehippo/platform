@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('bsbmsoneApp')
+        .module('app')
         .config(html5ModeConfig);
 
     html5ModeConfig.$inject = ['$locationProvider'];
