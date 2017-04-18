@@ -8,7 +8,7 @@ angular
 function footer() {
     return {
         restrict: 'E',
-        templateUrl:    'components/footer.html',
+        templateUrl: 'components/footer.html',
         replace: true
     };
 }
