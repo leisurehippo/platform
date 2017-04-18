@@ -1,0 +1,74 @@
+<div class="container-fluid">
+    <!--<topnavigation></topnavigation>-->
+    <!--<sidenavigation></sidenavigation>-->
+    <div class="row" ng-controller="WeatherController_t" ng-init="getWeather()">
+        <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 main">
+            <h1 class="maintitle">气象</h1>
+            <hr>
+            <a class="btn btn-primary" href="index.html#/weather-chart">
+                <i class="icon-bar-chart"></i> 数据图示</a>
+            <a class="btn btn-primary active" href="index.html#/weather-table">
+                <i class="icon-list"></i> 数据详情</a>
+            <br>
+            <br>
+            <br>
+        </div>
+        <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 main">
+            <hr/>
+            <div class="form-group">
+                <label for="searchWeather" class="control-label">查询：</label>
+                <input type="text" class="" id="searchWeather" ng-model="searchWeather" placeholder="输入要查询的内容">
+                <select style="height:27px" ng-model="searchType">
+                    <option>请选择</option>
+                    <option>变电站</option>
+                </select>
+                <button type="button" class="btn btn-primary" style="height:30px" ng-click="search()">查询</button>
+            </div>
+            <div class="table-responsive">
+                <table class="hovertable">
+                    <thead>
+                        <tr>
+                            <th>变电站/线路</th>
+                            <th style="min-width: 150px">观测时间</th>
+                            <th>风向</th>
+                            <th>风速</th>
+                            <th>阵风风向</th>
+                            <th>阵风风速</th>
+                            <th>降水量</th>
+                            <th>相对湿度</th>
+                            <th>温度</th>
+                            <th>气压</th>
+                            <th>能见度</th>
+                            <th>级大风风向</th>
+                            <th>级大风风速</th>
+                            <th>站号</th>
+                            <th style="max-width: 150px">文件名</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="weather in weathersShow" onmouseover="this.style.backgroundColor='#ffffff';" onmouseout="this.style.backgroundColor='#cdd9f0';">
+                            <td>{{weather.device}}</td>
+                            <td>{{weather.time}}</td>
+                            <td>{{weather.direction}}</td>
+                            <td>{{weather.speed}}</td>
+                            <td>{{weather.direction_gust}}</td>
+                            <td>{{weather.speed_gust}}</td>
+                            <td>{{weather.precipitation}}</td>
+                            <td>{{weather.humidity}}</td>
+                            <td>{{weather.temperature}}</td>
+                            <td>{{weather.pressure}}</td>
+                            <td>{{weather.visibility}}</td>
+                            <td>{{weather.direction_max}}</td>
+                            <td>{{weather.speed_max}}</td>
+                            <td>{{weather.state_id}}</td>
+                            <td>{{weather.filename}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <tm-pagination conf="WeatherPaginationConf"></tm-pagination>
+        </div>
+    </div>
+</div>
+<hr class="featurette-divider">
+<footer></footer>

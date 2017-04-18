@@ -1,0 +1,68 @@
+<div class="container-fluid">
+    <!--<topnavigation></topnavigation>-->
+    <!--<sidenavigation></sidenavigation>-->
+    <div class="row" ng-controller="GasController_t" ng-init="getGas()">
+        <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 main">
+            <h1 class="maintitle">在线监测</h1>
+            <hr>
+            <a class="btn btn-primary" href="index.html#/gas-chart">
+                <i class="icon-bar-chart"></i> 数据图示</a>
+            <a class="btn btn-primary active" href="index.html#/gas-table">
+                <i class="icon-list"></i> 数据详情</a>
+            <br>
+            <br>
+            <br>
+        </div>
+        <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 main">
+            <hr/>
+            <div class="form-group">
+                <label for="searchGas" class="control-label">查询：</label>
+                <input type="text" class="" id="searchGas" ng-model="searchGas" placeholder="输入要查询的内容">
+                <select style="height:27px" ng-model="searchType">
+                    <option>请选择</option>
+                    <option>设备ID</option>
+                </select>
+                <button type="button" class="btn btn-primary" style="height:30px" ng-click="search()">查询</button>
+            </div>
+            <div class="table-responsive">
+                <table class="hovertable">
+                    <thead>
+                        <tr>
+                            <th>设备ID</th>
+                            <th>相别</th>
+                            <th>氢气</th>
+                            <th>甲烷</th>
+                            <th>乙烯</th>
+                            <th>乙炔</th>
+                            <th>一氧化碳</th>
+                            <th>二氧化碳</th>
+                            <th>氧气</th>
+                            <th>氮气</th>
+                            <th>乙烷</th>
+                            <th>总烃</th>
+                            <th>采集时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="gas in gasesShow" onmouseover="this.style.backgroundColor='#ffffff';" onmouseout="this.style.backgroundColor='#cdd9f0';">
+                            <td>{{gas.device_id}}</td>
+                            <td>{{gas.phase}}</td>
+                            <td>{{gas.h2}}</td>
+                            <td>{{gas.ch4}}</td>
+                            <td>{{gas.c2h4}}</td>
+                            <td>{{gas.c2h2}}</td>
+                            <td>{{gas.co}}</td>
+                            <td>{{gas.co2}}</td>
+                            <td>{{gas.o2}}</td>
+                            <td>{{gas.n2}}</td>
+                            <td>{{gas.c2h6}}</td>
+                            <td>{{gas.total}}</td>
+                            <td width="300px">{{gas.time}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <tm-pagination conf="GasPaginationConf"></tm-pagination>
+        </div>
+    </div>
+</div>

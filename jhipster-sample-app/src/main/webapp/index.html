@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>jhipsterSampleApplication</title>
+    <title>电网平台</title>
     <meta name="description" content="">
     <meta name="google" value="notranslate">
     <meta name="viewport" content="width=device-width">
@@ -30,7 +30,9 @@
         </div>
 
         <div class="footer" ng-cloak>
-            <p data-translate="footer">This is your footer</p>
+            <!--<p data-translate="footer">This is your footer</p>-->
+            <div>&copy; 北京邮电大学 &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></div>
+
         </div>
     </div>
 
@@ -46,6 +48,20 @@
 
     <!-- build:js app/vendor.js -->
     <!-- bower:js -->
+    <script src="js/lib/angular.min.js"></script>
+    <script src="js/lib/angular-ui-router.min.js"></script>
+    <script src="js/lib/jquery.min.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+    <script src="js/lib/echarts.min.js"></script>
+    <script src="js/lib/tm.pagination.js"></script>
+    <script src="js/lib/d3.js"></script>
+    <script src="js/lib/shandong.js"></script>
+    <script type="text/javascript" src="bower_components/moment/moment.js"></script>
+    <script type="text/javascript" src="bower_components/moment/locale/zh-cn.js"></script>
+    <script type="text/javascript" src="bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
+    <script type="text/javascript" src="bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js"></script>
+
+
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/messageformat/messageformat.js"></script>
     <script src="bower_components/json3/lib/json3.js"></script>
@@ -191,6 +207,25 @@
     <script src="app/account/activate/activate.state.js"></script>
     <script src="app/account/activate/activate.controller.js"></script>
     <script src="app/account/account.state.js"></script>
+
+    <script src="app/map/map.controller.js"></script>
+    <script src="app/defect-lines/defect-lines.controller.js"></script>
+    <script src="app/defect-lines/defect-lines.controller_t.js"></script>
+    <script src="app/defect-transformers/defect-transformers.controller.js"></script>
+    <script src="app/defect-transformers/defect-transformers.controller_t.js"></script>
+    <script src="app/gas/gas.controller.js"></script>
+    <script src="app/gas/gas.controller_t.js"></script>
+    <script src="app/line-status/line-status.controller.js"></script>
+    <script src="app/line-status/line-status.controller_t.js"></script>
+    <script src="app/lines/lines.controller.js"></script>
+    <script src="app/weather/weather.controller.js"></script>
+    <script src="app/weather/weather.controller_t.js"></script>
+    <script src="app/transformers/transformers.controller.js"></script>
+
+    <script src="app/directive/carousel.directive.js"></script>
+    <script src="app/directive/footer.directive.js"></script>
+    <script src="app/directive/maptitle.directive.js"></script>
+
     <!-- endinject -->
     <!-- endbuild -->
 

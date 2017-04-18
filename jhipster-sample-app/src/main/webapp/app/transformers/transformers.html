@@ -1,0 +1,97 @@
+<div class="container-fluid">
+    <!--<topnavigation></topnavigation>-->
+    <!--<sidenavigation></sidenavigation>-->
+    <div class="row" ng-controller="TransformerController" ng-init="getTransformers(null)">
+        <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 main">
+            <h2 class="maintitle">主变</h2>
+            <hr style="border:1px dashed #999999" width="100%" size=1><br><br>
+            <div class="form-group">
+                <label for="searchTransformer" class="control-label">设备ID：</label>
+                <input type="text" class="" id="searchTransformer" ng-model="searchTransformer" placeholder="输入要查询的内容">
+                <select style="height:27px">
+                    <option>请选择</option>
+                    <option>设备ID</option>
+                    <option>设备名称</option>
+                </select>
+                <button type="button" class="btn btn-primary" style="height:30px">查询</button>
+            </div>
+            <div class="table-responsive">
+                <table class="hovertable">
+                    <thead>
+                        <tr>
+                            <th>设备ID</th>
+                            <th>设备名称</th>
+                            <th>相别</th>
+                            <th>相数</th>
+                            <th>设备编码</th>
+                            <th>所属站房</th>
+                            <th>站房名称</th>
+                            <th>额定电压</th>
+                            <th>额定电压(中压)</th>
+                            <th>额定电压(低压)</th>
+                            <th>额定电流</th>
+                            <th>额定电流(中压)</th>
+                            <th>额定电流(低压)</th>
+                            <th>空载电流</th>
+                            <th>电压等级</th>
+                            <th style="min-width: 130px">生产厂家</th>
+                            <th>型号</th>
+                            <th>出厂编号</th>
+                            <th>出厂日期</th>
+                            <th>投运日期</th>
+                            <th>制造国家</th>
+                            <th style="min-width: 130px">冷却方式</th>
+                            <th>调压方式</th>
+                            <th>短路阻抗(高压-中压)</th>
+                            <th>短路阻抗(高压-低压)</th>
+                            <th>短路阻抗(中压-低压)</th>
+                            <th>空载损耗</th>
+                            <th>负载损耗(高压-低压)</th>
+                            <th>负载损耗(高压-中压)</th>
+                            <th>负载损耗(中压-低压)</th>
+                            <th>负载损耗(满载)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="transformer in transformersShow" onmouseover="this.style.backgroundColor='#ffffff';" onmouseout="this.style.backgroundColor='#cdd9f0';">
+                            <td ng-click="seeTransformerDefect($event)">{{transformer.device_id}}</td>
+                            <td>{{transformer.device_name}}</td>
+                            <td>{{transformer.phase}}</td>
+                            <td>{{transformer.phase_num}}</td>
+                            <td>{{transformer.device_code}}</td>
+                            <td>{{transformer.station}}</td>
+                            <td>{{transformer.station_name}}</td>
+                            <td>{{transformer.rated_v}}</td>
+                            <td>{{transformer.rated_v_middle}}</td>
+                            <td>{{transformer.rated_v_low}}</td>
+                            <td>{{transformer.rated_i}}</td>
+                            <td>{{transformer.rated_i_middle}}</td>
+                            <td>{{transformer.rated_i_low}}</td>
+                            <td>{{transformer.no_load_i}}</td>
+                            <td>{{transformer.v_level}}</td>
+                            <td>{{transformer.manufacturer}}</td>
+                            <td>{{transformer.model}}</td>
+                            <td>{{transformer.serial_number}}</td>
+                            <td>{{transformer.date_manufacture}}</td>
+                            <td>{{transformer.date_commissioning}}</td>
+                            <td>{{transformer.country}}</td>
+                            <td>{{transformer.cooling_method}}</td>
+                            <td>{{transformer.voltage_mode}}</td>
+                            <td>{{transformer.short_circuit_impedance_high_to_middle}}</td>
+                            <td>{{transformer.short_circuit_impedance_high_to_low}}</td>
+                            <td>{{transformer.short_circuit_impedance_middle_to_low}}</td>
+                            <td>{{transformer.no_load_loss}}</td>
+                            <td>{{transformer.load_loss_high_to_low}}</td>
+                            <td>{{transformer.load_loss_high_to_middle}}</td>
+                            <td>{{transformer.load_loss_middle_to_low}}</td>
+                            <td>{{transformer.full_loss}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <tm-pagination conf="TransformerPaginationConf"></tm-pagination>
+        </div>
+    </div>
+</div>
+<hr class="featurette-divider">
+<footer></footer>
