@@ -1,41 +1,175 @@
-<div ng-cloak>
-    <div class="row">
-        <div class="col-md-4">
-            <span class="hipster img-responsive img-rounded"></span>
+<!--<div ng-cloak>-->
+    <!--<div class="row">-->
+        <!--<div class="col-md-4">-->
+            <!--<span class="hipster img-responsive img-rounded"></span>-->
+        <!--</div>-->
+        <!--<div class="col-md-8">-->
+            <!--<h1 data-translate="home.title">Welcome, Java Hipster!</h1>-->
+            <!--<p class="lead" data-translate="home.subtitle">This is your homepage</p>-->
+
+            <!--<div ng-switch="vm.isAuthenticated()">-->
+                <!--<div class="alert alert-success" ng-switch-when="true" data-translate="home.logged.message" translate-values="{username: '{{vm.account.login}}'}">-->
+                    <!--You are logged in as user "{{vm.account.login}}".-->
+                <!--</div>-->
+
+                <!--<div class="alert alert-warning" ng-switch-when="false" data-translate="global.messages.info.authenticated" translate-compile>-->
+                    <!--If you want to <a class="alert-link" href="" ng-click="vm.login()">sign in</a>, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").-->
+                <!--</div>-->
+
+                <!--<div class="alert alert-warning" ng-switch-when="false" data-translate="global.messages.info.register" translate-compile>-->
+                    <!--You don't have an account yet? <a class="alert-link" ui-sref="register">Register a new account</a>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <!--<p data-translate="home.question">-->
+                <!--If you have any question on JHipster:-->
+            <!--</p>-->
+
+            <!--<ul>-->
+                <!--<li><a href="http://jhipster.github.io/" target="_blank" data-translate="home.link.homepage">JHipster homepage</a></li>-->
+                <!--<li><a href="http://stackoverflow.com/tags/jhipster/info" target="_blank" data-translate="home.link.stackoverflow">JHipster on Stack Overflow</a></li>-->
+                <!--<li><a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" data-translate="home.link.bugtracker">JHipster bug tracker</a></li>-->
+                <!--<li><a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" data-translate="home.link.chat">JHipster public chat room</a></li>-->
+                <!--<li><a href="https://twitter.com/java_hipster" target="_blank"  data-translate="home.link.follow">follow @java_hipster on Twitter</a></li>-->
+            <!--</ul>-->
+
+            <!--<p>-->
+             <!--<span data-translate="home.like">If you like JHipster, don't forget to give us a star on </span>&nbsp;<a href="https://github.com/jhipster/generator-jhipster" target="_blank" data-translate="home.github">Github</a>!-->
+            <!--</p>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+<div id="parts" style="margin-top: 100px">
+    <div class="col-md-3 col-md-offset-1">
+        <img class="img-circle" src='img/5.png' width="140" height="140">
+        <h2>电网地图展示</h2>
+        <!--<p class="lead">{{description}}</p>-->
+        <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+        <p><a class="btn btn-info active" role="button" href="#">View details</a></p>
+        <div class="col-md-12">
+            <div style="padding: 30px"></div>
         </div>
-        <div class="col-md-8">
-            <h1 data-translate="home.title">Welcome, Java Hipster!</h1>
-            <p class="lead" data-translate="home.subtitle">This is your homepage</p>
-
-            <div ng-switch="vm.isAuthenticated()">
-                <div class="alert alert-success" ng-switch-when="true" data-translate="home.logged.message" translate-values="{username: '{{vm.account.login}}'}">
-                    You are logged in as user "{{vm.account.login}}".
-                </div>
-
-                <div class="alert alert-warning" ng-switch-when="false" data-translate="global.messages.info.authenticated" translate-compile>
-                    If you want to <a class="alert-link" href="" ng-click="vm.login()">sign in</a>, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").
-                </div>
-
-                <div class="alert alert-warning" ng-switch-when="false" data-translate="global.messages.info.register" translate-compile>
-                    You don't have an account yet? <a class="alert-link" ui-sref="register">Register a new account</a>
-                </div>
-            </div>
-
-            <p data-translate="home.question">
-                If you have any question on JHipster:
-            </p>
-
-            <ul>
-                <li><a href="http://jhipster.github.io/" target="_blank" data-translate="home.link.homepage">JHipster homepage</a></li>
-                <li><a href="http://stackoverflow.com/tags/jhipster/info" target="_blank" data-translate="home.link.stackoverflow">JHipster on Stack Overflow</a></li>
-                <li><a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" data-translate="home.link.bugtracker">JHipster bug tracker</a></li>
-                <li><a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" data-translate="home.link.chat">JHipster public chat room</a></li>
-                <li><a href="https://twitter.com/java_hipster" target="_blank"  data-translate="home.link.follow">follow @java_hipster on Twitter</a></li>
-            </ul>
-
-            <p>
-             <span data-translate="home.like">If you like JHipster, don't forget to give us a star on </span>&nbsp;<a href="https://github.com/jhipster/generator-jhipster" target="_blank" data-translate="home.github">Github</a>!
-            </p>
+    </div>
+    <div class="col-md-3 col-md-offset-1">
+        <img class="img-circle" src='img/6.png' width="140" height="140">
+        <h2>数据可视化</h2>
+        <!--<p class="lead">{{description}}</p>-->
+        <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+        <p><a class="btn btn-info active" role="button" href="#">View details</a></p>
+        <div class="col-md-12">
+            <div style="padding: 30px"></div>
+        </div>
+    </div>
+    <div class="col-md-3 col-md-offset-1">
+        <img class="img-circle" src='img/7.png' width="140" height="140">
+        <h2>大数据预测</h2>
+        <!--<p class="lead">{{description}}</p>-->
+        <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+        <p><a class="btn btn-info active" role="button" href="#">View details</a></p>
+        <div class="col-md-12">
+            <div style="padding: 30px"></div>
+        </div>
+    </div>
+    <div class="col-md-3 col-md-offset-1">
+        <img class="img-circle" src='img/10.png' width="140" height="140">
+        <h2>设备线路详情</h2>
+        <!--<p class="lead">{{description}}</p>-->
+        <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+        <p><a class="btn btn-info active" role="button" href="#">View details</a></p>
+        <div class="col-md-12">
+            <div style="padding: 30px"></div>
+        </div>
+    </div>
+    <div class="col-md-3 col-md-offset-1">
+        <img class="img-circle" src='img/9.png' width="140" height="140">
+        <h2>历史数据展示</h2>
+        <!--<p class="lead">{{description}}</p>-->
+        <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+        <p><a class="btn btn-info active" role="button" href="#">View details</a></p>
+        <div class="col-md-12">
+            <div style="padding: 30px"></div>
+        </div>
+    </div>
+    <div class="col-md-3 col-md-offset-1">
+        <img class="img-circle" src='img/8.png' width="140" height="140">
+        <h2>故障缺陷排查</h2>
+        <!--<p class="lead">{{description}}</p>-->
+        <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
+        <p><a class="btn btn-info active" role="button" href="#">View details</a></p>
+        <div class="col-md-12">
+            <div style="padding: 30px"></div>
         </div>
     </div>
 </div>
+<div id="feature">
+    <div style="margin-top: 100px">
+        <div class="row featurette">
+            <!--<hr class="featurette-divider">-->
+            <div class="col-md-6 col-md-offset-1">
+                <h2 class="featurette-heading" style="color: #419641">
+                    数据可视化1
+                    <!--<span class="text-muted">{{text-muted}}</span>-->
+                </h2>
+                <hr>
+                <p class="lead" style="color: #5bc0de">
+                    数据可视化，是关于数据视觉表现形式的科学技术研究。其中，这种数据的视觉表现形式被定义为，一种以某种概要形式抽提出来的信息，包括相应信息单位的各种属性和变量。</p>
+            </div>
+            <div class="col-md-5">
+                <img class="featurette-image img-responsive center-block" src="img/1.png" />
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 100px; margin-bottom: 100px">
+        <div class="row featurette">
+            <div class="col-md-6 col-md-push-5">
+                <h2 class="featurette-heading" style="color: #419641">
+                    数据可视化2
+                    <!--<span class="text-muted">{{text-muted}}</span>-->
+                </h2>
+                <hr>
+                <p class="lead" style="color: #5bc0de">
+                    数据可视化，是关于数据视觉表现形式的科学技术研究。其中，这种数据的视觉表现形式被定义为，一种以某种概要形式抽提出来的信息，包括相应信息单位的各种属性和变量。</p>
+            </div>
+            <div class="col-md-5 col-md-pull-6">
+                <img class="featurette-image img-responsive center-block" src='img/2.png' />
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 100px; margin-bottom: 100px">
+        <div class="row featurette">
+            <div class="col-md-6 col-md-push-5">
+                <h2 class="featurette-heading" style="color: #419641">
+                    数据可视化2
+                    <!--<span class="text-muted">{{text-muted}}</span>-->
+                </h2>
+                <hr>
+                <p class="lead" style="color: #5bc0de">
+                    数据可视化，是关于数据视觉表现形式的科学技术研究。其中，这种数据的视觉表现形式被定义为，一种以某种概要形式抽提出来的信息，包括相应信息单位的各种属性和变量。</p>
+            </div>
+            <div class="col-md-4 col-md-pull-5">
+                <img class="featurette-image img-responsive center-block" src='img/4.png' />
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 100px;">
+        <div class="row featurette">
+            <!--<hr class="featurette-divider">-->
+            <div class="col-md-6 col-md-offset-1">
+                <h2 class="featurette-heading" style="color: #419641">
+                    数据可视化1
+                    <!--<span class="text-muted">{{text-muted}}</span>-->
+                </h2>
+                <hr>
+                <p class="lead" style="color: #5bc0de">
+                    数据可视化，是关于数据视觉表现形式的科学技术研究。其中，这种数据的视觉表现形式被定义为，一种以某种概要形式抽提出来的信息，包括相应信息单位的各种属性和变量。</p>
+            </div>
+            <div class="col-md-4">
+                <img class="featurette-image img-responsive center-block" src="img/3.png" />
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<br>
+<hr class="featurette-divider">
+<!--<footer></footer>-->
