@@ -17,6 +17,10 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import io.github.jhipster.sample.web.rest.AccountResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -27,10 +31,11 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public class FileUploadingUtil {
 
+    private final static Logger logger = LoggerFactory.getLogger(AccountResource.class);
     /**
      * 服务器上的保存路径，在使用到上传功能的Controller中对其进行赋值
      */
-    public static String FILEDIR = null;
+    public static String FILEDIR = "D://wj/PlatForm/platform/jhipster-sample-app/src/main/webappfiles/";
 
     /**
      * 上传多个文件，返回文件名称和服务器存储路径列表
@@ -64,12 +69,12 @@ public class FileUploadingUtil {
      * @throws FileNotFoundException
      * @throws IOException
      */
-    private static String uploadFile(MultipartFile aFile) throws IOException {
+    public static String uploadFile(MultipartFile aFile) throws IOException {
         String filePath = initFilePath(aFile.getOriginalFilename());
         try {
             write(aFile.getInputStream(), new FileOutputStream(filePath));
         } catch (FileNotFoundException e) {
-//            logger.error("上传的文件: " + aFile.getName() + " 不存在！！");
+            logger.error("上传的文件: " + aFile.getName() + " 不存在！！");
             e.printStackTrace();
         }
         return filePath;
@@ -104,7 +109,7 @@ public class FileUploadingUtil {
      * @return
      */
     public static Map<String, String> getFileMap() {
-//        logger.info(FileUploadingUtil.FILEDIR);
+        logger.info(FileUploadingUtil.FILEDIR);
         Map<String, String> map = new HashMap<String, String>();
         File[] files = new File(FileUploadingUtil.FILEDIR).listFiles();
         if (files != null) {
@@ -114,8 +119,8 @@ public class FileUploadingUtil {
                     if (files2 != null) {
                         for (File file2 : files2) {
                             String name = file2.getName();
-//                            logger.info(file2.getParentFile().getAbsolutePath());
-//                            logger.info(file2.getAbsolutePath());
+                            logger.info(file2.getParentFile().getAbsolutePath());
+                            logger.info(file2.getAbsolutePath());
                             map.put(file2.getParentFile().getName() + "/" + name,
                                 name.substring(name.lastIndexOf("_") + 1));
                         }

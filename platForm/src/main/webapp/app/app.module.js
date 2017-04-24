@@ -4,8 +4,8 @@
     angular
         .module('app', [
             'ngStorage',
-            'tmh.dynamicLocale',
-            'pascalprecht.translate',
+            // 'tmh.dynamicLocale',
+            // 'pascalprecht.translate',
             'ngResource',
             'ngCookies',
             'ngAria',
@@ -14,14 +14,14 @@
             'ui.bootstrap',
             'ui.bootstrap.datetimepicker',
             'ui.router',
-            'infinite-scroll',
+            // 'infinite-scroll',
             // jhipster-needle-angularjs-add-module JHipster will add new module here
             'angular-loading-bar',
             'toaster', // 右上警告
             'xeditable',
-            'oitozero.ngSweetAlert', // 弹出警告选项
+            // 'oitozero.ngSweetAlert', // 弹出警告选项
             'textAngular',
-            'ngCropper' //切图（头像）
+            // 'ngCropper' //切图（头像）
         ])
         .run(run);
 
