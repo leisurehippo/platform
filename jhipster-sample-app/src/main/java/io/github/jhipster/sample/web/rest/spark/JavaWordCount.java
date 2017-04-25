@@ -33,7 +33,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public final class JavaWordCount {
+public class JavaWordCount {
 
     public static void wordCountJava8( String filename )
     {
@@ -57,7 +57,7 @@ public final class JavaWordCount {
     }
 
 
-    public static void main(String[] args) throws Exception {
+    public static void wc(String[] args) throws Exception {
        if (args.length < 1) {
             System.err.println("Usage: JavaWordCount <file>");
             System.exit(1);
