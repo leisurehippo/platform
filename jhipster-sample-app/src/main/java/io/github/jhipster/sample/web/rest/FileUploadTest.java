@@ -21,12 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/api")
 public class FileUploadTest {
 
-    //访问路径为：http://127.0.0.1:8080/file
-    @RequestMapping("/file")
-    public String file(){
-        return "/file";
-    }
-
     /**
      * 文件上传具体实现方法;
      * @param file

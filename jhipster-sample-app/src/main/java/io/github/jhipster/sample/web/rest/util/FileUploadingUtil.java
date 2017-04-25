@@ -35,7 +35,7 @@ public class FileUploadingUtil {
     /**
      * 服务器上的保存路径，在使用到上传功能的Controller中对其进行赋值
      */
-    public static String FILEDIR = "D://wj/PlatForm/platform/jhipster-sample-app/src/main/webappfiles/";
+    public static String FILEDIR = "src/main/webappfiles/";
 
     /**
      * 上传多个文件，返回文件名称和服务器存储路径列表
