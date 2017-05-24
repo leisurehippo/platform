@@ -1,9 +1,0 @@
-id;login;password_hash;first_name;last_name;email;activated;lang_key;created_by;phone;nick_name
-1;system;$2a$10$BdShVoBkI7V63D7B0E/nKeydbs5.WpCK2boAlifDM.Xx5zJ9gAMVm;System;System;system@localhost;true;zh-cn;system;null;null
-2;anonymoususer;$2a$10$BdShVoBkI7V63D7B0E/nKeydbs5.WpCK2boAlifDM.Xx5zJ9gAMVm;Anonymous;User;anonymous@localhost;true;zh-cn;system;null;null
-3;admin;$2a$10$BdShVoBkI7V63D7B0E/nKeydbs5.WpCK2boAlifDM.Xx5zJ9gAMVm;Administrator;Administrator;admin@localhost;true;zh-cn;system;admin;admin
-4;user;$2a$10$BdShVoBkI7V63D7B0E/nKeydbs5.WpCK2boAlifDM.Xx5zJ9gAMVm;User;User;user@localhost;true;zh-cn;system;user;user
-5;user1;$2a$10$BdShVoBkI7V63D7B0E/nKeydbs5.WpCK2boAlifDM.Xx5zJ9gAMVm;User1;User1;user@localhost1;true;zh-cn;system;user1;user1
-6;user2;$2a$10$BdShVoBkI7V63D7B0E/nKeydbs5.WpCK2boAlifDM.Xx5zJ9gAMVm;User2;User3;user@localhost2;true;zh-cn;system;user2;user2
-7;user3;$2a$10$BdShVoBkI7V63D7B0E/nKeydbs5.WpCK2boAlifDM.Xx5zJ9gAMVm;User3;User4;user@localhost3;true;zh-cn;system;user3;user3
-8;user4;$2a$10$BdShVoBkI7V63D7B0E/nKeydbs5.WpCK2boAlifDM.Xx5zJ9gAMVm;User4;User4;user@localhost4;true;zh-cn;system;user4;user4

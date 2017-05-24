@@ -371,14 +371,27 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core_2.10 -->
         <dependency>
-            <groupId>spark-examples</groupId>
-            <artifactId>spark-examples</artifactId>
-            <version>2.11</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/spark-examples_2.11-2.0.0.jar</systemPath>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_2.10</artifactId>
+            <version>1.6.1</version>
         </dependency>
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.spark/spark-mllib_2.10 &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.spark</groupId>-->
+            <!--<artifactId>spark-mllib_2.10</artifactId>-->
+            <!--<version>1.6.1</version>-->
+        <!--</dependency>-->
+
+
+        <!--<dependency>-->
+            <!--<groupId>spark-examples</groupId>-->
+            <!--<artifactId>spark-examples</artifactId>-->
+            <!--<version>2.11</version>-->
+            <!--<scope>system</scope>-->
+            <!--<systemPath>${basedir}/lib/spark-examples_2.11-2.0.0.jar</systemPath>-->
+        <!--</dependency>-->
 
     </dependencies>
     <build>
