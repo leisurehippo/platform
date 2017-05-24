@@ -43,7 +43,7 @@ public class FileController {
      * @param file
      * @return
      */
-    @RequestMapping("/upload")
+    @PostMapping("/upload")
     @ResponseBody
     public String handleFileUpload(@RequestParam("file")MultipartFile file){
         if(!file.isEmpty()){
