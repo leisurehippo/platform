@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.io.*;
-import java.util.List;
+
 
 import io.github.jhipster.sample.web.rest.util.FileUploadingUtil;
 
