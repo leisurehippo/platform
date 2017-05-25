@@ -51,7 +51,7 @@ function PsoLocalController($scope, $http, $state, upLoad) {
                 "autoCommit":false,//是否自动上传
                 "canDrag":true,//是否可以拖动
                 "fileType":"*",//文件类型
-                "size":"-1",//文件大小限制,单位kB
+                "size":"1000",//文件大小限制,单位kB
                 "ismultiple":true,//是否选择多文件
                 "showSummerProgress":true,//显示总进度条
                 "filelSavePath":"",//文件上传地址，后台设置的根目录
@@ -262,11 +262,11 @@ function PsoLocalController($scope, $http, $state, upLoad) {
                     continue;
                 }
                 var fileTypeStr =  uploadTools.getSuffixNameByFileName(fileList[i].name);
-                //文件大小显示判断
-                if(fileSizeLimit!=-1&&fileList[i].size>(fileSizeLimit*1000)){
-                    alert("文件（"+fileList[i].name+"）超出了大小限制！请控制在"+fileSizeLimit+"KB内");
-                    continue;
-                }
+                // //文件大小显示判断
+                // if(fileSizeLimit!=-1&&fileList[i].size>(fileSizeLimit*1000)){
+                //     alert("文件（"+fileList[i].name+"）超出了大小限制！请控制在"+fileSizeLimit+"KB内");
+                //     continue;
+                // }
                 //文件类型判断
                 if(fileTypeArray=="*"||uploadTools.isInArray(fileTypeStr,fileTypeArray)){
                     var fileTypeUpcaseStr = fileTypeStr.toUpperCase();
@@ -321,7 +321,7 @@ function PsoLocalController($scope, $http, $state, upLoad) {
                 var testbytesRead =bytesRead -fileListArray[i].size;
                 if(testbytesRead<0){
                     if(percent==100){
-                        $("#"+uploadId+" .box .fileItem[fileCodeId='"+i+"'] .progress>div").addClass("error");
+                        // $("#"+uploadId+" .box .fileItem[fileCodeId='"+i+"'] .progress>div").addClass("error");
                         $("#"+uploadId+" .box .fileItem[fileCodeId='"+i+"'] .progress>div").css("width","100%");
                         $("#"+uploadId+" .box .fileItem[fileCodeId='"+i+"'] .status>i").addClass("iconfont icon-cha");
                         bytesRead = bytesRead-fileListArray[i].size;
