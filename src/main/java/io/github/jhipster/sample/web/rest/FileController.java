@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +46,8 @@ public class FileController {
      */
     @PostMapping("/upload")
     @ResponseBody
-    public String handleFileUpload(@RequestParam("file")MultipartFile file){
+    public String handleFileUpload( @RequestParam("file") MultipartFile file){
+        System.out.println(file);
         if(!file.isEmpty()){
             try {
 
@@ -63,7 +65,9 @@ public class FileController {
             }
             return"上传成功";
         }else{
+            System.out.println("上传失败，因为文件是空的");
             return"上传失败，因为文件是空的.";
+
         }
     }
 

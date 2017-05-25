@@ -154,6 +154,23 @@
                     </ul>
                 </li>
 
+                <li ui-sref-active="active" uib-dropdown class="dropdown pointer" >
+                    <a class="dropdown-toggle" uib-dropdown-toggle href="">
+                        <span>
+                            <span class="glyphicon glyphicon-pushpin"></span>
+                            <span>项目</span>
+                             <b class="caret"></b>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        <li  ui-sref-active="active" ng-switch-when="true">
+                            <a ui-sref="psoLocal" ng-click="vm.collapseNavbar();">
+                                <span class="glyphicon glyphicon-plus-sign"></span>&nbsp;
+                                <span >PSO本地算法</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li ng-class="{active: vm.$state.includes('account')}" uib-dropdown class="dropdown pointer">
                     <a class="dropdown-toggle" uib-dropdown-toggle href="" id="account-menu">
                         <span>

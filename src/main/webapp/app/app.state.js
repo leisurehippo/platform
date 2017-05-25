@@ -222,6 +222,22 @@
             params: {
 
             }
+        }).state("psoLocal", {
+            url: "/pso/local",
+            parent: 'app',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: "app/project/pso-local/psoLocal.html",
+                    controller: "PsoLocalController",
+                    controllerAs: 'vm'
+                }
+            },
+            params: {
+
+            }
         });
     }
 })();
