@@ -1,0 +1,71 @@
+1. Title of Database: Pole
+
+2. Sources:
+   
+   (a) Original owners of database:
+
+   The data in the original format can be obtained in 
+   http://www.cs.su.oz.au/~nitin. 
+
+4. Relevant Information Paragraph:
+
+   This is a commercial application described in Weiss & Indurkhya (1995). 
+   The data describes a telecommunication problem. No further information is available.
+
+5. Number of Instances: 9065
+
+6. Number of Attributes: 48
+
+7. Attribute information:
+
+f1 : continuous
+f2 : continuous
+f3  : continuous
+f4  : continuous
+f5  : continuous
+f6  : continuous
+f7  : continuous
+f8  : continuous
+f9  : continuous
+f10  : continuous
+f11  : continuous
+f12  : continuous
+f13  : continuous
+f14  : continuous
+f15  : continuous
+f16  : continuous
+f17  : continuous
+f18 : continuous
+f19  : continuous
+f20  : continuous
+f21  : continuous
+f22  : continuous
+f23  : continuous
+f24  : continuous
+f25  : continuous
+f26  : continuous
+f27  : continuous
+f28  : continuous
+f29  : continuous
+f30  : continuous
+f31  : continuous
+f32  : continuous
+f33  : continuous
+f34  : continuous
+f35 : continuous
+f36  : continuous
+f37  : continuous
+f38  : continuous
+f39  : continuous
+f40  : continuous
+f41  : continuous
+f42  : continuous
+f43  : continuous
+f44  : continuous
+f45  : continuous
+f46  : continuous
+f47  : continuous
+f48  : continuous
+foo : continuous
+
+8. Missing Attribute Values: None

@@ -1,0 +1,77 @@
+Variable Information:
+
+
+Name                                                                   Position
+
+SCHOOL    School name                                                         1
+          Format: A20
+
+LOINC93   Percent low income                                                  4
+          Format: F6.1
+
+LEP93     Percent limited English proficiency                                 5
+          Format: F6.1
+
+LEP94     % limited English proficiency 1994                                  6
+          Format: F8.1
+
+GRAD93    % graduating 1993                                                   7
+          Format: F6.1
+
+GRAD94    % graduating 1994                                                   8
+          Format: F8.1
+
+ACT94     average ACT score 1994                                              9
+          Format: F8.1
+
+ACT93     average  ACT score 1993                                            10
+          Format: F6.1
+
+PCTACT93  percent taking ACT 1993                                            11
+          Format: F6.1
+
+PCTACT94  percent taking ACT 1994                                            12
+          Format: F8.1
+
+MATH93    10th grade average math score                                      13
+          Format: F3
+
+MATH94ME  % meet or exceed state standards                                   14
+          Format: F8
+
+MATHCH94  change in % meet/exceed 94-93                                      15
+          Format: F8
+
+READ93    10th grade average reading score                                   16
+          Format: F3
+
+READ94ME  %meet or exceed state standards                                    17
+          Format: F8
+
+READCH94  change in % meet /exceed 94-93                                     18
+          Format: F8
+
+SCIENC93  11th grade average science score                                   19
+          Format: F3
+
+
+
+
+
+
+SCI94ME   %  meet or exceed state standard                                   20
+          Format: F8
+
+SCICH94   change in % meet/exc 94-93                                         21
+          Format: F8
+
+ID        * No label *                                                       22
+          Format: F8.2
+
+MEDLOINC  above or below median loinc                                        23
+          Format: F8
+
+          Value    Label
+
+              0    below the median for low inc % 1993
+              1    above the median for low inc % 1993

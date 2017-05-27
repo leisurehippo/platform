@@ -1,0 +1,59 @@
+
+NAME:	Televisions, Physicians, and Life Expectancy
+TYPE:	Sample
+SIZE:	40 observations, 6 variables
+
+DESCRIPTIVE ABSTRACT:
+For each of the forty largest countries in the world (according to 1990
+population figures), data are given for the country's life expectancy
+at birth, number of people per television set, and number of people per
+physician.
+
+SOURCE:
+_The World Almanac and Book of Facts 1993_ (1993), New York:  Pharos
+Books.
+
+VARIABLE DESCRIPTIONS:
+Columns
+ 1 - 15  Country
+23 - 26  Life expectancy
+29 - 33  People per television
+36 - 40  People per physician
+43 - 44  Female life expectancy
+47 - 48  Male life expectancy
+
+Values are aligned and delimited by blanks.
+Missing values are denoted with *.
+
+SPECIAL NOTES:
+A country's life expectancy was calculated by averaging the life
+expectancies for females and males.  In most cases the almanac listed
+the ratios of people per television and people per physician directly.
+In the few cases for which the almanac listed the raw numbers, the
+ratios were calculated from the population information.  The only
+missing values are people per television in Tanzania and Zaire.
+
+STORY BEHIND THE DATA:
+These data were gathered from _The World Almanac and Book of Facts
+1993_ to enable students to explore properties of association,
+correlation, and prediction in a context that is very easy to
+understand.
+
+PEDAGOGICAL NOTES:
+These data provide a useful context for students to discover the
+fundamental principle that correlation does not imply causation.  They
+also give students an opportunity to explore data transformations and
+to consider whether a causal connection is necessary for one variable
+to be a useful predictor of another.  People per television is
+negatively associated with life expectancy, and the log transformation
+makes it a slightly better predictor of life expectancy than people per
+physician.
+
+SUBMITTED BY:
+Allan J. Rossman
+Dickinson College
+Department of Mathematics and Computer Science
+P.O. Box 1773
+Carlisle, PA  17013
+rossman@dickinson.edu
+

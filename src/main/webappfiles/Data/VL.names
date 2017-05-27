@@ -1,0 +1,52 @@
+1. Title: Villages Data
+
+2. Sources:
+   (a) Original Source: This dataset was taken from the Turkish Government Officials.  
+   (b) Year: 1999
+
+3. Relevant Information:
+   
+   Concerns informattion about villages belong to a Center Anatolian province.
+   
+4. Number of Instances: 766 (Each instance is a different village)
+   
+5. Number of Attributes: 28 continuous attributes (excluding "class"
+                         attribute "SHEEP"), 3 categorical attributes.
+   
+6. Attribute Information:
+   
+   
+   1.	DISTRICT	District ID. (CATEGORICAL)
+   2.	SETTLE		Number of conneced settlements.
+   3.	DISTP		Distance to the center of province.	
+   4.	DISTD		Distance to the center of district.	
+   5.	CLASR		Number of total classrooms in primary schools.
+   6.	STDB		Number of students (boys).
+   7.	STDG		Number of students (girls).
+   8.	TEACHER		Number of teachers.
+   9. 	HOUSET		Number of houses seperated for teachers. 
+   10.	MIDSCH		Number of middle schools.
+   11.	ASPHALT 	Total lengt of asphalt roads. (KM)
+   12.	STAB 		Total lengt of stabilized roads. (KM)
+   13.  WATERD 	    	Drinking Water System. (1 if exists, or 0 otherwise)    	
+   14.  WATERC          Drinking water condition.
+   15. 	FOUNT		Number of fountains. 
+   16.  HEALTH		Number of health houses.	
+   17.  CLINIC		Number of village clinics.
+   18.	MANSION		Number of village mansions. 
+   19.	CANAL		Canalization network.
+   20.	LAUND		Number of laundaries. 
+   21.  TOIL		Number of public toilets.
+   22. 	AGRICA		Agricultural area. (One-tenth of a hectare)
+   23.  TRACTOR		Number of tractors.
+   24.  COW		Number of cows.
+   25.  BEEHIVE		Number of beehives.
+   26.  ELECTR		Electric network.	
+   27. 	MOSQUE		Number of mosques.
+   28.  POST		Post office.		
+   29.  GUARD		Number of village guards.
+   30.  SETTLEP		Settlement plan. (1 if exists, or 0 otherwise) (CATEGORICAL)
+   31.  CENTER		Belong to the center of province. (1 if belongs, or 0 otherwise)
+                        (CATEGORICAL)
+   32. 	POPUL		Population. 
+   33.  SHEEP		Number of sheep. (TARGET ATTRIBUTE)	

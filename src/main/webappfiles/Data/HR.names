@@ -1,0 +1,94 @@
+NAME:  The 1998 Home Run Race Between Mark McGwire and Sammy Sosa
+TYPE:  Census; Time series
+SIZE:  163 observations, 21 variables
+
+DESCRIPTIVE ABSTRACT:
+The dataset consists of game-by-game information for the 1998 season
+for Mark McGwire and the St. Louis Cardinals, and Sammy Sosa and the
+Chicago Cubs. The dataset includes information on the home run hitting
+of these two players, as well as game results for the teams.
+
+SOURCES:
+The data were obtained from the official web sites of the St. Louis
+Cardinals (www.stlcardinals.com) and the Chicago Cubs (www.cubs.com).
+
+VARIABLE DESCRIPTIONS:
+Columns
+ 1 -  3  Game number
+ 5 - 13  Month of game (St. Louis)
+15 - 16  Date of game (St. Louis)
+18 - 20  Calendar date of game [days since beginning of season] (St. Louis)
+     22  Game location (St. Louis)
+            (0 = Away, 1 = Home)
+24 - 25  Runs scored (St. Louis)
+27 - 28  Runs scored by opposition (St. Louis)
+30 - 31  Game result (St. Louis)
+            (-1 = Tie, 0 = Loss, 1 = Win)
+     33  Number of home runs hit by McGwire
+     35  Runs driven in by McGwire's home runs
+     37  McGwire game status
+            (0 = Played, 1 = Did not play)
+39 - 47  Month of game (Chicago)
+49 - 50  Date of game (Chicago)
+52 - 54  Calendar date of game [days since beginning of season] (Chicago)
+     56  Game location (Chicago)
+            (0 = Away, 1 = Home)
+58 - 59  Runs scored (Chicago)
+61 - 62  RUNSC - Runs scored by opposition (Chicago)
+     64  Game result (Chicago)
+            (0 = Loss, 1 = Win)
+     66  Number of home runs hit by Sosa
+     68  Runs driven in by Sosa's home runs
+     70  Sosa game status
+            (0 = Played, 1 = Did not play)
+
+Values are aligned and delimited by blanks.
+
+SPECIAL NOTES:
+Each team played one more game than the usual 162 game schedule. The
+Cardinals played 6 1/2 innings of a tie game that was replayed later,
+with all statistics being considered official. The Cubs played a
+one-game playoff against the San Francisco Giants to determine which
+team would play in the postseason playoffs.
+
+STORY BEHIND THE DATA:
+The sports world in general, and baseball world in particular, was
+electrified by the attempts of Mark McGwire (of the St. Louis
+Cardinals) and Sammy Sosa (of the Chicago Cubs) to break Roger Maris'
+37-year old all-time season home run record during the 1998 season.
+Indeed, the race ultimately transcended sports entirely, becoming the
+lead story in newspapers and television news reports.  McGwire broke
+the record with his 62nd home run on September 8, and Sosa followed
+suit five days later. Ultimately McGwire ended the season with (an
+almost unbelievable) 70 home runs, while Sosa finished with 66.
+
+The great interest in these record-breaking performances makes it
+natural to consider examining them more carefully in statistics
+classes. Many different questions can be addressed along the way,
+including informal comparisons of the two players' performances and
+investigation of potential factors relating to home run hitting
+(including home field, team success, and performance by teammates).
+
+Additional information about these data can be found in the "Datasets
+and Stories" article "Move Over, Roger Maris: Breaking Baseball's Most
+Famous Record" in the _Journal of Statistics Education_ (Simonoff
+1998).
+
+PEDAGOGICAL NOTES:
+The dataset provides a rich source of possible analyses, depending on
+the level and coverage of the course. Exploratory analyses of the
+distributions of runs scored and given up, and how they relate to other
+factors (such as home field) are possible using histograms and
+side-by-side boxplots. Many of the interesting variables are
+categorical, and cross-tabulations of these variables can be analyzed
+used loglinear models. Home run rates and team winning percentages can
+be examined as a function of calendar date using smoothing methods, and
+logistic regression models can be used to model team success.
+
+SUBMITTED BY:
+Jeffrey S. Simonoff
+Department of Statistics and Operations Research
+New York University
+44 West 4th Street, Rm. 8-54
+New York, NY 10012-0258
+jsimonoff@stern.nyu.edu

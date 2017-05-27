@@ -1,0 +1,37 @@
+1) TITLE OF DATABASE: Ankara Weather Database
+
+2) SOURCE: www.wunderground.com
+   http://www.wunderground.com/global/stations/17128.html
+   by: M.Erdem Kurul & Eray Tuzun
+       erdemkurul@hotmail.com
+       eraytuzun@hotmail.com
+
+3) RELEVANT INFORMATION:
+This file contains the wheather information of Ankara
+	from 01/01/1994 to 28/05/1998
+From given features, the goal is to predict the mean
+temperature.
+
+4) NUMBER OF INSTANCES: 1609
+
+5) NUMBER OF FEATURES: 10
+
+6) FEATURE INFORMATION
+Features:
+1  -  max temperature (F) : continuous
+2  -  min temperature (F) : continuous
+3  -  dewpoint (F) : continuous
+4  -  precipitation : continuous
+5  -  sea level pressure (in) : continuous
+6  -  standard pressure (in) : continuous
+7  -  visibility (mi) : continuous
+8  -  wind speed (mph) : continuous
+9  -  max wind speed (mph) : continuous
+10 -  mean temperature (F) : continuous
+
+7) MISSING FEATURE VALUES
+No missing values
+There is almost no missing values for the features
+except precipitation. All the missing values are handled
+by taking the average of the feature column and using this
+average value for missing fields.

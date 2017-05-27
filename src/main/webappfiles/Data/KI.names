@@ -1,0 +1,32 @@
+1. Title of Database: Kinematics
+   
+2. Sources:
+   
+   (a) Original owners of database:
+
+   Delve repository
+   http://www.cs.toronto.edu/~delve/   
+
+4. Relevant Information Paragraph:
+
+   This is data set is concerned with the forward kinematics of an 8 link 
+   robot arm. Among the existing variants of this data set we have used the 
+   variant 8nm, which is known to be highly non-linear and medium noisy.
+
+5. Number of Instances: 8192
+
+6. Number of Attributes: 8
+
+7. Attribute information:
+
+theta1 : continuous
+theta2 : continuous
+theta3 : continuous
+theta4 : continuous
+theta5 : continuous
+theta6 : continuous
+theta7 : continuous
+theta8 : continuous
+y : continuous
+
+8. Missing Attribute Values: None

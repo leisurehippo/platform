@@ -1,0 +1,17 @@
+% Dataset from Smoothing Methods in Statistics 
+% (ftp stat.cmu.edu/datasets)
+%
+% Simonoff, J.S. (1996). Smoothing Methods in Statistics. New York: Springer-Verlag.
+%
+%
+% Points scored per minute is being treated as
+% the class attribute.
+
+@relation baskball
+
+@attribute assists_per_minute real
+@attribute height integer
+@attribute time_played real
+@attribute age integer
+@attribute points_per_minute real
+

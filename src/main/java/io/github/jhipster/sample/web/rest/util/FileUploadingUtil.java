@@ -55,7 +55,7 @@ public class FileUploadingUtil {
         while (iter.hasNext()) {
             MultipartFile aFile = iter.next().getValue();
             if (aFile.getSize() != 0 && !"".equals(aFile.getName())) {
-                result.put(aFile.getOriginalFilename(), uploadFile(aFile));
+                result.put(aFile.getOriginalFilename(), uploadFile(aFile,"file"));
             }
         }
         return result;
@@ -69,8 +69,8 @@ public class FileUploadingUtil {
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public static String uploadFile(MultipartFile aFile) throws IOException {
-        String filePath = initFilePath(aFile.getOriginalFilename());
+    public static String uploadFile(MultipartFile aFile, String str) throws IOException {
+        String filePath = initFilePath(aFile.getOriginalFilename(), str);
         try {
             write(aFile.getInputStream(), new FileOutputStream(filePath));
         } catch (FileNotFoundException e) {
@@ -136,8 +136,8 @@ public class FileUploadingUtil {
      * @param name
      * @return
      */
-    private static String initFilePath(String name) {
-//        String dir = getFileDir(name) + "";
+    private static String initFilePath(String name, String type) {
+//        String dir = "";
 //        File file = new File(FILEDIR + dir);
 //        if (!file.exists()) {
 //            file.mkdir();
@@ -146,7 +146,7 @@ public class FileUploadingUtil {
 //        Double d = Math.random() * num;
 //        return (file.getPath() + "/" + num + d.longValue() + "_" + name).replaceAll(" ", "-");
 
-        File file = new File(FILEDIR);
+        File file = new File(FILEDIR + type);
         if (!file.exists()) {
             file.mkdir();
         }

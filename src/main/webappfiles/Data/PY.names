@@ -1,0 +1,52 @@
+1. Title of Database: Pyrimidines
+
+2. Sources:
+
+   Luis Torgo
+   http://www.ncc.up.pt/~ltorgo/Regression/DataSets.html
+
+4. Relevant Information Paragraph:
+
+   The task consists of Learning Quantitative Structure Activity Relationships (QSARs). 
+   The Inhibition of Dihydrofolate Reductase by Pyrimidines.The data are described in:
+   King, Ross .D., Muggleton, Steven., Lewis, Richard. and Sternberg, Michael.J.E. Drug 
+   Design by machine learning: the use of inductive logic programming to model the 
+   structure-activity relationships of trimethoprim analogues binding to dihydrofolate 
+   reductase. 
+
+5. Number of Instances: 74
+
+6. Number of Attributes: 27
+
+7. Attribute information:
+
+p1_polar :  continuous
+p1_size : continuous
+p1_flex : continuous
+p1_h_doner : continuous
+p1_h_acceptor : continuous
+p1_pi_doner : continuous
+p1_pi_acceptor : continuous
+p1_polarisable : continuous
+p1_sigma : continuous
+p2_polar :  continuous
+p2_size : continuous
+p2_flex : continuous
+p2_h_doner : continuous
+p2_h_acceptor : continuous
+p2_pi_doner : continuous
+p2_pi_acceptor : continuous
+p2_polarisable : continuous
+p2_sigma : continuous
+p3_polar :  continuous
+p3_size : continuous
+p3_flex : continuous
+p3_h_doner : continuous
+p3_h_acceptor : continuous
+p3_pi_doner : continuous
+p3_pi_acceptor : continuous
+p3_polarisable : continuous
+p3_sigma : continuous
+activity : continuous
+
+8. Missing Attribute Values: None

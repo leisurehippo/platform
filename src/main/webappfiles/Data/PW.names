@@ -1,0 +1,17 @@
+%
+% As used by Kilpatrick, D. & Cameron-Jones, M. (1998). Numeric prediction
+% using instance-based learning with encoding length selection. In Progress
+% in Connectionist-Based Information Systems. Singapore: Springer-Verlag.
+%
+@relation 'pwLinear'
+@attribute a1 real
+@attribute a2 real
+@attribute a3 real
+@attribute a4 real
+@attribute a5 real
+@attribute a6 real
+@attribute a7 real
+@attribute a8 real
+@attribute a9 real
+@attribute a10 real
+@attribute class real

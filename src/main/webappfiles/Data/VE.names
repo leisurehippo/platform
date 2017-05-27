@@ -1,0 +1,28 @@
+% Data from StatLib (ftp stat.cmu.edu/datasets)
+%
+% Veteran's Administration Lung Cancer Trial
+%   Taken from Kalbfleisch and Prentice, pages 223-224
+%
+%
+%  Variables
+%       Treatment  1=standard,  2=test
+%       Celltype   1=squamous,  2=smallcell,  3=adeno,  4=large
+%       Survival in days
+%       Status     1=dead, 0=censored
+%       Karnofsky score
+%       Months from Diagnosis
+%       Age in years
+%       Prior therapy  0=no, 10=yes
+%
+% Survival time treated as the class attribute.
+
+@relation veteran
+
+@attribute treatment { 1, 2}
+@attribute celltype { 1, 2, 3, 4}
+@attribute status { 0, 1}
+@attribute karnofsky integer
+@attribute months integer
+@attribute age integer
+@attribute therapy { 0, 10}
+@attribute survival integer

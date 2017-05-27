@@ -1,0 +1,42 @@
+1. Title of Database: Fried
+
+2. Sources:
+
+   (a) Original owners of database:
+
+   This is an artificial data set used by J.H. Friedman (1991) for MARS.
+
+   BREIMAN, L. (1996): Bagging Predictors. Machine Learning, 24(3), 123--140.
+      Kluwer Academic Publishers.
+   FRIEDMAN, J. (1991): Multivariate Adaptative Regression Splines. 
+      Annals of Statistics, 19:1, 1--141.
+
+   
+4. Relevant Information Paragraph:
+
+   The cases are generated using the following method:
+   Generate the values of 10 attributes, X1, ..., X10 independently each of 
+   which uniformly distributed over [0,1]. Obtain the value of the target 
+   variable Y using the equation:
+
+   Y = 10 Sin(PI.X1.X2) + 20 sqr(X3 - 0.5) + 10X4 + 5X5 + sigma(0,1)
+
+5. Number of Instances: 40768
+
+6. Number of Attributes: 10
+
+7. Attribute information:
+
+x1 : continuous
+x2 : continuous
+x3 : continuous
+x4 : continuous
+x5 : continuous
+x6 : continuous
+x7 : continuous
+x8 : continuous
+x9 : continuous
+x10 : continuous
+y : continuous
+
+8. Missing Attribute Values: None

@@ -1,0 +1,471 @@
+Variable Information:
+
+
+Name                                                                   Position
+
+HUSBR1    Husband buy video tape unit                                         1
+          Format: F1
+
+          Value    Label
+
+              1    Definitely
+              2    Very Likely
+              3    Somewhat Likely
+              4    Indifferent
+              5    Somewhat Unlikely
+              6    Very Unlikely
+              7    Definitely Not
+
+HUSBR2    Husband buy Pop-Top Cans                                            2
+          Format: F1
+
+          Value    Label
+
+              1    Definitely
+              2    Very Likely
+              3    Somewhat Likely
+              4    Indifferent
+              5    Somewhat Unlikely
+              6    Very Unlikely
+              7    Definitely Not
+
+HUSBR3    Husband buy alarm system                                            3
+          Format: F1
+
+          Value    Label
+
+              1    Definitely
+              2    Very Likely
+              3    Somewhat Likely
+              4    Indifferent
+              5    Somewhat Unlikely
+              6    Very Unlikely
+              7    Definitely Not
+
+
+
+
+
+
+HUSBR4    Husband use automatic teller                                        4
+          Format: F1
+
+          Value    Label
+
+              1    Definitely
+              2    Very Likely
+              3    Somewhat Likely
+              4    Indifferent
+              5    Somewhat Unlikely
+              6    Very Unlikely
+              7    Definitely Not
+
+HUSBR5    Husband buy big TV                                                  5
+          Format: F1
+
+          Value    Label
+
+              1    Definitely
+              2    Very Likely
+              3    Somewhat Likely
+              4    Indifferent
+              5    Somewhat Unlikely
+              6    Very Unlikely
+              7    Definitely Not
+
+WIFER1    Wife buy video tape unit                                            6
+          Format: F1
+
+          Value    Label
+
+              1    Definitely
+              2    Very Likely
+              3    Somewhat Likely
+              4    Indifferent
+              5    Somewhat Unlikely
+              6    Very Unlikely
+              7    Definitely Not
+
+WIFER2    Wife buy pop top cans                                               7
+          Format: F1
+
+          Value    Label
+
+              1    Definitely
+              2    Very Likely
+              3    Somewhat Likely
+              4    Indifferent
+              5    Somewhat Unlikely
+              6    Very Unlikely
+              7    Definitely Not
+
+
+
+
+
+
+WIFER3    Wife buy alarm system                                               8
+          Format: F1
+
+          Value    Label
+
+              1    Definitely
+              2    Very Likely
+              3    Somewhat Likely
+              4    Indifferent
+              5    Somewhat Unlikely
+              6    Very Unlikely
+              7    Definitely Not
+
+WIFER4    Wife use automatic teller                                           9
+          Format: F1
+
+          Value    Label
+
+              1    Definitely
+              2    Very Likely
+              3    Somewhat Likely
+              4    Indifferent
+              5    Somewhat Unlikely
+              6    Very Unlikely
+              7    Definitely Not
+
+WIFER5    Wife buy big screen TV                                             10
+          Format: F1
+
+          Value    Label
+
+              1    Definitely
+              2    Very Likely
+              3    Somewhat Likely
+              4    Indifferent
+              5    Somewhat Unlikely
+              6    Very Unlikely
+              7    Definitely Not
+
+HPREDW1   Husband Predicts Wife Buy VTR                                      11
+          Format: F1
+
+          Value    Label
+
+              1    Definitely
+              2    Very Likely
+              3    Somewhat Likely
+              4    Indifferent
+              5    Somewhat Unlikely
+              6    Very Unlikely
+              7    Definitely Not
+
+
+
+
+
+
+HPREDW2   Husband predicts wife pop top cans                                 12
+          Format: F1
+
+          Value    Label
+
+              1    Definitely
+              2    Very Likely
+              3    Somewhat Likely
+              4    Indifferent
+              5    Somewhat Unlikely
+              6    Very Unlikely
+              7    Definitely Not
+
+HPREDW3   Husband pred wife buy alarm                                        13
+          Format: F1
+
+          Value    Label
+
+              1    Definitely
+              2    Very Likely
+              3    Somewhat Likely
+              4    Indifferent
+              5    Somewhat Unlikely
+              6    Very Unlikely
+              7    Definitely Not
+
+HPREDW4   Husb pred wife use of aut teller                                   14
+          Format: F1
+
+          Value    Label
+
+              1    Definitely
+              2    Very Likely
+              3    Somewhat Likely
+              4    Indifferent
+              5    Somewhat Unlikely
+              6    Very Unlikely
+              7    Definitely Not
+
+HPREDW5   Husb pred wife buy big scr TV                                      15
+          Format: F1
+
+          Value    Label
+
+              1    Definitely
+              2    Very Likely
+              3    Somewhat Likely
+              4    Indifferent
+              5    Somewhat Unlikely
+              6    Very Unlikely
+              7    Definitely Not
+
+
+
+
+
+
+WPREDH1   Wife pred husb buy VTR                                             16
+          Format: F1
+
+          Value    Label
+
+              1    Definitely
+              2    Very Likely
+              3    Somewhat Likely
+              4    Indifferent
+              5    Somewhat Unlikely
+              6    Very Unlikely
+              7    Definitely Not
+
+WPREDH2   Wife pred husb buy pop top cans                                    17
+          Format: F1
+
+          Value    Label
+
+              1    Definitely
+              2    Very Likely
+              3    Somewhat Likely
+              4    Indifferent
+              5    Somewhat Unlikely
+              6    Very Unlikely
+              7    Definitely Not
+
+WPREDH3   Wife pred husb buy alarm                                           18
+          Format: F1
+
+          Value    Label
+
+              1    Definitely
+              2    Very Likely
+              3    Somewhat Likely
+              4    Indifferent
+              5    Somewhat Unlikely
+              6    Very Unlikely
+              7    Definitely Not
+
+WPREDH4   Wife pred husb use autom teller                                    19
+          Format: F1
+
+          Value    Label
+
+              1    Definitely
+              2    Very Likely
+              3    Somewhat Likely
+              4    Indifferent
+              5    Somewhat Unlikely
+              6    Very Unlikely
+              7    Definitely Not
+
+
+
+
+
+
+WPREDH5   Wife pred husb buy big scr TV                                      20
+          Format: F1
+
+          Value    Label
+
+              1    Definitely
+              2    Very Likely
+              3    Somewhat Likely
+              4    Indifferent
+              5    Somewhat Unlikely
+              6    Very Unlikely
+              7    Definitely Not
+
+HUSBINF1  Husband's Influence  Rating                                        21
+          Format: F1
+          Missing Values: 9
+
+          Value    Label
+
+              1    Husb Decide
+              2    Husb More Influence
+              3    Husb/wife Equal
+              4    Wife More Influence
+              5    Wife Decide
+
+HUSBINF2  Husband's influence rating                                         22
+          Format: F1
+          Missing Values: 9
+
+          Value    Label
+
+              1    Husb Decide
+              2    Husb More Influence
+              3    Husb/wife Equal
+              4    Wife More Influence
+              5    Wife Decide
+
+HUSBINF3  Husband's influence rating                                         23
+          Format: F1
+          Missing Values: 9
+
+          Value    Label
+
+              1    Husb Decide
+              2    Husb More Influence
+              3    Husb/wife Equal
+              4    Wife More Influence
+              5    Wife Decide
+
+
+
+
+
+
+HUSBINF4  Husband's influence rating                                         24
+          Format: F1
+          Missing Values: 9
+
+          Value    Label
+
+              1    Husb Decide
+              2    Husb More Influence
+              3    Husb/wife Equal
+              4    Wife More Influence
+              5    Wife Decide
+
+HUSBINF5  Husband's influence rating                                         25
+          Format: F1
+          Missing Values: 9
+
+          Value    Label
+
+              1    Husb Decide
+              2    Husb More Influence
+              3    Husb/wife Equal
+              4    Wife More Influence
+              5    Wife Decide
+
+WIFEINF1  Wife's influence rating                                            26
+          Format: F1
+          Missing Values: 9
+
+          Value    Label
+
+              1    Husb Decide
+              2    Husb More Influence
+              3    Husb/wife Equal
+              4    Wife More Influence
+              5    Wife Decide
+
+WIFEINF2  wife's influence rating                                            27
+          Format: F1
+          Missing Values: 9
+
+          Value    Label
+
+              1    Husb Decide
+              2    Husb More Influence
+              3    Husb/wife Equal
+              4    Wife More Influence
+              5    Wife Decide
+
+
+
+
+
+
+WIFEINF3  Wife's influence rating                                            28
+          Format: F1
+          Missing Values: 9
+
+          Value    Label
+
+              1    Husb Decide
+              2    Husb More Influence
+              3    Husb/wife Equal
+              4    Wife More Influence
+              5    Wife Decide
+
+WIFEINF4  Wife's influence rating                                            29
+          Format: F1
+          Missing Values: 9
+
+          Value    Label
+
+              1    Husb Decide
+              2    Husb More Influence
+              3    Husb/wife Equal
+              4    Wife More Influence
+              5    Wife Decide
+
+WIFEINF5  Wife's rating of influence                                         30
+          Format: F1
+          Missing Values: 9
+
+          Value    Label
+
+              1    Husb Decide
+              2    Husb More Influence
+              3    Husb/wife Equal
+              4    Wife More Influence
+              5    Wife Decide
+
+PICTURE   Picture Accompanied Question                                       31
+          Format: F1
+
+          Value    Label
+
+              0    No Pictures
+              1    Pictures
+
+HSUMBUY   Sum of husband's buying scores                                     32
+          Format: F8
+
+HSUMINF   Sum of husband's influence scores                                  33
+          Format: F8
+
+
+
+
+
+
+HPREDSUM  Sum of husband's predictions                                       34
+          Format: F8
+
+WSUMBUY   Sum of wife's buying scores                                        35
+          Format: F8
+
+WPREDSUM  Sum of wife's predictions                                          36
+          Format: F8
+
+WSUMINF   Sum of wife's influence scores                                     37
+          Format: F8
+
+FAMSCORE  Family Buying Score                                                38
+          Format: F8
+
+HUSBSAYS  Husband's Response                                                 39
+          Format: F8
+
+          Value    Label
+
+              1    Buy
+              2    Indifferent
+              3    Not buy
+
+WIFEPRED  Wife's prediction of husband                                       40
+          Format: F8
+
+          Value    Label
+
+              1    Buy
+              2    Indifferent
+              3    Not buy

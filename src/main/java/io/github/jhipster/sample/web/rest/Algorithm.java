@@ -60,7 +60,7 @@ public class Algorithm {
     public String test(@RequestParam(value = "AlgorithmName") String key) {
         try {
 //            System.out.println("start");
-            Process pr = Runtime.getRuntime().exec("python src\\main\\webappfiles\\PSOForARM\\"+key+".py");
+            Process pr = Runtime.getRuntime().exec("python src\\main\\webappfiles\\File\\"+key+".py");
 
             BufferedReader in = new BufferedReader(new InputStreamReader(pr.getInputStream()));
             String line;

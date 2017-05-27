@@ -39,23 +39,10 @@ public class FileController {
 
     private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
-    /**
-     * 文件上传具体实现方法;
-     * @param file
-     * @return
-     */
-    @PostMapping("/upload")
-    @ResponseBody
-    public String handleFileUpload( @RequestParam("file") MultipartFile file){
-//        System.out.println(file);
+    private String upload(MultipartFile file, String type){
         if(!file.isEmpty()){
             try {
-
-                FileUploadingUtil.uploadFile(file);
-//                BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(new File(file.getOriginalFilename())));
-//                out.write(file.getBytes());
-//                out.flush();
-//                out.close();
+                FileUploadingUtil.uploadFile(file, type);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 return"上传失败,"+e.getMessage();
@@ -69,6 +56,21 @@ public class FileController {
             return"上传失败，因为文件是空的.";
 
         }
+    }
+    /**
+     * 文件上传具体实现方法;
+     * @param file
+     * @return
+     */
+    @PostMapping("/upload")
+    @ResponseBody
+    public String handleFileUpload(@RequestParam("file") MultipartFile file){
+        return upload(file,"File");
+    }
+    @PostMapping("/uploadData")
+    @ResponseBody
+    public String handleDataUpload( @RequestParam("file") MultipartFile file){
+        return upload(file,"Data");
     }
 
 //    @GetMapping("/list")
