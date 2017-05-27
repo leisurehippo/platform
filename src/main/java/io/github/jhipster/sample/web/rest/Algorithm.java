@@ -27,33 +27,34 @@ import java.io.InputStreamReader;
 @RequestMapping("/api")
 public class Algorithm {
 
+
+//    @GetMapping("/test")
+//    @ResponseBody
+//    public String runLocalAlgorithm(@RequestParam(value = "AlgorithmName") String key){
+//        PythonInterpreter interpreter = new PythonInterpreter();
+//
+//        PySystemState sys = Py.getSystemState();
+//        //sys.path.add("D:\\jython2.5.2\\Lib");
+//        System.out.println(sys.path.toString());
+//
+//        interpreter.exec("print 'hello'");
+//
+//        interpreter.exec("import sys");
+//        interpreter.exec("print(sys.path)");
+//        interpreter.exec("sys.path.append('C:\\Python35\\lib\\site-packages')");
+//        interpreter.exec("print(sys.path)");
+//        interpreter.exec("import numpy");
+//
+//        interpreter.execfile("src\\main\\webappfiles\\PSOForARM\\pso.py");
+//        return "ok"+key;
+//    }
+
+
     /**
      * 运行本地代码
      * @param key
      * @return
      */
-    @GetMapping("/test")
-    @ResponseBody
-    public String runLocalAlgorithm(@RequestParam(value = "AlgorithmName") String key){
-        PythonInterpreter interpreter = new PythonInterpreter();
-
-        PySystemState sys = Py.getSystemState();
-        //sys.path.add("D:\\jython2.5.2\\Lib");
-        System.out.println(sys.path.toString());
-
-        interpreter.exec("print 'hello'");
-
-        interpreter.exec("import sys");
-        interpreter.exec("print(sys.path)");
-        interpreter.exec("sys.path.append('C:\\Python35\\lib\\site-packages')");
-        interpreter.exec("print(sys.path)");
-        interpreter.exec("import numpy");
-
-        interpreter.execfile("src\\main\\webappfiles\\PSOForARM\\pso.py");
-        return "ok"+key;
-    }
-
-
     @GetMapping("/runLocal")
     @ResponseBody
     public String test(@RequestParam(value = "AlgorithmName") String key) {
