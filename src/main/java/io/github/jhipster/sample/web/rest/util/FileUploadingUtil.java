@@ -137,14 +137,21 @@ public class FileUploadingUtil {
      * @return
      */
     private static String initFilePath(String name) {
-        String dir = getFileDir(name) + "";
-        File file = new File(FILEDIR + dir);
+//        String dir = getFileDir(name) + "";
+//        File file = new File(FILEDIR + dir);
+//        if (!file.exists()) {
+//            file.mkdir();
+//        }
+//        Long num = new Date().getTime();
+//        Double d = Math.random() * num;
+//        return (file.getPath() + "/" + num + d.longValue() + "_" + name).replaceAll(" ", "-");
+
+        File file = new File(FILEDIR);
         if (!file.exists()) {
             file.mkdir();
         }
-        Long num = new Date().getTime();
-        Double d = Math.random() * num;
-        return (file.getPath() + "/" + num + d.longValue() + "_" + name).replaceAll(" ", "-");
+
+        return (file.getPath() + "/" + name).replaceAll(" ", "-");
     }
 
     /**

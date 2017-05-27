@@ -47,7 +47,7 @@ public class FileController {
     @PostMapping("/upload")
     @ResponseBody
     public String handleFileUpload( @RequestParam("file") MultipartFile file){
-        System.out.println(file);
+//        System.out.println(file);
         if(!file.isEmpty()){
             try {
 
