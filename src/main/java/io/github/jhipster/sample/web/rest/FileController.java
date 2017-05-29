@@ -65,7 +65,7 @@ public class FileController {
     @PostMapping("/upload")
     @ResponseBody
     public String handleFileUpload(@RequestParam("file") MultipartFile file){
-        return upload(file,"File");
+        return upload(file,"Algorithm");
     }
     @PostMapping("/uploadData")
     @ResponseBody

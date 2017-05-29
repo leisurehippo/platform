@@ -438,5 +438,5 @@ if __name__ == "__main__":
         runTimes.append(np.array(timeTmp).sum() / time)
         fitness.append(fitTmp / time)
         # print("Average:", np.array(ARs).sum() / time)
-    np.savetxt("src/main/webappfiles/output/sp_population_time.txt", runTimes, delimiter=',')
-    np.savetxt("src/main/webappfiles/output/sp_population_fitness.txt", fitness, delimiter=',')
+    np.savetxt("src/main/webappfiles/Data/output/sp_population_time.txt", runTimes, delimiter=',')
+    np.savetxt("src/main/webappfiles/Data/output/sp_population_fitness.txt", fitness, delimiter=',')
