@@ -57,7 +57,7 @@
         <prometheus-simpleclient.version>0.0.20</prometheus-simpleclient.version>
         <run.addResources>false</run.addResources>
         <scala-maven-plugin.version>3.2.2</scala-maven-plugin.version>
-        <scala.version>2.12.1</scala.version>
+        <scala.version>2.10.5</scala.version>
         <sonar-maven-plugin.version>3.2</sonar-maven-plugin.version>
 
         <sonar.exclusions>src/main/webapp/content/**/*.*, src/main/webapp/bower_components/**/*.*, src/main/webapp/i18n/*.js, target/www/**/*.*</sonar.exclusions>
@@ -290,7 +290,7 @@
         <dependency>
             <groupId>org.scala-lang</groupId>
             <artifactId>scala-library</artifactId>
-            <version>2.11.8</version>
+            <version>${scala.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -382,6 +382,20 @@
             <artifactId>jython-standalone</artifactId>
             <version>2.7.0</version>
         </dependency>
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.spark/spark-sql_2.10 &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.spark</groupId>-->
+            <!--<artifactId>spark-sql_2.10</artifactId>-->
+            <!--<version>1.6.1</version>-->
+        <!--</dependency>-->
+
+        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-sql_2.11 -->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.spark</groupId>-->
+            <!--<artifactId>spark-sql_2.11</artifactId>-->
+            <!--<version>2.0.0</version>-->
+        <!--</dependency>-->
+
         <!-- https://mvnrepository.com/artifact/org.python/jython -->
         <!--<dependency>-->
             <!--<groupId>org.python</groupId>-->
@@ -390,12 +404,19 @@
         <!--</dependency>-->
 
 
-        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.spark/spark-mllib_2.10 &ndash;&gt;-->
+        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-mllib_2.10 -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-mllib_2.10</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.apache.spark/spark-core_2.11 &ndash;&gt;-->
         <!--<dependency>-->
             <!--<groupId>org.apache.spark</groupId>-->
-            <!--<artifactId>spark-mllib_2.10</artifactId>-->
-            <!--<version>1.6.1</version>-->
+            <!--<artifactId>spark-core_2.11</artifactId>-->
+            <!--<version>2.1.1</version>-->
         <!--</dependency>-->
+
 
 
         <!--<dependency>-->
@@ -403,7 +424,7 @@
             <!--<artifactId>spark-examples</artifactId>-->
             <!--<version>2.11</version>-->
             <!--<scope>system</scope>-->
-            <!--<systemPath>${basedir}/lib/spark-examples_2.11-2.0.0.jar</systemPath>-->
+            <!--<systemPath>${basedir}/lib/spark-examples_2.11-2.1.1.jar</systemPath>-->
         <!--</dependency>-->
 
     </dependencies>
