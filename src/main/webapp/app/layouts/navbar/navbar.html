@@ -164,6 +164,12 @@
                     </a>
                     <ul class="dropdown-menu" uib-dropdown-menu>
                         <li  ui-sref-active="active" ng-switch-when="true">
+                            <a ui-sref="fileUpload" ng-click="vm.collapseNavbar();">
+                                <span class="glyphicon glyphicon-upload"></span>&nbsp;
+                                <span >上传文件</span>
+                            </a>
+                        </li>
+                        <li  ui-sref-active="active" ng-switch-when="true">
                             <a ui-sref="psoLocal" ng-click="vm.collapseNavbar();">
                                 <span class="glyphicon glyphicon-plus-sign"></span>&nbsp;
                                 <span >PSO本地算法</span>

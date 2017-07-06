@@ -238,6 +238,22 @@
             params: {
 
             }
+        }).state("fileUpload", {
+            url: "/fileUpload",
+            parent: 'app',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: "app/fileUpload/fileUpload.html",
+                    controller: "FileUploadController",
+                    controllerAs: 'vm'
+                }
+            },
+            params: {
+
+            }
         });
     }
 })();

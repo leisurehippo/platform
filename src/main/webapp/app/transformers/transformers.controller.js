@@ -5,8 +5,8 @@ angular
     .module('jhipsterSampleApplicationApp')
     .controller('TransformerController',TransformerController);
 
-TransformerController.$inject = ['$scope', '$http', '$state'];
-function TransformerController($scope,$http,$stateParams) {
+TransformerController.$inject = ['$scope', '$http', '$state', 'runLocal'];
+function TransformerController($scope,$http,$stateParams, runLocal) {
     var host = 'http://10.109.247.121/electric_backend/public/electric/';
 
     $scope.seeTransformerDefect = function ($event) {

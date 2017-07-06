@@ -19,6 +19,8 @@ import org.python.core.PySystemState;
 import org.python.util.PythonInterpreter;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 算法管理类
@@ -57,32 +59,38 @@ public class Algorithm {
      */
     @GetMapping("/runLocal")
     @ResponseBody
-    public String test(@RequestParam(value = "AlgorithmName") String key,
+    public List<String> test(@RequestParam(value = "AlgorithmName") String key,
                        @RequestParam(value = "hasParams") int hasParams,
                        @RequestParam(value = "Params") String params
+//                       @RequestBody String params
                        ) {
         String result = "";
+        List<String> results = new ArrayList<String>();
         try {
+            if (key.equals("Apriori") ) {
+                String cmd = "python src\\main\\webappfiles\\Algorithm\\"+key+".py ";
+                String[] list = params.split("\\+");
+                if (hasParams == 1){
+//                    cmd += params;
+                   cmd = cmd + "-f " + "src\\main\\webappfiles\\Data\\" + list[0] + " -s " + list[1] + " -c " + list[2];
+                }
+                System.out.printf(cmd);
+                Process pr = Runtime.getRuntime().exec(cmd);
+                BufferedReader in = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+                String line;
 
-            String cmd = "python src\\main\\webappfiles\\Algorithm\\"+key+".py ";
-            if (hasParams == 1){
-                cmd += params;
+                while ((line = in.readLine()) != null) {
+                    result += line + "\n";
+                    results.add(line);
+                }
+                in.close();
+                pr.waitFor();
             }
-            Process pr = Runtime.getRuntime().exec(cmd);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(pr.getInputStream()));
-            String line;
-
-            while ((line = in.readLine()) != null) {
-                result += line + "\n";
-//                System.out.println(line);
-            }
-            in.close();
-            pr.waitFor();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return result;
+        return results;
     }
 }
