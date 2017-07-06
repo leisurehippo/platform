@@ -57,22 +57,32 @@ public class Algorithm {
      */
     @GetMapping("/runLocal")
     @ResponseBody
-    public String test(@RequestParam(value = "AlgorithmName") String key) {
+    public String test(@RequestParam(value = "AlgorithmName") String key,
+                       @RequestParam(value = "hasParams") int hasParams,
+                       @RequestParam(value = "Params") String params
+                       ) {
+        String result = "";
         try {
-//            System.out.println("start");
-            Process pr = Runtime.getRuntime().exec("python src\\main\\webappfiles\\Algorithm\\"+key+".py");
+
+            String cmd = "python src\\main\\webappfiles\\Algorithm\\"+key+".py ";
+            if (hasParams == 1){
+                cmd += params;
+            }
+            Process pr = Runtime.getRuntime().exec(cmd);
 
             BufferedReader in = new BufferedReader(new InputStreamReader(pr.getInputStream()));
             String line;
+
             while ((line = in.readLine()) != null) {
-                System.out.println(line);
+                result += line + "\n";
+//                System.out.println(line);
             }
             in.close();
             pr.waitFor();
-//            System.out.println("end");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "ok";
+        return result;
     }
 }
