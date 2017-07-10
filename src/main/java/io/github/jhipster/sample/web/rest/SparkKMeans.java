@@ -29,7 +29,66 @@ public class SparkKMeans implements Serializable {
     @ResponseBody
     public String kmeans(@RequestParam(value = "FileName")String fileName,
                          @RequestParam(value = "numClusters")int numClusters) {
-        SparkConf conf = new SparkConf().setAppName("JavaKMeansExample").setMaster("local");
+        SparkConf conf = new SparkConf().setAppName("JavaKMeansExample").setMaster("yarn-client");
+        JavaSparkContext jsc = new JavaSparkContext(conf);
+
+        // Load and parse data
+        String path = DATADIR + fileName + ".txt";
+        JavaRDD<String> data = jsc.textFile(path);
+        JavaRDD<Vector> parsedData = data.map(
+            new Function<String, Vector>() {
+                public Vector call(String s) {
+                    String[] sarray = s.split(" ");
+                    double[] values = new double[sarray.length];
+                    for (int i = 0; i < sarray.length; i++) {
+                        values[i] = Double.parseDouble(sarray[i]);
+                    }
+                    return Vectors.dense(values);
+                }
+            }
+        );
+        parsedData.cache();
+
+        // Cluster the data into two classes using KMeans
+//        int numClusters = 2;
+        int numIterations = 20;
+        KMeansModel clusters = KMeans.train(parsedData.rdd(), numClusters, numIterations);
+
+//        System.out.println("Cluster centers:");
+//        for (Vector center: clusters.clusterCenters()) {
+//            System.out.println(" " + center);
+//        }
+//        double cost = clusters.computeCost(parsedData.rdd());
+//        System.out.println("Cost: " + cost);
+//
+//        // Evaluate clustering by computing Within Set Sum of Squared Errors
+//        double WSSSE = clusters.computeCost(parsedData.rdd());
+//        System.out.println("Within Set Sum of Squared Errors = " + WSSSE);
+
+        try{
+            FileWriter fw = new FileWriter(DATADIR+"output/"+fileName+".txt",true);
+            for (Vector center: clusters.clusterCenters()) {
+                fw.write(center + "\n");
+            }
+            fw.close();
+        }catch (Exception e){
+            e.printStackTrace();
+            return "file write fail";
+        }
+        // Save and load model
+//        clusters.save(jsc.sc(), DATADIR+"target/org/apache/spark/JavaKMeansExample/KMeansModel");
+//        KMeansModel sameModel = KMeansModel.load(jsc.sc(),
+//            DATADIR + "target/org/apache/spark/JavaKMeansExample/KMeansModel");
+
+        jsc.stop();
+        return "success";
+    }
+
+    @PostMapping("/kmeans1")
+    @ResponseBody
+    public String kmeans1(@RequestParam(value = "FileName")String fileName,
+                         @RequestParam(value = "numClusters")int numClusters) {
+        SparkConf conf = new SparkConf().setAppName("JavaKMeansExample").setMaster("spark://10.109.247.120:7077");
         JavaSparkContext jsc = new JavaSparkContext(conf);
 
         // Load and parse data
