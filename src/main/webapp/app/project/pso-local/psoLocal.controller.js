@@ -9,10 +9,19 @@ PsoLocalController.$inject = ['$scope', '$http', '$state', 'runLocal'];
 function PsoLocalController($scope, $http, $state, runLocal) {
     var vm = this;
     vm.run = run;
-
+    vm.hasParams = true;
+    vm.alName = null;
+    vm.fileName = null;
+    vm.params = null;
+    vm.result = [];
     function run() {
-        runLocal.get({AlgorithmName:"Apriori", hasParams:1,Params:"defect.csv+0.1+0.1"}, function success(result) {
+        var hasParams;
+        if(vm.hasParams) {
+            hasParams = 1;
+        }
+        runLocal.get({AlgorithmName:vm.alName, hasParams:hasParams,Params:vm.fileName+"+"+vm.params}, function success(result) {
             console.log(result);
+            vm.result = result;
 
         },function () {
 
