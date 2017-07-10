@@ -76,9 +76,8 @@ public class HDFSFileUtil {
         for (FileStatus f : list) {
             String [] filePath = f.getPath().toString().split("/");
             nameList.add(filePath[filePath.length-1]);
-//            System.out.println(filePath[filePath.length-1]);
         }
-        fs.close();
+//        fs.close();
         return nameList;
     }
 }
