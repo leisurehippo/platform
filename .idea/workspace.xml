@@ -2,49 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ff85f0f0-5434-47cb-a211-9406a29a36ec" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/model/SparkClassification.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/model/SparkCluster.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/model/SparkEstimate.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/support/Classification.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/support/Cluster.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/support/DataType.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/support/Feature.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/util/FactoryUtil.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/util/HDFSFileUtil.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/util/JSONUtil.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/util/SparkUtil.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/bpmn/cluster.bpmn" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/cluster.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/log4j.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/mongo.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/resources/path.properties" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webappfiles/dataSpark/data.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webappfiles/dataSpark/datatmp.json" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webappfiles/dataSpark/gmm_data.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webappfiles/dataSpark/kmeans_data.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webappfiles/dataSpark/lr_data.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webappfiles/dataSpark/pagerank_data.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webappfiles/dataSpark/pic_data.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webappfiles/dataSpark/sample_binary_classification_data.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webappfiles/dataSpark/sample_fpgrowth.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webappfiles/dataSpark/sample_isotonic_regression_libsvm_data.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webappfiles/dataSpark/sample_kmeans_data.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webappfiles/dataSpark/sample_lda_data.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webappfiles/dataSpark/sample_lda_libsvm_data.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webappfiles/dataSpark/sample_libsvm_data.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webappfiles/dataSpark/sample_linear_regression_data.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webappfiles/dataSpark/sample_movielens_data.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webappfiles/dataSpark/sample_multiclass_classification_data.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webappfiles/dataSpark/sample_svm_data.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webappfiles/dataSpark/sample_tree_data.csv" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webappfiles/dataSpark/streaming_kmeans_data_test.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webappfiles/dataSpark/test.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/webappfiles/Data/data.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/FileController.java" afterPath="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/FileController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/JavaSparkAPI.java" afterPath="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/JavaSparkAPI.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/SparkKMeans.java" afterPath="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/SparkKMeans.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/webappfiles/Data/output/sp_population_fitness.txt" afterPath="$PROJECT_DIR$/src/main/webappfiles/Data/output/sp_population_fitness.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/util/HDFSFileUtil.java" afterPath="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/util/HDFSFileUtil.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/util/SparkUtil.java" afterPath="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/util/SparkUtil.java" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/webappfiles/Data/output/kmeans_data.txt" afterPath="$PROJECT_DIR$/src/main/webappfiles/output/kmeans_data.txt" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/webappfiles/Data/output/sp_population_fitness.txt" afterPath="$PROJECT_DIR$/src/main/webappfiles/output/sp_population_fitness.txt" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/webappfiles/Data/output/sp_population_time.txt" afterPath="$PROJECT_DIR$/src/main/webappfiles/output/sp_population_time.txt" />
     </list>
     <ignored path="jhipster-sample-application.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -66,61 +32,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
+      <file leaf-file-name="JavaSparkAPI.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/JavaSparkAPI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1422">
-              <caret line="396" column="36" selection-start-line="396" selection-start-column="36" selection-end-line="396" selection-end-column="36" />
+            <state relative-caret-position="443">
+              <caret line="140" column="0" selection-start-line="140" selection-start-column="0" selection-end-line="140" selection-end-column="0" />
               <folding>
-                <element signature="n#dependency#0;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#1;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#2;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#3;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#4;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#5;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#6;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#7;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#8;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#9;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#10;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#11;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#12;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#13;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#14;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#15;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#16;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#17;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#18;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#19;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#20;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#21;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#22;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#exclusions#0;n#dependency#22;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#exclusion#0;n#exclusions#0;n#dependency#22;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#23;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#24;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#25;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#exclusions#0;n#dependency#25;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#exclusion#0;n#exclusions#0;n#dependency#25;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#exclusion#1;n#exclusions#0;n#dependency#25;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#exclusion#2;n#exclusions#0;n#dependency#25;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#26;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#27;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#28;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#29;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#30;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#31;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#32;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#33;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#34;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependencies#0;n#profile#6;n#profiles#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#0;n#dependencies#0;n#profile#6;n#profiles#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#1;n#dependencies#0;n#profile#6;n#profiles#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#2;n#dependencies#0;n#profile#6;n#profiles#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#profile#7;n#profiles#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependencies#0;n#profile#7;n#profiles#0;n#project#0;n#!!top" expanded="false" />
-                <element signature="n#dependency#0;n#dependencies#0;n#profile#7;n#profiles#0;n#project#0;n#!!top" expanded="false" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#2401#2417#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SparkEstimate.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/model/SparkEstimate.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -128,11 +58,23 @@
       <file leaf-file-name="HDFSFileUtil.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/util/HDFSFileUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1152">
-              <caret line="57" column="24" selection-start-line="57" selection-start-column="18" selection-end-line="57" selection-end-column="24" />
+            <state relative-caret-position="120">
+              <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
               <folding>
-                <element signature="imports" expanded="false" />
+                <element signature="e#977#978#0" expanded="true" />
+                <element signature="e#1020#1021#0" expanded="true" />
+                <element signature="e#2845#2853#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SparkClassification.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/model/SparkClassification.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-768">
+              <caret line="20" column="32" selection-start-line="20" selection-start-column="32" selection-end-line="20" selection-end-column="32" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -140,44 +82,10 @@
       <file leaf-file-name="SparkUtil.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/util/SparkUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1008">
-              <caret line="42" column="27" selection-start-line="42" selection-start-column="27" selection-end-line="42" selection-end-column="27" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="JavaSparkAPI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/JavaSparkAPI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="558">
-              <caret line="55" column="34" selection-start-line="55" selection-start-column="34" selection-end-line="55" selection-end-column="34" />
+            <state relative-caret-position="132">
+              <caret line="77" column="24" selection-start-line="77" selection-start-column="24" selection-end-line="77" selection-end-column="24" />
               <folding>
                 <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Algorithm.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/Algorithm.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1296">
-              <caret line="70" column="61" selection-start-line="70" selection-start-column="37" selection-end-line="70" selection-end-column="61" />
-              <folding>
-                <element signature="imports" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AccountResource.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/AccountResource.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2568">
-              <caret line="134" column="10" selection-start-line="134" selection-start-column="10" selection-end-line="134" selection-end-column="10" />
-              <folding>
-                <element signature="imports" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -242,7 +150,6 @@
         <option value="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/SparkKMeans.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/SparkML/kmeans.java" />
         <option value="$PROJECT_DIR$/src/main/webappfiles/Algorithm/pso.py" />
-        <option value="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/FileController.java" />
         <option value="$PROJECT_DIR$/src/main/webapp/app/fileUpload/fileUpload.controller.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/app/app.state.js" />
         <option value="$PROJECT_DIR$/src/main/webapp/app/project/pso-local/upLoad.service.js" />
@@ -270,9 +177,12 @@
         <option value="$PROJECT_DIR$/target/classes/io/github/jhipster/sample/web/rest/Algorithm.class" />
         <option value="$PROJECT_DIR$/target/classes/io/github/jhipster/sample/web/rest/FileController.class" />
         <option value="$PROJECT_DIR$/target/classes/io/github/jhipster/sample/web/rest/JavaSparkAPI.class" />
-        <option value="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/JavaSparkAPI.java" />
-        <option value="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/util/SparkUtil.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/util/SparkUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/util/HDFSFileUtil.java" />
+        <option value="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/FileController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/model/SparkClassification.java" />
+        <option value="$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/JavaSparkAPI.java" />
       </list>
     </option>
   </component>
@@ -328,9 +238,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
-      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -338,10 +247,6 @@
               <option name="myItemId" value="jhipster-sample-application" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -382,28 +287,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="jhipster-sample-application" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="platform" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="resources" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -463,8 +346,43 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="jhipster-sample-application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="platform" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sample" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="rest" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="support" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -480,12 +398,15 @@
     <property name="dynamic.classpath" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\wj\PlatForm\platform\src\main\webappfiles" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\wj\PlatForm\platform\src\main\webappfiles\Data" />
       <recent name="D:\wj\PlatForm\platform\src\main\webappfiles" />
       <recent name="D:\wj\PlatForm\platform\src\main\java\io\github\jhipster\sample" />
       <recent name="D:\wj\PlatForm\platform\src\main\java\io\github\jhipster\sample\web\rest\util" />
       <recent name="D:\wj\PlatForm\platform\src\main\java\io\github\jhipster\sample\web\rest" />
-      <recent name="F:\platForm\platform\src\main\webapp\app\fileUpload" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -1083,7 +1004,9 @@
       <workItem from="1499409066676" duration="2257000" />
       <workItem from="1499411430825" duration="17981000" />
       <workItem from="1499655709143" duration="647000" />
-      <workItem from="1499656372794" duration="5356000" />
+      <workItem from="1499656372794" duration="10924000" />
+      <workItem from="1499678444966" duration="84000" />
+      <workItem from="1499678802006" duration="7775000" />
     </task>
     <task id="LOCAL-00001" summary="test file upload">
       <created>1495596373248</created>
@@ -1096,11 +1019,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="97500000" />
+    <option name="totallyTimeSpent" value="110927000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1112,13 +1035,14 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32982457" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32982457" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32982457" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.5555556" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4877193" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22192225" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1134,7 +1058,6 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32982457" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -1182,14 +1105,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/feature/extractor/TF_IDF.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/feature/transformer/SQLTransform.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/feature/transformer/QuantileDiscretize.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/feature/selector/RModelFormula.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/feature/extractor/WordToVec.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/feature/selector/VectorSlice.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/feature/selector/ChiSqSelect.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/feature/transformer/StandScale.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/feature/transformer/N_Gram.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/support/DataType.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -1206,16 +1121,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/util/MongoUtil.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/FileController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="26" column="42" selection-start-line="26" selection-start-column="7" selection-end-line="26" selection-end-column="42" />
-          <folding>
-            <element signature="docComment;class#FileController#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://D:/JDK/jdk/src.zip!/java/util/Properties.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-288">
@@ -1270,28 +1175,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-456">
           <caret line="14" column="31" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/model/SparkClassification.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-583">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/model/SparkEstimate.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/support/Classification.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="3" column="12" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="12" />
         </state>
       </provider>
     </entry>
@@ -1306,13 +1189,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="11">
           <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/util/FileUploadingUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="127">
-          <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -1344,23 +1220,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/AccountResource.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2568">
-          <caret line="134" column="10" selection-start-line="134" selection-start-column="10" selection-end-line="134" selection-end-column="10" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/hadoop/hadoop-common/2.7.3/hadoop-common-2.7.3.jar!/org/apache/hadoop/fs/FileSystem.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="657" column="19" selection-start-line="657" selection-start-column="19" selection-end-line="657" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/util/JSONUtil.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="96">
@@ -1382,27 +1241,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/util/HDFSFileUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1152">
-          <caret line="57" column="24" selection-start-line="57" selection-start-column="18" selection-end-line="57" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/data/data.json" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/Algorithm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1296">
-          <caret line="70" column="61" selection-start-line="70" selection-start-column="37" selection-end-line="70" selection-end-column="61" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/webappfiles/dataSpark/data.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1431,28 +1270,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/util/SparkUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1008">
-          <caret line="42" column="27" selection-start-line="42" selection-start-column="27" selection-end-line="42" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/JavaSparkAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="55" column="34" selection-start-line="55" selection-start-column="34" selection-end-line="55" selection-end-column="34" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1422">
-          <caret line="396" column="36" selection-start-line="396" selection-start-column="36" selection-end-line="396" selection-end-column="36" />
+        <state relative-caret-position="354">
+          <caret line="320" column="28" selection-start-line="320" selection-start-column="28" selection-end-line="320" selection-end-column="28" />
           <folding>
             <element signature="n#dependency#0;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
             <element signature="n#dependency#1;n#dependencies#0;n#project#0;n#!!top" expanded="false" />
@@ -1502,6 +1323,177 @@
             <element signature="n#profile#7;n#profiles#0;n#project#0;n#!!top" expanded="false" />
             <element signature="n#dependencies#0;n#profile#7;n#profiles#0;n#project#0;n#!!top" expanded="false" />
             <element signature="n#dependency#0;n#dependencies#0;n#profile#7;n#profiles#0;n#project#0;n#!!top" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/webappfiles/Data/data.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/4.3.7.RELEASE/spring-web-4.3.7.RELEASE.jar!/org/springframework/web/multipart/MultipartFile.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="216">
+          <caret line="15" column="11" selection-start-line="15" selection-start-column="11" selection-end-line="15" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/util/FileUploadingUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2904">
+          <caret line="138" column="26" selection-start-line="138" selection-start-column="26" selection-end-line="138" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#4660#4661#0" expanded="false" />
+            <element signature="e#4704#4705#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/Algorithm.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-112">
+          <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/hadoop/hadoop-common/2.7.3/hadoop-common-2.7.3.jar!/org/apache/hadoop/fs/FileSystem.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1097">
+          <caret line="544" column="28" selection-start-line="544" selection-start-column="28" selection-end-line="544" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/SparkKMeans.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/JDK/jdk/src.zip!/java/util/Optional.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="271">
+          <caret line="119" column="34" selection-start-line="119" selection-start-column="34" selection-end-line="119" selection-end-column="34" />
+          <folding>
+            <element signature="e#3486#3487#0" expanded="false" />
+            <element signature="e#3544#3545#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/service/UserService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="295">
+          <caret line="223" column="55" selection-start-line="223" selection-start-column="55" selection-end-line="223" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/repository/UserRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="552">
+          <caret line="33" column="19" selection-start-line="33" selection-start-column="19" selection-end-line="33" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/AccountResource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="487">
+          <caret line="122" column="49" selection-start-line="122" selection-start-column="49" selection-end-line="122" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/UserResource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="720">
+          <caret line="56" column="13" selection-start-line="56" selection-start-column="13" selection-end-line="56" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/SubmitSparkResource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/FileController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="888">
+          <caret line="100" column="5" selection-start-line="100" selection-start-column="5" selection-end-line="100" selection-end-column="5" />
+          <folding>
+            <element signature="docComment;class#FileController#0" expanded="false" />
+            <element signature="method#upload#0;class#FileController#0" expanded="false" />
+            <element signature="e#2317#2325#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/support/Classification.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="3" column="12" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/model/SparkClassification.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-768">
+          <caret line="20" column="32" selection-start-line="20" selection-start-column="32" selection-end-line="20" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/util/HDFSFileUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
+          <folding>
+            <element signature="e#977#978#0" expanded="true" />
+            <element signature="e#1020#1021#0" expanded="true" />
+            <element signature="e#2845#2853#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/model/SparkEstimate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/util/SparkUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="77" column="24" selection-start-line="77" selection-start-column="24" selection-end-line="77" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/jhipster/sample/web/rest/JavaSparkAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="443">
+          <caret line="140" column="0" selection-start-line="140" selection-start-column="0" selection-end-line="140" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2401#2417#0" expanded="true" />
           </folding>
         </state>
       </provider>

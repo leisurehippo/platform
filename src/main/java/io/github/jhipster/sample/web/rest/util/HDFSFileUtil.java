@@ -68,4 +68,17 @@ public class HDFSFileUtil {
         }
         return arrayList;
     }
+
+    public ArrayList<String> list(String folder) throws IOException {
+        Path path = new Path(folder);
+        FileStatus[] list = fs.listStatus(path);
+        ArrayList<String> nameList = new ArrayList<String>();
+        for (FileStatus f : list) {
+            String [] filePath = f.getPath().toString().split("/");
+            nameList.add(filePath[filePath.length-1]);
+//            System.out.println(filePath[filePath.length-1]);
+        }
+        fs.close();
+        return nameList;
+    }
 }

@@ -39,7 +39,6 @@ public class SparkUtil {
             System.out.println("not");
             throw new FileNotFoundException(path + "not found on hadoop!");
         }
-        System.out.println("fff");
         return spark.read().format(dataFormat).load(hdfsFileUtil.HDFSPath(path));
     }
 
@@ -78,12 +77,23 @@ public class SparkUtil {
 
     public Dataset<Row> readData(String dataPath, String dataType, String dataFormat, String[] featureCols, String labelCol) throws Exception{
         if (dataType.equals(DataType.HDFS.toString())) {
-            System.out.println("eee");
             return transformData(readFromHDFS(dataPath, dataFormat), featureCols, labelCol);
         } else if (dataType.equals(DataType.LOCAL.toString())){
             return transformData(readFromLocal(dataPath, dataFormat), featureCols, labelCol);
         } else if (dataType.equals(DataType.SQL.toString())) {
             return transformData(readFromSQL(dataPath), featureCols, labelCol);
+        } else {
+            return null;
+        }
+    }
+
+    public String [] getColumns(String dataPath, String dataType, String dataFormat) throws Exception{
+        if (dataType.equals(DataType.HDFS.toString())) {
+            return readFromHDFS(dataPath, dataFormat).columns();
+        } else if (dataType.equals(DataType.LOCAL.toString())){
+            return readFromLocal(dataPath, dataFormat).columns();
+        } else if (dataType.equals(DataType.SQL.toString())) {
+            return readFromSQL(dataPath).columns();
         } else {
             return null;
         }
