@@ -8,6 +8,7 @@ import com.codahale.metrics.annotation.Timed;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -82,9 +83,8 @@ public class FileController {
      */
     @PostMapping("/getLocalData")
     @ResponseBody
-    public String [] getLocalData(@RequestParam(value = "Type") String type){
-        String []dataList = {};
-        ArrayList<String> arrayList = new ArrayList<String>();
+    public List<String> getLocalData(@RequestParam(value = "Type") String type){
+        List<String> results = new ArrayList<String>();
         File file = new File("src/main/webappfiles/" + type + "/");
         if (file.exists()) {
             File[] files = file.listFiles();
@@ -92,12 +92,12 @@ public class FileController {
                 for (File file2 : files) {
                     if (!file2.isDirectory()) {
                         String [] arrList = file2.getAbsolutePath().split("\\\\");
-                        arrayList.add(arrList[arrList.length-1]);
+                        results.add(arrList[arrList.length-1]);
                     }
                 }
             }
         }
-        return arrayList.toArray(dataList);
+        return results;
     }
 
 }

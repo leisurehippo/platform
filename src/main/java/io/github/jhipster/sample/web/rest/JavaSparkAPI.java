@@ -14,10 +14,7 @@ import org.json.JSONObject;
 import io.github.jhipster.sample.web.rest.util.HDFSFileUtil;
 import io.github.jhipster.sample.web.rest.util.SparkUtil;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by WJ on 2017/4/25.
@@ -54,9 +51,8 @@ public class JavaSparkAPI {
      */
     @PostMapping("/getHdfsData")
     @ResponseBody
-    public String[] getHdfsData() throws Exception{
-        String [] tmp = {};
-        return hdfsFileUtil.list("/user/hadoop/data_platform/data/").toArray(tmp);
+    public List<String> getHdfsData() throws Exception{
+        return hdfsFileUtil.list("/user/hadoop/data_platform/data/");
     }
 
     /**
@@ -66,26 +62,26 @@ public class JavaSparkAPI {
      */
     @PostMapping("/getAllData")
     @ResponseBody
-    public Map<String,Integer> getAllData() throws Exception{
-        String [] hdfs = getHdfsData();
+    public List<String> getAllData() throws Exception{
+        List<String> hdfs = getHdfsData();
         FileController fileController = new FileController();
-        String [] local = fileController.getLocalData("Data");
-        Map<String,Integer> fileLocation = new HashMap<String,Integer>();
-        for (int i = 0; i < hdfs.length; i++) {
-            fileLocation.put(hdfs[i],1);
+        List<String> local = fileController.getLocalData("Data");
+        List<String> result = new ArrayList<String>();
+        for (int i = 0; i < hdfs.size(); i++) {
+            result.add(hdfs.get(i)+"+1");
         }
-        for (int i = 0; i < local.length; i++) {
-            if (!fileLocation.containsKey(local[i]))
-                fileLocation.put(local[i], 0);
+        for (int i = 0; i < local.size(); i++) {
+            if (!result.contains(local.get(i))){
+                result.add(local.get(i)+"+0");
+            }
         }
-        return fileLocation;
+        return result;
     }
 
     @PostMapping("/getModel")
     @ResponseBody
-    public String[] getModel() throws Exception{
-        String [] tmp = {};
-        return hdfsFileUtil.list("/user/hadoop/data_platform/model/").toArray(tmp);
+    public List<String> getModel() throws Exception{
+        return hdfsFileUtil.list("/user/hadoop/data_platform/model/");
     }
 
     /**
@@ -105,7 +101,7 @@ public class JavaSparkAPI {
     /**
      * train
      * @param DataName
-     * @param featureCols
+//     * @param featureCols
      * @param ModelName
      * @param Parameters
      * @param Algorithm

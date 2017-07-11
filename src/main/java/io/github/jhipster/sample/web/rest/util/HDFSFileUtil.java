@@ -9,6 +9,7 @@ import org.apache.hadoop.fs.Path;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 
@@ -69,10 +70,10 @@ public class HDFSFileUtil {
         return arrayList;
     }
 
-    public ArrayList<String> list(String folder) throws IOException {
+    public List<String> list(String folder) throws IOException {
         Path path = new Path(folder);
         FileStatus[] list = fs.listStatus(path);
-        ArrayList<String> nameList = new ArrayList<String>();
+        List<String> nameList = new ArrayList<String>();
         for (FileStatus f : list) {
             String [] filePath = f.getPath().toString().split("/");
             nameList.add(filePath[filePath.length-1]);
