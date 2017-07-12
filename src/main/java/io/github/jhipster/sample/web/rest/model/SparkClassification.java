@@ -2,6 +2,7 @@ package io.github.jhipster.sample.web.rest.model;
 
 import org.apache.spark.ml.Model;
 import org.apache.spark.ml.classification.*;
+import org.apache.spark.ml.param.Param;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.json.JSONException;
@@ -10,6 +11,31 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 public class SparkClassification {
+
+    public String getParam(String algorithm){
+        String result = "";
+        switch(algorithm){
+            case "lr":
+                LogisticRegression lr = new LogisticRegression();
+                result = lr.explainParams();
+                break;
+            case "dt":
+                DecisionTreeClassifier dt = new DecisionTreeClassifier();
+                result = dt.explainParams();
+                break;
+            case "rf":
+                RandomForestClassifier rf = new RandomForestClassifier();
+                result = rf.explainParams();
+                break;
+            case "gbt":
+                GBTClassifier gbt = new GBTClassifier();
+                result = gbt.explainParams();
+                break;
+            default:
+                break;
+        }
+        return result;
+    }
 
     public Model lr(JSONObject paramPair, Dataset dataSet, String savePath) throws IOException, JSONException {
         LogisticRegression lr = new LogisticRegression()
