@@ -238,6 +238,38 @@
             params: {
 
             }
+        }).state("dataLabel", {
+                      url: "/dataLabel",
+                      parent: 'app',
+                      data: {
+                          authorities: []
+                      },
+                      views: {
+                          'content@': {
+                              templateUrl: "app/project/datalabel/dataLabel.html",
+                              controller: "DataLabelController",
+                              controllerAs: 'vm'
+                          }
+                      },
+                      params: {
+
+                      }
+        }).state("dataLabel_db", {
+                                url: "/dataLabel/db",
+                                parent: 'app',
+                                data: {
+                                    authorities: []
+                                },
+                                views: {
+                                    'content@': {
+                                        templateUrl: "app/project/datalabel/dataLabeldb.html",
+                                        controller: "DataLabelController",
+                                        controllerAs: 'vm'
+                                    }
+                                },
+                                params: {
+
+                                }
         }).state("fileUpload", {
             url: "/fileUpload",
             parent: 'app',

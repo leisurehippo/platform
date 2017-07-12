@@ -175,6 +175,12 @@
                                 <span >PSO本地算法</span>
                             </a>
                         </li>
+                        <li  ui-sref-active="active" ng-switch-when="true">
+                            <a ui-sref="dataLabel" ng-click="vm.collapseNavbar();">
+                                <span class="glyphicon glyphicon-pencil"></span>&nbsp;
+                                <span >语料标注</span>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li ng-class="{active: vm.$state.includes('account')}" uib-dropdown class="dropdown pointer">

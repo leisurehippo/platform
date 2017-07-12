@@ -1,0 +1,23 @@
+(function () {
+    'use strict';
+
+    angular
+        .module('jhipsterSampleApplicationApp')
+        .factory('dataLabelservice', dataLabelservice);
+
+    dataLabelservice.$inject = ['$resource'];
+
+    function dataLabelservice ($resource) {
+        var service = $resource('api/dataLabelservice', {}, {
+            'get': {method: 'GET', params:{}, isArray: false,
+                responseType: "text",
+            //     transformResponse: function(data) {  // 转换response
+            //     return JSON.stringify(data);
+            // }
+            }
+
+        });
+
+        return service;
+    }
+})();

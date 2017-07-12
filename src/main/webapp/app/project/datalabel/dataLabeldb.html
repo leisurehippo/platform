@@ -1,0 +1,94 @@
+<ul class="nav nav-tabs">
+    <li role="presentation" ><a href="#/dataLabel">关键词搜索</a></li>
+    <li role="presentation" class="active"><a href="#/dataLabel/db">数据库搜索</a></li>
+</ul>
+<br />
+<div >
+    <div>
+    <label>
+        关键词:&nbsp;&nbsp;<input type="text" placeholder="keywords" style="width:500px;">
+    </label>
+    </div>
+    <div>
+    <label>
+        数据来源:
+    </label>
+    </div>
+    <div>
+        <label>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox">数据库
+        </label>
+    </div>
+    <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数据库名称:&nbsp;&nbsp;<input type="text" placeholder="dbname" style="width:500px;">
+    </div>
+    <div>
+    <label>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox">新浪微博
+    </label>
+    </div>
+    <div>
+    <label>
+        <input type="checkbox">时间范围:
+    </label>
+    </div>
+
+    <div class="container">
+        <form action="" class="form-horizontal"  role="form">
+            <fieldset>
+
+                <div class="form-group">
+
+                    <div class="input-group date form_datetime col-md-3" style="float:left;" data-date-format="yyyy-mm-dd" data-link-field="dtp_input1">
+                        <input class="form-control" size="16" type="text" value="" readonly>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                    </div>
+
+                    <div >
+                        <label for="dtp_input1" class="col-md-1 control-label" style="width:3.3333333333%;float:left;">到</label>
+                    </div>
+
+                    <div class="input-group date form_datetime col-md-3" style="float:left;"  data-date-format="yyyy-mm-dd" data-link-field="dtp_input1">
+                        <input class="form-control" size="16" type="text" value="" readonly>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                    </div>
+
+                    <input type="hidden" id="dtp_input1" value="" /><br/>
+                </div>
+
+            </fieldset>
+        </form>
+    </div>
+
+    <div>
+    <label>
+        <input type="checkbox">过滤:
+    </label>
+    </div>
+    <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;标签类别:
+        <select name="cars" style="height:25px;width:120px;">
+            <option value="bk" >黄金概念</option>
+            <option value="xfl" selected>石油行业</option>
+            <option value="dz" >银行业</option>
+            <option value="fute" >保险行业</option>
+        </select>
+    </div>
+    <div>
+        <br />
+        <label>
+            写入数据库:&nbsp;&nbsp;<input type="text" placeholder="dbname" style="width:500px;">
+            <input type="checkbox">覆盖
+        </label>
+    </div>
+    <div>
+        <label>
+            写入标签:&nbsp;&nbsp;<input type="text" placeholder="label" style="width:500px;">
+        </label>
+    </div>
+    <br />
+    <div align="center">
+        <button type="button" class="btn btn-default" >搜索</button>
+    </div>
+</div>
+
