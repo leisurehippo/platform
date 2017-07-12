@@ -9,10 +9,9 @@
 
     function GetAllData ($resource) {
         var service = $resource('api/getAllData', {}, {
-            'post': {method: 'POST', param:{},isArray: true
+            'get': {method: 'GET', param:{},isArray: true
             }
         });
-
         return service;
     }
 })();

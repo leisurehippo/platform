@@ -252,7 +252,7 @@
                 }
             },
             params: {
-
+                "fileType":null,
             }
         }).state("allFileData", {
             url: "/allFileData",

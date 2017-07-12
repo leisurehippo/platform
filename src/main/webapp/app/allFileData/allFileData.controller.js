@@ -10,7 +10,7 @@ function AllFileDataController($scope, $http, $state, GetAllData, GetAlgorithmDa
     var vm = this;
     vm.fileData = [];
     vm.algrithmData = [];
-    GetAllData.post({}, function (result) {
+    GetAllData.get({}, function (result) {
         for (var i = 0; i< result.length; i++) {
             vm.fileData[i] = result[i].split("+");
             if (vm.fileData[i][1] == '0') {
@@ -29,5 +29,15 @@ function AllFileDataController($scope, $http, $state, GetAllData, GetAlgorithmDa
         vm.algrithmData = res;
     }, function (result) {
     });
+
+    vm.alFileUpload = alFileUpload;
+    function alFileUpload() {
+        $state.go('fileUpload', {fileType:1});
+    }
+
+    vm.dataFileUpload = dataFileUpload;
+    function dataFileUpload() {
+        $state.go('fileUpload',  {fileType:0});
+    }
 
 }
