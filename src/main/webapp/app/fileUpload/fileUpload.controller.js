@@ -5,11 +5,17 @@ angular
     .module('jhipsterSampleApplicationApp')
     .controller('FileUploadController',FileUploadController);
 
-FileUploadController.$inject = ['$scope', '$http', '$state', 'upLoad'];
-function FileUploadController($scope, $http, $state, upLoad) {
+FileUploadController.$inject = ['$scope', '$http', '$stateParams', 'upLoad', '$state'];
+function FileUploadController($scope, $http, $stateParams, upLoad, $state) {
     var vm = this;
+    console.log($stateParams.fileType);
+    var uploadUrl =  null;
+    if ($stateParams.fileType == 0)
+        uploadUrl = "api/uploadData";
+    else
+        uploadUrl = "api/upload";
     var obt ={
-        "uploadUrl": "api/upload",
+        "uploadUrl": uploadUrl,
         //上传文件信息地址
         "progressUrl": "#",
         //获取进度信息地址，可选，注意需要返回的data格式如下
@@ -59,6 +65,7 @@ function FileUploadController($scope, $http, $state, upLoad) {
                 },
                 "onUpload":function(){//在上传之后
                     //alert("hellos");
+                    $state.go('allFileData');
                 }
 
             };

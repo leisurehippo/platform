@@ -1,2 +1,45 @@
-<button id="right" class="btn" ng-click="vm.run()">是</button>
+<!--<button id="right" class="btn" ng-click="vm.run()">是</button>-->
+<div class="form-group">
+    <label>算法名</label>
+    <input type="text" class="form-control" id="name" ng-model="vm.alName">
+</div>
+
+<div class="form-group">
+    <label>数据文件名</label>
+    <input type="text" class="form-control" id="fileName" ng-model="vm.fileName">
+    <p class="help-block">输入已提交的数据文件名</p>
+</div>
+<div class="form-group">
+    <label>是否需要参数</label>
+    <div class="radio">
+        <label>
+            <input type="radio" ng-value="true" ng-model="vm.hasParam" checked name="hasParam">
+            需要传参数
+        </label>
+    </div>
+    <div class="radio">
+        <label>
+            <input type="radio" ng-value="false" ng-model="vm.hasParam" name="hasParam">
+            不需要传参数
+        </label>
+    </div>
+</div>
+<div class="form-group" ng-if="vm.hasParam==true">
+    <label>参数</label>
+    <input type="text" class="form-control" id="param" ng-model="vm.params">
+    <p class="help-block">参数格式：以“+”拼接</p>
+</div>
+<div class="form-group">
+    <button type="submit" class="btn btn-default" ng-click="vm.run()">提交运行</button>
+</div>
+
+<div class="well">
+    <div class="form-group">
+        <label>运行结果:</label>
+        <p ng-repeat="item in vm.result">{{item}}</p>
+
+    </div>
+
+</div>
+
 

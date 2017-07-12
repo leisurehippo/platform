@@ -128,3 +128,10 @@
     -webkit-transition-timing-function: linear;
     -o-transition-timing-function: linear;
 }
+
+.addbutton {
+    position: absolute;
+    vertical-align: middle;
+    top:50%;
+   /*margin-top: ;*/
+}

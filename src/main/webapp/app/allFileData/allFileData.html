@@ -1,0 +1,34 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-8 col-md-10">
+            <div class="panel panel-default" style="width: 80%">
+                <div class="panel-heading">数据文件信息</div>
+                <table class="table">
+                    <th>文件名</th><th>HDFS </th><th>是否上传</th>
+                    <tr ng-repeat="item in vm.fileData"><td>{{item[0]}}</td><td>{{item[1]}}</td><td><button ng-class="{true: '',false:'glyphicon glyphicon-upload'}[item[1]]"></button></td></tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-2">
+            <button class="button glyphicon-plus addbutton" ng-click="vm.dataFileUpload()"></button>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-8 col-md-10">
+            <div class="panel panel-default" style="width: 80%">
+                <div class="panel-heading">算法文件信息</div>
+                <table class="table">
+                    <th>算法文件名</th>
+                    <tr ng-repeat="item in vm.algrithmData"><td>{{item}}</td></tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-2" style="position: relative">
+            <button class="button glyphicon-plus addbutton" ng-click="vm.alFileUpload()"></button>
+        </div>
+    </div>
+</div>
