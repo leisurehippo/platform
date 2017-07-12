@@ -58,6 +58,7 @@ local.properties
 *.ipr
 *.ids
 *.orig
+*.xml
 
 ######################
 # Visual Studio Code
