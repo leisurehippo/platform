@@ -11,8 +11,9 @@
     <!-- build:css content/css/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css">
-
+    <link rel="stylesheet" href="bower_components/bootstrap-ui-datetime-picker/bootstrap-datetimepicker.min.css">
     <!-- endinject -->
     <!-- endbuild -->
     <!-- build:css content/css/main.css -->
@@ -52,23 +53,8 @@
 
     <!-- build:js app/vendor.js -->
     <!-- bower:js -->
-    <script src="js/lib/angular.min.js"></script>
-    <script src="js/lib/angular-ui-router.min.js"></script>
-    <script src="js/lib/jquery.min.js"></script>
-    <script src="js/lib/bootstrap.min.js"></script>
-    <script src="js/lib/echarts.min.js"></script>
-    <script src="js/lib/tm.pagination.js"></script>
-    <script src="js/lib/d3.js"></script>
-    <script src="js/lib/shandong.js"></script>
-    <script src="js/lib/dropzone.js"></script>
-    <script src="js/lib/fileUpload.js"></script>
-    <script type="text/javascript" src="bower_components/moment/moment.js"></script>
-    <script type="text/javascript" src="bower_components/moment/locale/zh-cn.js"></script>
-    <script type="text/javascript" src="bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
-    <script type="text/javascript" src="bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js"></script>
-
-
     <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/messageformat/messageformat.js"></script>
     <script src="bower_components/json3/lib/json3.js"></script>
     <script src="bower_components/angular/angular.js"></script>
@@ -89,12 +75,19 @@
     <script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js"></script>
     <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
     <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+    <script src="bower_components/bootstrap-ui-datetime-picker/dist/bootstrap-datetimepicker.js"></script>
+    <script src="bower_components/bootstrap-ui-datetime-picker/dist/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- endinject -->
     <!-- endbuild -->
 
     <!-- build:js app/app.js  -->
     <!-- inject:js -->
     <script src="app/app.module.js"></script>
+    <script src="app/weather/weather.controller_t.js"></script>
+    <script src="app/weather/weather.controller.js"></script>
+    <script src="app/utils/date-utils.service.js"></script>
+    <script src="app/transformers/transformers.controller.js"></script>
     <script src="app/services/user/user.service.js"></script>
     <script src="app/services/profiles/profile.service.js"></script>
     <script src="app/services/profiles/page-ribbon.directive.js"></script>
@@ -110,11 +103,23 @@
     <script src="app/services/auth/auth.service.js"></script>
     <script src="app/services/auth/activate.service.js"></script>
     <script src="app/services/auth/account.service.js"></script>
+    <script src="app/project/pso-local/runLocal.service.js"></script>
+    <script src="app/project/pso-local/psoLocal.controller.js"></script>
+    <script src="app/project/datalabel/dataLabel.controller.js"></script>
+    <script src="app/project/datalabel/dataLabel.service.js"></script>
+    <script src="app/map/map.controller.js"></script>
+    <script src="app/lines/lines.controller.js"></script>
+    <script src="app/line-status/line-status.controller_t.js"></script>
+    <script src="app/line-status/line-status.controller.js"></script>
     <script src="app/layouts/navbar/navbar.controller.js"></script>
     <script src="app/layouts/navbar/active-menu.directive.js"></script>
     <script src="app/layouts/error/error.state.js"></script>
     <script src="app/home/home.state.js"></script>
     <script src="app/home/home.controller.js"></script>
+    <script src="app/gas/gas.controller_t.js"></script>
+    <script src="app/gas/gas.controller.js"></script>
+    <script src="app/fileUpload/fileUpload.service.js"></script>
+    <script src="app/fileUpload/fileUpload.controller.js"></script>
     <script src="app/entities/operation/operation-dialog.controller.js"></script>
     <script src="app/entities/operation/operation-detail.controller.js"></script>
     <script src="app/entities/operation/operation-delete-dialog.controller.js"></script>
@@ -134,6 +139,13 @@
     <script src="app/entities/bank-account/bank-account.state.js"></script>
     <script src="app/entities/bank-account/bank-account.service.js"></script>
     <script src="app/entities/bank-account/bank-account.controller.js"></script>
+    <script src="app/directive/maptitle.directive.js"></script>
+    <script src="app/directive/footer.directive.js"></script>
+    <script src="app/directive/carousel.directive.js"></script>
+    <script src="app/defect-transformers/defect-transformers.controller_t.js"></script>
+    <script src="app/defect-transformers/defect-transformers.controller.js"></script>
+    <script src="app/defect-lines/defect-lines.controller_t.js"></script>
+    <script src="app/defect-lines/defect-lines.controller.js"></script>
     <script src="app/components/util/truncate-words.filter.js"></script>
     <script src="app/components/util/truncate-characters.filter.js"></script>
     <script src="app/components/util/sort-by.directive.js"></script>
@@ -239,6 +251,7 @@
     <script src="app/directive/carousel.directive.js"></script>
     <script src="app/directive/footer.directive.js"></script>
     <script src="app/directive/maptitle.directive.js"></script>
+
 
     <!-- endinject -->
     <!-- endbuild -->
