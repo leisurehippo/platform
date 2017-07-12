@@ -10,7 +10,7 @@
     function runLocal ($resource) {
         var service = $resource('api/runLocal', {}, {
             'get': {method: 'GET', params:{}, isArray: true,
-                responseType: "text",
+                responseType: "text"
             }
 
         });

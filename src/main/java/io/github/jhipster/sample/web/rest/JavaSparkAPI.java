@@ -35,7 +35,7 @@ public class JavaSparkAPI {
      * @return true or false表示是否上传成功
      * @throws Exception
      */
-    @PostMapping("/HdfsUpload")
+    @GetMapping("/HdfsUpload")
     @ResponseBody
     public boolean HdfsUpload(@RequestParam(value = "DataName") String DataName) throws Exception{
         String localDir = "src\\main\\webappfiles\\Data\\" + DataName + ".json";
@@ -49,7 +49,7 @@ public class JavaSparkAPI {
      * @return 数据文件名列表
      * @throws Exception
      */
-    @PostMapping("/getHdfsData")
+    @GetMapping("/getHdfsData")
     @ResponseBody
     public List<String> getHdfsData() throws Exception{
         return hdfsFileUtil.list("/user/hadoop/data_platform/data/");
@@ -60,7 +60,7 @@ public class JavaSparkAPI {
      * @return 数据文件名列表
      * @throws Exception
      */
-    @PostMapping("/getAllData")
+    @GetMapping("/getAllData")
     @ResponseBody
     public List<String> getAllData() throws Exception{
         List<String> hdfs = getHdfsData();
@@ -78,7 +78,7 @@ public class JavaSparkAPI {
         return result;
     }
 
-    @PostMapping("/getModel")
+    @GetMapping("/getModel")
     @ResponseBody
     public List<String> getModel() throws Exception{
         return hdfsFileUtil.list("/user/hadoop/data_platform/model/");
@@ -90,7 +90,7 @@ public class JavaSparkAPI {
      * @return String []columns 数据列名
      * @throws Exception
      */
-    @PostMapping("/getDataColumns")
+    @GetMapping("/getDataColumns")
     @ResponseBody
     public String [] getDataColumns(@RequestParam(value = "DataName") String DataName) throws Exception{
         String hdfsDir = "/user/hadoop/data_platform/data/" + DataName + ".json";
@@ -107,7 +107,7 @@ public class JavaSparkAPI {
      * @param Algorithm
      * @throws Exception
      */
-    @PostMapping("/SparkTrain")
+    @GetMapping("/SparkTrain")
     @ResponseBody
     public void SparkTrain(@RequestParam(value = "DataName") String DataName,
 //                              @RequestParam(value = "Columns") String [] featureCols,
@@ -135,7 +135,7 @@ public class JavaSparkAPI {
 
     }
 
-    @PostMapping("/SparkPredict")
+    @GetMapping("/SparkPredict")
     @ResponseBody
     public void SparkPredict(@RequestParam(value = "DataName") String DataName,
 //                             @RequestParam(value = "Columns") String [] featureCols,

@@ -254,6 +254,22 @@
             params: {
 
             }
+        }).state("allFileData", {
+            url: "/allFileData",
+            parent: 'app',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: "app/allFileData/allFileData.html",
+                    controller: "AllFileDataController",
+                    controllerAs: 'vm'
+                }
+            },
+            params: {
+
+            }
         });
     }
 })();

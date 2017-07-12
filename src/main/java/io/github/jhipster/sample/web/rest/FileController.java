@@ -81,7 +81,7 @@ public class FileController {
      * @param type
      * @return String []dataList
      */
-    @PostMapping("/getLocalData")
+    @GetMapping("/getLocalData")
     @ResponseBody
     public List<String> getLocalData(@RequestParam(value = "Type") String type){
         List<String> results = new ArrayList<String>();
