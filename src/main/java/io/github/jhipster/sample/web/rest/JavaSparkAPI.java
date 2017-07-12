@@ -38,8 +38,8 @@ public class JavaSparkAPI {
     @GetMapping("/HdfsUpload")
     @ResponseBody
     public boolean HdfsUpload(@RequestParam(value = "DataName") String DataName) throws Exception{
-        String localDir = "src\\main\\webappfiles\\Data\\" + DataName + ".json";
-        String hdfsDir = "/user/hadoop/data_platform/data/" + DataName + ".json";
+        String localDir = "src\\main\\webappfiles\\Data\\" + DataName;
+        String hdfsDir = "/user/hadoop/data_platform/data/" + DataName;
         hdfsFileUtil.upload(localDir, hdfsDir, false);
         return hdfsFileUtil.checkFile(hdfsDir);
     }
@@ -93,7 +93,7 @@ public class JavaSparkAPI {
     @GetMapping("/getDataColumns")
     @ResponseBody
     public String [] getDataColumns(@RequestParam(value = "DataName") String DataName) throws Exception{
-        String hdfsDir = "/user/hadoop/data_platform/data/" + DataName + ".json";
+        String hdfsDir = "/user/hadoop/data_platform/data/" + DataName;
         String [] columns = sparkUtil.getColumns(hdfsDir, "HDFS", "json");
         return columns;
     }
@@ -116,7 +116,7 @@ public class JavaSparkAPI {
                               @RequestParam(value = "Algorithm") String Algorithm) throws Exception{
         Date date = new Date();
         String[] featureCols = {"wigth", "age", "heigth", "interets"};
-        String hdfsDir = "/user/hadoop/data_platform/data/" + DataName + ".json";
+        String hdfsDir = "/user/hadoop/data_platform/data/" + DataName;
         Dataset<Row> dataset = sparkUtil.readData(hdfsDir, "HDFS", "json",featureCols, "label");
         System.out.println(dataset.count());
         for(String column : dataset.columns())
@@ -143,7 +143,7 @@ public class JavaSparkAPI {
                              @RequestParam(value = "Algorithm") String Algorithm) throws Exception{
 
         String[] featureCols = {"wigth", "age", "heigth", "interets"};
-        String hdfsDir = "/user/hadoop/data_platform/data/" + DataName + ".json";
+        String hdfsDir = "/user/hadoop/data_platform/data/" + DataName;
         System.out.println(hdfsDir);
         Dataset<Row> dataset = sparkUtil.readData(hdfsDir, "HDFS", "json",featureCols, "label");
         System.out.println("read over");

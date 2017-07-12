@@ -302,6 +302,38 @@
             params: {
 
             }
+        }).state("LRTrain", {
+            url: "/LR/Train",
+            parent: 'app',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: "app/MLLib/predict/LR/Train/LRTrain.html",
+                    controller: "LRTrainController",
+                    controllerAs: 'vm'
+                }
+            },
+            params: {
+
+            }
+        }).state("LRTest", {
+            url: "/LR/Test",
+            parent: 'app',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: "app/MLLib/predict/LR/Test/LRTest.html",
+                    controller: "LRTestController",
+                    controllerAs: 'vm'
+                }
+            },
+            params: {
+
+            }
         });
     }
 })();
