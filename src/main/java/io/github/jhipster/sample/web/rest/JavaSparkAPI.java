@@ -98,6 +98,13 @@ public class JavaSparkAPI {
         return columns;
     }
 
+    @GetMapping("/getParameter")
+    @ResponseBody
+    public String getParam(@RequestParam(value = "Algorithm") String Algorithm){
+        String result = sparkClassification.getParam(Algorithm);
+        return result;
+    }
+
     /**
      * train
      * @param DataName
@@ -115,7 +122,8 @@ public class JavaSparkAPI {
                               @RequestParam(value = "Parameters") String Parameters,
                               @RequestParam(value = "Algorithm") String Algorithm) throws Exception{
         Date date = new Date();
-        String[] featureCols = {"wigth", "age", "heigth", "interets"};
+        String[] featureCols = getDataColumns(DataName);
+//        String[] featureCols = {"wigth", "age", "heigth", "interets"};
         String hdfsDir = "/user/hadoop/data_platform/data/" + DataName;
         Dataset<Row> dataset = sparkUtil.readData(hdfsDir, "HDFS", "json",featureCols, "label");
         System.out.println(dataset.count());
@@ -142,7 +150,8 @@ public class JavaSparkAPI {
                              @RequestParam(value = "ModelName") String ModelName,
                              @RequestParam(value = "Algorithm") String Algorithm) throws Exception{
 
-        String[] featureCols = {"wigth", "age", "heigth", "interets"};
+        String[] featureCols = getDataColumns(DataName);
+//        String[] featureCols = {"wigth", "age", "heigth", "interets"};
         String hdfsDir = "/user/hadoop/data_platform/data/" + DataName;
         System.out.println(hdfsDir);
         Dataset<Row> dataset = sparkUtil.readData(hdfsDir, "HDFS", "json",featureCols, "label");
