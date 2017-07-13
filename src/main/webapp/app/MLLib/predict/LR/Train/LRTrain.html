@@ -11,7 +11,8 @@
 
 <form class="form-horizontal">
     <div class="form-group">
-        <label class="col-sm-2 control-label">选择算法</label>
+        <label class="col-sm-2 control-label">选择算法
+        </label>
         <div class="col-sm-10">
             <div class="btn-group">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -19,18 +20,26 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li class="dropdown-submenu">
-                        <a tabindex="-1" href="#">预测</a>
+                        <a tabindex="-1" href="javascript:void(0)">预测</a>
                         <ul class="dropdown-menu">
-                            <li><a tabindex="-1" href="javascript:;">lr</a></li>i>
+                            <li ><a tabindex="-1" href="javascript:void(0)" ng-click="vm.alMLLib = 'lr' ">lr</a></li>
                         </ul>
                     </li>
-                    <li><a href="">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
+                    <li class="dropdown-submenu">
+                        <a tabindex="-1" href="javascript:void(0)">分类</a>
+                        <ul class="dropdown-menu">
+                            <li><a tabindex="-1" href="javascript:void(0)" ng-click="vm.alMLLib = 'SVM ' ">SVM</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-submenu">
+                        <a tabindex="-1" href="javascript:void(0)">聚类</a>
+                        <ul class="dropdown-menu">
+                            <li><a tabindex="-1" href="javascript:void(0)"  ng-click="vm.alMLLib = 'kmeans '">kmeans</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
+            <input type="text" class="form-group-sm" ng-model="vm.alMLLib"/>
         </div>
     </div>
     <div class="form-group">

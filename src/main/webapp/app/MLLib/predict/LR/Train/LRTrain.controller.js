@@ -9,6 +9,9 @@ LRTrainController.$inject = ['$scope', '$http', '$state', 'GetHdfsFile'];
 function LRTrainController($scope, $http, $state, GetHdfsFile) {
     var vm = this;
     vm.fileData = [];
+    vm.alMLLib = "lr";
+    vm.dataName = "";
+    vm.modelName = "";
     GetHdfsFile.get({}, function (res) {
         console.log(res);
         vm.fileData = res;
