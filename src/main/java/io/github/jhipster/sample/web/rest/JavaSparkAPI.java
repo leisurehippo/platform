@@ -155,7 +155,7 @@ public class JavaSparkAPI {
 
     @GetMapping("/SparkPredict")
     @ResponseBody
-    public void SparkPredict(@RequestParam(value = "DataName") String DataName,
+    public  List<String> SparkPredict(@RequestParam(value = "DataName") String DataName,
 //                             @RequestParam(value = "Columns") String [] featureCols,
                              @RequestParam(value = "ModelName") String ModelName,
                              @RequestParam(value = "Algorithm") String Algorithm) throws Exception{
@@ -164,6 +164,7 @@ public class JavaSparkAPI {
 //        String[] featureCols = {"wigth", "age", "heigth", "interets"};
         String hdfsDir = "/user/hadoop/data_platform/data/" + DataName;
         System.out.println(hdfsDir);
+        List<String> result = new ArrayList<String>();
         Dataset<Row> dataset = sparkUtil.readData(hdfsDir, "HDFS", "json",featureCols, "label");
         System.out.println("read over");
         String modelPath = hdfsFileUtil.HDFSPath("/user/hadoop/data_platform/model/" + ModelName);
@@ -172,12 +173,15 @@ public class JavaSparkAPI {
         switch (Algorithm){
             case "lr":
                 Model model = sparkEstimate.loadModel(modelPath, Classification.LR);
-                sparkEstimate.predict(dataset,model);
+                Dataset<Row> rows = sparkEstimate.predict(dataset,model);
+                for (Row r: rows.collectAsList()) {
+                    result.add("(" + r.get(0) + ", " + r.get(1) + ") -> prob=" + r.get(2) + ", prediction=" + r.get(3));
+                }
                 break;
             default:
                 break;
         }
-
+    return result;
     }
 
 

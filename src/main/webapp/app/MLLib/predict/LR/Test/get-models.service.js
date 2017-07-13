@@ -1,14 +1,17 @@
+/**
+ * Created by Zhaoxuan on 2017/7/13.
+ */
 (function () {
     'use strict';
 
     angular
         .module('jhipsterSampleApplicationApp')
-        .factory('runLocal', runLocal);
+        .factory('GetModels', GetModels);
 
-    runLocal.$inject = ['$resource'];
+    GetModels.$inject = ['$resource'];
 
-    function runLocal ($resource) {
-        var service = $resource('api/runLocal', {}, {
+    function GetModels ($resource) {
+        var service = $resource('api/getModel', {}, {
             'get': {method: 'GET', params:{}, isArray: true,
                 responseType: "text"
             }
