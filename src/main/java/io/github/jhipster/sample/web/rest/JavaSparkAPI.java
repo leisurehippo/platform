@@ -100,16 +100,19 @@ public class JavaSparkAPI {
 
     @GetMapping("/getParameter")
     @ResponseBody
-    public String getParam(@RequestParam(value = "Algorithm") String Algorithm){
+    public  List<String> getParam(@RequestParam(value = "Algorithm") String Algorithm){
         String []arrParam = sparkClassification.getParam(Algorithm).split("\n");
-        String result = "";
+        List<String> resList = new ArrayList<String> ();
         for (int i = 0; i < arrParam.length; i++) {
+            String result = "";
             String []arrDefault = arrParam[i].split(":");
             if (arrDefault.length == 3){
-                result += arrDefault[0] + ":" +arrDefault[2].substring(1,arrDefault[2].length()-1)+"\n";
+                result = arrDefault[0] + ":" +arrDefault[2].substring(1,arrDefault[2].length()-1);
+                resList.add(result);
             }
+
         }
-        return result;
+        return resList;
     }
 
     /**

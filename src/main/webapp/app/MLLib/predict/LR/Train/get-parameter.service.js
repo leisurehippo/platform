@@ -11,9 +11,9 @@
     GetParameter.$inject = ['$resource'];
 
     function GetParameter ($resource) {
-        var service = $resource('api/getHdfsData', {}, {
-            'get': {method: 'GET', params:{}, isArray: true,
-                responseType: "text"
+        var service = $resource('api/getParameter', {}, {
+            'get': {method: 'GET', params:{},isArray:true,
+                // responseType: "json"
             }
 
         });
