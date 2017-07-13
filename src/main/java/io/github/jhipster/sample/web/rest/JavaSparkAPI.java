@@ -101,7 +101,14 @@ public class JavaSparkAPI {
     @GetMapping("/getParameter")
     @ResponseBody
     public String getParam(@RequestParam(value = "Algorithm") String Algorithm){
-        String result = sparkClassification.getParam(Algorithm);
+        String []arrParam = sparkClassification.getParam(Algorithm).split("\n");
+        String result = "";
+        for (int i = 0; i < arrParam.length; i++) {
+            String []arrDefault = arrParam[i].split(":");
+            if (arrDefault.length == 3){
+                result += arrDefault[0] + ":" +arrDefault[2].substring(1,arrDefault[2].length()-1)+"\n";
+            }
+        }
         return result;
     }
 
