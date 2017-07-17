@@ -3,6 +3,8 @@ package io.github.jhipster.sample.web.rest;
 import io.github.jhipster.sample.web.rest.model.SparkEstimate;
 import io.github.jhipster.sample.web.rest.support.Classification;
 import org.apache.spark.ml.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import io.github.jhipster.sample.web.rest.model.SparkClassification;
@@ -71,12 +73,13 @@ public class JavaSparkAPI {
             result.add(hdfs.get(i)+"+1");
         }
         for (int i = 0; i < local.size(); i++) {
-            if (!result.contains(local.get(i))){
+            if (!result.contains(local.get(i)+"+1")){
                 result.add(local.get(i)+"+0");
             }
         }
         return result;
     }
+
 
     @GetMapping("/getModel")
     @ResponseBody
