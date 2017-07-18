@@ -41,15 +41,32 @@ public class SparkClassification {
 
     public Model lr(JSONObject paramPair, Dataset dataSet, String savePath) throws IOException, JSONException {
         LogisticRegression lr = new LogisticRegression();
-
         Iterator iter = paramPair.keys();
         for (int i = 0; i < paramPair.length(); i++) {
             String k = iter.next().toString();
-            lr.set(k,paramPair.getInt(k));
+            System.out.print(k+" type is :");
+            String value = paramPair.getString(k);
+            if (value.equals("true") || value.equals("false")) {
+                System.out.println("boolean");
+                lr.set(k, paramPair.optBoolean(k));
+            }
+            //^(-?\d+)(\.\d+)?(e)?(\d+)?$
+            else if (value.matches("^(-?\\d+)(\\.\\d+)?$")){
+                if (value.contains(".")){
+                    System.out.println("double");
+                    lr.set(k,paramPair.optDouble(k));
+                }else {
+                    System.out.println("int");
+                    lr.set(k, paramPair.optInt(k));
+                }
+            }
+            else {
+                System.out.println("string");
+                lr.set(k, paramPair.optString(k));
+            }
         }
 
-
-//        lr.set("maxIter",1);
+//        LogisticRegression lr = new LogisticRegression()
 //                .setMaxIter(paramPair.getInt("maxIter"))
 //                .setRegParam(paramPair.getDouble("regParam"))
 //                .setElasticNetParam(paramPair.getDouble("elasticNetParam"))
