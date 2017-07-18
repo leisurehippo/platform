@@ -1,5 +1,6 @@
 package io.github.jhipster.sample.web.rest.model;
 
+import org.apache.commons.math3.util.MultidimensionalCounter;
 import org.apache.spark.ml.Model;
 import org.apache.spark.ml.classification.*;
 import org.apache.spark.ml.param.Param;
@@ -9,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Iterator;
 
 public class SparkClassification {
 
@@ -38,11 +40,20 @@ public class SparkClassification {
     }
 
     public Model lr(JSONObject paramPair, Dataset dataSet, String savePath) throws IOException, JSONException {
-        LogisticRegression lr = new LogisticRegression()
-                .setMaxIter(paramPair.getInt("maxIter"))
-                .setRegParam(paramPair.getDouble("regParam"))
-                .setElasticNetParam(paramPair.getDouble("elasticNetParam"))
-                .setStandardization(paramPair.getBoolean("standardization"));
+        LogisticRegression lr = new LogisticRegression();
+
+        Iterator iter = paramPair.keys();
+        for (int i = 0; i < paramPair.length(); i++) {
+            String k = iter.next().toString();
+            lr.set(k,paramPair.getInt(k));
+        }
+
+
+//        lr.set("maxIter",1);
+//                .setMaxIter(paramPair.getInt("maxIter"))
+//                .setRegParam(paramPair.getDouble("regParam"))
+//                .setElasticNetParam(paramPair.getDouble("elasticNetParam"))
+//                .setStandardization(paramPair.getBoolean("standardization"));
         LogisticRegressionModel model_lr= lr.fit(dataSet);
         model_lr.save(savePath);
         return model_lr;

@@ -36,7 +36,6 @@ public class SparkUtil {
 
     private Dataset<Row> readFromHDFS(String path, String dataFormat) throws Exception {
         if(!hdfsFileUtil.checkFile(path)) {
-            System.out.println("not");
             throw new FileNotFoundException(path + "not found on hadoop!");
         }
         return spark.read().format(dataFormat).load(hdfsFileUtil.HDFSPath(path));

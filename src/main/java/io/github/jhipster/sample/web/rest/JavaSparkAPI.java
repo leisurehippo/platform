@@ -125,11 +125,12 @@ public class JavaSparkAPI {
      * @param ModelName
      * @param Parameters
      * @param Algorithm
+     * @return model saved or not
      * @throws Exception
      */
     @GetMapping("/SparkTrain")
     @ResponseBody
-    public void SparkTrain(@RequestParam(value = "DataName") String DataName,
+    public boolean SparkTrain(@RequestParam(value = "DataName") String DataName,
 //                              @RequestParam(value = "Columns") String [] featureCols,
                               @RequestParam(value = "ModelName") String ModelName,
                               @RequestParam(value = "Parameters") String Parameters,
@@ -145,7 +146,8 @@ public class JavaSparkAPI {
 //        {'maxIter':10, 'regParam' : 0.5, 'elasticNetParam' : 0.8, 'standardization' : true}
         JSONObject jsonObject = new JSONObject(Parameters);
 
-        String modelPath = hdfsFileUtil.HDFSPath("/user/hadoop/data_platform/model/" + ModelName + String.valueOf(date.getTime()));
+        String newModelName = ModelName + String.valueOf(date.getTime());
+        String modelPath = hdfsFileUtil.HDFSPath("/user/hadoop/data_platform/model/" + newModelName);
         switch (Algorithm){
             case "lr":
                 sparkClassification.lr(jsonObject, dataset, modelPath);
@@ -153,7 +155,7 @@ public class JavaSparkAPI {
             default:
                 break;
         }
-
+        return getModel().contains(newModelName);
     }
 
     @GetMapping("/SparkPredict")
