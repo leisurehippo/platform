@@ -70,6 +70,11 @@ public class HDFSFileUtil {
         return arrayList;
     }
 
+    public void getSize(String path) throws Exception{
+        System.out.println(fs.getFileStatus(new Path(path)).getBlockSize());
+        System.out.println(fs.getFileStatus(new Path(path)).getLen());
+    }
+
     public List<String> list(String folder) throws IOException {
         Path path = new Path(folder);
         FileStatus[] list = fs.listStatus(path);
