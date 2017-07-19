@@ -5,7 +5,7 @@
                 <div class="panel-heading">数据文件信息</div>
                 <table class="table">
                     <th>文件名</th><th>HDFS </th><th>是否上传</th>
-                    <tr ng-repeat="item in vm.fileData"><td>{{item[0]}}</td><td>{{item[1]}}</td><td><button ng-class="{true: '',false:'glyphicon glyphicon-upload'}[item[1]]"></button></td></tr>
+                    <tr ng-repeat="item in vm.fileData"><td>{{item[0]}}</td><td>{{item[1]}}</td><td><button ng-show="item[1] == false" class="glyphicon glyphicon-upload" ng-click="vm.fileUpHdfs($index)"></button></td></tr>
                 </table>
             </div>
         </div>

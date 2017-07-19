@@ -3,6 +3,8 @@ package io.github.jhipster.sample.web.rest;
 import io.github.jhipster.sample.web.rest.model.SparkEstimate;
 import io.github.jhipster.sample.web.rest.support.Classification;
 import org.apache.spark.ml.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import io.github.jhipster.sample.web.rest.model.SparkClassification;
@@ -14,6 +16,7 @@ import org.json.JSONObject;
 import io.github.jhipster.sample.web.rest.util.HDFSFileUtil;
 import io.github.jhipster.sample.web.rest.util.SparkUtil;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -31,17 +34,23 @@ public class JavaSparkAPI {
 
     /**
      * 上传本地数据至HDFS
-     * @param DataName 本地src\main\webappfiles\Data目录下的数据文件名
-     * @return true or false表示是否上传成功
+     * @param  arrDataName 本地src\main\webappfiles\Data目录下的数据文件名列表
+     * @return 上传失败的文件名
      * @throws Exception
      */
     @GetMapping("/HdfsUpload")
     @ResponseBody
-    public boolean HdfsUpload(@RequestParam(value = "DataName") String DataName) throws Exception{
-        String localDir = "src\\main\\webappfiles\\Data\\" + DataName + ".json";
-        String hdfsDir = "/user/hadoop/data_platform/data/" + DataName + ".json";
-        hdfsFileUtil.upload(localDir, hdfsDir, false);
-        return hdfsFileUtil.checkFile(hdfsDir);
+    public List<String> HdfsUpload(@RequestParam(value = "DataName") String []arrDataName) throws Exception{
+        List<String> result = new ArrayList<>();
+        for (int i = 0; i < arrDataName.length; i++) {
+            String DataName = arrDataName[i];
+            String localDir = "src\\main\\webappfiles\\Data\\" + DataName;
+            String hdfsDir = "/user/hadoop/data_platform/data/" + DataName;
+            hdfsFileUtil.upload(localDir, hdfsDir, false);
+            if (!hdfsFileUtil.checkFile(hdfsDir))
+                result.add(DataName);
+        }
+        return result;
     }
 
     /**
@@ -55,28 +64,28 @@ public class JavaSparkAPI {
         return hdfsFileUtil.list("/user/hadoop/data_platform/data/");
     }
 
+
     /**
      * 获取所有数据文件
      * @return 数据文件名列表
      * @throws Exception
      */
-    @GetMapping("/getAllData")
+    @GetMapping("/getServerData")
     @ResponseBody
     public List<String> getAllData() throws Exception{
         List<String> hdfs = getHdfsData();
         FileController fileController = new FileController();
         List<String> local = fileController.getLocalData("Data");
         List<String> result = new ArrayList<String>();
-        for (int i = 0; i < hdfs.size(); i++) {
-            result.add(hdfs.get(i)+"+1");
-        }
         for (int i = 0; i < local.size(); i++) {
-            if (!result.contains(local.get(i))){
+            if (hdfs.contains(local.get(i)))
+                result.add(local.get(i)+"+1");
+            else
                 result.add(local.get(i)+"+0");
-            }
         }
         return result;
     }
+
 
     @GetMapping("/getModel")
     @ResponseBody
@@ -93,9 +102,26 @@ public class JavaSparkAPI {
     @GetMapping("/getDataColumns")
     @ResponseBody
     public String [] getDataColumns(@RequestParam(value = "DataName") String DataName) throws Exception{
-        String hdfsDir = "/user/hadoop/data_platform/data/" + DataName + ".json";
+        String hdfsDir = "/user/hadoop/data_platform/data/" + DataName;
         String [] columns = sparkUtil.getColumns(hdfsDir, "HDFS", "json");
         return columns;
+    }
+
+    @GetMapping("/getParameter")
+    @ResponseBody
+    public  List<String> getParam(@RequestParam(value = "Algorithm") String Algorithm){
+        String []arrParam = sparkClassification.getParam(Algorithm).split("\n");
+        List<String> resList = new ArrayList<String> ();
+        for (int i = 0; i < arrParam.length; i++) {
+            String result = "";
+            String []arrDefault = arrParam[i].split(":");
+            if (arrDefault.length == 3){
+                result = arrDefault[0] + ":" +arrDefault[2].substring(1,arrDefault[2].length()-1);
+                resList.add(result);
+            }
+
+        }
+        return resList;
     }
 
     /**
@@ -105,18 +131,20 @@ public class JavaSparkAPI {
      * @param ModelName
      * @param Parameters
      * @param Algorithm
+     * @return model saved or not
      * @throws Exception
      */
     @GetMapping("/SparkTrain")
     @ResponseBody
-    public void SparkTrain(@RequestParam(value = "DataName") String DataName,
+    public boolean SparkTrain(@RequestParam(value = "DataName") String DataName,
 //                              @RequestParam(value = "Columns") String [] featureCols,
                               @RequestParam(value = "ModelName") String ModelName,
                               @RequestParam(value = "Parameters") String Parameters,
                               @RequestParam(value = "Algorithm") String Algorithm) throws Exception{
         Date date = new Date();
-        String[] featureCols = {"wigth", "age", "heigth", "interets"};
-        String hdfsDir = "/user/hadoop/data_platform/data/" + DataName + ".json";
+        String[] featureCols = getDataColumns(DataName);
+//        String[] featureCols = {"wigth", "age", "heigth", "interets"};
+        String hdfsDir = "/user/hadoop/data_platform/data/" + DataName;
         Dataset<Row> dataset = sparkUtil.readData(hdfsDir, "HDFS", "json",featureCols, "label");
         System.out.println(dataset.count());
         for(String column : dataset.columns())
@@ -124,7 +152,8 @@ public class JavaSparkAPI {
 //        {'maxIter':10, 'regParam' : 0.5, 'elasticNetParam' : 0.8, 'standardization' : true}
         JSONObject jsonObject = new JSONObject(Parameters);
 
-        String modelPath = hdfsFileUtil.HDFSPath("/user/hadoop/data_platform/model/" + ModelName + String.valueOf(date.getTime()));
+        String newModelName = ModelName + String.valueOf(date.getTime());
+        String modelPath = hdfsFileUtil.HDFSPath("/user/hadoop/data_platform/model/" + newModelName);
         switch (Algorithm){
             case "lr":
                 sparkClassification.lr(jsonObject, dataset, modelPath);
@@ -132,19 +161,21 @@ public class JavaSparkAPI {
             default:
                 break;
         }
-
+        return getModel().contains(newModelName);
     }
 
     @GetMapping("/SparkPredict")
     @ResponseBody
-    public void SparkPredict(@RequestParam(value = "DataName") String DataName,
+    public  List<String> SparkPredict(@RequestParam(value = "DataName") String DataName,
 //                             @RequestParam(value = "Columns") String [] featureCols,
                              @RequestParam(value = "ModelName") String ModelName,
                              @RequestParam(value = "Algorithm") String Algorithm) throws Exception{
 
-        String[] featureCols = {"wigth", "age", "heigth", "interets"};
-        String hdfsDir = "/user/hadoop/data_platform/data/" + DataName + ".json";
+        String[] featureCols = getDataColumns(DataName);
+//        String[] featureCols = {"wigth", "age", "heigth", "interets"};
+        String hdfsDir = "/user/hadoop/data_platform/data/" + DataName;
         System.out.println(hdfsDir);
+        List<String> result = new ArrayList<String>();
         Dataset<Row> dataset = sparkUtil.readData(hdfsDir, "HDFS", "json",featureCols, "label");
         System.out.println("read over");
         String modelPath = hdfsFileUtil.HDFSPath("/user/hadoop/data_platform/model/" + ModelName);
@@ -153,12 +184,15 @@ public class JavaSparkAPI {
         switch (Algorithm){
             case "lr":
                 Model model = sparkEstimate.loadModel(modelPath, Classification.LR);
-                sparkEstimate.predict(dataset,model);
+                Dataset<Row> rows = sparkEstimate.predict(dataset,model);
+                for (Row r: rows.collectAsList()) {
+                    result.add("(" + r.get(0) + ", " + r.get(1) + ") -> prob=" + r.get(2) + ", prediction=" + r.get(3));
+                }
                 break;
             default:
                 break;
         }
-
+    return result;
     }
 
 

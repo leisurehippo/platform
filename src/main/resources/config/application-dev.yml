@@ -29,13 +29,12 @@ spring:
         url: jdbc:mysql://10.109.247.63:3306/test?characterEncoding=utf-8
         username: root
         password: hadoop
-
     h2:
         console:
             enabled: false
     jpa:
         database-platform: io.github.jhipster.domain.util.FixedH2Dialect
-        database: Mysql
+        database: MYSQL
         show-sql: true
         properties:
             hibernate.id.new_generator_mappings: true

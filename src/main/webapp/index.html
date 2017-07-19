@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="bower_components/bootstrap-ui-datetime-picker/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="content/css/jPages.css">
 
+    <link rel="stylesheet" href="bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css">
     <!-- endinject -->
     <!-- endbuild -->
     <!-- build:css content/css/main.css -->
@@ -55,6 +56,11 @@
 
     <!-- build:js app/vendor.js -->
     <!-- bower:js -->
+    <script src="js/lib/d3.js"></script>
+    <script src="js/lib/echarts.min.js"></script>
+    <script src="js/lib/fileUpload.js"></script>
+    <script src="js/lib/shandong.js"></script>
+
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/messageformat/messageformat.js"></script>
@@ -80,6 +86,10 @@
     <script src="bower_components/bootstrap-ui-datetime-picker/dist/bootstrap-datetimepicker.js"></script>
     <script src="bower_components/bootstrap-ui-datetime-picker/dist/bootstrap-datetimepicker.zh-CN.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/moment/moment.d.ts"></script>
+    <script src="bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
+    <script src="bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js"></script>
     <!-- endinject -->
     <!-- endbuild -->
 
@@ -250,10 +260,18 @@
     <script src="app/allFileData/allFileData.controller.js"></script>
     <script src="app/allFileData/get-all-data.service.js"></script>
     <script src="app/allFileData/get-algorithm-data.service.js"></script>
+    <script src="app/allFileData/file-upload-hdsf.service.js"></script>
+    <script src="app/MLLib/predict/LR/Train/LRTrain.controller.js"></script>
+    <script src="app/MLLib/predict/LR/Train/get-hdfs-file.service.js"></script>
+    <script src="app/MLLib/predict/LR/Test/LRTest.controller.js"></script>
+    <script src="app/MLLib/predict/LR/Test/predict.service.js"></script>
+    <script src="app/MLLib/predict/LR/Test/get-models.service.js"></script>
+    <script src="app/MLLib/predict/LR/Train/get-parameter.service.js"></script>
+    <script src="app/MLLib/predict/LR/Train/train-model.service.js"></script>
 
     <script src="app/directive/carousel.directive.js"></script>
     <script src="app/directive/footer.directive.js"></script>
-    <script src="app/directive/maptitle.directive.js"></script>
+    <!--<script src="app/directive/maptitle.directive.js"></script>-->
 
 
     <script src="js/lib/jPages.js"></script>
