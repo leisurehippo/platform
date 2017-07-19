@@ -5,8 +5,8 @@ angular
     .module('jhipsterSampleApplicationApp')
     .controller('AllFileDataController',AllFileDataController);
 
-AllFileDataController.$inject = ['$scope', '$http', '$state', 'GetAllData', 'GetAlgorithmData'];
-function AllFileDataController($scope, $http, $state, GetAllData, GetAlgorithmData) {
+AllFileDataController.$inject = ['$scope', '$http', '$state', 'GetAllData', 'GetAlgorithmData', 'HdfsUpload'];
+function AllFileDataController($scope, $http, $state, GetAllData, GetAlgorithmData, HdfsUpload) {
     var vm = this;
     vm.fileData = [];
     vm.algrithmData = [];
@@ -38,6 +38,17 @@ function AllFileDataController($scope, $http, $state, GetAllData, GetAlgorithmDa
     vm.dataFileUpload = dataFileUpload;
     function dataFileUpload() {
         $state.go('fileUpload',  {fileType:0});
+    }
+
+    vm.fileUpHdfs = fileUpHdfs;
+    function fileUpHdfs(index) {
+        console.log(index);
+        HdfsUpload.get({DataName:vm.fileData[index][0]}, function (res) {
+            console.log(res);
+            $state.go('allFileData', null, { reload: true });
+        }, function (res) {
+            console.log(res);
+        });
     }
 
 }
