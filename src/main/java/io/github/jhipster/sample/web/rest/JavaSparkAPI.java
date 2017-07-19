@@ -86,6 +86,12 @@ public class JavaSparkAPI {
         return result;
     }
 
+//    @GetMapping("/getSize")
+//    @ResponseBody
+//    public void getSize(@RequestParam(value = "path") String path) throws Exception{
+//        hdfsFileUtil.getSize(path);
+//    }
+
 
     @GetMapping("/getModel")
     @ResponseBody

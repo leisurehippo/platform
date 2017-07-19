@@ -77,13 +77,15 @@ public class FileController {
 
 
     /**
-     * 获取本地数据
-     * @param type
+     * 获取本地算法
      * @return String []dataList
      */
-    @GetMapping("/getLocalData")
+    @GetMapping("/getServerAlgorithm")
     @ResponseBody
-    public List<String> getLocalData(@RequestParam(value = "Type") String type){
+    public List<String> getServerAlgorithm(){
+        return getLocalData("Algorithm");
+    }
+    public List<String> getLocalData(String type){
         List<String> results = new ArrayList<String>();
         File file = new File("src/main/webappfiles/" + type + "/");
         if (file.exists()) {
