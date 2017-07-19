@@ -86,11 +86,12 @@ public class JavaSparkAPI {
         return result;
     }
 
-//    @GetMapping("/getSize")
-//    @ResponseBody
-//    public void getSize(@RequestParam(value = "path") String path) throws Exception{
-//        hdfsFileUtil.getSize(path);
-//    }
+    @GetMapping("/getSize")
+    @ResponseBody
+    public String getSize(@RequestParam(value = "DataName") String DataName) throws Exception{
+        String path = "/user/hadoop/data_platform/data/" + DataName;
+        return hdfsFileUtil.getSizeK(path)+"KB";
+    }
 
 
     @GetMapping("/getModel")
