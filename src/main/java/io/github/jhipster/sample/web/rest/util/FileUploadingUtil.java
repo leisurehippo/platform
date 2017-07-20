@@ -132,9 +132,13 @@ public class FileUploadingUtil {
      * @param filecontent   文件内容
      * @return  是否创建成功，成功则返回true
      */
-    public boolean createFile(String fileName,String filecontent){
+    public boolean createFile(String filePath, String fileName,String filecontent){
+        File fileDir = new File(filePath);
+        if (!fileDir.exists()) {
+            fileDir.mkdirs();
+        }
         Boolean bool = false;
-        File file = new File(fileName);
+        File file = new File(filePath + fileName);
         try {
             //如果文件不存在，则创建新的文件
             if(!file.exists()){
@@ -142,7 +146,7 @@ public class FileUploadingUtil {
                 bool = true;
                 System.out.println("success create file");
                 //创建文件成功后，写入内容到文件里
-                writeFileContent(fileName, filecontent);
+                writeFileContent(filePath + fileName, filecontent);
             }
         } catch (Exception e) {
             e.printStackTrace();

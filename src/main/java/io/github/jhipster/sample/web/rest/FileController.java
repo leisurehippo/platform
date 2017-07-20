@@ -58,7 +58,7 @@ public class FileController {
         boolean flagUpload,flagDescri;
         try{
             flagUpload = fileUtil.uploadFile(file,"Project\\"+ProjectName+"\\Algorithm\\algorithm\\");
-            flagDescri = fileUtil.createFile("src/main/webappfiles/Project/"+ProjectName+"/Algorithm/ParameterDescribe/"+file.getName()+"ParameterDescribe.txt",ParameterDescribe);
+            flagDescri = fileUtil.createFile("src/main/webappfiles/Project/"+ProjectName+"/Algorithm/ParameterDescribe/",file.getOriginalFilename().split("\\.")[0]+"ParameterDescribe.txt",ParameterDescribe);
         }catch (Exception e){
             return e.getMessage();
         }
@@ -140,7 +140,7 @@ public class FileController {
         }
         boolean flagServer,flagHdfs;
         if (dir.mkdirs()) {
-            flagServer = fileUtil.createFile(destDirName+"/Describe&DataFormatLimit.txt",ProjectDescribe+"\n"+DataFormatLimit);
+            flagServer = fileUtil.createFile(destDirName,"Describe&DataFormatLimit.txt",ProjectDescribe+"\n"+DataFormatLimit);
             //create HDFS
             try{
                 flagHdfs = hdfsFileUtil.mkdir("/user/hadoop/data_platform/data/"+ProjectName+"/");
@@ -230,7 +230,7 @@ public class FileController {
     @GetMapping("/getServerAlgorithm")
     @ResponseBody
     public List<String> getServerAlgorithm(@RequestParam(value = "ProjectName") String ProjectName){
-        return getLocalData(ProjectName,"Algorithm");
+        return getLocalData(ProjectName,"Algorithm/algorithm");
     }
 
     public List<String> getLocalData(String ProjectName, String type) {
