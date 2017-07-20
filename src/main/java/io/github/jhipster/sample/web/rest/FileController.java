@@ -43,40 +43,44 @@ public class FileController {
 
     private static FileUploadingUtil fileUtil = new FileUploadingUtil();
     private static HDFSFileUtil hdfsFileUtil = new HDFSFileUtil();
-    private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
-    private String upload(MultipartFile file, String type){
-        if(!file.isEmpty()){
-            try {
-                FileUploadingUtil.uploadFile(file, type);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                return"上传失败,"+e.getMessage();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return"上传失败,"+e.getMessage();
-            }
-            return"上传成功";
-        }else{
-            return"上传失败，因为文件是空的.";
-        }
-    }
+
     /**
      * 文件上传具体实现方法;
      * @param file
      * @return
      */
-    @PostMapping("/upload")
+    @PostMapping("/uploadAlgorithm")
     @ResponseBody
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
-                                   @RequestParam(value = "ProjectName") String ProjectName){
-        return upload(file,"Project/"+ProjectName+"/Algorithm");
+                                   @RequestParam(value = "ProjectName") String ProjectName,
+                                   @RequestParam(value = "ParameterDescribe") String ParameterDescribe){
+        boolean flagUpload,flagDescri;
+        try{
+            flagUpload = fileUtil.uploadFile(file,"Project\\"+ProjectName+"\\Algorithm\\algorithm\\");
+            flagDescri = fileUtil.createFile("src/main/webappfiles/Project/"+ProjectName+"/Algorithm/ParameterDescribe/"+file.getName()+"ParameterDescribe.txt",ParameterDescribe);
+        }catch (Exception e){
+            return e.getMessage();
+        }
+        return (flagUpload && flagDescri)?"success":"fail";
     }
     @PostMapping("/uploadData")
     @ResponseBody
     public String handleDataUpload(@RequestParam("file") MultipartFile file,
                                    @RequestParam(value = "ProjectName") String ProjectName){
-        return upload(file,"Project/"+ProjectName+"/Data");
+        String []filename = file.getOriginalFilename().split(".");
+        String format = filename[filename.length-1];
+        File DataFormat = new File("src/main/webappfiles/Project/"+ProjectName+"/Describe&DataFormatLimit.txt");
+
+        boolean flagUpload,flagDescri;
+        try{
+            flagUpload = fileUtil.uploadFile(file,"Project/"+ProjectName+"/Data/");
+//            flagDescri = fileUtil.createFile("src/main/webappfiles/Project/"+ProjectName+"/Algorithm/ParameterDescribe/"+file.getName()+"ParameterDescribe.txt");
+        }catch (Exception e){
+            return e.getMessage();
+        }
+        return (flagUpload)?"success":"fail";
+
     }
 
 

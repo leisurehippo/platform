@@ -29,31 +29,8 @@ public class FileUploadingUtil {
     /**
      * 服务器上的保存路径，在使用到上传功能的Controller中对其进行赋值
      */
-    public static String FILEDIR = "src/main/webappfiles/";
+    public static String FILEDIR = "src\\main\\webappfiles\\";
 
-    /**
-     * 上传多个文件，返回文件名称和服务器存储路径列表
-     *
-     * @param files
-     * @return
-     * @throws IOException
-     */
-    public static Map<String, String> upload(Map<String, MultipartFile> files) throws IOException {
-        File file = new File(FILEDIR);
-        if (!file.exists()) {
-            file.mkdir();
-        }
-
-        Map<String, String> result = new HashMap<String, String>();
-        Iterator<Entry<String, MultipartFile>> iter = files.entrySet().iterator();
-        while (iter.hasNext()) {
-            MultipartFile aFile = iter.next().getValue();
-            if (aFile.getSize() != 0 && !"".equals(aFile.getName())) {
-                result.put(aFile.getOriginalFilename(), uploadFile(aFile,"file"));
-            }
-        }
-        return result;
-    }
 
     /**
      * 上传单个文件，并返回其在服务器中的存储路径
@@ -63,15 +40,17 @@ public class FileUploadingUtil {
      * @throws FileNotFoundException
      * @throws IOException
      */
-    public static String uploadFile(MultipartFile aFile, String str) throws IOException {
-        String filePath = initFilePath(aFile.getOriginalFilename(), str);
+    public boolean uploadFile(MultipartFile aFile, String path) throws IOException {
+        String filePath = initFilePath(aFile.getOriginalFilename(), path);
+        System.out.println(filePath);
         try {
             write(aFile.getInputStream(), new FileOutputStream(filePath));
         } catch (FileNotFoundException e) {
             logger.error("上传的文件: " + aFile.getName() + " 不存在！！");
             e.printStackTrace();
+            return false;
         }
-        return filePath;
+        return true;
     }
 
     /**
@@ -131,21 +110,13 @@ public class FileUploadingUtil {
      * @return
      */
     private static String initFilePath(String name, String type) {
-//        String dir = "";
-//        File file = new File(FILEDIR + dir);
-//        if (!file.exists()) {
-//            file.mkdir();
-//        }
-//        Long num = new Date().getTime();
-//        Double d = Math.random() * num;
-//        return (file.getPath() + "/" + num + d.longValue() + "_" + name).replaceAll(" ", "-");
-
+        System.out.println(FILEDIR + type);
         File file = new File(FILEDIR + type);
         if (!file.exists()) {
-            file.mkdir();
+            System.out.println("ok");
+            file.mkdirs();
         }
-
-        return (file.getPath() + "/" + name).replaceAll(" ", "-");
+        return (file.getPath() + "\\" + name).replaceAll(" ", "-");
     }
 
     /**
