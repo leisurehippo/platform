@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import io.github.jhipster.sample.web.rest.util.SparkUtil;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +40,7 @@ import io.github.jhipster.sample.web.rest.util.FileUploadingUtil;
 
 public class FileController {
 
+    private static FileUploadingUtil fileUtil = new FileUploadingUtil();
     private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
     private String upload(MultipartFile file, String type){
@@ -106,16 +108,20 @@ public class FileController {
      */
     @GetMapping("/createProject")
     @ResponseBody
-    public String createProject(@RequestParam(value = "ProjectName") String ProjectName){
-        String destDirName = "src/main/webappfiles/Data/"+ProjectName;
+    public String createProject(@RequestParam(value = "ProjectName") String ProjectName,
+                                @RequestParam(value = "ProjectDescribe") String ProjectDescribe,
+                                @RequestParam(value = "DataFormatLimit") String DataFormatLimit){
+        String destDirName = "src/main/webappfiles/Project/"+ProjectName;
         File dir = new File(destDirName);
         if (dir.exists()) // 判断目录是否存在
             return "exist";
         if (!destDirName.endsWith(File.separator)) {// 结尾是否以"/"结束
             destDirName = destDirName + File.separator;
         }
-        if (dir.mkdirs())
-            return "success";
+        if (dir.mkdirs()) {
+            boolean flag = fileUtil.createFile(destDirName+"/Describe&DataFormatLimit.txt",ProjectDescribe+"\n"+DataFormatLimit);
+            return flag ? "success" : "fail";
+        }
         else
             return "fail";
 
