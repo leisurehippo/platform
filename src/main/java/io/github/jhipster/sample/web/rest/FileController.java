@@ -64,14 +64,15 @@ public class FileController {
      */
     @PostMapping("/upload")
     @ResponseBody
-    public String handleFileUpload(@RequestParam("file") MultipartFile file){
-        return upload(file,"Algorithm");
+    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+                                   @RequestParam(value = "ProjectName") String ProjectName){
+        return upload(file,"Project/"+ProjectName+"/Algorithm");
     }
     @PostMapping("/uploadData")
     @ResponseBody
     public String handleDataUpload(@RequestParam("file") MultipartFile file,
                                    @RequestParam(value = "ProjectName") String ProjectName){
-        return upload(file,"Data/"+ProjectName);
+        return upload(file,"Project/"+ProjectName+"/Data");
     }
 
 
@@ -83,7 +84,7 @@ public class FileController {
     @ResponseBody
     public List<String> getServerProject(){
         List<String> results = new ArrayList<String>();
-        File file = new File("src/main/webappfiles/Data/");
+        File file = new File("src/main/webappfiles/Project/");
         if (file.exists()) {
             File[] files = file.listFiles();
             if (files.length > 0) {
@@ -119,6 +120,24 @@ public class FileController {
             return "fail";
 
     }
+
+    /**
+     * 删除项目
+     * @param ProjectName
+     * @return
+     */
+    @GetMapping("/deleteProject")
+    @ResponseBody
+    public String deleteProject(@RequestParam(value = "ProjectName") String ProjectName){
+        String destDirName = "src/main/webappfiles/Data/"+ProjectName;
+        File file = new File(destDirName);
+        if (!file.exists()) {// 判断目录或文件是否存在
+            return "not exist";
+        } else {
+            return deleteDirectory(destDirName)?"success":"fail";// 为目录时调用删除目录方法
+        }
+    }
+
     public boolean deleteDirectory(String dirPath) {// 删除目录（文件夹）以及目录下的文件
         // 如果sPath不以文件分隔符结尾，自动添加文件分隔符
         if (!dirPath.endsWith(File.separator)) {
@@ -151,26 +170,7 @@ public class FileController {
             return false;
         }
     }
-    public boolean DeleteFolder(String deletePath) {// 根据路径删除指定的目录或文件，无论存在与否
-        String matches = "[A-Za-z]:\\\\[^:?\"><*]*";
-        boolean flag = false;
-        if (deletePath.matches(matches)) {
-            File file = new File(deletePath);
-            if (!file.exists()) {// 判断目录或文件是否存在
-                return flag; // 不存在返回 false
-            } else {
 
-                if (file.isFile()) {// 判断是否为文件
-                    return deleteFile(deletePath);// 为文件时调用删除文件方法
-                } else {
-                    return deleteDirectory(deletePath);// 为目录时调用删除目录方法
-                }
-            }
-        } else {
-            System.out.println("要传入正确路径！");
-            return false;
-        }
-    }
     public boolean deleteFile(String filePath) {// 删除单个文件
         boolean flag = false;
         File file = new File(filePath);
