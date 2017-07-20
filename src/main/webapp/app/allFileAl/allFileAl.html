@@ -1,0 +1,28 @@
+<div class="form-group">
+    <ul class="nav nav-tabs">
+        <li role="presentation">
+            <a ui-sref="allFileData">数据文件</a>
+        </li>
+        <li role="presentation" class="active">
+            <a ui-sref="allFileAl">算法文件</a>
+        </li>
+    </ul>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-8 col-md-10">
+            <div class="panel panel-default" style="width: 80%">
+                <div class="panel-heading">算法文件信息</div>
+                <table class="table">
+                    <th>算法文件名</th>
+                    <tr ng-repeat="item in vm.algrithmData"><td>{{item}}</td></tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-2" style="position: relative">
+            <button class="button glyphicon-plus addbutton" ng-click="vm.alFileUpload()"></button>
+        </div>
+    </div>
+</div>

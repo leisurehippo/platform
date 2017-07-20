@@ -3,12 +3,12 @@
 
     angular
         .module('jhipsterSampleApplicationApp')
-        .factory('GetAllData', GetAllData);
+        .factory('GetHdfsData', GetHdfsData);
 
-    GetAllData.$inject = ['$resource'];
+    GetHdfsData.$inject = ['$resource'];
 
-    function GetAllData ($resource) {
-        var service = $resource('api/getAllData', {}, {
+    function GetHdfsData ($resource) {
+        var service = $resource('api/getHdfsData', {}, {
             'get': {method: 'GET', param:{},isArray: true
             }
         });
