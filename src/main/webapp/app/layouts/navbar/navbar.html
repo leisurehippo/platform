@@ -184,21 +184,22 @@
                     </ul>
                 </li>
                 <li ui-sref-active="active" uib-dropdown class="dropdown pointer" >
+                    <a ui-sref="ProjectManage" ng-click="vm.collapseNavbar()">
+                        <span>
+                            <span class="glyphicon"></span>
+                            <span>项目管理</span>
+                            <!--<b class="caret"></b>-->
+                        </span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" uib-dropdown class="dropdown pointer" >
                     <a ui-sref="LRTrain" ng-click="vm.collapseNavbar()">
                         <span>
                             <span class="glyphicon glyphicon-level-up"></span>
-                            <span>MLLib算法</span>
+                            <span>运行</span>
                              <!--<b class="caret"></b>-->
                         </span>
                     </a>
-                    <!--<ul class="dropdown-menu" uib-dropdown-menu>-->
-                        <!--<li  ui-sref-active="active" ng-switch-when="true">-->
-                            <!--<a ui-sref="LRTrain" ng-click="vm.collapseNavbar();">-->
-                                <!--<span class="glyphicon glyphicon-export"></span>&nbsp;-->
-                                <!--<span >LR算法</span>-->
-                            <!--</a>-->
-                        <!--</li>-->
-                    <!--</ul>-->
                 </li>
                 <li ng-class="{active: vm.$state.includes('account')}" uib-dropdown class="dropdown pointer">
                     <a class="dropdown-toggle" uib-dropdown-toggle href="" id="account-menu">
