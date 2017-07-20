@@ -29,6 +29,7 @@ public class JavaSparkAPI {
     static HDFSFileUtil hdfsFileUtil = new HDFSFileUtil();
     static SparkUtil sparkUtil = new SparkUtil();
     static SparkCluster sparkCluster = new SparkCluster();
+    static FileController fileController = new FileController();
     static SparkClassification sparkClassification = new SparkClassification();
 
 
@@ -75,8 +76,7 @@ public class JavaSparkAPI {
     @ResponseBody
     public List<String> getAllData(@RequestParam(value = "ProjectName") String ProjectName) throws Exception{
         List<String> hdfs = getHdfsData(ProjectName);
-        FileController fileController = new FileController();
-        List<String> local = fileController.getLocalData("Data/"+ProjectName);
+        List<String> local = fileController.getLocalData(ProjectName,"Data");
         List<String> result = new ArrayList<String>();
         for (int i = 0; i < local.size(); i++) {
             if (hdfs.contains(local.get(i)))
