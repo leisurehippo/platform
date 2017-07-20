@@ -42,7 +42,6 @@ public class FileUploadingUtil {
      */
     public boolean uploadFile(MultipartFile aFile, String path) throws IOException {
         String filePath = initFilePath(aFile.getOriginalFilename(), path);
-        System.out.println(filePath);
         try {
             write(aFile.getInputStream(), new FileOutputStream(filePath));
         } catch (FileNotFoundException e) {
@@ -110,10 +109,8 @@ public class FileUploadingUtil {
      * @return
      */
     private static String initFilePath(String name, String type) {
-        System.out.println(FILEDIR + type);
         File file = new File(FILEDIR + type);
         if (!file.exists()) {
-            System.out.println("ok");
             file.mkdirs();
         }
         return (file.getPath() + "\\" + name).replaceAll(" ", "-");

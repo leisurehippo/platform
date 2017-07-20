@@ -68,18 +68,35 @@ public class FileController {
     @ResponseBody
     public String handleDataUpload(@RequestParam("file") MultipartFile file,
                                    @RequestParam(value = "ProjectName") String ProjectName){
-        String []filename = file.getOriginalFilename().split(".");
+        String []filename = file.getOriginalFilename().split("\\.");
         String format = filename[filename.length-1];
-        File DataFormat = new File("src/main/webappfiles/Project/"+ProjectName+"/Describe&DataFormatLimit.txt");
-
-        boolean flagUpload,flagDescri;
+        boolean flag = false;
         try{
-            flagUpload = fileUtil.uploadFile(file,"Project/"+ProjectName+"/Data/");
-//            flagDescri = fileUtil.createFile("src/main/webappfiles/Project/"+ProjectName+"/Algorithm/ParameterDescribe/"+file.getName()+"ParameterDescribe.txt");
+            File DataFormatFile = new File("src/main/webappfiles/Project/"+ProjectName+"/Describe&DataFormatLimit.txt");
+            InputStreamReader read = new InputStreamReader(new FileInputStream(DataFormatFile),"utf-8");
+            BufferedReader bufferedReader = new BufferedReader(read);
+            String describe = bufferedReader.readLine();
+            String []arrDataFormat = bufferedReader.readLine().split("\\+");
+            for (int i = 0; i < arrDataFormat.length; i++) {
+                if (arrDataFormat[i].equals(format))
+                    flag = true;
+            }
+            read.close();
         }catch (Exception e){
-            return e.getMessage();
+            System.out.println(e.getMessage());
         }
-        return (flagUpload)?"success":"fail";
+        if (flag){
+            boolean flagUpload;
+            try{
+                flagUpload = fileUtil.uploadFile(file,"Project/"+ProjectName+"/Data/");
+            }catch (Exception e){
+                return e.getMessage();
+            }
+            return (flagUpload)?"success":"fail";
+        }else
+            return "format error";
+
+
 
     }
 
