@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import io.github.jhipster.sample.web.rest.util.HDFSFileUtil;
 import io.github.jhipster.sample.web.rest.util.SparkUtil;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
@@ -41,6 +42,7 @@ import io.github.jhipster.sample.web.rest.util.FileUploadingUtil;
 public class FileController {
 
     private static FileUploadingUtil fileUtil = new FileUploadingUtil();
+    private static HDFSFileUtil hdfsFileUtil = new HDFSFileUtil();
     private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
     private String upload(MultipartFile file, String type){
@@ -82,19 +84,16 @@ public class FileController {
      * 获取服务器端项目列表
      * @return
      */
-    @GetMapping("/getServerProject")
+    @GetMapping("/getServerProjectList")
     @ResponseBody
     public List<String> getServerProject(){
         List<String> results = new ArrayList<String>();
         File file = new File("src/main/webappfiles/Project/");
         if (file.exists()) {
-            File[] files = file.listFiles();
-            if (files.length > 0) {
-                for (File file2 : files) {
-                    if (file2.isDirectory()) {
-                        String [] arrList = file2.getAbsolutePath().split("\\\\");
-                        results.add(arrList[arrList.length-1]);
-                    }
+            for (File file2 : file.listFiles()) {
+                if (file2.isDirectory()) {
+                    String [] arrList = file2.getAbsolutePath().split("\\\\");
+                    results.add(arrList[arrList.length-1]);
                 }
             }
         }
@@ -118,9 +117,23 @@ public class FileController {
         if (!destDirName.endsWith(File.separator)) {// 结尾是否以"/"结束
             destDirName = destDirName + File.separator;
         }
+        boolean flagServer,flagHdfs;
         if (dir.mkdirs()) {
-            boolean flag = fileUtil.createFile(destDirName+"/Describe&DataFormatLimit.txt",ProjectDescribe+"\n"+DataFormatLimit);
-            return flag ? "success" : "fail";
+            flagServer = fileUtil.createFile(destDirName+"/Describe&DataFormatLimit.txt",ProjectDescribe+"\n"+DataFormatLimit);
+            //create HDFS
+            try{
+                flagHdfs = hdfsFileUtil.mkdir("/user/hadoop/data_platform/data/"+ProjectName+"/");
+                if (flagHdfs) {
+                    String localDir = "src\\main\\webappfiles\\Project\\" + ProjectName + "\\Describe&DataFormatLimit.txt";
+                    String hdfsDir = "/user/hadoop/data_platform/data/" + ProjectName + "/Describe&DataFormatLimit.txt";
+                    hdfsFileUtil.upload(localDir, hdfsDir, false);
+                    if (!hdfsFileUtil.checkFile(hdfsDir))
+                        flagHdfs = false;
+                }
+            }catch (Exception e){
+                return "fail";
+            }
+            return (flagServer&&flagHdfs) ? "success" : "fail";
         }
         else
             return "fail";
@@ -135,16 +148,24 @@ public class FileController {
     @GetMapping("/deleteProject")
     @ResponseBody
     public String deleteProject(@RequestParam(value = "ProjectName") String ProjectName){
-        String destDirName = "src/main/webappfiles/Data/"+ProjectName;
+        String destDirName = "src/main/webappfiles/Project/"+ProjectName;
         File file = new File(destDirName);
         if (!file.exists()) {// 判断目录或文件是否存在
             return "not exist";
         } else {
-            return deleteDirectory(destDirName)?"success":"fail";// 为目录时调用删除目录方法
+            boolean flagServer,flagHdfs;
+            flagServer = deleteDirectory(destDirName);
+            //delete HDFS
+            try{
+                flagHdfs = hdfsFileUtil.delFile("/user/hadoop/data_platform/data/" + ProjectName, true);
+            }catch (Exception e){
+                return "fail";
+            }
+            return (flagServer&&flagHdfs) ? "success" : "fail";// 为目录时调用删除目录方法
         }
     }
 
-    public boolean deleteDirectory(String dirPath) {// 删除目录（文件夹）以及目录下的文件
+    private boolean deleteDirectory(String dirPath) {// 删除目录（文件夹）以及目录下的文件
         // 如果sPath不以文件分隔符结尾，自动添加文件分隔符
         if (!dirPath.endsWith(File.separator)) {
             dirPath = dirPath + File.separator;
@@ -156,28 +177,22 @@ public class FileController {
         }
         boolean flag = true;
         File[] files = dirFile.listFiles();// 获得传入路径下的所有文件
-        for (int i = 0; i < files.length; i++) {// 循环遍历删除文件夹下的所有文件(包括子目录)
-            if (files[i].isFile()) {// 删除子文件
-                flag = deleteFile(files[i].getAbsolutePath());
-                System.out.println(files[i].getAbsolutePath() + " 删除成功");
+        for (File file : files) {
+            if (file.isFile()) {// 删除子文件
+                flag = deleteFile(file.getAbsolutePath());
+                System.out.println(file.getAbsolutePath() + " 删除成功");
                 if (!flag)
                     break;// 如果删除失败，则跳出
             } else {// 运用递归，删除子目录
-                flag = deleteDirectory(files[i].getAbsolutePath());
+                flag = deleteDirectory(file.getAbsolutePath());
                 if (!flag)
                     break;// 如果删除失败，则跳出
             }
         }
-        if (!flag)
-            return false;
-        if (dirFile.delete()) {// 删除当前目录
-            return true;
-        } else {
-            return false;
-        }
+        return flag && dirFile.delete();
     }
 
-    public boolean deleteFile(String filePath) {// 删除单个文件
+    private boolean deleteFile(String filePath) {// 删除单个文件
         boolean flag = false;
         File file = new File(filePath);
         if (file.isFile() && file.exists()) {// 路径为文件且不为空则进行删除
@@ -193,20 +208,20 @@ public class FileController {
      */
     @GetMapping("/getServerAlgorithm")
     @ResponseBody
-    public List<String> getServerAlgorithm(){
-        return getLocalData("Algorithm");
+    public List<String> getServerAlgorithm(@RequestParam(value = "ProjectName") String ProjectName){
+        return getLocalData(ProjectName,"Algorithm");
     }
 
-    public List<String> getLocalData(String type){
+    public List<String> getLocalData(String ProjectName, String type) {
         List<String> results = new ArrayList<String>();
-        File file = new File("src/main/webappfiles/" + type + "/");
+        File file = new File("src/main/webappfiles/Project/" + ProjectName + "/" + type + "/");
         if (file.exists()) {
             File[] files = file.listFiles();
             if (files.length > 0) {
                 for (File file2 : files) {
                     if (!file2.isDirectory()) {
-                        String [] arrList = file2.getAbsolutePath().split("\\\\");
-                        results.add(arrList[arrList.length-1]);
+                        String[] arrList = file2.getAbsolutePath().split("\\\\");
+                        results.add(arrList[arrList.length - 1]);
                     }
                 }
             }
