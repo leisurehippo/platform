@@ -5,22 +5,27 @@ angular
     .module('jhipsterSampleApplicationApp')
     .controller('AllFileDataController',AllFileDataController);
 
-AllFileDataController.$inject = ['$scope', '$http', '$state', 'GetAllData', 'GetAlgorithmData', 'HdfsUpload'];
-function AllFileDataController($scope, $http, $state, GetAllData, GetAlgorithmData, HdfsUpload) {
+AllFileDataController.$inject = ['$scope', '$http', '$state', 'GetHdfsData', 'GetAlgorithmData', 'HdfsUpload', 'GetServerData'];
+function AllFileDataController($scope, $http, $state, GetHdfsData, GetAlgorithmData, HdfsUpload, GetServerData) {
     var vm = this;
-    vm.fileData = [];
+    vm.hdfsData = [];
+    vm.serverData = [];
     vm.algrithmData = [];
-    GetAllData.get({}, function (result) {
+    GetServerData.get({}, function (result) {
         for (var i = 0; i< result.length; i++) {
-            vm.fileData[i] = result[i].split("+");
-            if (vm.fileData[i][1] == '0') {
-                vm.fileData[i][1] = false;
+            vm.serverData[i] = result[i].split("+");
+            if (vm.serverData[i][1] == '0') {
+                vm.serverData[i][1] = false;
             }else
-                vm.fileData[i][1] = true;
+                vm.serverData[i][1] = true;
 
         }
-        console.log(vm.fileData);
+        console.log(vm.serverData);
     }, function (result) {
+    });
+
+    GetHdfsData.get({}, function (res) {
+        vm.hdfsData = res;
     });
 
     var type="Algorithm";

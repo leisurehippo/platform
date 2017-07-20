@@ -16,19 +16,27 @@
                 <div class="panel-heading">服务器文件</div>
                 <table class="table">
                     <th>是否上传</th><th>文件名</th>
-                    <tr ng-repeat="item in vm.fileData"><td></td><td>{{item[0]}}</td></tr>
+                    <tr ng-repeat="item in vm.serverData">
+                        <td>
+                            <label>
+                                <input type="checkbox" ng-disabled="item[1]">
+                            </label>
+                        </td>
+                        <td>{{item[0]}}</td>
+                    </tr>
                 </table>
             </div>
         </div>
         <div class=" col-md-2">
-            <button class="button glyphicon-plus addbutton" ng-click="vm.dataFileUpload()"></button>
+            <button class="button" ng-click="vm.dataFileUpload()">上传至HDFS</button>
+
         </div>
         <div class="col-md-5">
             <div class="panel panel-default" style="width: 80%">
                 <div class="panel-heading">HDFS文件</div>
                 <table class="table">
                     <th>文件名</th>
-                    <tr ng-repeat="item in vm.fileData"><td>{{item[0]}}</td></tr>
+                    <tr ng-repeat="item in vm.hdfsData"><td>{{item}}</td></tr>
                 </table>
             </div>
         </div>
