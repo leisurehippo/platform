@@ -5,12 +5,13 @@ angular
     .module('jhipsterSampleApplicationApp')
     .controller('AllFileAlController',AllFileAlController);
 
-AllFileAlController.$inject = ['$scope', '$http', '$state', 'GetAlgorithmData', 'HdfsUpload', 'GetServerProject'];
-function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload, GetServerProject) {
+AllFileAlController.$inject = ['$scope', '$http', '$state', 'GetAlgorithmData', 'HdfsUpload', 'GetServerProject', '$stateParams', '$timeout'];
+function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload, GetServerProject, $stateParams, $timeout) {
     var vm = this;
     vm.fileData = [];
     vm.algrithmData = [];
-    vm.projectName = "pso";
+    vm.projectName = $stateParams.projectName;
+    vm.paramtersDes = null;
     vm.projects = [];
 
     GetServerProject.get({}, function (res) {
@@ -20,20 +21,18 @@ function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload
     });
 
     var type="Algorithm";
-    GetAlgorithmData.get({Type:type},function (res) {
-        console.log(res);
-        vm.algrithmData = res;
-    }, function (result) {
+    $scope.$watch('vm.projectName', function () {
+        GetAlgorithmData.get({ProjectName:vm.projectName},function (res) {
+            console.log(res);
+            vm.algrithmData = res;
+        }, function (result) {
+        });
     });
+
 
     vm.alFileUpload = alFileUpload;
     function alFileUpload() {
         // $state.go('fileUpload', {fileType:1});
-    }
-
-    vm.dataFileUpload = dataFileUpload;
-    function dataFileUpload() {
-        $state.go('fileUpload',  {fileType:0});
     }
 
     vm.fileUpHdfs = fileUpHdfs;
@@ -41,7 +40,7 @@ function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload
         console.log(index);
         HdfsUpload.get({DataName:vm.fileData[index][0]}, function (res) {
             console.log(res);
-            $state.go('allFileData', null, { reload: true });
+            $state.go('allFileAl', {projectName:vm.projectName}, { reload: true });
         }, function (res) {
             console.log(res);
         });
@@ -79,28 +78,33 @@ function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload
                 //     var data = {ProjectName:vm.projectName};
                 //     return data;
                 // }
-                uploadExtraData:{ProjectName:vm.projectName},
+                uploadExtraData:{ProjectName:vm.projectName, ParameterDescribe:vm.paramtersDes},
 
             });
 
             //导入文件上传完成之后的事件
             $("#txt_file").on("fileuploaded", function (event, data, previewId, index) {
                 $("#myModal").modal("hide");
-                var data = data.response.lstOrderImport;
-                if (data == undefined) {
-                    toastr.error('文件格式类型不正确');
-                    return;
-                }
-                //1.初始化表格
-                var oTable = new TableInit();
-                oTable.Init(data);
-                $("#div_startimport").show();
+                var a = $timeout(function () {
+                    $state.go('allFileAl', {projectName:vm.projectName}, { reload: true });
+                    console.log(data.response);
+                },1000);
+
+                // var data = data.response.lstOrderImport;
+                // if (data == undefined) {
+                //     toastr.error('文件格式类型不正确');
+                //     return;
+                // }
+                // //1.初始化表格
+                // var oTable = new TableInit();
+                // oTable.Init(data);
+                // $("#div_startimport").show();
             });
         }
         return oFile;
     };
 
     var oFileInput = FileInput();
-    oFileInput.Init("txt_file", "api/uploadData");
+    oFileInput.Init("txt_file", "api/uploadAlgorithm");
 
 }

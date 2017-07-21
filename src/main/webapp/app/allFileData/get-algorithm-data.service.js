@@ -8,7 +8,7 @@
     GetAlgorithmData.$inject = ['$resource'];
 
     function GetAlgorithmData ($resource) {
-        var service = $resource('api/getLocalData', {}, {
+        var service = $resource('api/getServerAlgorithm', {}, {
             'get': {method: 'GET', params:{}, isArray: true,
                 responseType: "text",
             }
