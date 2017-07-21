@@ -279,7 +279,7 @@
             views: {
                 'content@': {
                     templateUrl: "app/fileUpload/fileUpload.html",
-                    controller: "FileUploadController",
+                    // controller: "FileUploadController",
                     controllerAs: 'vm'
                 }
             },
@@ -300,6 +300,7 @@
                 }
             },
             params: {
+                "projectName":null,
 
             }
         }).state("allFileAl", {
@@ -316,7 +317,7 @@
                 }
             },
             params: {
-
+                "projectName":null,
             }
         }).state("LRTrain", {
             url: "/LR/Train",
@@ -344,6 +345,22 @@
                 'content@': {
                     templateUrl: "app/MLLib/predict/LR/Test/LRTest.html",
                     controller: "LRTestController",
+                    controllerAs: 'vm'
+                }
+            },
+            params: {
+
+            }
+        }).state("projectManage", {
+            url: "/projectManage",
+            parent: 'app',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: "app/projectManage/projectManage.html",
+                    controller: "ProjectManageController",
                     controllerAs: 'vm'
                 }
             },
