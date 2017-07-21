@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.JsonObject;
 import io.github.jhipster.sample.web.rest.util.HDFSFileUtil;
 import io.github.jhipster.sample.web.rest.util.SparkUtil;
 import org.springframework.data.repository.query.Param;
@@ -32,8 +33,6 @@ import io.github.jhipster.sample.web.rest.util.FileUploadingUtil;
 
 /**
  * 文件上传控制器
- *
- * @author Chris Mao(Zibing)
  *
  */
 @RestController
@@ -95,9 +94,6 @@ public class FileController {
             return (flagUpload)?"success":"fail";
         }else
             return "format error";
-
-
-
     }
 
 
@@ -107,7 +103,7 @@ public class FileController {
      */
     @GetMapping("/getServerProjectList")
     @ResponseBody
-    public List<String> getServerProject(){
+    public List<String> getServerProjectList(){
         List<String> results = new ArrayList<String>();
         File file = new File("src/main/webappfiles/Project/");
         if (file.exists()) {
@@ -119,6 +115,31 @@ public class FileController {
             }
         }
         return results;
+    }
+
+    /**
+     * 获取服务器端项目描述
+     * @return
+     */
+    @GetMapping("/getServerProjectDes")
+    @ResponseBody
+    public List<String> getServerProjectDes(){
+        JsonObject jsonObject = new JsonObject();
+        List<String> ProjectList = getServerProjectList();
+        List<String> ProjectDes = new ArrayList<String>();
+        for (int i = 0; i < ProjectList.size(); i++) {
+            try{
+                String projectName = ProjectList.get(i);
+                File DataFormatFile = new File("src/main/webappfiles/Project/"+projectName+"/Describe&DataFormatLimit.txt");
+                InputStreamReader read = new InputStreamReader(new FileInputStream(DataFormatFile),"utf-8");
+                BufferedReader bufferedReader = new BufferedReader(read);
+                String describe = bufferedReader.readLine();
+                ProjectDes.add(projectName+"\t"+describe);
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+        }
+        return ProjectDes;
     }
 
     /**
