@@ -5,12 +5,12 @@ angular
     .module('jhipsterSampleApplicationApp')
     .controller('AllFileDataController',AllFileDataController);
 
-AllFileDataController.$inject = ['$scope', '$http', '$state', 'GetHdfsData', 'GetAlgorithmData', 'HdfsUpload', 'GetServerData', 'GetServerProject', '$timeout'];
-function AllFileDataController($scope, $http, $state, GetHdfsData, GetAlgorithmData, HdfsUpload, GetServerData, GetServerProject, $timeout) {
+AllFileDataController.$inject = ['$scope', '$http', '$state', 'GetHdfsData', 'GetAlgorithmData', 'HdfsUpload', 'GetServerData', 'GetServerProject', '$timeout', '$stateParams'];
+function AllFileDataController($scope, $http, $state, GetHdfsData, GetAlgorithmData, HdfsUpload, GetServerData, GetServerProject, $timeout, $stateParams) {
     var vm = this;
     vm.algrithmData = [];
     vm.projects = [];
-    vm.projectName = "pso";
+    vm.projectName = $stateParams.projectName;
     vm.upServerModal = false;
     vm.checkList = [];
     GetServerProject.get({}, function (res) {
@@ -38,7 +38,7 @@ function AllFileDataController($scope, $http, $state, GetHdfsData, GetAlgorithmD
 
     vm.changeCheck = changeCheck;
     function changeCheck(index) {
-        // console.log(vm.checkList[0]);
+         console.log("dddd");
     }
 
     $scope.$watch('vm.projectName', function (oldValue,newValue) {
@@ -61,6 +61,7 @@ function AllFileDataController($scope, $http, $state, GetHdfsData, GetAlgorithmD
         vm.upServerModal = true;
 
     }
+
 
     vm.fileUpHdfs = fileUpHdfs;
     vm.nameList = [];
@@ -117,14 +118,14 @@ function AllFileDataController($scope, $http, $state, GetHdfsData, GetAlgorithmD
                 uploadExtraData:{ProjectName:projectName}
 
             }).on("fileuploaded", function (event, data, previewId, index) {
-                // $("#myModal").modal("hide");
-                console.log(data.response);
+                $("#myModal").modal("hide");
+                // $state.go('allFileData', null, { reload: true });
                 var a = $timeout(function () {
-                    $state.go('allFileData', null, { reload: true });
-
+                    $state.go('allFileData', {projectName:vm.projectName}, { reload: true });
+                    console.log(data.response);
                 },1000);
 
-                $timeout.cancel(a);
+                // $timeout.cancel(a);
 
             });
 

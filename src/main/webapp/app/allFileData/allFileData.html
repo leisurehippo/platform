@@ -34,7 +34,7 @@
                         <td>
                             <label>
                                 <input type="checkbox" ng-disabled="item[1]" ng-model="vm.checkList[$index]"
-                                       ng-true-value="true" ng-false-vlaue="false" ng-change="vm.changeCheck()">
+                                       ng-true-value="true" ng-false-vlaue="false" ng-click="vm.changeCheck()">
                             </label>
                         </td>
                         <td>{{item[0]}}</td>
@@ -56,7 +56,7 @@
         </div>
     </div>
 </div>
-
+<input type="checkbox">
 <!--<input type="file" name="txt_file" id="txt_file" multiple class="file-loading" />-->
 
 <form>

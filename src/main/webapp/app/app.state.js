@@ -300,6 +300,7 @@
                 }
             },
             params: {
+                "projectName":null,
 
             }
         }).state("allFileAl", {
