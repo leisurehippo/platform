@@ -302,6 +302,22 @@
             params: {
 
             }
+        }).state("allFileAl", {
+            url: "/allFileAl",
+            parent: 'app',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: "app/allFileAl/allFileAl.html",
+                    controller: "AllFileAlController",
+                    controllerAs: 'vm'
+                }
+            },
+            params: {
+
+            }
         }).state("LRTrain", {
             url: "/LR/Train",
             parent: 'app',

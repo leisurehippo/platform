@@ -29,6 +29,7 @@ public class JavaSparkAPI {
     static HDFSFileUtil hdfsFileUtil = new HDFSFileUtil();
     static SparkUtil sparkUtil = new SparkUtil();
     static SparkCluster sparkCluster = new SparkCluster();
+    static FileController fileController = new FileController();
     static SparkClassification sparkClassification = new SparkClassification();
 
 
@@ -40,12 +41,13 @@ public class JavaSparkAPI {
      */
     @GetMapping("/HdfsUpload")
     @ResponseBody
-    public List<String> HdfsUpload(@RequestParam(value = "DataName") String []arrDataName) throws Exception{
+    public List<String> HdfsUpload(@RequestParam(value = "ProjectName") String ProjectName,
+                                   @RequestParam(value = "DataName") String []arrDataName) throws Exception{
         List<String> result = new ArrayList<>();
         for (int i = 0; i < arrDataName.length; i++) {
             String DataName = arrDataName[i];
-            String localDir = "src\\main\\webappfiles\\Data\\" + DataName;
-            String hdfsDir = "/user/hadoop/data_platform/data/" + DataName;
+            String localDir = "src\\main\\webappfiles\\Project\\"+ProjectName+"\\Data\\" + DataName;
+            String hdfsDir = "/user/hadoop/data_platform/data/" + ProjectName + "/" + DataName;
             hdfsFileUtil.upload(localDir, hdfsDir, false);
             if (!hdfsFileUtil.checkFile(hdfsDir))
                 result.add(DataName);
@@ -60,8 +62,8 @@ public class JavaSparkAPI {
      */
     @GetMapping("/getHdfsData")
     @ResponseBody
-    public List<String> getHdfsData() throws Exception{
-        return hdfsFileUtil.list("/user/hadoop/data_platform/data/");
+    public List<String> getHdfsData(@RequestParam(value = "ProjectName") String ProjectName) throws Exception{
+        return hdfsFileUtil.list("/user/hadoop/data_platform/data/"+ProjectName+"/");
     }
 
 
@@ -72,10 +74,9 @@ public class JavaSparkAPI {
      */
     @GetMapping("/getServerData")
     @ResponseBody
-    public List<String> getAllData() throws Exception{
-        List<String> hdfs = getHdfsData();
-        FileController fileController = new FileController();
-        List<String> local = fileController.getLocalData("Data");
+    public List<String> getAllData(@RequestParam(value = "ProjectName") String ProjectName) throws Exception{
+        List<String> hdfs = getHdfsData(ProjectName);
+        List<String> local = fileController.getLocalData(ProjectName,"Data");
         List<String> result = new ArrayList<String>();
         for (int i = 0; i < local.size(); i++) {
             if (hdfs.contains(local.get(i)))
@@ -84,6 +85,13 @@ public class JavaSparkAPI {
                 result.add(local.get(i)+"+0");
         }
         return result;
+    }
+
+    @GetMapping("/getSize")
+    @ResponseBody
+    public String getSize(@RequestParam(value = "DataName") String DataName) throws Exception{
+        String path = "/user/hadoop/data_platform/data/" + DataName;
+        return hdfsFileUtil.getSizeK(path)+"KB";
     }
 
 
