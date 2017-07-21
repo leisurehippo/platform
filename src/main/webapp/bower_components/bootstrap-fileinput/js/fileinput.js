@@ -1728,6 +1728,7 @@
             return $h.replaceTags(template, self.customPreviewTags);
         },
         _getOutData: function (jqXHR, responseData, filesData) {
+            console.log(jqXHR);
             var self = this;
             jqXHR = jqXHR || {};
             responseData = responseData || {};
@@ -1785,6 +1786,7 @@
             return xhrobj;
         },
         _ajaxSubmit: function (fnBefore, fnSuccess, fnComplete, fnError, previewId, index) {
+            console.log("_ajaxSubmit");
             var self = this, settings;
             if (!self._raise('filepreajax', [previewId, index])) {
                 return;
@@ -2013,6 +2015,7 @@
                 }
             };
             fnSuccess = function (data, textStatus, jqXHR) {
+                console.log("ddd");
                 var pid = self.showPreview && $thumb.attr('id') ? $thumb.attr('id') : previewId;
                 outData = self._getOutData(jqXHR, data);
                 $.extend(true, params, outData);
@@ -2057,6 +2060,7 @@
                 }, 100);
             };
             fnError = function (jqXHR, textStatus, errorThrown) {
+                console.log("dddd");
                 var op = self.ajaxOperations.uploadThumb,
                     errMsg = self._parseError(op, jqXHR, errorThrown, (allFiles ? files[i].name : null));
                 uploadFailed = true;
@@ -2076,6 +2080,7 @@
             self._ajaxSubmit(fnBefore, fnSuccess, fnComplete, fnError, previewId, i);
         },
         _uploadBatch: function () {
+            console.log("uploadBatch");
             var self = this, files = self.filestack, total = files.length, params = {}, fnBefore, fnSuccess, fnError,
                 fnComplete, hasPostData = self.filestack.length > 0 || !$.isEmptyObject(self.uploadExtraData),
                 setAllUploaded;
@@ -2164,6 +2169,7 @@
                 self._raise('filebatchuploadcomplete', [self.filestack, self._getExtraData()]);
             };
             fnError = function (jqXHR, textStatus, errorThrown) {
+                console.log("fff");
                 var outData = self._getOutData(jqXHR), op = self.ajaxOperations.uploadBatch,
                     errMsg = self._parseError(op, jqXHR, errorThrown);
                 self._showUploadError(errMsg, outData, 'filebatchuploaderror');
@@ -2309,6 +2315,7 @@
             });
         },
         _initPreviewActions: function () {
+            console.log("ajax");
             var self = this, $preview = self.$preview, deleteExtraData = self.deleteExtraData || {},
                 btnRemove = $h.FRAMES + ' .kv-file-remove',
                 resetProgress = function () {
@@ -3601,6 +3608,7 @@
                 self._uploadExtraOnly();
                 return;
             }
+            console.log("3");
             len = self.filestack.length;
             self.hasInitData = false;
             if (self.uploadAsync) {
@@ -3620,6 +3628,7 @@
 
                 for (i = 0; i < len; i++) {
                     if (self.filestack[i] !== undefined) {
+                        console.log("_uploadSingle");
                         self._uploadSingle(i, self.filestack, true);
                     }
                 }

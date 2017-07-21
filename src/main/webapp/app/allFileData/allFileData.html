@@ -29,11 +29,12 @@
                     <button class="btn" ng-click="vm.dataFileUpload()" style="margin-left: 10px"  data-toggle="modal" data-target="#myModal">上传至server</button>
                 </div>
                 <table class="table">
-                    <th>是否上传</th><th>文件名</th>
+                    <th width="100px">是否上传</th><th>文件名</th>
                     <tr ng-repeat="item in vm.serverData">
                         <td>
                             <label>
-                                <input type="checkbox" ng-disabled="item[1]">
+                                <input type="checkbox" ng-disabled="item[1]" ng-model="vm.checkList[$index]"
+                                       ng-true-value="true" ng-false-vlaue="false" ng-change="vm.changeCheck()">
                             </label>
                         </td>
                         <td>{{item[0]}}</td>
@@ -41,11 +42,10 @@
                 </table>
             </div>
         </div>
-        <div class=" col-md-2">
-            <button class="btn" ng-click="vm.dataFileUpload()">上传至HDFS</button>
-
+        <div class="col-md-3">
+            <button class="btn" ng-click="vm.fileUpHdfs()">上传至HDFS</button>
         </div>
-        <div class="col-md-5">
+        <div class="col-md-4">
             <div class="panel panel-default" style="width: 80%">
                 <div class="panel-heading">HDFS文件</div>
                 <table class="table">

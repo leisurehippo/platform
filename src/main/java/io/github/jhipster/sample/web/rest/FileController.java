@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.JsonObject;
 import io.github.jhipster.sample.web.rest.util.HDFSFileUtil;
 import io.github.jhipster.sample.web.rest.util.SparkUtil;
+import net.sf.json.JSONObject;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,6 +68,12 @@ public class FileController {
     @ResponseBody
     public String handleDataUpload(@RequestParam("file") MultipartFile file,
                                    @RequestParam(value = "ProjectName") String ProjectName){
+        JSONObject object = new JSONObject();
+        if (object.isEmpty()) {
+           object = new JSONObject();
+        }
+
+//        System.out.println(test);
         String []filename = file.getOriginalFilename().split("\\.");
         String format = filename[filename.length-1];
         boolean flag = false;
@@ -91,9 +98,23 @@ public class FileController {
             }catch (Exception e){
                 return e.getMessage();
             }
-            return (flagUpload)?"success":"fail";
-        }else
-            return "format error";
+
+            if (flagUpload) {
+                object.put("result", "success");
+                String success = object.toString();
+                return success;
+            } else {
+                object.put("result", "fail");
+                String fail = object.toString();
+                return fail;
+            }
+
+
+        }else {
+            object.put("result", "format error");
+            String error =object .toString();
+            return error;
+        }
     }
 
 

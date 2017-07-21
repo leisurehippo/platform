@@ -12,7 +12,7 @@
 
     function HdfsUpload ($resource) {
         var service = $resource('api/HdfsUpload', {}, {
-            'get': {method: 'GET', params:{}, isArray: false
+            'get': {method: 'GET', params:{}, isArray: true
             }
 
         });
