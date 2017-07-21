@@ -11,7 +11,7 @@
     GetServerProject.$inject = ['$resource'];
 
     function GetServerProject ($resource) {
-        var service = $resource('api/getServerProject', {}, {
+        var service = $resource('api/getServerProjectList', {}, {
             'get': {method: 'GET', param:{},isArray: true
             }
         });

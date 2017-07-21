@@ -5,11 +5,19 @@ angular
     .module('jhipsterSampleApplicationApp')
     .controller('AllFileAlController',AllFileAlController);
 
-AllFileAlController.$inject = ['$scope', '$http', '$state', 'GetAlgorithmData', 'HdfsUpload'];
-function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload) {
+AllFileAlController.$inject = ['$scope', '$http', '$state', 'GetAlgorithmData', 'HdfsUpload', 'GetServerProject'];
+function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload, GetServerProject) {
     var vm = this;
     vm.fileData = [];
     vm.algrithmData = [];
+    vm.projectName = "pso";
+    vm.projects = [];
+
+    GetServerProject.get({}, function (res) {
+        vm.projects = res;
+    }, function (res) {
+
+    });
 
     var type="Algorithm";
     GetAlgorithmData.get({Type:type},function (res) {
