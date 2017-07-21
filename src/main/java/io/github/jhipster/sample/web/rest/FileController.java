@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.JsonObject;
 import io.github.jhipster.sample.web.rest.util.HDFSFileUtil;
 import io.github.jhipster.sample.web.rest.util.SparkUtil;
 import net.sf.json.JSONObject;
@@ -33,8 +34,6 @@ import io.github.jhipster.sample.web.rest.util.FileUploadingUtil;
 
 /**
  * 文件上传控制器
- *
- * @author Chris Mao(Zibing)
  *
  */
 @RestController
@@ -73,8 +72,6 @@ public class FileController {
         if (object.isEmpty()) {
            object = new JSONObject();
         }
-
-//        System.out.println(test);
         String []filename = file.getOriginalFilename().split("\\.");
         String format = filename[filename.length-1];
         boolean flag = false;
@@ -116,10 +113,6 @@ public class FileController {
             String error =object .toString();
             return error;
         }
-
-
-
-
     }
 
 
@@ -129,7 +122,7 @@ public class FileController {
      */
     @GetMapping("/getServerProjectList")
     @ResponseBody
-    public List<String> getServerProject(){
+    public List<String> getServerProjectList(){
         List<String> results = new ArrayList<String>();
         File file = new File("src/main/webappfiles/Project/");
         if (file.exists()) {
@@ -144,6 +137,35 @@ public class FileController {
     }
 
     /**
+     * 获取服务器端项目描述
+     * @return
+     */
+    @GetMapping("/getServerProjectDes")
+    @ResponseBody
+    public String getServerProjectDes(){
+        JSONObject object = new JSONObject();
+        if (object.isEmpty()) {
+            object = new JSONObject();
+        }
+        List<String> ProjectList = getServerProjectList();
+
+        for (int i = 0; i < ProjectList.size(); i++) {
+            try{
+                String projectName = ProjectList.get(i);
+                File DataFormatFile = new File("src/main/webappfiles/Project/"+projectName+"/Describe&DataFormatLimit.txt");
+                InputStreamReader read = new InputStreamReader(new FileInputStream(DataFormatFile),"utf-8");
+                BufferedReader bufferedReader = new BufferedReader(read);
+                String describe = bufferedReader.readLine();
+                object.put(projectName, describe);
+            }catch (Exception e){
+                System.out.println(e.getMessage());
+            }
+        }
+        String result = object.toString();
+        return result;
+    }
+
+    /**
      * 新增项目
      * @param ProjectName
      * @return
@@ -153,10 +175,16 @@ public class FileController {
     public String createProject(@RequestParam(value = "ProjectName") String ProjectName,
                                 @RequestParam(value = "ProjectDescribe") String ProjectDescribe,
                                 @RequestParam(value = "DataFormatLimit") String DataFormatLimit){
+        JSONObject object = new JSONObject();
+        if (object.isEmpty()) {
+            object = new JSONObject();
+        }
         String destDirName = "src/main/webappfiles/Project/"+ProjectName;
         File dir = new File(destDirName);
-        if (dir.exists()) // 判断目录是否存在
-            return "exist";
+        if (dir.exists()){
+            object.put("result", "exist");
+            return object.toString();
+        }
         if (!destDirName.endsWith(File.separator)) {// 结尾是否以"/"结束
             destDirName = destDirName + File.separator;
         }
@@ -174,14 +202,28 @@ public class FileController {
                         flagHdfs = false;
                 }
             }catch (Exception e){
-                return "fail";
+                object.put("result", "hdfs fail");
+                return object.toString();
             }
-            return (flagServer&&flagHdfs) ? "success" : "fail";
+            object.put("result",(flagServer&&flagHdfs) ? "success" : "fail");
         }
-        else
-            return "fail";
+        else {
+            object.put("result", "fail");
+        }
 
+        return object.toString();
     }
+
+    /**
+     * 编辑项目
+     * @param ProjectName
+     * @return
+     */
+//    @GetMapping("/editProject")
+//    @ResponseBody
+//    public String editProject(@RequestParam(value = "ProjectName") String ProjectName) {
+//
+//    }
 
     /**
      * 删除项目
@@ -191,10 +233,15 @@ public class FileController {
     @GetMapping("/deleteProject")
     @ResponseBody
     public String deleteProject(@RequestParam(value = "ProjectName") String ProjectName){
+        JSONObject object = new JSONObject();
+        if (object.isEmpty()) {
+            object = new JSONObject();
+        }
         String destDirName = "src/main/webappfiles/Project/"+ProjectName;
         File file = new File(destDirName);
         if (!file.exists()) {// 判断目录或文件是否存在
-            return "not exist";
+            object.put("result", "not exist");
+            return object.toString();
         } else {
             boolean flagServer,flagHdfs;
             flagServer = deleteDirectory(destDirName);
@@ -202,9 +249,11 @@ public class FileController {
             try{
                 flagHdfs = hdfsFileUtil.delFile("/user/hadoop/data_platform/data/" + ProjectName, true);
             }catch (Exception e){
-                return "fail";
+                object.put("result", "fail");
+                return object.toString();
             }
-            return (flagServer&&flagHdfs) ? "success" : "fail";// 为目录时调用删除目录方法
+            object.put("result",(flagServer&&flagHdfs) ? "success" : "fail");
+            return object.toString();
         }
     }
 
