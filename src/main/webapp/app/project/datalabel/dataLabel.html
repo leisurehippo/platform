@@ -111,9 +111,10 @@
 </div>
 
 
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
     <div class="modal-dialog">
-        <li class="modal-content">
+        <li class="modal-content" >
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                     &times;
@@ -122,16 +123,16 @@
                     结果筛选
                 </h5>
             </div>
-            <div class="holder">
-            </div>
-            <!-- Item container (doesn't need to be an UL) -->
-            <ul id="itemContainer">
-                <!-- Items -->
 
-                <div data-ng-repeat="item in items">
-                    <li><input type="checkbox" id={{item.since_id}}> {{item.weibo_content}}</li>
+            <div>
+                <ul id='page'></ul>
             </div>
-            </ul>
+            <div id="get_content">
+
+            </div>
+
+            </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                 </button>
@@ -142,22 +143,17 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 
-<script>
-$(function() {
-$('#myModal').modal({
-keyboard: true,
-backdrop: "static",
-show : false
-})
-});
-</script>
 
-<script>
-  /* when document is ready */
-  $(function() {
-    /* initiate plugin */
-    $("div.holder").jPages({
-      containerID: "itemContainer"
-    });
-  });
-  </script>
+<!--<script>-->
+    <!--function change(){-->
+    <!--alert("123");-->
+    <!--$scope.choose[id]=~$scope.choose[id];-->
+    <!--}-->
+<!--</script>-->
+
+
+
+
+
+
+
