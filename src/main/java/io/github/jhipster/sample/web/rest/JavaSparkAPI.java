@@ -25,6 +25,8 @@ import java.util.*;
 @RestController
 @RequestMapping("/api")
 public class JavaSparkAPI {
+    private static String ProjectPathPrefix = "src/main/webappfiles/Project/";
+    private static String HDFSPathPrefix = "/user/hadoop/data_platform/data/";
 
     static HDFSFileUtil hdfsFileUtil = new HDFSFileUtil();
     static SparkUtil sparkUtil = new SparkUtil();
@@ -33,66 +35,7 @@ public class JavaSparkAPI {
     static SparkClassification sparkClassification = new SparkClassification();
 
 
-    /**
-     * 上传本地数据至HDFS
-     * @param  arrDataName 本地src\main\webappfiles\Data目录下的数据文件名列表
-     * @return 上传失败的文件名
-     * @throws Exception
-     */
-    @GetMapping("/HdfsUpload")
-    @ResponseBody
-    public List<String> HdfsUpload(@RequestParam(value = "ProjectName") String ProjectName,
-                                   @RequestParam(value = "DataName") String []arrDataName) throws Exception{
-        List<String> result = new ArrayList<>();
-        for (int i = 0; i < arrDataName.length; i++) {
-            String DataName = arrDataName[i];
-            String localDir = "src\\main\\webappfiles\\Project\\"+ProjectName+"\\Data\\" + DataName;
-            String hdfsDir = "/user/hadoop/data_platform/data/" + ProjectName + "/" + DataName;
-            hdfsFileUtil.upload(localDir, hdfsDir, false);
-            if (!hdfsFileUtil.checkFile(hdfsDir))
-                result.add(DataName);
-        }
-        return result;
-    }
 
-    /**
-     * 获取HDFS数据列表
-     * @return 数据文件名列表
-     * @throws Exception
-     */
-    @GetMapping("/getHdfsData")
-    @ResponseBody
-    public List<String> getHdfsData(@RequestParam(value = "ProjectName") String ProjectName) throws Exception{
-        return hdfsFileUtil.list("/user/hadoop/data_platform/data/"+ProjectName+"/");
-    }
-
-
-    /**
-     * 获取所有数据文件
-     * @return 数据文件名列表
-     * @throws Exception
-     */
-    @GetMapping("/getServerData")
-    @ResponseBody
-    public List<String> getAllData(@RequestParam(value = "ProjectName") String ProjectName) throws Exception{
-        List<String> hdfs = getHdfsData(ProjectName);
-        List<String> local = fileController.getLocalData(ProjectName,"Data");
-        List<String> result = new ArrayList<String>();
-        for (int i = 0; i < local.size(); i++) {
-            if (hdfs.contains(local.get(i)))
-                result.add(local.get(i)+"+1");
-            else
-                result.add(local.get(i)+"+0");
-        }
-        return result;
-    }
-
-    @GetMapping("/getSize")
-    @ResponseBody
-    public String getSize(@RequestParam(value = "DataName") String DataName) throws Exception{
-        String path = "/user/hadoop/data_platform/data/" + DataName;
-        return hdfsFileUtil.getSizeK(path)+"KB";
-    }
 
 
     @GetMapping("/getModel")

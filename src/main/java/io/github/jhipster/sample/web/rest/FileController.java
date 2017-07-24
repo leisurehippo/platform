@@ -41,6 +41,9 @@ import io.github.jhipster.sample.web.rest.util.FileUploadingUtil;
 
 public class FileController {
 
+    private static String ProjectPathPrefix = "src/main/webappfiles/Project/";
+    private static String HDFSPathPrefix = "/user/hadoop/data_platform/data/";
+    private static String ProjectDescribeFile = "Describe&DataFormatLimit.txt";
     private static FileUploadingUtil fileUtil = new FileUploadingUtil();
     private static HDFSFileUtil hdfsFileUtil = new HDFSFileUtil();
 
@@ -55,14 +58,20 @@ public class FileController {
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    @RequestParam(value = "ProjectName") String ProjectName,
                                    @RequestParam(value = "ParameterDescribe") String ParameterDescribe){
+        JSONObject object = new JSONObject();
+        if (object.isEmpty()) {
+            object = new JSONObject();
+        }
         boolean flagUpload,flagDescri;
         try{
-            flagUpload = fileUtil.uploadFile(file,"Project\\"+ProjectName+"\\Algorithm\\algorithm\\");
-            flagDescri = fileUtil.createFile("src/main/webappfiles/Project/"+ProjectName+"/Algorithm/ParameterDescribe/",file.getOriginalFilename().split("\\.")[0]+"ParameterDescribe.txt",ParameterDescribe);
+            flagUpload = fileUtil.uploadFile(file,ProjectPathPrefix+ProjectName+"/Algorithm/algorithm/");
+            flagDescri = fileUtil.createFile(ProjectPathPrefix+ProjectName+"/Algorithm/ParameterDescribe/",file.getOriginalFilename().split("\\.")[0]+"ParameterDescribe.txt",ParameterDescribe);
         }catch (Exception e){
-            return e.getMessage();
+            object.put("result", "fail");
+            return object.toString();
         }
-        return (flagUpload && flagDescri)?"success":"fail";
+        object.put("result", (flagUpload && flagDescri)?"success":"fail");
+        return object.toString();
     }
     @PostMapping("/uploadData")
     @ResponseBody
@@ -72,11 +81,12 @@ public class FileController {
         if (object.isEmpty()) {
            object = new JSONObject();
         }
+        //check data format
         String []filename = file.getOriginalFilename().split("\\.");
         String format = filename[filename.length-1];
         boolean flag = false;
         try{
-            File DataFormatFile = new File("src/main/webappfiles/Project/"+ProjectName+"/Describe&DataFormatLimit.txt");
+            File DataFormatFile = new File(ProjectPathPrefix + ProjectName + "/" + ProjectDescribeFile);
             InputStreamReader read = new InputStreamReader(new FileInputStream(DataFormatFile),"utf-8");
             BufferedReader bufferedReader = new BufferedReader(read);
             String describe = bufferedReader.readLine();
@@ -87,32 +97,22 @@ public class FileController {
             }
             read.close();
         }catch (Exception e){
-            System.out.println(e.getMessage());
+            object.put("result", "fail");
+            return object.toString();
         }
         if (flag){
             boolean flagUpload;
             try{
-                flagUpload = fileUtil.uploadFile(file,"Project/"+ProjectName+"/Data/");
+                flagUpload = fileUtil.uploadFile(file,ProjectPathPrefix + ProjectName+"/Data/");
             }catch (Exception e){
-                return e.getMessage();
-            }
-
-            if (flagUpload) {
-                object.put("result", "success");
-                String success = object.toString();
-                return success;
-            } else {
                 object.put("result", "fail");
-                String fail = object.toString();
-                return fail;
+                return object.toString();
             }
-
-
+            object.put("result", flagUpload?"success":"fail");
         }else {
             object.put("result", "format error");
-            String error =object .toString();
-            return error;
         }
+        return object.toString();
     }
 
 
@@ -123,17 +123,7 @@ public class FileController {
     @GetMapping("/getServerProjectList")
     @ResponseBody
     public List<String> getServerProjectList(){
-        List<String> results = new ArrayList<String>();
-        File file = new File("src/main/webappfiles/Project/");
-        if (file.exists()) {
-            for (File file2 : file.listFiles()) {
-                if (file2.isDirectory()) {
-                    String [] arrList = file2.getAbsolutePath().split("\\\\");
-                    results.add(arrList[arrList.length-1]);
-                }
-            }
-        }
-        return results;
+        return fileUtil.listDir(ProjectPathPrefix,true);
     }
 
     /**
@@ -152,7 +142,7 @@ public class FileController {
         for (int i = 0; i < ProjectList.size(); i++) {
             try{
                 String projectName = ProjectList.get(i);
-                File DataFormatFile = new File("src/main/webappfiles/Project/"+projectName+"/Describe&DataFormatLimit.txt");
+                File DataFormatFile = new File(ProjectPathPrefix+projectName+"/"+ProjectDescribeFile);
                 InputStreamReader read = new InputStreamReader(new FileInputStream(DataFormatFile),"utf-8");
                 BufferedReader bufferedReader = new BufferedReader(read);
                 String describe = bufferedReader.readLine();
@@ -179,24 +169,25 @@ public class FileController {
         if (object.isEmpty()) {
             object = new JSONObject();
         }
-        String destDirName = "src/main/webappfiles/Project/"+ProjectName;
+        String destDirName = ProjectPathPrefix + ProjectName;
+        if (!destDirName.endsWith(File.separator)) {// 结尾是否以"/"结束
+            destDirName = destDirName + File.separator;
+        }
         File dir = new File(destDirName);
         if (dir.exists()){
             object.put("result", "exist");
             return object.toString();
         }
-        if (!destDirName.endsWith(File.separator)) {// 结尾是否以"/"结束
-            destDirName = destDirName + File.separator;
-        }
+
         boolean flagServer,flagHdfs;
         if (dir.mkdirs()) {
-            flagServer = fileUtil.createFile(destDirName,"Describe&DataFormatLimit.txt",ProjectDescribe+"\n"+DataFormatLimit);
+            flagServer = fileUtil.createFile(destDirName,ProjectDescribeFile,ProjectDescribe+"\n"+DataFormatLimit);
             //create HDFS
             try{
-                flagHdfs = hdfsFileUtil.mkdir("/user/hadoop/data_platform/data/"+ProjectName+"/");
+                flagHdfs = hdfsFileUtil.mkdir(HDFSPathPrefix + ProjectName + "/");
                 if (flagHdfs) {
-                    String localDir = "src\\main\\webappfiles\\Project\\" + ProjectName + "\\Describe&DataFormatLimit.txt";
-                    String hdfsDir = "/user/hadoop/data_platform/data/" + ProjectName + "/Describe&DataFormatLimit.txt";
+                    String localDir = ProjectPathPrefix + ProjectName + "/" + ProjectDescribeFile;
+                    String hdfsDir = HDFSPathPrefix + ProjectName + "/" + ProjectDescribeFile;
                     hdfsFileUtil.upload(localDir, hdfsDir, false);
                     if (!hdfsFileUtil.checkFile(hdfsDir))
                         flagHdfs = false;
@@ -219,11 +210,41 @@ public class FileController {
      * @param ProjectName
      * @return
      */
-//    @GetMapping("/editProject")
-//    @ResponseBody
-//    public String editProject(@RequestParam(value = "ProjectName") String ProjectName) {
-//
-//    }
+    @GetMapping("/editProject")
+    @ResponseBody
+    public String editProject(@RequestParam(value = "ProjectName") String ProjectName,
+                              @RequestParam(value = "ProjectDescribe") String ProjectDescribe,
+                              @RequestParam(value = "DataFormatLimit") String DataFormatLimit) {
+        JSONObject object = new JSONObject();
+        if (object.isEmpty()) {
+            object = new JSONObject();
+        }
+        String destDirName = ProjectPathPrefix + ProjectName;
+        if (!destDirName.endsWith(File.separator)) // 结尾是否以"/"结束
+            destDirName = destDirName + File.separator;
+        File dir = new File(destDirName);
+        boolean flagServerDelete,flagServerCreate,flagHdfsDelete,flagHdfsCreate = true;
+        if (dir.exists()){
+            flagServerDelete = fileUtil.deleteFile(destDirName + ProjectDescribeFile);
+            flagServerCreate = fileUtil.createFile(destDirName,ProjectDescribeFile,ProjectDescribe+"\n"+DataFormatLimit);
+            //delete HDFS
+            try{
+                flagHdfsDelete = hdfsFileUtil.delFile(HDFSPathPrefix + ProjectName + ProjectDescribeFile, false);
+                String localDir = ProjectPathPrefix + ProjectName + "/" + ProjectDescribeFile;
+                String hdfsDir = HDFSPathPrefix + ProjectName + "/" + ProjectDescribeFile;
+                hdfsFileUtil.upload(localDir, hdfsDir, false);
+                if (!hdfsFileUtil.checkFile(hdfsDir))
+                    flagHdfsCreate = false;
+            }catch (Exception e){
+                object.put("result", "fail");
+                return object.toString();
+            }
+            object.put("result",(flagServerDelete&&flagServerCreate&&flagHdfsDelete&&flagHdfsCreate) ? "success" : "fail");
+        }else{
+            object.put("result", "not exist");
+        }
+        return object.toString();
+    }
 
     /**
      * 删除项目
@@ -237,17 +258,17 @@ public class FileController {
         if (object.isEmpty()) {
             object = new JSONObject();
         }
-        String destDirName = "src/main/webappfiles/Project/"+ProjectName;
+        String destDirName = ProjectPathPrefix + ProjectName;
         File file = new File(destDirName);
         if (!file.exists()) {// 判断目录或文件是否存在
             object.put("result", "not exist");
             return object.toString();
         } else {
             boolean flagServer,flagHdfs;
-            flagServer = deleteDirectory(destDirName);
+            flagServer = fileUtil.deleteDirectory(destDirName);
             //delete HDFS
             try{
-                flagHdfs = hdfsFileUtil.delFile("/user/hadoop/data_platform/data/" + ProjectName, true);
+                flagHdfs = hdfsFileUtil.delFile(HDFSPathPrefix + ProjectName, true);
             }catch (Exception e){
                 object.put("result", "fail");
                 return object.toString();
@@ -257,41 +278,35 @@ public class FileController {
         }
     }
 
-    private boolean deleteDirectory(String dirPath) {// 删除目录（文件夹）以及目录下的文件
-        // 如果sPath不以文件分隔符结尾，自动添加文件分隔符
-        if (!dirPath.endsWith(File.separator)) {
-            dirPath = dirPath + File.separator;
-        }
-        File dirFile = new File(dirPath);
-        // 如果dir对应的文件不存在，或者不是一个目录，则退出
-        if (!dirFile.exists() || !dirFile.isDirectory()) {
-            return false;
-        }
-        boolean flag = true;
-        File[] files = dirFile.listFiles();// 获得传入路径下的所有文件
-        for (File file : files) {
-            if (file.isFile()) {// 删除子文件
-                flag = deleteFile(file.getAbsolutePath());
-                System.out.println(file.getAbsolutePath() + " 删除成功");
-                if (!flag)
-                    break;// 如果删除失败，则跳出
-            } else {// 运用递归，删除子目录
-                flag = deleteDirectory(file.getAbsolutePath());
-                if (!flag)
-                    break;// 如果删除失败，则跳出
-            }
-        }
-        return flag && dirFile.delete();
+    /**
+     * 获取HDFS数据列表
+     * @return 数据文件名列表
+     * @throws Exception
+     */
+    @GetMapping("/getHdfsData")
+    @ResponseBody
+    public List<String> getHdfsData(@RequestParam(value = "ProjectName") String ProjectName) throws Exception{
+        return hdfsFileUtil.list(HDFSPathPrefix + ProjectName + "/");
     }
 
-    private boolean deleteFile(String filePath) {// 删除单个文件
-        boolean flag = false;
-        File file = new File(filePath);
-        if (file.isFile() && file.exists()) {// 路径为文件且不为空则进行删除
-            file.delete();// 文件删除
-            flag = true;
+    /**
+     * 获取所有数据文件
+     * @return 数据文件名列表
+     * @throws Exception
+     */
+    @GetMapping("/getServerData")
+    @ResponseBody
+    public List<String> getAllData(@RequestParam(value = "ProjectName") String ProjectName) throws Exception{
+        List<String> hdfs = getHdfsData(ProjectName);
+        List<String> local = fileUtil.listDir(ProjectPathPrefix + ProjectName + "/Data/", false);
+        List<String> result = new ArrayList<String>();
+        for (int i = 0; i < local.size(); i++) {
+            if (hdfs.contains(local.get(i)))
+                result.add(local.get(i)+"+1");
+            else
+                result.add(local.get(i)+"+0");
         }
-        return flag;
+        return result;
     }
 
     /**
@@ -301,25 +316,38 @@ public class FileController {
     @GetMapping("/getServerAlgorithm")
     @ResponseBody
     public List<String> getServerAlgorithm(@RequestParam(value = "ProjectName") String ProjectName){
-        return getLocalData(ProjectName,"Algorithm/algorithm");
+        return fileUtil.listDir(ProjectPathPrefix + ProjectName + "/Algorithm/algorithm/", false);
     }
 
-    public List<String> getLocalData(String ProjectName, String type) {
-        List<String> results = new ArrayList<String>();
-        File file = new File("src/main/webappfiles/Project/" + ProjectName + "/" + type + "/");
-        if (file.exists()) {
-            File[] files = file.listFiles();
-            if (files.length > 0) {
-                for (File file2 : files) {
-                    if (!file2.isDirectory()) {
-                        String[] arrList = file2.getAbsolutePath().split("\\\\");
-                        results.add(arrList[arrList.length - 1]);
-                    }
-                }
-            }
+
+    /**
+     * 上传本地数据至HDFS
+     * @param  arrDataName 本地src\main\webappfiles\Data目录下的数据文件名列表
+     * @return 上传失败的文件名
+     * @throws Exception
+     */
+    @GetMapping("/HdfsUpload")
+    @ResponseBody
+    public List<String> HdfsUpload(@RequestParam(value = "ProjectName") String ProjectName,
+                                   @RequestParam(value = "DataName") String []arrDataName) throws Exception{
+        List<String> result = new ArrayList<>();
+        for (int i = 0; i < arrDataName.length; i++) {
+            String DataName = arrDataName[i];
+            String localDir = ProjectPathPrefix + ProjectName + "/Data/" + DataName;
+            String hdfsDir = HDFSPathPrefix + ProjectName + "/" + DataName;
+            hdfsFileUtil.upload(localDir, hdfsDir, false);
+            if (!hdfsFileUtil.checkFile(hdfsDir))
+                result.add(DataName);
         }
-        return results;
+        return result;
     }
 
+
+    @GetMapping("/getSize")
+    @ResponseBody
+    public String getSize(@RequestParam(value = "DataName") String DataName) throws Exception{
+        String path = HDFSPathPrefix + DataName;
+        return hdfsFileUtil.getSizeK(path)+"KB";
+    }
 }
 

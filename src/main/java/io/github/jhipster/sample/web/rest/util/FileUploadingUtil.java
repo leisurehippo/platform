@@ -5,10 +5,7 @@ package io.github.jhipster.sample.web.rest.util;
  */
 
 import java.io.*;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 import io.github.jhipster.sample.web.rest.AccountResource;
@@ -26,11 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileUploadingUtil {
 
     private final static Logger logger = LoggerFactory.getLogger(AccountResource.class);
-    /**
-     * 服务器上的保存路径，在使用到上传功能的Controller中对其进行赋值
-     */
-    public static String FILEDIR = "src\\main\\webappfiles\\";
-
 
     /**
      * 上传单个文件，并返回其在服务器中的存储路径
@@ -76,55 +68,19 @@ public class FileUploadingUtil {
         }
     }
 
-    /**
-     * 遍历服务器目录，列举出目录中的所有文件（含子目录）
-     * @return
-     */
-    public static Map<String, String> getFileMap() {
-        logger.info(FileUploadingUtil.FILEDIR);
-        Map<String, String> map = new HashMap<String, String>();
-        File[] files = new File(FileUploadingUtil.FILEDIR).listFiles();
-        if (files != null) {
-            for (File file : files) {
-                if (file.isDirectory()) {
-                    File[] files2 = file.listFiles();
-                    if (files2 != null) {
-                        for (File file2 : files2) {
-                            String name = file2.getName();
-                            logger.info(file2.getParentFile().getAbsolutePath());
-                            logger.info(file2.getAbsolutePath());
-                            map.put(file2.getParentFile().getName() + "/" + name,
-                                name.substring(name.lastIndexOf("_") + 1));
-                        }
-                    }
-                }
-            }
-        }
-        return map;
-    }
 
     /**
      * 返回文件存储路径，为防止重名文件被覆盖，在文件名称中增加了随机数
      * @param name
      * @return
      */
-    private static String initFilePath(String name, String type) {
-        File file = new File(FILEDIR + type);
+    private static String initFilePath(String name, String path) {
+        File file = new File(path);
         if (!file.exists()) {
             file.mkdirs();
         }
-        return (file.getPath() + "\\" + name).replaceAll(" ", "-");
+        return (file.getPath() + "/" + name).replaceAll(" ", "-");
     }
-
-    /**
-     *
-     * @param name
-     * @return
-     */
-    private static int getFileDir(String name) {
-        return name.hashCode() & 0xf;
-    }
-
 
     /**
      * 创建文件
@@ -214,5 +170,73 @@ public class FileUploadingUtil {
             }
         }
         return bool;
+    }
+
+    /**
+     * 列出指定目录下文件夹列表
+     * @param path
+     * @return
+     */
+    public List<String> listDir(String path, boolean isDir){
+        List<String> results = new ArrayList<String>();
+        File file = new File(path);
+        if (file.exists()) {
+            for (File file2 : file.listFiles()) {
+                boolean flag = isDir ^ file2.isDirectory();
+                if (flag) {
+                    String [] arrList = file2.getAbsolutePath().split("\\\\");
+                    results.add(arrList[arrList.length-1]);
+                }
+            }
+        }
+        return results;
+    }
+
+
+    /**
+     * 删除目录（文件夹）以及目录下的文件
+     * @param dirPath
+     * @return
+     */
+    public boolean deleteDirectory(String dirPath) {
+        // 如果sPath不以文件分隔符结尾，自动添加文件分隔符
+        if (!dirPath.endsWith(File.separator)) {
+            dirPath = dirPath + File.separator;
+        }
+        File dirFile = new File(dirPath);
+        // 如果dir对应的文件不存在，或者不是一个目录，则退出
+        if (!dirFile.exists() || !dirFile.isDirectory()) {
+            return false;
+        }
+        boolean flag = true;
+        File[] files = dirFile.listFiles();// 获得传入路径下的所有文件
+        for (File file : files) {
+            if (file.isFile()) {// 删除子文件
+                flag = deleteFile(file.getAbsolutePath());
+                System.out.println(file.getAbsolutePath() + " 删除成功");
+                if (!flag)
+                    break;// 如果删除失败，则跳出
+            } else {// 运用递归，删除子目录
+                flag = deleteDirectory(file.getAbsolutePath());
+                if (!flag)
+                    break;// 如果删除失败，则跳出
+            }
+        }
+        return flag && dirFile.delete();
+    }
+
+    /**
+     * 删除单个文件
+     * @param filePath
+     * @return
+     */
+    public boolean deleteFile(String filePath) {
+        boolean flag = false;
+        File file = new File(filePath);
+        if (file.isFile() && file.exists()) {// 路径为文件且不为空则进行删除
+            file.delete();// 文件删除
+            flag = true;
+        }
+        return flag;
     }
 }
