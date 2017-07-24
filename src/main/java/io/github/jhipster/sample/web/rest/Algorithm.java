@@ -73,7 +73,8 @@ public class Algorithm {
 //            if (isPython)
 //                cmd = "python " + ProjectPathPrefix + ProjectName + "Algorithm/algorithm/" + key;
             if (key.equals("Apriori") ) {
-                cmd = "python src\\main\\webappfiles\\Algorithm\\"+key+".py ";
+                cmd = "python " + ProjectPathPrefix + ProjectName + "Algorithm/algorithm/" + key;
+//                cmd = "python src\\main\\webappfiles\\Algorithm\\"+key+".py ";
                 String[] list = params.split("\\+");
                 if (hasParams == 1){
                    cmd = cmd + "-f " + "src\\main\\webappfiles\\Data\\" + list[0] + " -s " + list[1] + " -c " + list[2];
