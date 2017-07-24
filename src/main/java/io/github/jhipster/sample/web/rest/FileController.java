@@ -147,6 +147,7 @@ public class FileController {
                 BufferedReader bufferedReader = new BufferedReader(read);
                 String describe = bufferedReader.readLine();
                 object.put(projectName, describe);
+                read.close();
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }

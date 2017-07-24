@@ -205,6 +205,7 @@ public class FileUploadingUtil {
         File dirFile = new File(dirPath);
         // 如果dir对应的文件不存在，或者不是一个目录，则退出
         if (!dirFile.exists() || !dirFile.isDirectory()) {
+            System.out.println("here");
             return false;
         }
         boolean flag = true;
@@ -212,7 +213,8 @@ public class FileUploadingUtil {
         for (File file : files) {
             if (file.isFile()) {// 删除子文件
                 flag = deleteFile(file.getAbsolutePath());
-                System.out.println(file.getAbsolutePath() + " 删除成功");
+                if (flag)
+                    System.out.println(file.getAbsolutePath() + " 删除成功");
                 if (!flag)
                     break;// 如果删除失败，则跳出
             } else {// 运用递归，删除子目录
