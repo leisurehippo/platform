@@ -28,6 +28,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class Algorithm {
+    private static String ProjectPathPrefix = "src/main/webappfiles/Project/";
 
 
 //    @GetMapping("/test")
@@ -59,19 +60,22 @@ public class Algorithm {
      */
     @GetMapping("/runLocal")
     @ResponseBody
-    public List<String> test(@RequestParam(value = "AlgorithmName") String key,
-                       @RequestParam(value = "hasParams") int hasParams,
-                       @RequestParam(value = "Params") String params
-//                       @RequestBody String params
+    public List<String> test(@RequestParam(value = "ProjectName") String ProjectName,
+                             @RequestParam(value = "AlgorithmName") String key,
+                             @RequestParam(value = "hasParams") int hasParams,
+                             @RequestParam(value = "Params") String params
+//                             @RequestParam(value = "isPython") boolean isPython
                        ) {
         String result = "";
         List<String> results = new ArrayList<String>();
         try {
+            String cmd = "";
+//            if (isPython)
+//                cmd = "python " + ProjectPathPrefix + ProjectName + "Algorithm/algorithm/" + key;
             if (key.equals("Apriori") ) {
-                String cmd = "python src\\main\\webappfiles\\Algorithm\\"+key+".py ";
+                cmd = "python src\\main\\webappfiles\\Algorithm\\"+key+".py ";
                 String[] list = params.split("\\+");
                 if (hasParams == 1){
-//                    cmd += params;
                    cmd = cmd + "-f " + "src\\main\\webappfiles\\Data\\" + list[0] + " -s " + list[1] + " -c " + list[2];
                 }
                 System.out.printf(cmd);
