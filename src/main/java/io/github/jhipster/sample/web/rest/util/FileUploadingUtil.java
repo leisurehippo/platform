@@ -100,7 +100,6 @@ public class FileUploadingUtil {
             if(!file.exists()){
                 file.createNewFile();
                 bool = true;
-                System.out.println("success create file");
                 //创建文件成功后，写入内容到文件里
                 writeFileContent(filePath + fileName, filecontent);
             }

@@ -229,7 +229,7 @@ public class FileController {
             flagServerCreate = fileUtil.createFile(destDirName,ProjectDescribeFile,ProjectDescribe+"\n"+DataFormatLimit);
             //delete HDFS
             try{
-                flagHdfsDelete = hdfsFileUtil.delFile(HDFSPathPrefix + ProjectName + ProjectDescribeFile, false);
+                flagHdfsDelete = hdfsFileUtil.delFile(HDFSPathPrefix + ProjectName + "/" + ProjectDescribeFile, false);
                 String localDir = ProjectPathPrefix + ProjectName + "/" + ProjectDescribeFile;
                 String hdfsDir = HDFSPathPrefix + ProjectName + "/" + ProjectDescribeFile;
                 hdfsFileUtil.upload(localDir, hdfsDir, false);

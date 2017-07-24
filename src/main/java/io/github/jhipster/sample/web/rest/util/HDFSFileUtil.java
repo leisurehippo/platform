@@ -45,6 +45,7 @@ public class HDFSFileUtil {
     }
 
     public boolean delFile(String path, boolean isDir) throws IllegalArgumentException, IOException{
+        System.out.println(path);
         if(isDir)
             return fs.delete(new Path(path),true);
         else
