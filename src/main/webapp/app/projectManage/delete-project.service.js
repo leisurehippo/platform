@@ -11,7 +11,7 @@
     DeleteProject.$inject = ['$resource'];
 
     function DeleteProject ($resource) {
-        var service = $resource('api/deleteProjectProject', {}, {
+        var service = $resource('api/deleteProject', {}, {
             'get': {method: 'GET', params:{}, isArray: false
             }
 

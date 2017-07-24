@@ -5,8 +5,8 @@ angular
     .module('jhipsterSampleApplicationApp')
     .controller('ProjectManageController',ProjectManageController);
 
-ProjectManageController.$inject = ['$scope', '$http', '$state', 'CreateProject', 'HdfsUpload', 'GetServerProject', '$timeout', 'DeleteProject', EditProject];
-function ProjectManageController($scope, $http, $state, CreateProject, HdfsUpload, GetServerProject, $timeout,DeleteProject) {
+ProjectManageController.$inject = ['$scope', '$http', '$state', 'CreateProject', 'HdfsUpload', 'GetServerProject', '$timeout', 'DeleteProject', 'EditProject'];
+function ProjectManageController($scope, $http, $state, CreateProject, HdfsUpload, GetServerProject, $timeout, DeleteProject, EditProject) {
     var vm = this;
     vm.fileData = [];
     vm.algrithmData = [];
