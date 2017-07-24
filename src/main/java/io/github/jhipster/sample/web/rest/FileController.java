@@ -268,11 +268,13 @@ public class FileController {
             flagServer = fileUtil.deleteDirectory(destDirName);
             //delete HDFS
             try{
-                flagHdfs = hdfsFileUtil.delFile(HDFSPathPrefix + ProjectName, true);
+                flagHdfs = hdfsFileUtil.delFile(HDFSPathPrefix + ProjectName + "/", true);
             }catch (Exception e){
                 object.put("result", "fail");
                 return object.toString();
             }
+            System.out.println(flagServer);
+            System.out.println(flagHdfs);
             object.put("result",(flagServer&&flagHdfs) ? "success" : "fail");
             return object.toString();
         }
