@@ -12,16 +12,26 @@
     </ul>
 </div>
 
+<!--<div class="container">-->
+        <!--<label>创建新项目</label>-->
+        <!--<button>创建</button>-->
+<!--</div>-->
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-8 col-md-10">
             <div class="panel panel-default" style="width: 80%">
                 <div class="panel-heading">已有项目
+                    <button class="btn" ng-click="vm.createProject()" style="margin-left: 120px" >创建新项目</button>
 
                 </div>
                 <table class="table">
-                    <th>项目名</th>
-                    <tr ng-repeat="item in vm.projects"><td>{{item}}</td></tr>
+                    <th>项目名</th><th>编辑</th><th>删除</th>
+                    <tr ng-repeat="item in vm.projects">
+                        <td>{{item}}</td>
+                        <td><button class="glyphicon glyphicon-pencil" ng-click="vm.editProject($index)"></button></td>
+                        <td><button class="glyphicon glyphicon-trash"  ng-click="vm.delProject($index)"></button></td>
+                    </tr>
                 </table>
             </div>
         </div>
