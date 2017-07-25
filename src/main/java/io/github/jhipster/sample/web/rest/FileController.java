@@ -344,7 +344,7 @@ public class FileController {
         for (int i = 0; i < arrDataName.length; i++) {
             String DataName = arrDataName[i];
             String localDir = ProjectPathPrefix + ProjectName + "/Data/" + DataName;
-            String hdfsDir = HDFSPathPrefix + ProjectName + "/" + DataName;
+            String hdfsDir = HDFSPathPrefix + ProjectName + "/Data" + DataName;
             hdfsFileUtil.upload(localDir, hdfsDir, false);
             if (!hdfsFileUtil.checkFile(hdfsDir))
                 result.add(DataName);
