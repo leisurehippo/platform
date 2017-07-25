@@ -180,12 +180,18 @@ public class FileController {
             return object.toString();
         }
 
-        boolean flagServer,flagHdfs;
+        boolean flagServer,flagHdfs=true;
         if (dir.mkdirs()) {
             flagServer = fileUtil.createFile(destDirName,ProjectDescribeFile,ProjectDescribe+"\n"+DataFormatLimit);
             //create HDFS
             try{
-                flagHdfs = hdfsFileUtil.mkdir(HDFSPathPrefix + ProjectName + "/");
+                String path = HDFSPathPrefix + ProjectName + "/";
+                String []allPath = {path,path+"Data/"};
+                for (int i = 0; i < allPath.length; i++) {
+                    if (!hdfsFileUtil.mkdir(allPath[i]))
+                        flagHdfs = false;
+                }
+//                flagHdfs = hdfsFileUtil.mkdir(HDFSPathPrefix + ProjectName + "/");
                 if (flagHdfs) {
                     String localDir = ProjectPathPrefix + ProjectName + "/" + ProjectDescribeFile;
                     String hdfsDir = HDFSPathPrefix + ProjectName + "/" + ProjectDescribeFile;
@@ -289,7 +295,7 @@ public class FileController {
     @GetMapping("/getHdfsData")
     @ResponseBody
     public List<String> getHdfsData(@RequestParam(value = "ProjectName") String ProjectName) throws Exception{
-        return hdfsFileUtil.list(HDFSPathPrefix + ProjectName + "/");
+        return hdfsFileUtil.list(HDFSPathPrefix + ProjectName + "/Data/");
     }
 
     /**
