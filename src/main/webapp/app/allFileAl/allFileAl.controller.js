@@ -14,25 +14,38 @@ function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload
     vm.paramtersDes = null;
     vm.projects = [];
 
+
     GetServerProject.get({}, function (res) {
         vm.projects = res;
+        console.log(vm.projects);
+        if ($stateParams.projectName == null && vm.projects.length > 0) {
+            vm.projectName = vm.projects[0];
+            console.log(vm.projectName);
+        } else
+            vm.projectName = $stateParams.projectName;
+
     }, function (res) {
 
     });
 
     var type="Algorithm";
     $scope.$watch('vm.projectName', function () {
-        GetAlgorithmData.get({ProjectName:vm.projectName},function (res) {
-            console.log(res);
-            vm.algrithmData = res;
-        }, function (result) {
-        });
+        if (vm.projectName != null) {
+            GetAlgorithmData.get({ProjectName:vm.projectName},function (res) {
+                console.log(res);
+                vm.algrithmData = res;
+            }, function (result) {
+            });
+        }
+
     });
 
 
     vm.alFileUpload = alFileUpload;
     function alFileUpload() {
         // $state.go('fileUpload', {fileType:1});
+        var oFileInput = FileInput();
+        oFileInput.Init("txt_file", "api/uploadAlgorithm", vm.projectName);
     }
 
     vm.fileUpHdfs = fileUpHdfs;
@@ -50,15 +63,16 @@ function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload
     var FileInput = function () {
         var oFile = new Object();
 
+        console.log(vm.paramtersDes + vm.projectName);
         //初始化fileinput控件（第一次初始化）
-        oFile.Init = function(ctrlName, uploadUrl) {
+        oFile.Init = function(ctrlName, uploadUrl, projectName) {
             var control = $('#' + ctrlName);
 
             //初始化上传控件的样式
             control.fileinput({
                 language: 'zh', //设置语言
                 uploadUrl: uploadUrl, //上传的地址
-                allowedFileExtensions: ['txt', 'json', 'csv', 'pdf', 'word'],//接收的文件后缀
+                // allowedFileExtensions: ['txt', 'json', 'csv', 'pdf', 'word'],//接收的文件后缀
                 showUpload: true, //是否显示上传按钮
                 showCaption: false,//是否显示标题
                 browseClass: "btn btn-primary", //按钮样式
@@ -78,7 +92,7 @@ function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload
                 //     var data = {ProjectName:vm.projectName};
                 //     return data;
                 // }
-                uploadExtraData:{ProjectName:vm.projectName, ParameterDescribe:vm.paramtersDes}
+                uploadExtraData:{ProjectName:projectName,ParameterDescribe:vm.paramtersDes}
 
             });
 
@@ -104,7 +118,5 @@ function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload
         return oFile;
     };
 
-    var oFileInput = FileInput();
-    oFileInput.Init("txt_file", "api/uploadAlgorithm");
 
 }

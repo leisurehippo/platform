@@ -13,27 +13,39 @@ function AllFileDataController($scope, $http, $state, GetHdfsData, GetAlgorithmD
     vm.projectName = $stateParams.projectName;
     vm.upServerModal = false;
     vm.checkList = [];
+
+
     GetServerProject.get({}, function (res) {
         vm.projects = res;
+        console.log(vm.projects);
+        if ($stateParams.projectName == null && vm.projects.length > 0) {
+            vm.projectName = vm.projects[0];
+            console.log(vm.projectName);
+        } else
+            vm.projectName = $stateParams.projectName;
+
     }, function (res) {
 
     });
     $scope.$watch('vm.projectName', function (oldValue,newValue) {
         console.log(vm.projectName);
         vm.serverData = [];
-        GetServerData.get({ProjectName:vm.projectName}, function (result) {
-            for (var i = 0; i< result.length; i++) {
-                vm.serverData[i] = result[i].split("+");
-                vm.checkList[i] = false;
-                if (vm.serverData[i][1] == '0') {
-                    vm.serverData[i][1] = false;
-                }else
-                    vm.serverData[i][1] = true;
+        if (vm.projectName!=null) {
+            GetServerData.get({ProjectName:vm.projectName}, function (result) {
+                for (var i = 0; i< result.length; i++) {
+                    vm.serverData[i] = result[i].split("+");
+                    vm.checkList[i] = false;
+                    if (vm.serverData[i][1] == '0') {
+                        vm.serverData[i][1] = false;
+                    }else
+                        vm.serverData[i][1] = true;
 
-            }
-            console.log(vm.serverData);
-        }, function (result) {
-        });
+                }
+                console.log(vm.serverData);
+            }, function (result) {
+            });
+        }
+
     });
 
     vm.changeCheck = changeCheck;
@@ -43,9 +55,12 @@ function AllFileDataController($scope, $http, $state, GetHdfsData, GetAlgorithmD
 
     $scope.$watch('vm.projectName', function (oldValue,newValue) {
         vm.hdfsData = [];
-        GetHdfsData.get({ProjectName:vm.projectName}, function (res) {
-            vm.hdfsData = res;
-        });
+        if (vm.projectName != null) {
+            GetHdfsData.get({ProjectName:vm.projectName}, function (res) {
+                vm.hdfsData = res;
+            });
+        }
+
     });
 
 
