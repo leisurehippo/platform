@@ -26,11 +26,12 @@
 
                 </div>
                 <table class="table">
-                    <th>项目名</th><th>编辑</th><th>删除</th>
+                    <th>项目名</th><th>编辑</th><th>删除</th><th>项目描述</th>
                     <tr ng-repeat="item in vm.projects">
-                        <td>{{item}}</td>
-                        <td><button class="glyphicon glyphicon-pencil" ng-click="vm.editProject($index)"  data-toggle="modal" data-target="#myModal1"></button></td>
+                        <td>{{item[0]}}</td>
+                        <td><button class="glyphicon glyphicon-pencil" ng-click="vm.editIndex = $index;"  data-toggle="modal" data-target="#myModal1"></button></td>
                         <td><button class="glyphicon glyphicon-trash"  ng-click="vm.delProject($index)"></button></td>
+                        <td>{{item[1]}}</td>
                     </tr>
                 </table>
             </div>
@@ -91,7 +92,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" ng-click="vm.editProject()">确认编辑</button>
+                    <button type="button" class="btn btn-primary" ng-click="vm.editProject(vm.editIndex)">确认编辑</button>
                 </div>
             </div>
         </div>
