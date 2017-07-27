@@ -13,7 +13,43 @@ function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload
     vm.projectName = $stateParams.projectName;
     vm.paramtersDes = null;
     vm.projects = [];
+    vm.paramtersNum = 3;
+    vm.hasParam = false;
+    vm.paramList = new Array(vm.paramtersNum);
+    for (var k = 0; k < vm.paramList.length; k++) {
+        vm.paramList[k] = new Array(3);
+        vm.paramList[k][0] = "";
+        vm.paramList[k][1] = "";
+        vm.paramList[k][2] = "false";
+    }
+    console.log(vm.paramList);
 
+
+    vm.range = function (n) {
+        console.log(n);
+        return new Array(n);
+    };
+
+    vm.test = test;
+    function test() {
+        console.log(vm.paramList);
+    }
+
+    $scope.$watch('vm.paramtersNum', function (newvalue, oldvalue) {
+        if (newvalue > oldvalue) {
+            var len = newvalue - oldvalue;
+            var arr = new Array(len);
+            vm.paramList=vm.paramList.concat(arr);
+        } else {
+            var len = oldvalue - newvalue;
+            vm.paramList.splice(0,len);
+        }
+
+    });
+
+    // $scope.$watch('vm.paramList', function (newvalue, oldvalue) {
+    //     console.log(vm.paramList);
+    // });
 
     GetServerProject.get({}, function (res) {
         vm.projects = res;

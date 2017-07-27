@@ -48,9 +48,22 @@
                     <h4 class="modal-title" id="myModalLabel">请选择文件</h4>
                 </div>
                 <div class="modal-body">
-                    <label style="margin-bottom: 15px">算法参数：</label>
-                    <input type="text" style="width: 40%;margin-bottom: 15px" ng-model="vm.paramtersDes">
+                    <label style="margin-bottom: 15px">参数个数：</label>
+                    <input type="text" style="width: 20%;margin-bottom: 15px" ng-model="vm.paramtersNum">
+                    <div ng-repeat="i in vm.paramList track by $index" >
+                        <label style="margin-bottom: 15px;margin-left: 5px">参数名称：</label>
+                        <input type="text" style="width: 20%;margin-bottom: 15px" ng-model="i[0]">
+
+                        <label style="margin-bottom: 15px;margin-left: 10px">参数描述：</label>
+                        <input type="text" style="width: 20%;margin-bottom: 15px" ng-model="i[1]">
+                        <label style="margin-bottom: 15px;margin-left: 10px">是否为数据文件：</label>
+                        <input type="checkbox" style="margin-bottom: 15px" ng-model="i[2]">
+                    </div>
+                    <!--<div>-->
+                        <!--<button ng-click="vm.test()">确定</button>-->
+                    <!--</div>-->
                     <input type="file" name="file" id="txt_file" class="file-loading" />
+
                 </div>
             </div>
         </div>

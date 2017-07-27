@@ -1,0 +1,37 @@
+<div class="form-group">
+    <label style="width: 12%; margin-left: 15px">选择项目:</label>
+    <select style="width: 30%;height: 30px;margin-bottom: 10px;" ng-model="vm.projectName">
+        <option ng-repeat="item in vm.projects">{{item}}</option>
+    </select>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class=" col-md-6">
+            <div class="panel panel-default" style="width: 80%">
+                <div class="panel-heading">
+                    已有算法
+                </div>
+                <table class="table">
+                    <th width="100px">选择算法</th><th>算法文件</th>
+                    <tr ng-repeat="item in vm.algrithmData">
+                        <td>
+                            <label>
+                                <input type="radio" ng-model="vm.checkList[$index]"
+                                       ng-true-value="true" ng-false-vlaue="false" ng-click="vm.changeCheck()">
+                            </label>
+                        </td>
+                        <td>{{item}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class=" " style="width: 80%">
+                <div class="panel-heading">算法参数</div>
+
+            </div>
+        </div>
+    </div>
+</div>

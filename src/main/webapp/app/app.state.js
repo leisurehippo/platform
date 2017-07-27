@@ -317,7 +317,7 @@
                 }
             },
             params: {
-                "projectName":null,
+                "projectName":null
             }
         }).state("LRTrain", {
             url: "/LR/Train",
@@ -361,6 +361,22 @@
                 'content@': {
                     templateUrl: "app/projectManage/projectManage.html",
                     controller: "ProjectManageController",
+                    controllerAs: 'vm'
+                }
+            },
+            params: {
+                "projectName":null
+            }
+        }).state("RunAl", {
+            url: "/run-algorithm",
+            parent: 'app',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: "app/runAl/runAl.html",
+                    controller: "RunAlController",
                     controllerAs: 'vm'
                 }
             },
