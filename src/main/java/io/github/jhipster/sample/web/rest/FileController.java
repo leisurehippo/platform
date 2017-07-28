@@ -57,7 +57,7 @@ public class FileController {
     @ResponseBody
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    @RequestParam(value = "ProjectName") String ProjectName,
-                                   @RequestParam(value = "ParameterDescribe") String ParameterDescribe){
+                                   @RequestParam(value = "ParameterDescribe") String[][] ParameterDescribe){
         JSONObject object = new JSONObject();
         if (object.isEmpty()) {
             object = new JSONObject();
@@ -65,7 +65,18 @@ public class FileController {
         boolean flagUpload,flagDescri;
         try{
             flagUpload = fileUtil.uploadFile(file,ProjectPathPrefix+ProjectName+"/Algorithm/algorithm/");
-            flagDescri = fileUtil.createFile(ProjectPathPrefix+ProjectName+"/Algorithm/ParameterDescribe/",file.getOriginalFilename().split("\\.")[0]+"ParameterDescribe.txt",ParameterDescribe);
+            String describe = "";
+            for (int i = 0; i < ParameterDescribe.length; i++) {
+                for (int j = 0; j < ParameterDescribe[i].length; j++) {
+                    if (j != ParameterDescribe[i].length - 1)
+                        describe += ParameterDescribe[i][j] + "\t";
+                    else
+                        describe += ParameterDescribe[i][j];
+                }
+                if (i != ParameterDescribe.length - 1)
+                    describe += "\n";
+            }
+            flagDescri = fileUtil.createFile(ProjectPathPrefix+ProjectName+"/Algorithm/ParameterDescribe/",file.getOriginalFilename().split("\\.")[0]+"ParameterDescribe.txt",describe);
         }catch (Exception e){
             object.put("result", "fail");
             return object.toString();
@@ -358,6 +369,37 @@ public class FileController {
     public String getSize(@RequestParam(value = "DataName") String DataName) throws Exception{
         String path = HDFSPathPrefix + DataName;
         return hdfsFileUtil.getSizeK(path)+"KB";
+    }
+
+    /**
+     * 获取算法参数描述
+     * @return String []dataList
+     */
+    @GetMapping("/getAlgorithmParameter")
+    @ResponseBody
+    public List<List<String>> getAlgorithmParameter(@RequestParam(value = "ProjectName") String ProjectName,
+        @RequestParam(value = "AlgorithmName") String AlgorithmName){
+        List<List<String>> result = new ArrayList<List<String>>();
+        try{
+            File DataFormatFile = new File(ProjectPathPrefix+ProjectName+"/Algorithm/ParameterDescribe/"+AlgorithmName+"ParameterDescribe.txt");
+            InputStreamReader read = new InputStreamReader(new FileInputStream(DataFormatFile),"utf-8");
+            BufferedReader bufferedReader = new BufferedReader(read);
+            String describe = "";
+
+            while (!(describe = bufferedReader.readLine()).equals("")){
+                List<String> perParam = new ArrayList<String>();
+                String [] arr= describe.split("\\t");
+                for (int i = 0; i < arr.length; i++) {
+                    perParam.add(arr[i]);
+                }
+                result.add(perParam);
+            }
+            read.close();
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return result;
+
     }
 }
 
