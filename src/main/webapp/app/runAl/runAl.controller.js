@@ -14,6 +14,11 @@
         var vm = this;
         vm.projects = [];
         vm.projectName = null;
+        vm.checkList = [];
+        vm.test = test;
+        function test() {
+            console.log(vm.checkList);
+        }
 
         GetServerProject.get({}, function (res) {
             vm.projects = res;
