@@ -128,7 +128,7 @@ function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload
                 //     var data = {ProjectName:vm.projectName};
                 //     return data;
                 // }
-                uploadExtraData:{ProjectName:projectName,ParameterDescribe:vm.paramtersDes}
+                uploadExtraData:{ProjectName:projectName,ParameterDescribe:vm.paramList}
 
             });
 
