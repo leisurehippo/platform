@@ -55,30 +55,32 @@ public class Algorithm {
 
     /**
      * 运行本地代码
-     * @param key
+     * @param ProjectName
+     * @param AlgorithmName
+     * @param params
+     * @param isPython
      * @return
      */
     @GetMapping("/runLocal")
     @ResponseBody
-    public List<String> test(@RequestParam(value = "ProjectName") String ProjectName,
-                             @RequestParam(value = "AlgorithmName") String key,
-                             @RequestParam(value = "hasParams") int hasParams,
-                             @RequestParam(value = "Params") String params
-//                             @RequestParam(value = "isPython") boolean isPython
+    public List<String> runLocal(@RequestParam(value = "ProjectName") String ProjectName,
+                             @RequestParam(value = "AlgorithmName") String AlgorithmName,
+                             @RequestParam(value = "Params") String [][]params,
+                             @RequestParam(value = "isPython") boolean isPython
                        ) {
         String result = "";
         List<String> results = new ArrayList<String>();
         try {
             String cmd = "";
-//            if (isPython)
-//                cmd = "python " + ProjectPathPrefix + ProjectName + "Algorithm/algorithm/" + key;
-            if (key.equals("Apriori") ) {
-                cmd = "python " + ProjectPathPrefix + ProjectName + "Algorithm/algorithm/" + key;
-//                cmd = "python src\\main\\webappfiles\\Algorithm\\"+key+".py ";
-                String[] list = params.split("\\+");
-                if (hasParams == 1){
-                   cmd = cmd + "-f " + "src\\main\\webappfiles\\Data\\" + list[0] + " -s " + list[1] + " -c " + list[2];
+            if (isPython) {
+                cmd = "python " + ProjectPathPrefix + ProjectName + "/Algorithm/algorithm/" + AlgorithmName;
+                for (int i = 0; i < params.length; i++) {
+                    if (params[i][2].equals("1"))
+                        cmd += " " + params[i][0] + " " + ProjectPathPrefix + ProjectName + "/Data/" + params[i][1];
+                    else
+                        cmd += " " + params[i][0] + " " + params[i][1];
                 }
+
                 System.out.printf(cmd);
                 Process pr = Runtime.getRuntime().exec(cmd);
                 BufferedReader in = new BufferedReader(new InputStreamReader(pr.getInputStream()));

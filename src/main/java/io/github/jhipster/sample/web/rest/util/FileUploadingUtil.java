@@ -195,7 +195,7 @@ public class FileUploadingUtil {
             for (File file2 : file.listFiles()) {
                 boolean flag = isDir ^ file2.isDirectory();
                 if (!flag) {
-                    String [] arrList = file2.getAbsolutePath().split("\\\\");
+                    String [] arrList = file2.getAbsolutePath().split("/");
                     results.add(arrList[arrList.length-1]);
                 }
             }
