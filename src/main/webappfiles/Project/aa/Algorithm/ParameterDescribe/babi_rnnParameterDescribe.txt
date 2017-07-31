@@ -1,1 +1,0 @@
-[-f\nfile\n1]\n[-s\nss\n1]

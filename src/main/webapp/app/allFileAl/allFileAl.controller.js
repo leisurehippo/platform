@@ -5,8 +5,8 @@ angular
     .module('jhipsterSampleApplicationApp')
     .controller('AllFileAlController',AllFileAlController);
 
-AllFileAlController.$inject = ['$scope', '$http', '$state', 'GetAlgorithmData', 'HdfsUpload', 'GetServerProject', '$stateParams', '$timeout'];
-function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload, GetServerProject, $stateParams, $timeout) {
+AllFileAlController.$inject = ['$scope', '$http', '$state', 'GetAlgorithmData', 'HdfsUpload', 'GetServerProject', '$stateParams', '$timeout', 'UploadParamsDes'];
+function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload, GetServerProject, $stateParams, $timeout, UploadParamsDes) {
     var vm = this;
     vm.fileData = [];
     vm.algrithmData = [];
@@ -15,28 +15,38 @@ function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload
     vm.projects = [];
     vm.paramtersNum = 3;
     vm.hasParam = false;
+    vm.editIndex = 0;
+    // var param = {
+    //     "parameterName": "",
+    //     "parameterDescribe":"",
+    //     "isData":false
+    // };
+   vm.param = new Object();
+    vm.param.parameterName = "";
+    vm.param.parameterDescribe = "";
+    vm.param.isData = false;
+    console.log(vm.param);
     vm.paramList = new Array(vm.paramtersNum);
     for (var k = 0; k < vm.paramList.length; k++) {
-        vm.paramList[k] = new Array(3);
-        // vm.paramList[k][0] = "";
-        // vm.paramList[k][1] = "";
-        // vm.paramList[k][2] = "false";
+        // vm.paramList.push(param);
+        vm.paramList[k] = new Object();
+        vm.paramList[k].parameterName = null;
+        vm.paramList[k].parameterDescribe = null;
+        vm.paramList[k].isData = false;
+        // vm.paramList[k] = new Array(3);
+        // vm.paramList[k][0] = null;
+        // vm.paramList[k][1] = null;
+        // vm.paramList[k][2] = false;
     }
-    console.log(vm.paramList);
+    console.log(JSON.stringify(vm.paramList));
+    vm.testParam = [[1,2,3]];
+    console.log(vm.testParam[0][1]);
 
 
     vm.range = function (n) {
         console.log(n);
         return new Array(n);
     };
-
-    vm.test = test;
-    function test() {
-        console.log(vm.paramList);
-        vm.oFileInput = FileInput();
-        vm.oFileInput.Init("txt_file", "api/uploadAlgorithm", vm.projectName, vm.paramList);
-
-    }
 
     $scope.$watch('vm.paramtersNum', function (newvalue, oldvalue) {
         if (newvalue > oldvalue) {
@@ -50,9 +60,6 @@ function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload
 
     });
 
-    // $scope.$watch('vm.paramList', function (newvalue, oldvalue) {
-    //     console.log(vm.paramList);
-    // });
 
     GetServerProject.get({}, function (res) {
         vm.projects = res;
@@ -83,8 +90,8 @@ function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload
     vm.alFileUpload = alFileUpload;
     function alFileUpload() {
         // $state.go('fileUpload', {fileType:1});
-        // vm.oFileInput = FileInput();
-        // vm.oFileInput.Init("txt_file", "api/uploadAlgorithm", vm.projectName, vm.paramList);
+        vm.oFileInput = FileInput();
+        vm.oFileInput.Init("txt_file", "api/uploadAlgorithm", vm.projectName);
     }
 
     vm.fileUpHdfs = fileUpHdfs;
@@ -96,6 +103,21 @@ function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload
         }, function (res) {
             console.log(res);
         });
+    }
+
+    vm.editParams = editParams;
+    function editParams(index) {
+        UploadParamsDes.post({ProjectName:vm.projectName, AlgorithmName:vm.algrithmData[vm.editIndex], ParameterDescribe:JSON.stringify(vm.paramList)},{},
+            function (res) {
+            console.log(res);
+            $("#myModal1").modal("hide");
+            var a = $timeout(function () {
+                $state.go('allFileAl', {projectName:vm.projectName}, { reload: true });
+            },1000);
+
+            }, function (res) {
+                console.log(res);
+            } );
     }
 
     //初始化fileinput
@@ -129,7 +151,7 @@ function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload
                 //     var data = {ProjectName:vm.projectName};
                 //     return data;
                 // }
-                uploadExtraData:{ProjectName:projectName,ParameterDescribe:paramList}
+                uploadExtraData:{ProjectName:projectName}
 
             });
 
