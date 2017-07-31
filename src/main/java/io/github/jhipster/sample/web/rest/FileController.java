@@ -83,7 +83,7 @@ public class FileController {
     @PostMapping("/uploadParameterDescribe")
     @ResponseBody
     public String handleParameterDescribeUpload(@RequestParam(value = "ProjectName") String ProjectName,
-                                                @RequestParam(value = "ProjectName") String AlgorithmName,
+                                                @RequestParam(value = "AlgorithmName") String AlgorithmName,
                                                 @RequestParam(value = "ParameterDescribe") String[] ParameterDescribe){
         JSONObject object = new JSONObject();
         if (object.isEmpty()) {
@@ -93,7 +93,11 @@ public class FileController {
         try{
             String describe = "";
             for (int i = 0; i < ParameterDescribe.length; i++) {
+                System.out.println(ParameterDescribe[i]);
                 JSONObject param = JSONObject.fromObject(ParameterDescribe[i]);
+                System.out.println(param.get("parameterName"));
+                System.out.println(param.get("parameterDescribe"));
+                System.out.println(param.get("isData"));
                 describe += param.get("parameterName") + " ";
                 describe += param.get("parameterDescribe") + " ";
                 describe += param.get("isData") + "\n";
@@ -106,7 +110,10 @@ public class FileController {
 //                if (i != ParameterDescribe.length - 1)
 //                    describe += "\n";
             }
-            flagDescri = fileUtil.createFile(ProjectPathPrefix+ProjectName+"/Algorithm/ParameterDescribe/",AlgorithmName+"ParameterDescribe.txt",describe);
+            System.out.println(describe);
+            String [] arrtemp = AlgorithmName.split("\\.");
+            System.out.println(arrtemp[0]);
+            flagDescri = fileUtil.createFile(ProjectPathPrefix+ProjectName+"/Algorithm/ParameterDescribe/",arrtemp[0]+"ParameterDescribe.txt",describe);
         }catch (Exception e){
             object.put("result", "fail");
             return object.toString();
@@ -432,16 +439,6 @@ public class FileController {
 
     }
 
-
-
-    @GetMapping("/test")
-    @ResponseBody
-    public void test(@RequestParam(value = "ProjectName") String []password) {
-        JSONObject object = JSONObject.fromObject(password);
-        System.out.println(object);
-        System.out.println(object.get("a"));
-
-    }
 
 }
 
