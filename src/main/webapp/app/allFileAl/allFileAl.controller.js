@@ -18,9 +18,9 @@ function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload
     vm.paramList = new Array(vm.paramtersNum);
     for (var k = 0; k < vm.paramList.length; k++) {
         vm.paramList[k] = new Array(3);
-        vm.paramList[k][0] = "";
-        vm.paramList[k][1] = "";
-        vm.paramList[k][2] = "false";
+        // vm.paramList[k][0] = "";
+        // vm.paramList[k][1] = "";
+        // vm.paramList[k][2] = "false";
     }
     console.log(vm.paramList);
 
@@ -33,6 +33,9 @@ function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload
     vm.test = test;
     function test() {
         console.log(vm.paramList);
+        vm.oFileInput = FileInput();
+        vm.oFileInput.Init("txt_file", "api/uploadAlgorithm", vm.projectName, vm.paramList);
+
     }
 
     $scope.$watch('vm.paramtersNum', function (newvalue, oldvalue) {
@@ -80,8 +83,8 @@ function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload
     vm.alFileUpload = alFileUpload;
     function alFileUpload() {
         // $state.go('fileUpload', {fileType:1});
-        var oFileInput = FileInput();
-        oFileInput.Init("txt_file", "api/uploadAlgorithm", vm.projectName);
+        // vm.oFileInput = FileInput();
+        // vm.oFileInput.Init("txt_file", "api/uploadAlgorithm", vm.projectName, vm.paramList);
     }
 
     vm.fileUpHdfs = fileUpHdfs;
@@ -98,14 +101,12 @@ function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload
     //初始化fileinput
     var FileInput = function () {
         var oFile = new Object();
-
-        console.log(vm.paramtersDes + vm.projectName);
         //初始化fileinput控件（第一次初始化）
-        oFile.Init = function(ctrlName, uploadUrl, projectName) {
-            var control = $('#' + ctrlName);
-
+        oFile.Init = function(ctrlName, uploadUrl, projectName, paramList) {
+            vm.control = $('#' + ctrlName);
+            console.log(paramList);
             //初始化上传控件的样式
-            control.fileinput({
+            vm.control.fileinput({
                 language: 'zh', //设置语言
                 uploadUrl: uploadUrl, //上传的地址
                 // allowedFileExtensions: ['txt', 'json', 'csv', 'pdf', 'word'],//接收的文件后缀
@@ -128,7 +129,7 @@ function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload
                 //     var data = {ProjectName:vm.projectName};
                 //     return data;
                 // }
-                uploadExtraData:{ProjectName:projectName,ParameterDescribe:vm.paramList}
+                uploadExtraData:{ProjectName:projectName,ParameterDescribe:paramList}
 
             });
 
@@ -150,7 +151,7 @@ function AllFileAlController($scope, $http, $state, GetAlgorithmData, HdfsUpload
                 // oTable.Init(data);
                 // $("#div_startimport").show();
             });
-        }
+        };
         return oFile;
     };
 
