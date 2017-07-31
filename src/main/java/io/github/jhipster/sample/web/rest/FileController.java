@@ -20,6 +20,7 @@ import io.github.jhipster.sample.web.rest.util.HDFSFileUtil;
 import io.github.jhipster.sample.web.rest.util.SparkUtil;
 import net.sf.json.JSONObject;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -71,16 +72,19 @@ public class FileController {
         object.put("result", flagUpload ? "success" : "fail");
         return object.toString();
     }
+
     /**
      * 文件上传具体实现方法;
-     * @param file
+     * @param ProjectName
+     * @param AlgorithmName
+     * @param ParameterDescribe
      * @return
      */
     @PostMapping("/uploadParameterDescribe")
     @ResponseBody
     public String handleParameterDescribeUpload(@RequestParam(value = "ProjectName") String ProjectName,
                                                 @RequestParam(value = "ProjectName") String AlgorithmName,
-                                                @RequestParam(value = "ParameterDescribe") String[][] ParameterDescribe){
+                                                @RequestParam(value = "ParameterDescribe") String[] ParameterDescribe){
         JSONObject object = new JSONObject();
         if (object.isEmpty()) {
             object = new JSONObject();
@@ -89,14 +93,18 @@ public class FileController {
         try{
             String describe = "";
             for (int i = 0; i < ParameterDescribe.length; i++) {
-                for (int j = 0; j < ParameterDescribe[i].length; j++) {
-                    if (j != ParameterDescribe[i].length - 1)
-                        describe += ParameterDescribe[i][j] + "\t";
-                    else
-                        describe += ParameterDescribe[i][j];
-                }
-                if (i != ParameterDescribe.length - 1)
-                    describe += "\n";
+                JSONObject param = JSONObject.fromObject(ParameterDescribe[i]);
+                describe += param.get("parameterName") + " ";
+                describe += param.get("parameterDescribe") + " ";
+                describe += param.get("isData") + "\n";
+//                for (int j = 0; j < ParameterDescribe[i].length; j++) {
+//                    if (j != ParameterDescribe[i].length - 1)
+//                        describe += ParameterDescribe[i][j] + "\t";
+//                    else
+//                        describe += ParameterDescribe[i][j];
+//                }
+//                if (i != ParameterDescribe.length - 1)
+//                    describe += "\n";
             }
             flagDescri = fileUtil.createFile(ProjectPathPrefix+ProjectName+"/Algorithm/ParameterDescribe/",AlgorithmName+"ParameterDescribe.txt",describe);
         }catch (Exception e){
@@ -423,5 +431,17 @@ public class FileController {
         return result;
 
     }
+
+
+
+    @GetMapping("/test")
+    @ResponseBody
+    public void test(@RequestParam(value = "ProjectName") String []password) {
+        JSONObject object = JSONObject.fromObject(password);
+        System.out.println(object);
+        System.out.println(object.get("a"));
+
+    }
+
 }
 
