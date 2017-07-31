@@ -55,16 +55,38 @@ public class FileController {
      */
     @PostMapping("/uploadAlgorithm")
     @ResponseBody
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
-                                   @RequestParam(value = "ProjectName") String ProjectName,
-                                   @RequestParam(value = "ParameterDescribe") String[][] ParameterDescribe){
+    public String handleAlgorithmUpload(@RequestParam("file") MultipartFile file,
+                                   @RequestParam(value = "ProjectName") String ProjectName){
         JSONObject object = new JSONObject();
         if (object.isEmpty()) {
             object = new JSONObject();
         }
-        boolean flagUpload,flagDescri;
+        boolean flagUpload;
         try{
             flagUpload = fileUtil.uploadFile(file,ProjectPathPrefix+ProjectName+"/Algorithm/algorithm/");
+        }catch (Exception e){
+            object.put("result", "fail");
+            return object.toString();
+        }
+        object.put("result", flagUpload ? "success" : "fail");
+        return object.toString();
+    }
+    /**
+     * 文件上传具体实现方法;
+     * @param file
+     * @return
+     */
+    @PostMapping("/uploadParameterDescribe")
+    @ResponseBody
+    public String handleParameterDescribeUpload(@RequestParam(value = "ProjectName") String ProjectName,
+                                                @RequestParam(value = "ProjectName") String AlgorithmName,
+                                                @RequestParam(value = "ParameterDescribe") String[][] ParameterDescribe){
+        JSONObject object = new JSONObject();
+        if (object.isEmpty()) {
+            object = new JSONObject();
+        }
+        boolean flagDescri;
+        try{
             String describe = "";
             for (int i = 0; i < ParameterDescribe.length; i++) {
                 for (int j = 0; j < ParameterDescribe[i].length; j++) {
@@ -76,12 +98,12 @@ public class FileController {
                 if (i != ParameterDescribe.length - 1)
                     describe += "\n";
             }
-            flagDescri = fileUtil.createFile(ProjectPathPrefix+ProjectName+"/Algorithm/ParameterDescribe/",file.getOriginalFilename().split("\\.")[0]+"ParameterDescribe.txt",describe);
+            flagDescri = fileUtil.createFile(ProjectPathPrefix+ProjectName+"/Algorithm/ParameterDescribe/",AlgorithmName+"ParameterDescribe.txt",describe);
         }catch (Exception e){
             object.put("result", "fail");
             return object.toString();
         }
-        object.put("result", (flagUpload && flagDescri)?"success":"fail");
+        object.put("result", flagDescri?"success":"fail");
         return object.toString();
     }
     @PostMapping("/uploadData")
