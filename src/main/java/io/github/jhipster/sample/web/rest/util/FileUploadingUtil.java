@@ -195,7 +195,6 @@ public class FileUploadingUtil {
             for (File file2 : file.listFiles()) {
                 boolean flag = isDir ^ file2.isDirectory();
                 if (!flag) {
-                    System.out.println(file2.getAbsolutePath());
                     String [] arrList = file2.getAbsolutePath().split("\\\\");
                     results.add(arrList[arrList.length-1]);
                 }
@@ -218,7 +217,6 @@ public class FileUploadingUtil {
         File dirFile = new File(dirPath);
         // 如果dir对应的文件不存在，或者不是一个目录，则退出
         if (!dirFile.exists() || !dirFile.isDirectory()) {
-            System.out.println("here");
             return false;
         }
         boolean flag = true;
