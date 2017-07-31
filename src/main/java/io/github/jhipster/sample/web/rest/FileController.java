@@ -18,7 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.JsonObject;
 import io.github.jhipster.sample.web.rest.util.HDFSFileUtil;
 import io.github.jhipster.sample.web.rest.util.SparkUtil;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.omg.CORBA.Object;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
@@ -84,7 +86,7 @@ public class FileController {
     @ResponseBody
     public String handleParameterDescribeUpload(@RequestParam(value = "ProjectName") String ProjectName,
                                                 @RequestParam(value = "AlgorithmName") String AlgorithmName,
-                                                @RequestParam(value = "ParameterDescribe") String[] ParameterDescribe){
+                                                @RequestParam(value = "ParameterDescribe") String ParameterDescribe){
         JSONObject object = new JSONObject();
         if (object.isEmpty()) {
             object = new JSONObject();
@@ -92,15 +94,26 @@ public class FileController {
         boolean flagDescri;
         try{
             String describe = "";
-            for (int i = 0; i < ParameterDescribe.length; i++) {
-                System.out.println(ParameterDescribe[i]);
-                JSONObject param = JSONObject.fromObject(ParameterDescribe[i]);
-                System.out.println(param.get("parameterName"));
-                System.out.println(param.get("parameterDescribe"));
-                System.out.println(param.get("isData"));
-                describe += param.get("parameterName") + " ";
-                describe += param.get("parameterDescribe") + " ";
-                describe += param.get("isData") + "\n";
+            JSONArray paramArray = JSONArray.fromObject(ParameterDescribe);
+            for (int i=0; i < paramArray.size(); i++) {
+                JSONObject paramJson = paramArray.getJSONObject(i);
+                String name = paramJson.getString("parameterName");
+                String des = paramJson.getString("parameterDescribe");
+                String isData = paramJson.getString("isData");
+                describe += name + " " + des + " " + isData + "\n";
+//                System.out.println(paramJson.getString("parameterName"));
+            }
+
+
+//            for (int i = 0; i < ParameterDescribe.length; i++) {
+//                System.out.println(ParameterDescribe[i]);
+//                JSONObject param = JSONObject.fromObject(ParameterDescribe[i]);
+//                System.out.println(param.get("parameterName"));
+//                System.out.println(param.get("parameterDescribe"));
+//                System.out.println(param.get("isData"));
+//                describe += param.get("parameterName") + " ";
+//                describe += param.get("parameterDescribe") + " ";
+//                describe += param.get("isData") + "\n";
 //                for (int j = 0; j < ParameterDescribe[i].length; j++) {
 //                    if (j != ParameterDescribe[i].length - 1)
 //                        describe += ParameterDescribe[i][j] + "\t";
@@ -109,8 +122,8 @@ public class FileController {
 //                }
 //                if (i != ParameterDescribe.length - 1)
 //                    describe += "\n";
-            }
-            System.out.println(describe);
+//            }
+
             String [] arrtemp = AlgorithmName.split("\\.");
             System.out.println(arrtemp[0]);
             flagDescri = fileUtil.createFile(ProjectPathPrefix+ProjectName+"/Algorithm/ParameterDescribe/",arrtemp[0]+"ParameterDescribe.txt",describe);
@@ -418,14 +431,16 @@ public class FileController {
         @RequestParam(value = "AlgorithmName") String AlgorithmName){
         List<List<String>> result = new ArrayList<List<String>>();
         try{
-            File DataFormatFile = new File(ProjectPathPrefix+ProjectName+"/Algorithm/ParameterDescribe/"+AlgorithmName+"ParameterDescribe.txt");
+            String [] arrtemp = AlgorithmName.split("\\.");
+            System.out.println(arrtemp[0]);
+            File DataFormatFile = new File(ProjectPathPrefix+ProjectName+"/Algorithm/ParameterDescribe/"+arrtemp[0]+"ParameterDescribe.txt");
             InputStreamReader read = new InputStreamReader(new FileInputStream(DataFormatFile),"utf-8");
             BufferedReader bufferedReader = new BufferedReader(read);
             String describe = "";
 
             while (!(describe = bufferedReader.readLine()).equals("")){
                 List<String> perParam = new ArrayList<String>();
-                String [] arr= describe.split("\\t");
+                String [] arr= describe.split("\\s");
                 for (int i = 0; i < arr.length; i++) {
                     perParam.add(arr[i]);
                 }

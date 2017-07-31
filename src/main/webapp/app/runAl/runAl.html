@@ -25,7 +25,6 @@
                     </tr>
                 </table>
             </div>
-            <button ng-click="vm.test()">test</button>
 
         </div>
 
@@ -33,6 +32,13 @@
         <div class="col-md-6">
             <div class=" " style="width: 80%">
                 <div class="panel-heading">算法参数</div>
+                <div class="form-group" ng-repeat="item in vm.paramDes">
+                    <span style="padding-left: 15px">参数名称：</span>
+                    <span style="padding-left: 15px">{{item[0]}}</span>
+                    <input ng-if="item[2]=='false'" />
+                    <select ng-if="item[2]=='true'"></select>
+                    <span style="padding-left: 15px">{{item[1]}}</span>
+                </div>
 
             </div>
         </div>

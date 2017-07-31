@@ -48,7 +48,6 @@
         $scope.$watch('vm.check', function (newvalue, oldvalue) {
             GetAlgorithmParams.get({ProjectName:vm.projectName, AlgorithmName:vm.algrithmData[newvalue]},
                 function (res) {
-                console.log(res);
                 vm.paramDes = res;
                 console.log(vm.paramDes);
             }, function (res) {
