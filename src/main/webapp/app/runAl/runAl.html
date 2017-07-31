@@ -17,8 +17,8 @@
                     <tr ng-repeat="item in vm.algrithmData">
                         <td>
                             <label>
-                                <input type="radio" ng-model="vm.checkList[$index]"
-                                       ng-value="true" ng-click="vm.changeCheck()">
+                                <input type="radio" ng-model="vm.check"
+                                       ng-value="$index" ng-click="vm.changeCheck()" >
                             </label>
                         </td>
                         <td>{{item}}</td>
@@ -26,6 +26,7 @@
                 </table>
             </div>
             <button ng-click="vm.test()">test</button>
+
         </div>
 
 

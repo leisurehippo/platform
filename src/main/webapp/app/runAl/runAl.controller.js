@@ -8,9 +8,9 @@
         .module('jhipsterSampleApplicationApp')
         .controller('RunAlController', RunAlController);
 
-    RunAlController.$inject = ['$state', '$scope', '$stateParams', 'GetServerProject', 'GetAlgorithmData'];
+    RunAlController.$inject = ['$state', '$scope', '$stateParams', 'GetServerProject', 'GetAlgorithmData', 'GetAlgorithmParams'];
 
-    function RunAlController ($state, $scope, $stateParams, GetServerProject, GetAlgorithmData) {
+    function RunAlController ($state, $scope, $stateParams, GetServerProject, GetAlgorithmData, GetAlgorithmParams) {
         var vm = this;
         vm.projects = [];
         vm.projectName = null;
@@ -43,6 +43,17 @@
                 });
             }
 
+        });
+
+        $scope.$watch('vm.check', function (newvalue, oldvalue) {
+            GetAlgorithmParams.get({ProjectName:vm.projectName, AlgorithmName:vm.algrithmData[newvalue]},
+                function (res) {
+                console.log(res);
+                vm.paramDes = res;
+                console.log(vm.paramDes);
+            }, function (res) {
+                    console.log(res);
+                });
         });
 
 

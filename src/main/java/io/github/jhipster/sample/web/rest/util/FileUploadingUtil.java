@@ -102,6 +102,12 @@ public class FileUploadingUtil {
                 bool = true;
                 //创建文件成功后，写入内容到文件里
                 writeFileContent(filePath + fileName, filecontent);
+            }else{
+                file.delete();
+                file.createNewFile();
+                //创建文件成功后，写入内容到文件里
+                writeFileContent(filePath + fileName, filecontent);
+                bool = true;
             }
         } catch (Exception e) {
             e.printStackTrace();
