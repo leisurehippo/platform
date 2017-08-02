@@ -23,24 +23,89 @@
                         </td>
                         <td>{{item}}</td>
                     </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                <input type="radio" ng-model="vm.check"
+                                       ng-value="'Mllib'" ng-click="vm.changeCheck()" >
+                            </label>
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    MLLib <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li class="dropdown-submenu">
+                                        <a tabindex="-1" href="javascript:void(0)">预测</a>
+                                        <ul class="dropdown-menu">
+                                            <li ><a tabindex="-1" href="javascript:void(0)" ng-click="vm.alMLLib = 'lr' ">lr</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown-submenu">
+                                        <a tabindex="-1" href="javascript:void(0)">分类</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a tabindex="-1" href="javascript:void(0)" ng-click="vm.alMLLib = 'SVM ' ">SVM</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown-submenu">
+                                        <a tabindex="-1" href="javascript:void(0)">聚类</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a tabindex="-1" href="javascript:void(0)"  ng-click="vm.alMLLib = 'kmeans '">kmeans</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            {{vm.alMLLib}}
+                        </td>
+                    </tr>
                 </table>
             </div>
 
         </div>
 
 
-        <div class="col-md-6">
+        <div class="col-md-6" ng-if="vm.check!=null&&vm.check!='Mllib'">
             <div class=" " style="width: 80%">
                 <div class="panel-heading">算法参数</div>
                 <div class="form-group" ng-repeat="item in vm.paramDes">
-                    <span style="padding-left: 15px">参数名称：</span>
-                    <span style="padding-left: 15px">{{item[0]}}</span>
-                    <input ng-if="item[2]=='false'" />
-                    <select ng-if="item[2]=='true'"></select>
-                    <span style="padding-left: 15px">{{item[1]}}</span>
+                    <!--<span style="padding-left: 15px">参数名称：</span>-->
+                    <span style="margin-left: 15px">{{item[0]}}</span>
+                    <span style="margin-left: 15px">{{item[1]}}</span>
+                    <input ng-if="item[2]=='false'" style="width: 40%;margin-left: 15px" ng-model="vm.param[$index]" >
+                    <select  ng-if="item[2]=='true'" style="width: 40%;margin-left: 15px; height: 30px;margin-bottom: 10px;" ng-model="vm.param[$index]">
+                        <option ng-repeat="k in  vm.serverData">{{k[0]}}</option>
+                    </select>
+                </div>
+                <div class="form-group" ng-if="vm.check!= null ">
+                    <button ng-click="vm.runAl()" style="margin-left: 15px;margin-bottom: 10px;width: 60px">运行</button>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-md-6" ng-if="vm.check =='Mllib'&&vm.alMLLib!=null">
+            <div class=" " style="width: 80%">
+                <div class="panel-heading">{{vm.alMLLib}}算法参数</div>
+                <div class="form-group" ng-repeat="item in vm.paramMllib">
+                    <span style="padding-left: 15px">{{item[0]}}:</span>
+                    <input ng-model="item[1]"/>
+                </div>
+                <div class="form-group" ng-if="vm.check!= null ">
+                    <button ng-click="vm.runMllibAl()" style="margin-left: 15px;margin-bottom: 10px;width: 60px">运行</button>
                 </div>
 
             </div>
         </div>
     </div>
+
+    <div class="well">
+        <div class="form-group">
+            <label>运行结果:</label>
+            <p ng-repeat="i in vm.results track by $index">{{i}}</p>
+
+        </div>
+
+    </div>
+
 </div>

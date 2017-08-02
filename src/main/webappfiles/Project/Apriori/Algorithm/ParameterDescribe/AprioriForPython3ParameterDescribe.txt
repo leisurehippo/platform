@@ -1,0 +1,3 @@
+-f data true
+-s 支持度 false
+-c 置信度 false
