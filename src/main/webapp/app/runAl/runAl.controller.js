@@ -8,9 +8,9 @@
         .module('jhipsterSampleApplicationApp')
         .controller('RunAlController', RunAlController);
 
-    RunAlController.$inject = ['$state', '$scope', '$stateParams', 'GetServerProject', 'GetAlgorithmData', 'GetAlgorithmParams', 'GetServerData', 'runLocal', 'GetParameter'];
+    RunAlController.$inject = ['$state', '$scope', '$stateParams', 'GetServerProject', 'GetAlgorithmData', 'GetAlgorithmParams', 'GetServerData', 'runLocal', 'GetParameter', 'RunMLlib'];
 
-    function RunAlController ($state, $scope, $stateParams, GetServerProject, GetAlgorithmData, GetAlgorithmParams, GetServerData, runLocal, GetParameter) {
+    function RunAlController ($state, $scope, $stateParams, GetServerProject, GetAlgorithmData, GetAlgorithmParams, GetServerData, runLocal, GetParameter,RunMLlib) {
         var vm = this;
         vm.projects = [];
         vm.projectName = null;
@@ -23,6 +23,11 @@
         vm.check = null;
         vm.alMLLib = null;
         vm.paramMllib = [];
+        vm.runMllibAl = runMllibAl;
+        vm.tradinData = null;
+        vm.testData = null;
+        vm.showResults = false;
+
         function test() {
             console.log(vm.checkList);
         }
@@ -42,6 +47,16 @@
 
         var type="Algorithm";
         $scope.$watch('vm.projectName', function () {
+            vm.serverData = [];
+            vm.paramDes = [];
+            vm.param = [];
+            vm.results = [];
+            vm.check = null;
+            vm.alMLLib = null;
+            vm.paramMllib = [];
+            vm.tradinData = null;
+            vm.testData = null;
+            vm.showResults = false;
             if (vm.projectName != null) {
                 GetAlgorithmData.get({ProjectName:vm.projectName},function (res) {
                     console.log(res);
@@ -53,6 +68,7 @@
         });
 
         $scope.$watch('vm.check', function (newvalue, oldvalue) {
+            vm.showResults = false;
             if (newvalue!="Mllib") {
                 GetAlgorithmParams.get({ProjectName:vm.projectName, AlgorithmName:vm.algrithmData[newvalue]},
                     function (res) {
@@ -83,9 +99,21 @@
                         for (var i = 0; i< res.length; i++) {
                             vm.param[i] = res[i].split(":");
                         }
-
                         angular.copy(vm.param, vm.paramMllib);
-                        console.log( vm.paramMllib);
+                        GetServerData.get({ProjectName:vm.projectName}, function (result) {
+                            for (var i = 0; i< result.length; i++) {
+                                vm.serverData[i] = result[i].split("+");
+                                vm.checkList[i] = false;
+                                if (vm.serverData[i][1] == '0') {
+                                    vm.serverData[i][1] = false;
+                                }else
+                                    vm.serverData[i][1] = true;
+
+                            }
+                            console.log(vm.serverData);
+                        }, function (res) {
+                            console.log(res);
+                        });
                     }, function (res) {
                         console.log(res);
                     });
@@ -95,6 +123,7 @@
         });
 
         $scope.$watch('vm.alMLLib', function (newvalue, oldvalue) {
+            vm.showResults = false;
             GetParameter.get({Algorithm: vm.alMLLib},  function (res) {
                 for (var i = 0; i< res.length; i++) {
                     vm.param[i] = res[i].split(":");
@@ -107,8 +136,20 @@
             });
         });
 
+        vm.saveResult = saveResult;
+        vm.fileNameSave = null;
+        function saveResult() {
+            var results  = "";
+            for(var k in vm.results) {
+                results += vm.results[k] + "\n";
+            }
+            var blob = new Blob([results], {type: "text/plain;charset=utf-8"});
+            saveAs(blob, vm.fileNameSave+".txt");
+        }
+
         vm.runAl = runAl;
         function runAl() {
+            vm.showResults = true;
             console.log(vm.param);
             var str = '{';
             for(var k = 0; k < vm.paramDes.length; k++) {
@@ -132,11 +173,31 @@
 
         }
 
-        vm.runMllibAl = runMllibAl;
         function runMllibAl() {
+            vm.showResults = true;
 
+            var params = "{";
+            var count = 0;
+            for( var i = 0; i< vm.param.length; i++) {
+                if (vm.param[i][1] != vm.paramMllib[i][1]) {
+                    count ++;
+                    if (count == 1)
+                        params += vm.paramMllib[i][0] + ":" + vm.paramMllib[i][1];
+                    else
+                        params += "," + vm.paramMllib[i][0] + ":" + vm.paramMllib[i][1];
+
+                }
+            }
+            params += "}";
+            console.log(params);
+            RunMLlib.get({ProjectName:vm.projectName, trainDataName:vm.trainData, testDataName:vm.testData,
+                Parameters:params, Algorithm:vm.alMLLib}, function (res) {
+                vm.results = res;
+                console.log(res);
+            },function (res) {
+                console.log(res);
+            });
         }
-
 
     }
 })();

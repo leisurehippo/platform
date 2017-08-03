@@ -90,7 +90,7 @@ function AllFileDataController($scope, $http, $state, GetHdfsData, GetAlgorithmD
         console.log(vm.nameList);
         HdfsUpload.get({ProjectName:vm.projectName, DataName:vm.nameList }, function (res) {
             console.log(res);
-            $state.go('allFileData', null, { reload: true });
+            $state.go('allFileData', {projectName:vm.projectName}, { reload: true });
         }, function (res) {
             console.log(res);
         });

@@ -70,7 +70,7 @@ public class FileUploadingUtil {
 
 
     /**
-     * 返回文件存储路径，为防止重名文件被覆盖，在文件名称中增加了随机数
+     * 返回文件存储路径
      * @param name
      * @return
      */
@@ -91,25 +91,29 @@ public class FileUploadingUtil {
     public boolean createFile(String filePath, String fileName,String filecontent){
         File fileDir = new File(filePath);
         if (!fileDir.exists()) {
+            System.out.println("mkdir");
             fileDir.mkdirs();
         }
         Boolean bool = false;
         File file = new File(filePath + fileName);
         try {
-            //如果文件不存在，则创建新的文件
+            // create new file if the file is not exist
             if(!file.exists()){
+                System.out.println("not exist");
                 file.createNewFile();
-                bool = true;
-                //创建文件成功后，写入内容到文件里
+                // write the content into the file when the file has created successfully
                 writeFileContent(filePath + fileName, filecontent);
+                bool = true;
             }else{
+                System.out.println("exist");
+                // delete the file first , and then re-create the file
                 file.delete();
                 file.createNewFile();
-                //创建文件成功后，写入内容到文件里
                 writeFileContent(filePath + fileName, filecontent);
                 bool = true;
             }
         } catch (Exception e) {
+            bool = false;
             e.printStackTrace();
         }
         return bool;
@@ -123,58 +127,6 @@ public class FileUploadingUtil {
      * @throws IOException
      */
     public static boolean writeFileContent(String filepath,String newstr) throws IOException{
-//        Boolean bool = false;
-//        String filein = newstr+"\r\n";//新写入的行，换行
-//        String temp  = "";
-//
-//        FileInputStream fis = null;
-//        InputStreamReader isr = null;
-//        BufferedReader br = null;
-//        FileOutputStream fos  = null;
-//        PrintWriter pw = null;
-//        try {
-//            File file = new File(filepath);//文件路径(包括文件名称)
-//            //将文件读入输入流
-//            fis = new FileInputStream(file);
-//            isr = new InputStreamReader(fis);
-//            br = new BufferedReader(isr);
-//            StringBuffer buffer = new StringBuffer();
-//
-//            //文件原有内容
-//            for(int i=0;(temp =br.readLine())!=null;i++){
-//                buffer.append(temp);
-//                // 行与行之间的分隔符 相当于“\n”
-//                buffer = buffer.append(System.getProperty("line.separator"));
-//            }
-//            buffer.append(filein);
-//            fos = new FileOutputStream(file);
-//            pw = new PrintWriter(fos);
-//            pw.write(buffer.toString().toCharArray());
-//            pw.flush();
-//            bool = true;
-//        } catch (Exception e) {
-//            // TODO: handle exception
-//            e.printStackTrace();
-//        }finally {
-//            //不要忘记关闭
-//            if (pw != null) {
-//                pw.close();
-//            }
-//            if (fos != null) {
-//                fos.close();
-//            }
-//            if (br != null) {
-//                br.close();
-//            }
-//            if (isr != null) {
-//                isr.close();
-//            }
-//            if (fis != null) {
-//                fis.close();
-//            }
-//        }
-//        return bool;
-
         try{
             File file = new File(filepath);
             OutputStream out=new FileOutputStream(file);
@@ -190,8 +142,9 @@ public class FileUploadingUtil {
     }
 
     /**
-     * 列出指定目录下文件夹列表
+     * 列出指定目录下文件夹or文件列表
      * @param path
+     * @param isDir 子目录是文件夹
      * @return
      */
     public List<String> listDir(String path, boolean isDir){
@@ -201,7 +154,13 @@ public class FileUploadingUtil {
             for (File file2 : file.listFiles()) {
                 boolean flag = isDir ^ file2.isDirectory();
                 if (!flag) {
+                    //-------------------------------------------------------
+                    //the split symbol in windows and linux is different!!!
+                    //"\\\\" for windows "/" for linux
+                    //remember to modify!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    //-------------------------------------------------------
                     String [] arrList = file2.getAbsolutePath().split("\\\\");
+                    //get the last item
                     results.add(arrList[arrList.length-1]);
                 }
             }

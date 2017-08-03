@@ -91,21 +91,32 @@
                     <span style="padding-left: 15px">{{item[0]}}:</span>
                     <input ng-model="item[1]"/>
                 </div>
-                <div class="form-group" ng-if="vm.check!= null ">
-                    <button ng-click="vm.runMllibAl()" style="margin-left: 15px;margin-bottom: 10px;width: 60px">运行</button>
-                </div>
+            </div>
+            <div>
+                <span style="padding-left: 15px;margin-bottom: 15px">训练数据:</span>
+                <select style="width: 40%;margin-left: 15px; height: 30px;margin-bottom: 15px" ng-model="vm.trainData">
+                    <option ng-repeat="k in  vm.serverData">{{k[0]}}</option>
+                </select>
+                <div>
 
+                </div><span style="padding-left: 15px">测试数据:</span>
+                <select style="width: 40%;margin-left: 15px; height: 30px;" ng-model="vm.testData">
+                    <option ng-repeat="k in  vm.serverData">{{k[0]}}</option>
+                </select>
+
+            </div>
+            <div ng-if="vm.check!= null ">
+                <button ng-click="vm.runMllibAl()" style="margin-top:15px;margin-left: 15px;margin-bottom:15px;width: 60px">运行</button>
             </div>
         </div>
     </div>
 
-    <div class="well">
+    <div class="well" ng-show="vm.showResults">
         <div class="form-group">
             <label>运行结果:</label>
-            <label style="margin-left: 30px">Filename: <input type="text" class="filename" id="text-filename" placeholder="a plain document"/>.txt</label>
-            <button style="margin-left: 20px" class="btn-primary btn" ng-click="vm.saceResult()">save</button>
+            <label style="margin-left: 30px">Filename: <input ng-model="vm.fileNameSave" type="text" class="filename" id="text-filename" placeholder="a plain document"/>.txt</label>
+            <button style="margin-left: 20px" class="btn-primary btn" ng-click="vm.saveResult()">save</button>
             <p ng-repeat="i in vm.results track by $index">{{i}}</p>
-
         </div>
 
     </div>

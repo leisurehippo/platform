@@ -52,15 +52,16 @@ public class JavaSparkAPI {
      */
     @GetMapping("/getDataColumns")
     @ResponseBody
-    public String [] getDataColumns(@RequestParam(value = "DataName") String DataName) throws Exception{
-        String hdfsDir = "/user/hadoop/data_platform/data/" + DataName;
+    public String [] getDataColumns(@RequestParam(value = "ProjectName") String ProjectName,
+                                    @RequestParam(value = "DataName") String DataName) throws Exception{
+        String hdfsDir = HDFSPathPrefix + ProjectName + "/Data/" + DataName;
         String [] columns = sparkUtil.getColumns(hdfsDir, "HDFS", "json");
         return columns;
     }
 
-    @GetMapping("/getParameter")
+    @GetMapping("/getLibraryParameter")
     @ResponseBody
-    public  List<String> getParam(@RequestParam(value = "Algorithm") String Algorithm){
+    public  List<String> getLibraryParameter(@RequestParam(value = "Algorithm") String Algorithm){
         String []arrParam = sparkClassification.getParam(Algorithm).split("\n");
         List<String> resList = new ArrayList<String> ();
         for (int i = 0; i < arrParam.length; i++) {
@@ -70,84 +71,64 @@ public class JavaSparkAPI {
                 result = arrDefault[0] + ":" +arrDefault[2].substring(1,arrDefault[2].length()-1);
                 resList.add(result);
             }
-
         }
         return resList;
     }
 
     /**
-     * train
-     * @param DataName
-//     * @param featureCols
-     * @param ModelName
+     * pipeline
+     * @param ProjectName
+     * @param trainDataName
+     * @param testDataName
      * @param Parameters
      * @param Algorithm
-     * @return model saved or not
+     * @return
      * @throws Exception
      */
-    @GetMapping("/SparkTrain")
+    @GetMapping("/runMLlib")
     @ResponseBody
-    public boolean SparkTrain(@RequestParam(value = "DataName") String DataName,
-//                              @RequestParam(value = "Columns") String [] featureCols,
-                              @RequestParam(value = "ModelName") String ModelName,
+    public List<String> SparkTrain(@RequestParam(value = "ProjectName") String ProjectName,
+                              @RequestParam(value = "trainDataName") String trainDataName,
+                              @RequestParam(value = "testDataName") String testDataName,
                               @RequestParam(value = "Parameters") String Parameters,
                               @RequestParam(value = "Algorithm") String Algorithm) throws Exception{
         Date date = new Date();
-        String[] featureCols = getDataColumns(DataName);
-//        String[] featureCols = {"wigth", "age", "heigth", "interets"};
-        String hdfsDir = "/user/hadoop/data_platform/data/" + DataName;
-        Dataset<Row> dataset = sparkUtil.readData(hdfsDir, "HDFS", "json",featureCols, "label");
-        System.out.println(dataset.count());
-        for(String column : dataset.columns())
+        // get data columns
+        String[] trainFeatureCols = getDataColumns(ProjectName, trainDataName);
+        String trainHdfsDir = HDFSPathPrefix + ProjectName + "/Data/" + trainDataName;
+        // read data
+        Dataset<Row> trainDataset = sparkUtil.readData(trainHdfsDir, "HDFS", "json",trainFeatureCols, "label");
+        System.out.println(trainDataset.count());
+        for(String column : trainDataset.columns())
             System.out.println(column);
+        JSONObject trainParam = new JSONObject(Parameters);
 //        {'maxIter':10, 'regParam' : 0.5, 'elasticNetParam' : 0.8, 'standardization' : true}
-        JSONObject jsonObject = new JSONObject(Parameters);
 
-        String newModelName = ModelName + String.valueOf(date.getTime());
-        String modelPath = hdfsFileUtil.HDFSPath("/user/hadoop/data_platform/model/" + newModelName);
-        switch (Algorithm){
-            case "lr":
-                sparkClassification.lr(jsonObject, dataset, modelPath);
-                break;
-            default:
-                break;
-        }
-        return getModel().contains(newModelName);
-    }
+        String modelName = ProjectName + "_" + Algorithm + "_" +  trainDataName + "_" + String.valueOf(date.getTime());
+        String modelPath = hdfsFileUtil.HDFSPath("/user/hadoop/data_platform/model/" + modelName);
 
-    @GetMapping("/SparkPredict")
-    @ResponseBody
-    public  List<String> SparkPredict(@RequestParam(value = "DataName") String DataName,
-//                             @RequestParam(value = "Columns") String [] featureCols,
-                             @RequestParam(value = "ModelName") String ModelName,
-                             @RequestParam(value = "Algorithm") String Algorithm) throws Exception{
-
-        String[] featureCols = getDataColumns(DataName);
-//        String[] featureCols = {"wigth", "age", "heigth", "interets"};
-        String hdfsDir = "/user/hadoop/data_platform/data/" + DataName;
-        System.out.println(hdfsDir);
+        // predict
+        String[] testFeatureCols = getDataColumns(ProjectName, testDataName);
+        String testHdfsDir = HDFSPathPrefix + ProjectName + "/Data/" + testDataName;
         List<String> result = new ArrayList<String>();
-        Dataset<Row> dataset = sparkUtil.readData(hdfsDir, "HDFS", "json",featureCols, "label");
-        System.out.println("read over");
-        String modelPath = hdfsFileUtil.HDFSPath("/user/hadoop/data_platform/model/" + ModelName);
-        System.out.println(modelPath);
+        Dataset<Row> testDataset = sparkUtil.readData(testHdfsDir, "HDFS", "json",testFeatureCols, "label");
         SparkEstimate sparkEstimate = new SparkEstimate();
         switch (Algorithm){
             case "lr":
+                sparkClassification.lr(trainParam, trainDataset, modelPath);
                 Model model = sparkEstimate.loadModel(modelPath, Classification.LR);
-                Dataset<Row> rows = sparkEstimate.predict(dataset,model);
+                Dataset<Row> rows = sparkEstimate.predict(testDataset, model);
                 for (Row r: rows.collectAsList()) {
-                    result.add("(" + r.get(0) + ", " + r.get(1) + ") -> prob=" + r.get(2) + ", prediction=" + r.get(3));
+                    result.add(r.get(3).toString());
+//                    result.add("(" + r.get(0) + ", " + r.get(1) + ") -> prob=" + r.get(2) + ", prediction=" + r.get(3));
                 }
                 break;
             default:
                 break;
         }
-    return result;
+
+        return result;
     }
-
-
-
 
     public static void testCluster() throws Exception{
         SparkCluster sparkCluster = new SparkCluster();
