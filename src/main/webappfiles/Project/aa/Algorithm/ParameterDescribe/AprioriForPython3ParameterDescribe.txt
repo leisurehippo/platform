@@ -1,1 +1,3 @@
-s d true
+-f ddd true
+-s dd false
+-c ddd false

@@ -97,6 +97,16 @@ function AllFileDataController($scope, $http, $state, GetHdfsData, GetAlgorithmD
         vm.nameList = [];
     }
 
+    // vm.getimg = getimg;
+    // function getimg() //另存为存放在服务器上图片到本地的方法
+    // {
+    //     console.log("ddd");
+    //     var blob = new Blob(["Helloworld!"], {type: "text/plain;charset=utf-8"});
+    //     saveAs(blob, "hello world.txt");
+    //     console.log(blob);
+    // }
+
+
     //初始化fileinput
     var FileInput = function () {
         var oFile = new Object();
@@ -172,6 +182,7 @@ function AllFileDataController($scope, $http, $state, GetHdfsData, GetAlgorithmD
         }
         return oFile;
     };
+
 
 
 }

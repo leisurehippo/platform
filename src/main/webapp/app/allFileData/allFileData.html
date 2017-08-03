@@ -15,10 +15,12 @@
 </div>
 
 <div class="form-group">
-   <label style="width: 12%; margin-left: 15px">选择项目:</label>
-        <select style="width: 40%;height: 30px;margin-bottom: 10px;" ng-model="vm.projectName">
+   <label style="margin-left: 15px">选择项目:</label>
+        <select style="width:120px;height: 30px;margin-bottom: 10px;" ng-model="vm.projectName">
             <option ng-repeat="item in vm.projects">{{item}}</option>
         </select>
+    <button class="btn btn-primary" ng-click="vm.dataFileUpload()" style="margin-left: 16px"  data-toggle="modal" data-target="#myModal">上传数据至服务器</button>
+
 </div>
 
 
@@ -29,10 +31,10 @@
             <div class="panel panel-default" style="width: 80%">
                 <div class="panel-heading">
                     服务器文件
-                    <button class="btn" ng-click="vm.dataFileUpload()" style="margin-left: 10px"  data-toggle="modal" data-target="#myModal">上传至server</button>
+                    <!--<button class="btn" ng-click="vm.dataFileUpload()" style="margin-left: 10px"  data-toggle="modal" data-target="#myModal">上传至server</button>-->
                 </div>
                 <table class="table">
-                    <th width="100px">是否上传</th><th>文件名</th>
+                    <th>是否上传至HDFS</th><th>文件名</th>
                     <tr ng-repeat="item in vm.serverData">
                         <td>
                             <label>
@@ -46,7 +48,7 @@
             </div>
         </div>
         <div class="col-md-3">
-            <button class="btn" ng-click="vm.fileUpHdfs()">上传至HDFS</button>
+            <button class="btn btn-primary" ng-click="vm.fileUpHdfs()">上传至HDFS</button>
         </div>
         <div class="col-md-4">
             <div class="panel panel-default" style="width: 80%">
@@ -63,7 +65,7 @@
 
 <form>
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -75,5 +77,4 @@
         </div>
     </div>
 </form>
-
 

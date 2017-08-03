@@ -15,10 +15,12 @@
 
 
 <div class="form-group">
-    <label style="width: 12%; margin-left: 15px">选择项目:</label>
-    <select style="width: 40%;height: 30px;margin-bottom: 10px;" ng-model="vm.projectName">
+    <label style="margin-left: 15px">选择项目:</label>
+    <select style="width: 30%;height: 30px;margin-bottom: 10px;" ng-model="vm.projectName">
         <option ng-repeat="item in vm.projects">{{item}}</option>
     </select>
+    <button class="btn btn-primary" ng-click="vm.alFileUpload()" style="margin-left: 20px"  data-toggle="modal" data-target="#myModal">上传算法至服务器</button>
+
 </div>
 
 
@@ -27,7 +29,7 @@
         <div class="col-lg-8 col-md-10">
             <div class="panel panel-default" style="width: 80%">
                 <div class="panel-heading">服务器算法
-                    <button class="btn" ng-click="vm.alFileUpload()" style="margin-left: 10px"  data-toggle="modal" data-target="#myModal">上传至server</button>
+                    <!--<button class="btn" ng-click="vm.alFileUpload()" style="margin-left: 10px"  data-toggle="modal" data-target="#myModal">上传至server</button>-->
 
                 </div>
                 <table class="table">

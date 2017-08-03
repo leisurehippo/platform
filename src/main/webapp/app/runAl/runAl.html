@@ -1,5 +1,5 @@
 <div class="form-group">
-    <label style="width: 12%; margin-left: 15px">选择项目:</label>
+    <label style="margin-left: 15px;margin-right: 20px">选择项目:</label>
     <select style="width: 30%;height: 30px;margin-bottom: 10px;" ng-model="vm.projectName">
         <option ng-repeat="item in vm.projects">{{item}}</option>
     </select>
@@ -78,7 +78,7 @@
                     </select>
                 </div>
                 <div class="form-group" ng-if="vm.check!= null ">
-                    <button ng-click="vm.runAl()" style="margin-left: 15px;margin-bottom: 10px;width: 60px">运行</button>
+                    <button class="btn btn-primary" ng-click="vm.runAl()" style="margin-left: 15px;margin-bottom: 10px;width: 60px">运行</button>
                 </div>
 
             </div>
@@ -102,6 +102,8 @@
     <div class="well">
         <div class="form-group">
             <label>运行结果:</label>
+            <label style="margin-left: 30px">Filename: <input type="text" class="filename" id="text-filename" placeholder="a plain document"/>.txt</label>
+            <button style="margin-left: 20px" class="btn-primary btn" ng-click="vm.saceResult()">save</button>
             <p ng-repeat="i in vm.results track by $index">{{i}}</p>
 
         </div>
