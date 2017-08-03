@@ -84,7 +84,6 @@ public class HDFSFileUtil {
             String [] filePath = f.getPath().toString().split("/");
             nameList.add(filePath[filePath.length-1]);
         }
-//        fs.close();
         return nameList;
     }
 }
