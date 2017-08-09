@@ -3,10 +3,10 @@
  */
 angular
     .module('jhipsterSampleApplicationApp')
-    .controller('DataLabelController',DataLabelController);
+    .controller('DataLabelController2',DataLabelController2);
 
-DataLabelController.$inject = ['$scope', '$http', '$state', 'dataLabelservice','Submitservice','Initservice'];
-function DataLabelController($scope, $http, $state, dataLabelservice,Submitservice,Initservice) {
+DataLabelController2.$inject = ['$scope', '$http', '$state', '$injector','dataLabelservice','Submitservice','Initservice'];
+function DataLabelController2($scope, $http, $state,$injector, dataLabelservice,Submitservice,Initservice) {
     $scope.run = run;
     $scope.submit=submit;
     $scope.jump=jump;
@@ -40,8 +40,9 @@ function DataLabelController($scope, $http, $state, dataLabelservice,Submitservi
 //    $('#waitModal').modal({keyboard:false,backdrop:'static',show:false});
 //    $('#waitModal').modal('hide');
 //    $('#myModal').modal('hide');
+    $injector.get('$templateCache').removeAll();
+    console.log('33333333333333333333333');
 
-    console.log('4444444444444');
     get_init();
     /**
          向后台请求初始化参数
@@ -176,6 +177,7 @@ function DataLabelController($scope, $http, $state, dataLabelservice,Submitservi
      * 点击提交后触发，向后台提交微博标注的结果，并接收下一批数据
      */
     function submit(){
+        $state.go('dataLabel_db', null, { reload: true });
         var postdata=new Array();
          for(i in $scope.items)
           {

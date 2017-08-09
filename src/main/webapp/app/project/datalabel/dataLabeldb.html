@@ -1,8 +1,10 @@
 <html>
-<body>
-<ul class="nav nav-tabs">
-    <li role="presentation" ><a href="#/dataLabel">新浪搜索</a></li>
-    <li role="presentation" class="active"><a href="#/dataLabel/db">数据库搜索</a></li>
+<body >
+<ul class="nav nav-tabs" >
+    <li role="presentation" ><a ui-sref="dataLabel">新浪搜索</a></li>
+    <li role="presentation" class="active"><a ui-sref="dataLabel_db">数据库搜索</a></li>
+<div ng-init="type=1"></div>
+
 </ul>
 <br />
 
@@ -91,7 +93,7 @@
 
     <br />
     <div align="center">
-        <button type="button" class="btn btn-primary " ng-click="run(1)" >搜索</button>
+        <button type="button" class="btn btn-primary " ng-click="run()" >搜索</button>
     </div>
 </div>
 
@@ -131,7 +133,7 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">关闭
         </button>
-        <button type="button" class="btn btn-primary" ng-click="submit(1)">
+        <button type="button" class="btn btn-primary" ng-click="submit()">
             提交
         </button>
     </div>

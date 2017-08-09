@@ -263,7 +263,7 @@
                                 views: {
                                     'content@': {
                                         templateUrl: "app/project/datalabel/dataLabeldb.html",
-                                        controller: "DataLabelController",
+                                        controller: "DataLabelController2",
                                         controllerAs: 'vm'
                                     }
                                 },
