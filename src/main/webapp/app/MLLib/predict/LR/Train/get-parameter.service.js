@@ -11,7 +11,7 @@
     GetParameter.$inject = ['$resource'];
 
     function GetParameter ($resource) {
-        var service = $resource('api/getParameter', {}, {
+        var service = $resource('api/getLibraryParameter', {}, {
             'get': {method: 'GET', params:{},isArray:true,
                 // responseType: "json"
             }

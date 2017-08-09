@@ -5,47 +5,62 @@ angular
     .module('jhipsterSampleApplicationApp')
     .controller('AllFileDataController',AllFileDataController);
 
-AllFileDataController.$inject = ['$scope', '$http', '$state', 'GetHdfsData', 'GetAlgorithmData', 'HdfsUpload', 'GetServerData', 'GetServerProject', '$timeout'];
-function AllFileDataController($scope, $http, $state, GetHdfsData, GetAlgorithmData, HdfsUpload, GetServerData, GetServerProject, $timeout) {
+AllFileDataController.$inject = ['$scope', '$http', '$state', 'GetHdfsData', 'GetAlgorithmData', 'HdfsUpload', 'GetServerData', 'GetServerProject', '$timeout', '$stateParams'];
+function AllFileDataController($scope, $http, $state, GetHdfsData, GetAlgorithmData, HdfsUpload, GetServerData, GetServerProject, $timeout, $stateParams) {
     var vm = this;
     vm.algrithmData = [];
     vm.projects = [];
-    vm.projectName = "pso";
+    vm.projectName = $stateParams.projectName;
     vm.upServerModal = false;
     vm.checkList = [];
+
+
     GetServerProject.get({}, function (res) {
         vm.projects = res;
+        console.log(vm.projects);
+        if ($stateParams.projectName == null && vm.projects.length > 0) {
+            vm.projectName = vm.projects[0];
+            console.log(vm.projectName);
+        } else
+            vm.projectName = $stateParams.projectName;
+
     }, function (res) {
 
     });
     $scope.$watch('vm.projectName', function (oldValue,newValue) {
         console.log(vm.projectName);
         vm.serverData = [];
-        GetServerData.get({ProjectName:vm.projectName}, function (result) {
-            for (var i = 0; i< result.length; i++) {
-                vm.serverData[i] = result[i].split("+");
-                vm.checkList[i] = false;
-                if (vm.serverData[i][1] == '0') {
-                    vm.serverData[i][1] = false;
-                }else
-                    vm.serverData[i][1] = true;
+        if (vm.projectName!=null) {
+            GetServerData.get({ProjectName:vm.projectName}, function (result) {
+                for (var i = 0; i< result.length; i++) {
+                    vm.serverData[i] = result[i].split("+");
+                    vm.checkList[i] = false;
+                    if (vm.serverData[i][1] == '0') {
+                        vm.serverData[i][1] = false;
+                    }else
+                        vm.serverData[i][1] = true;
 
-            }
-            console.log(vm.serverData);
-        }, function (result) {
-        });
+                }
+                console.log(vm.serverData);
+            }, function (result) {
+            });
+        }
+
     });
 
     vm.changeCheck = changeCheck;
     function changeCheck(index) {
-        // console.log(vm.checkList[0]);
+         console.log("dddd");
     }
 
     $scope.$watch('vm.projectName', function (oldValue,newValue) {
         vm.hdfsData = [];
-        GetHdfsData.get({ProjectName:vm.projectName}, function (res) {
-            vm.hdfsData = res;
-        });
+        if (vm.projectName != null) {
+            GetHdfsData.get({ProjectName:vm.projectName}, function (res) {
+                vm.hdfsData = res;
+            });
+        }
+
     });
 
 
@@ -62,6 +77,7 @@ function AllFileDataController($scope, $http, $state, GetHdfsData, GetAlgorithmD
 
     }
 
+
     vm.fileUpHdfs = fileUpHdfs;
     vm.nameList = [];
     function fileUpHdfs() {
@@ -74,12 +90,22 @@ function AllFileDataController($scope, $http, $state, GetHdfsData, GetAlgorithmD
         console.log(vm.nameList);
         HdfsUpload.get({ProjectName:vm.projectName, DataName:vm.nameList }, function (res) {
             console.log(res);
-            $state.go('allFileData', null, { reload: true });
+            $state.go('allFileData', {projectName:vm.projectName}, { reload: true });
         }, function (res) {
             console.log(res);
         });
         vm.nameList = [];
     }
+
+    // vm.getimg = getimg;
+    // function getimg() //另存为存放在服务器上图片到本地的方法
+    // {
+    //     console.log("ddd");
+    //     var blob = new Blob(["Helloworld!"], {type: "text/plain;charset=utf-8"});
+    //     saveAs(blob, "hello world.txt");
+    //     console.log(blob);
+    // }
+
 
     //初始化fileinput
     var FileInput = function () {
@@ -117,14 +143,14 @@ function AllFileDataController($scope, $http, $state, GetHdfsData, GetAlgorithmD
                 uploadExtraData:{ProjectName:projectName}
 
             }).on("fileuploaded", function (event, data, previewId, index) {
-                // $("#myModal").modal("hide");
-                console.log(data.response);
+                $("#myModal").modal("hide");
+                // $state.go('allFileData', null, { reload: true });
                 var a = $timeout(function () {
-                    $state.go('allFileData', null, { reload: true });
-
+                    $state.go('allFileData', {projectName:vm.projectName}, { reload: true });
+                    console.log(data.response);
                 },1000);
 
-                $timeout.cancel(a);
+                // $timeout.cancel(a);
 
             });
 
@@ -156,6 +182,7 @@ function AllFileDataController($scope, $http, $state, GetHdfsData, GetAlgorithmD
         }
         return oFile;
     };
+
 
 
 }

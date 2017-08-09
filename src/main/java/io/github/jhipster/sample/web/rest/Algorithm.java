@@ -7,6 +7,9 @@ package io.github.jhipster.sample.web.rest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.JsonObject;
+import net.sf.json.JSONObject;
+import org.springframework.cloud.cloudfoundry.com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +23,7 @@ import org.python.util.PythonInterpreter;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -28,6 +32,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class Algorithm {
+    private static String ProjectPathPrefix = "src/main/webappfiles/Project/";
 
 
 //    @GetMapping("/test")
@@ -54,27 +59,34 @@ public class Algorithm {
 
     /**
      * 运行本地代码
-     * @param key
+     * @param ProjectName
+     * @param AlgorithmName
+     * @param params
+     * @param isPython
      * @return
      */
     @GetMapping("/runLocal")
     @ResponseBody
-    public List<String> test(@RequestParam(value = "AlgorithmName") String key,
-                       @RequestParam(value = "hasParams") int hasParams,
-                       @RequestParam(value = "Params") String params
-//                       @RequestBody String params
+    public List<String> runLocal(@RequestParam(value = "ProjectName") String ProjectName,
+                             @RequestParam(value = "AlgorithmName") String AlgorithmName,
+                             @RequestParam(value = "Params") String params,//{"-f":"src/main/webappfiles/Project/ProjectName/Data/ss.csv","-s":0.1}
+                             @RequestParam(value = "isPython") boolean isPython
                        ) {
         String result = "";
         List<String> results = new ArrayList<String>();
         try {
-            if (key.equals("Apriori") ) {
-                String cmd = "python src\\main\\webappfiles\\Algorithm\\"+key+".py ";
-                String[] list = params.split("\\+");
-                if (hasParams == 1){
-//                    cmd += params;
-                   cmd = cmd + "-f " + "src\\main\\webappfiles\\Data\\" + list[0] + " -s " + list[1] + " -c " + list[2];
+            String cmd = "";
+            if (isPython) {
+                cmd = "python " + ProjectPathPrefix + ProjectName + "/Algorithm/algorithm/" + AlgorithmName;
+                JSONObject json_param = JSONObject.fromObject(params);
+                Iterator param_iter = json_param.keys();
+                while(param_iter.hasNext()){
+                    String param_key = param_iter.next().toString();
+                    String param_value = json_param.get(param_key).toString();
+                    cmd += " " + param_key + " " + param_value;
                 }
-                System.out.printf(cmd);
+                System.out.println(cmd);
+
                 Process pr = Runtime.getRuntime().exec(cmd);
                 BufferedReader in = new BufferedReader(new InputStreamReader(pr.getInputStream()));
                 String line;
