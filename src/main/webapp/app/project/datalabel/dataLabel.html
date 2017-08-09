@@ -1,5 +1,5 @@
 <ul class="nav nav-tabs">
-    <li role="presentation" class="active"><a href="#/dataLabel">关键词搜索</a></li>
+    <li role="presentation" class="active"><a href="#/dataLabel">新浪搜索</a></li>
     <li role="presentation"><a href="#/dataLabel/db">数据库搜索</a></li>
 </ul>
 <br />
@@ -106,7 +106,7 @@
 
     <br />
     <div align="center">
-        <button type="button" class="btn btn-primary " ng-click="vm.run()" data-toggle="modal" data-target="#myModal">搜索</button>
+        <button type="button" class="btn btn-primary " ng-click="run(0)" data-toggle="modal" data-target="#myModal">搜索</button>
     </div>
 </div>
 
@@ -136,7 +136,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭
                 </button>
-                <button type="button" class="btn btn-primary" ng-click="vm.submit()">
+                <button type="button" class="btn btn-primary" ng-click="submit()">
                     提交
                 </button>
             </div>
@@ -144,12 +144,6 @@
     </div><!-- /.modal -->
 
 
-<!--<script>-->
-    <!--function change(){-->
-    <!--alert("123");-->
-    <!--$scope.choose[id]=~$scope.choose[id];-->
-    <!--}-->
-<!--</script>-->
 
 
 

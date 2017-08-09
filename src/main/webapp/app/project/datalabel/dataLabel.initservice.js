@@ -3,12 +3,12 @@
 
     angular
         .module('jhipsterSampleApplicationApp')
-        .factory('Submitservice', Submitservice);
+        .factory('Initservice',Initservice);
 
-    Submitservice.$inject = ['$resource'];
+    Initservice.$inject = ['$resource'];
 
-    function Submitservice ($resource) {
-        var service = $resource('api/Submitservice', {}, {
+    function Initservice ($resource) {
+        var service = $resource('api/Initservice', {}, {
             'get': {method: 'GET', params:{}, isArray: false,
                  responseType: "text",
             }

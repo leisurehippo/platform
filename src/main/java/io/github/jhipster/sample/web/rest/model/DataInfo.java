@@ -10,14 +10,24 @@ import java.io.Serializable;
  */
 
 @Entity
-@Table(name="dataset")
+//@Table(name="dataset")
 public class DataInfo implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
     @Id private String since_id;
-    private  String weibo_content;
     private String weibo_time;
+    private  String weibo_content;
+
+
+    public DataInfo(String id,String time,String content)
+    {
+        since_id=id;
+        weibo_content=content;
+        weibo_time=time;
+    }
+
+    public DataInfo(){}
 
     public String getSince_id(){
         return since_id;

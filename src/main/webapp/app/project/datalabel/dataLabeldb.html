@@ -1,94 +1,152 @@
+<html>
+<body>
 <ul class="nav nav-tabs">
-    <li role="presentation" ><a href="#/dataLabel">关键词搜索</a></li>
+    <li role="presentation" ><a href="#/dataLabel">新浪搜索</a></li>
     <li role="presentation" class="active"><a href="#/dataLabel/db">数据库搜索</a></li>
 </ul>
 <br />
+
+
 <div >
-    <div>
-    <label>
-        关键词:&nbsp;&nbsp;<input type="text" placeholder="keywords" style="width:500px;">
-    </label>
-    </div>
-    <div>
-    <label>
-        数据来源:
-    </label>
+    <div style="height:30px">
+        <label>数据库名称:&nbsp;&nbsp;</label>
+        <input type="text" placeholder="dbname" style="width:500px;" ng-model="dbname" ng-trim="true">
+        <span ng-show="nodbname" style="color:red">数据库名称是必须的！</span>
     </div>
     <div>
         <label>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox">数据库
+            <input type="checkbox" ng-model="selectkey" ng-init="selectkey=false" ng-trim="true">关键词:&nbsp;&nbsp;
         </label>
-    </div>
-    <div>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数据库名称:&nbsp;&nbsp;<input type="text" placeholder="dbname" style="width:500px;">
-    </div>
-    <div>
-    <label>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox">新浪微博
-    </label>
-    </div>
-    <div>
-    <label>
-        <input type="checkbox">时间范围:
-    </label>
+        <input type="text" placeholder="keywords" style="width:500px;" ng-model="keywords" ng-trim="true" ng-disabled="!selectkey">&nbsp;（以+号连接多个关键词）
+        <span ng-show="nokey" style="color:red">关键词是必须的！</span>
     </div>
 
-    <div class="container">
-        <form action="" class="form-horizontal"  role="form">
-            <fieldset>
 
-                <div class="form-group">
-
-                    <div class="input-group date form_datetime col-md-3" style="float:left;" data-date-format="yyyy-mm-dd" data-link-field="dtp_input1">
-                        <input class="form-control" size="16" type="text" value="" readonly>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                    </div>
-
-                    <div >
-                        <label for="dtp_input1" class="col-md-1 control-label" style="width:3.3333333333%;float:left;">到</label>
-                    </div>
-
-                    <div class="input-group date form_datetime col-md-3" style="float:left;"  data-date-format="yyyy-mm-dd" data-link-field="dtp_input1">
-                        <input class="form-control" size="16" type="text" value="" readonly>
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                    </div>
-
-                    <input type="hidden" id="dtp_input1" value="" /><br/>
-                </div>
-
-            </fieldset>
-        </form>
-    </div>
-
-    <div>
-    <label>
-        <input type="checkbox">过滤:
-    </label>
-    </div>
-    <div>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;标签类别:
-        <select name="cars" style="height:25px;width:120px;">
-            <option value="bk" >黄金概念</option>
-            <option value="xfl" selected>石油行业</option>
-            <option value="dz" >银行业</option>
-            <option value="fute" >保险行业</option>
-        </select>
-    </div>
-    <div>
-        <br />
-        <label>
-            写入数据库:&nbsp;&nbsp;<input type="text" placeholder="dbname" style="width:500px;">
-            <input type="checkbox">覆盖
-        </label>
-    </div>
     <div>
         <label>
-            写入标签:&nbsp;&nbsp;<input type="text" placeholder="label" style="width:500px;">
+            <input type="checkbox" ng-model="selecttime" ng-init="selecttime=false">时间范围:
         </label>
     </div>
+    <div ng-show="selecttime">
+        <div class="container" >
+            <form action="" class="form-horizontal"  role="form">
+                <fieldset>
+
+                    <div class="form-group">
+
+                        <div class="input-group date form_datetime col-md-3" style="float:left;" data-date-format="yyyy-mm-dd" data-link-field="dtp_input1">
+                            <input class="form-control" size="16" type="text" value="" ng-model="timestart" readonly>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        </div>
+
+                        <div >
+                            <label for="dtp_input1" class="col-md-1 control-label" style="width:3.3333333333%;float:left;">到</label>
+                        </div>
+
+                        <div class="input-group date form_datetime col-md-3" style="float:left;"  data-date-format="yyyy-mm-dd" data-link-field="dtp_input1">
+                            <input class="form-control" size="16" type="text" value="" ng-model="timeend" readonly>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                        </div>
+
+                        <input type="hidden" id="dtp_input1" value="" /><br/>
+                    </div>
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+    autoclose: 1,
+    todayHighlight: 1,
+    startView: 2,
+    forceParse: 0,
+    minView:2,
+    });
+</script>
+
+    <div>
+        <label>
+            标签选择:
+        </label>
+    </div>
+    <form>
+        <div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio"  name="labelselect" ng-value="true"  ng-model="selectoldlabel" ng-init="selectoldlabel=true" />
+            已有标签:
+            <select name="labels" style="width:80px;height:25px"  ng-model="oldlabel" ng-disabled="!selectoldlabel">
+                <option data-ng-repeat="x in labels">{{x}} </option>
+            </select>
+            <span ng-show="notag&&selectoldlabel" style="color:red">标签是必须的！</span>
+        </div><div style="padding-top:10px">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio"  name="labelselect" ng-value="false"  ng-model="selectoldlabel" ng-trim="true" />
+        写入新标签:
+        <input type="text" placeholder="label" style="width:500px;"  ng-model="newlabel" ng-disabled="selectoldlabel" />
+        <span ng-show="notag&&!selectoldlabel" style="color:red">标签是必须的！</span>
+    </div>
+    </form>
+
     <br />
     <div align="center">
-        <button type="button" class="btn btn-default" >搜索</button>
+        <button type="button" class="btn btn-primary " ng-click="run(1)" >搜索</button>
     </div>
 </div>
 
+
+<div>
+<div class="modal in " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"  >
+    <div class="modal-dialog">
+        <li class="modal-content" style="width:800px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h5 class="modal-title" id="myModalLabel">
+                    结果筛选
+                </h5>
+            </div>
+            <form class="form-inline">
+            <div class="form-group">
+                <ul id='page' ></ul>
+            </div >
+                    <div style="float:right;margin-top:30px" >
+                        跳转到
+                        <input type="text" ng-model="jump_page" ng-trim="true" style="width:30px;height:25px" >&nbsp;页
+                        <button type="button" class="btn btn-primary" ng-click="jump()" style="margin-left:10px;height:30px;padding-top:3px">
+                            跳转
+                        </button>
+                    </div>
+
+            </form>
+            <div id="get_content">
+
+            </div>
+
+        </li>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+        </button>
+        <button type="button" class="btn btn-primary" ng-click="submit(1)">
+            提交
+        </button>
+    </div>
+</div><!-- /.modal-content -->
+</div>
+
+
+<div>
+<div class="modal  in" id="waitModal" tabindex="-1" role="dialog" aria-labelledby="waitModalLabel" aria-hidden="true" >
+    <table width=100% height=100%>
+        <tr><td><center>
+            <img src="wait.gif" style="width:50%;height:50%;">
+        </center></td></tr>
+    </table>
+</div>
+</div>
+</body>
+</html>

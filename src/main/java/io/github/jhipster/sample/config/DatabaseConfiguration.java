@@ -1,14 +1,14 @@
 package io.github.jhipster.sample.config;
 
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import io.github.jhipster.config.JHipsterConstants;
 import io.github.jhipster.config.liquibase.AsyncSpringLiquibase;
-
-import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import liquibase.integration.spring.SpringLiquibase;
 import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +23,7 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 @Configuration
+@EnableAutoConfiguration
 @EnableJpaRepositories("io.github.jhipster.sample.repository")
 @EnableJpaAuditing(auditorAwareRef = "springSecurityAuditorAware")
 @EnableTransactionManagement
@@ -51,7 +52,6 @@ public class DatabaseConfiguration {
     @Bean
     public SpringLiquibase liquibase(@Qualifier("taskExecutor") TaskExecutor taskExecutor,
             DataSource dataSource, LiquibaseProperties liquibaseProperties) {
-
         // Use liquibase.integration.spring.SpringLiquibase if you don't want Liquibase to start asynchronously
         SpringLiquibase liquibase = new AsyncSpringLiquibase(taskExecutor, env);
         liquibase.setDataSource(dataSource);
@@ -72,4 +72,7 @@ public class DatabaseConfiguration {
     public Hibernate5Module hibernate5Module() {
         return new Hibernate5Module();
     }
+
+
+
 }
