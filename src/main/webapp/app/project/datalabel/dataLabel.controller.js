@@ -5,11 +5,12 @@ angular
     .module('jhipsterSampleApplicationApp')
     .controller('DataLabelController',DataLabelController);
 
-DataLabelController.$inject = ['$scope', '$http', '$state', 'dataLabelservice','Submitservice','Initservice'];
-function DataLabelController($scope, $http, $state, dataLabelservice,Submitservice,Initservice) {
+DataLabelController.$inject = ['$scope', '$http', '$state', '$injector','dataLabelservice','Submitservice','Initservice'];
+function DataLabelController($scope, $http, $state,$injector, dataLabelservice,Submitservice,Initservice) {
     $scope.run = run;
     $scope.submit=submit;
     $scope.jump=jump;
+    $scope.rm_dialog=rm_dialog;
     $scope.keywords="";
     $scope.selectdb=false;
     $scope.dbname="";
@@ -36,13 +37,12 @@ function DataLabelController($scope, $http, $state, dataLabelservice,Submitservi
     var element = $('#page');
     var totalPages=0;
     var options=null;
-//    $('#myModal').modal({keyboard:false,backdrop:'static',show:false});
-//    $('#waitModal').modal({keyboard:false,backdrop:'static',show:false});
-//    $('#waitModal').modal('hide');
-//    $('#myModal').modal('hide');
-
-    console.log('4444444444444');
+//    $injector.get('$templateCache').removeAll();
+    $('#myModal').modal({keyboard:true,backdrop:true,show:false});
+    $('#waitModal').modal({keyboard:true,backdrop:true,show:false});
+    console.log('33333333333333333333333');
     get_init();
+
     /**
          向后台请求初始化参数
      */
@@ -329,4 +329,14 @@ function DataLabelController($scope, $http, $state, dataLabelservice,Submitservi
                     that.$element.trigger('hidden.bs.modal');
                 })
             }
+         /**
+              * 解决页面在切换导航的时候，模态框对象不会销毁的bug，原因不明，会导致切换导航后新页面的模态框和原来的重合
+              */
+         function rm_dialog()
+         {
+                console.log('aaaaaaaaa');
+                $('#myModal').remove();
+                $('#waitModal').remove();
+         }
+
 }

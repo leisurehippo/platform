@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 //参数类，对参数进行统一处理
@@ -54,21 +56,16 @@ class Param {
         } else {
             tag = "+" + newlabel;
         }
-        String[] keylist = keywords.trim().split("\\+");
-        if (type == 1)
+
+        if (type == 1) {
+            String[] keylist = keywords.trim().split("\\+");
             keywords = "%";
-        else
-            keywords = " ";
-
-        //对搜索关键字进行格式转换，数据库用%做分隔符，新浪微博用空格分割
-        for (int i = 0; i < keylist.length; i++) {
-            String keyword = keylist[i].trim();
-            if (type == 1)
-                keywords += keyword + "%";
-            else
-                keywords += keyword + " ";
+            //对搜索关键字进行格式转换，数据库用%做分隔符，新浪微博用空格分割
+            for (int i = 0; i < keylist.length; i++) {
+                String keyword = keylist[i].trim();
+                    keywords += keyword + "%";
+            }
         }
-
 
     }
 
@@ -140,6 +137,14 @@ public class DataLabelController {
     private DataLabelInfoDAO dataLabelInfoDAO;
     @Autowired
     private LabelRelationInfoDAO labelRelationInfoDAO;
+    @Autowired
+    private SinaDataInfoDAO sinaDataInfoDAO;
+    private String rootdir="./src/main/java/io/github/jhipster/sample/web/rest/";
+    private String temp_path="/temp/";
+    private String python_path="/python/";
+    private String model_path="/label_model/";
+    private String classfy_file="xgb_api.py";
+    private String search_file="get_sina_weibo.py";
     private static final int num_per_page = 1000; //每次返回至少num_per_page条数据
     private static final int num_per_search = 500;  //每次向数据库查询num_per_search条数据
 
@@ -179,7 +184,7 @@ public class DataLabelController {
             dataLabelResponse = search_db(param, session);
         } else if (type == 0)//新浪搜索
         {
-            List<DataInfo> sinadata = search_sina(param);
+            search_sina(param,session);
         }
 
         Gson gson = new Gson();
@@ -253,43 +258,19 @@ public class DataLabelController {
     /**
      * 处理微博爬取请求
      */
-    public List<DataInfo> search_sina(Param param) {
-        List<DataInfo> records = null;
-        return records;
+    public DataLabelResponse search_sina(Param param,HttpSession session) throws IOException {
+        get_sina_weibo(param,session.getId());//爬虫结果写入数据库
+        DataLabelResponse dataLabelResponse = new DataLabelResponse();
+       return dataLabelResponse;
     }
 
+
+
     /**
-     * 返回微博内容时，需要对原始微博用分类器筛选，并且去掉已经被标注过的重复微博
+     * 使用命令行调用python，将结果写入到文件中
      */
-    public List<DataInfo> fliter(List<DataInfo> data, String tag, String session_id) throws IOException {
-        String infile = "./src/main/java/io/github/jhipster/sample/web/rest/temp/temp_" + session_id + ".txt";
-        FileWriter file = new FileWriter(infile);
-        for (int i = 0; i < data.size(); i++) {
-            String id = data.get(i).getSince_id();
-            String content = data.get(i).getWeibo_content();
-            content = content.replace('\n', ' ');
-            content = content.replace('\t', ' ');
-            String time = data.get(i).getWeibo_time();
-            if (!dataLabelInfoDAO.exists(new LabelDataSetKey(id, tag)))//去重
-            {
-                //去重后的微博写入文件，再调用python脚本进行筛选
-                file.write(id + '\t' + time + '\t' + content + '\t' + tag + '\n');
-            }
-        }
-        file.close();
-
-        //筛选
-        String outfile = "./src/main/java/io/github/jhipster/sample/web/rest/temp/out_" + session_id + ".txt";
-        String model_dir = "./src/main/java/io/github/jhipster/sample/web/rest/label_model/";
-        String pyfile = "./src/main/java/io/github/jhipster/sample/web/rest/python/xgb_api.py";
-        String command = "python " + pyfile + " predict " + infile + " " + model_dir + " " + outfile;
-        //command = "python ./src/main/java/io/github/jhipster/sample/web/rest/python/test.py";
-//        PythonInterpreter interpreter = new PythonInterpreter();
-//        interpreter.execfile("./src/main/java/io/github/jhipster/sample/web/rest/python/test.py");
-
+    public void use_python(String command) throws IOException {
         Process p = Runtime.getRuntime().exec(command);//需要检查是否出错
-
-
         BufferedReader br = new BufferedReader(new InputStreamReader(p.getErrorStream()));
         String li = null;
         StringBuilder sb = new StringBuilder();
@@ -299,31 +280,104 @@ public class DataLabelController {
         logger.info("~~~~~~~~~~~~~~~~~~~~~~~");
         logger.info(command);
         logger.info(String.valueOf(p.exitValue()));
-        File d = new File("");
-        logger.info(d.getAbsolutePath());
         logger.info(sb.toString());
+    }
 
+    /**
+     * 调用爬虫并将结果写入到数据库
+     */
+    public void get_sina_weibo(Param param,String session_id) throws IOException {
+        String save_path = rootdir+temp_path+"sina_"+session_id+".txt";
+        String py_path = rootdir+python_path+search_file;
+        String command = "python "+ py_path+" "+save_path;
+        use_python(command);
+        List<SinaDataInfo> sinadata = new ArrayList<SinaDataInfo>();
+        List<DataInfo> data = new ArrayList<DataInfo>();
+        try {
+            InputStreamReader read = new InputStreamReader(new FileInputStream(save_path));
+            BufferedReader bufread = new BufferedReader(read);
+            String lines = null;
 
-        InputStreamReader read = new InputStreamReader(new FileInputStream(outfile));
-        BufferedReader bufread = new BufferedReader(read);
-        String lines = null;
-        data = new ArrayList<DataInfo>();
-        while ((lines = bufread.readLine()) != null) {
-            String[] line = lines.trim().split("\t");
-            if (line.length == 3)
-                data.add(new DataInfo(line[0].trim(), line[1].trim(), line[2].trim()));
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            String now_time = df.format(new Date());//
+            while ((lines = bufread.readLine()) != null) {
+                String[] line = lines.trim().split("\t");
+                sinadata.add(new SinaDataInfo(new SinaDataKey(session_id, now_time, line[0].trim()), line[1].trim(), line[2].trim(), line[3].trim(), line[4].trim()));
+                data.add(new DataInfo(line[0].trim(), line[2].trim(), line[1].trim()));
+            }
+            read.close();
+        }catch (IOException e){
+            e.printStackTrace();
         }
-        read.close();
-        if (deletefile(infile))
-            logger.info("文件" + infile + "删除成功!");
-        else
-            logger.info("文件" + infile + "删除失败!");
-        if (deletefile(outfile))
-            logger.info("文件" + outfile + "删除成功!");
-        else
-            logger.info("文件" + outfile + "删除失败!");
+        //同时写入到原始数据库和爬虫数据库
+        sinaDataInfoDAO.save(sinadata);
+        dataInfoDAO.save(data);
 
 
+
+    }
+
+
+    /**
+     * 返回微博内容时，需要对原始微博用分类器筛选，并且去掉已经被标注过的重复微博
+     */
+    public List<DataInfo> fliter(List<DataInfo> data, String tag, String session_id) throws IOException {
+        String infile = rootdir+temp_path+"temp_" + session_id + ".txt";
+        String outfile = rootdir+temp_path+"out_" + session_id + ".txt";
+
+        try {
+            FileWriter file = new FileWriter(infile);
+            for (int i = 0; i < data.size(); i++) {
+                String id = data.get(i).getSince_id();
+                String content = data.get(i).getWeibo_content();
+                content = content.replace('\n', ' ');
+                content = content.replace('\t', ' ');
+                String time = data.get(i).getWeibo_time();
+                if (!dataLabelInfoDAO.exists(new LabelDataSetKey(id, tag)))//去重
+                {
+                    //去重后的微博写入文件，再调用python脚本进行筛选
+                    file.write(id + '\t' + time + '\t' + content + '\t' + tag + '\n');
+                }
+            }
+            file.close();
+
+            //筛选
+
+            String model_dir = rootdir+model_path;
+            String pyfile = rootdir+python_path+classfy_file;
+            String command = "python " + pyfile + " predict " + infile + " " + model_dir + " " + outfile;
+            //command = "python ./src/main/java/io/github/jhipster/sample/web/rest/python/test.py";
+            //        PythonInterpreter interpreter = new PythonInterpreter();
+            //        interpreter.execfile("./src/main/java/io/github/jhipster/sample/web/rest/python/test.py");
+            use_python(command);
+            data = new ArrayList<DataInfo>();
+            try {
+                InputStreamReader read = new InputStreamReader(new FileInputStream(outfile));
+                BufferedReader bufread = new BufferedReader(read);
+                String lines = null;
+
+                while ((lines = bufread.readLine()) != null) {
+                    String[] line = lines.trim().split("\t");
+                    if (line.length == 3)
+                        data.add(new DataInfo(line[0].trim(), line[1].trim(), line[2].trim()));
+                }
+                read.close();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }finally {
+            if (deletefile(infile))
+                logger.info("文件" + infile + "删除成功!");
+            else
+                logger.info("文件" + infile + "删除失败!");
+            if (deletefile(outfile))
+                logger.info("文件" + outfile + "删除成功!");
+            else
+                logger.info("文件" + outfile + "删除失败!");
+        }
         return data;
     }
 
@@ -340,12 +394,13 @@ public class DataLabelController {
             return false;
     }
 
+
     /**
      * 从数据库查询微博，经过筛选和去重后返回结果
      */
-    public DataLabelResponse search_db(Param param, HttpSession session) throws IOException {
+    public DataLabelResponse search_db(Param param ,HttpSession session) throws IOException {
         int pagestart = 0;
-        List<DataInfo> dbdata = new ArrayList<DataInfo>();
+        List<DataInfo>   dbdata = new ArrayList<DataInfo>();
         DataLabelResponse dataLabelResponse = new DataLabelResponse();
         logger.info("page:" + param.page + " " + param.keywords);
         //每次向数据库查询num_per_search条微博，筛选后加入到结果队列中，不停循环直到结果队列满足一定长度
@@ -363,7 +418,7 @@ public class DataLabelController {
             if (temp.size() < 1) {
                 break;
             }
-            //temp = fliter(temp, param.tag, session.getId());//筛选以及去重
+            temp = fliter(temp, param.tag, session.getId());//筛选以及去重
             dbdata.addAll(temp);
             param.page++;
         }
@@ -383,6 +438,8 @@ public class DataLabelController {
         dataLabelResponse.page = param.page;
         return dataLabelResponse;
     }
+
+
 }
 
 

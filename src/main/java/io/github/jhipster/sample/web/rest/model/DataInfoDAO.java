@@ -56,6 +56,13 @@ public class DataInfoDAO {
                 " and weibo_time<=? order by weibo_time limit ?,? "
        ,new Object[]{keysentence,timestart,timeend,start,num_per_search} ,new DataInfoRowMapper());
     }
+
+    public void save(List<DataInfo> data) {
+    }
+
+    public void save(DataInfo data){
+
+    }
 }
 
 

@@ -411,7 +411,7 @@ def multi_tag_incremental_train(raw_data_uri, model_save_uri, fea_imp_uri = '', 
 
 
     
-def gen_multi_model(raw_data_uri, model_save_uri, fea_th=0.1, fea_imp_uri = '', filter_words = []):
+def gen_multi_model(raw_data_uri, model_save_uri, fea_th=0.01, fea_imp_uri = '', filter_words = []):
     '''
     第一次生成模型
     raw_data :   [since_id, time, weibo_content, tag(多个标签)]

@@ -1,7 +1,10 @@
 <html>
 <body >
+
+<div id="testdiv"></div>
+
 <ul class="nav nav-tabs" >
-    <li role="presentation" ><a ui-sref="dataLabel">新浪搜索</a></li>
+    <li role="presentation" ><a ui-sref="dataLabel" data-ng-click="rm_dialog()">新浪搜索</a></li>
     <li role="presentation" class="active"><a ui-sref="dataLabel_db">数据库搜索</a></li>
 <div ng-init="type=1"></div>
 
@@ -99,7 +102,7 @@
 
 
 <div>
-<div class="modal in " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"  >
+<div class="modal in " id="myModal"  >
     <div class="modal-dialog">
         <li class="modal-content" style="width:800px">
             <div class="modal-header">
@@ -142,10 +145,10 @@
 
 
 <div>
-<div class="modal  in" id="waitModal" tabindex="-1" role="dialog" aria-labelledby="waitModalLabel" aria-hidden="true" >
+<div class="modal  in" id="waitModal" >
     <table width=100% height=100%>
         <tr><td><center>
-            <img src="wait.gif" style="width:50%;height:50%;">
+            <img src="wait.gif" style="width:20%;height:20%;">
         </center></td></tr>
     </table>
 </div>
