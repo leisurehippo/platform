@@ -57,6 +57,7 @@ public class DataInfoDAO {
        ,new Object[]{keysentence,timestart,timeend,start,num_per_search} ,new DataInfoRowMapper());
     }
 
+
     public void save(List<DataInfo> data) {
     }
 

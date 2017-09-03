@@ -12,4 +12,6 @@ import java.util.List;
  */
 public interface DataLabelInfoDAO extends CrudRepository<DataLabelInfo,LabelDataSetKey> {
 
+    @Query(value = "select * from label_data_set where tag = ?1",nativeQuery = true)
+    List<DataLabelInfo> findByTag(String tag);
 }

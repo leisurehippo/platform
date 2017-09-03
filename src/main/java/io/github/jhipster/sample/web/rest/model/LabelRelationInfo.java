@@ -16,19 +16,22 @@ public class LabelRelationInfo implements Serializable{
 
     private static final long serialVersionUID = 1L;
 
-    @EmbeddedId
-    private  LabelRelationKey key;
 
-    public LabelRelationInfo(LabelRelationKey _key)
+    private String parent_label;
+    @Id
+    private String child_label;
+
+    public LabelRelationInfo(String parent, String child)
     {
-        key=_key;
+        parent_label=parent;
+        child_label=child;
     }
 
     public LabelRelationInfo(){}
 
-    public LabelRelationKey getLabelRelationKey() {
-        return key;
-    }
+    public  String getParent_label(){return parent_label;}
+
+    public String getChild_label(){return child_label;}
 
 //    public LabelRelationKey getLabelRelationKey(){ return key;}
 

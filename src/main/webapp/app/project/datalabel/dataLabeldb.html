@@ -15,7 +15,9 @@
 <div >
     <div style="height:30px">
         <label>数据库名称:&nbsp;&nbsp;</label>
-        <input type="text" placeholder="dbname" style="width:500px;" ng-model="dbname" ng-trim="true">
+        <select ng-model="dbname" ng-trim="true" style="height:25px;width:200px">
+            <option data-ng-repeat="x in dbnames">{{x}} </option>
+        </select>
         <span ng-show="nodbname" style="color:red">数据库名称是必须的！</span>
     </div>
     <div>
@@ -86,12 +88,21 @@
                 <option data-ng-repeat="x in labels">{{x}} </option>
             </select>
             <span ng-show="notag&&selectoldlabel" style="color:red">标签是必须的！</span>
-        </div><div style="padding-top:10px">
+        </div>
+        <div style="padding-top:10px">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio"  name="labelselect" ng-value="false"  ng-model="selectoldlabel" ng-trim="true" />
         写入新标签:
-        <input type="text" placeholder="label" style="width:500px;"  ng-model="newlabel" ng-disabled="selectoldlabel" />
+        <input type="text" placeholder="label" style="width:500px;"  ng-model="newlabel" ng-disabled="selectoldlabel" ng-trim="true" />
         <span ng-show="notag&&!selectoldlabel" style="color:red">标签是必须的！</span>
-    </div>
+            <span ng-show="labelexist" style="color:red">新标签不能和已有标签一样！</span>
+        <br />
+        <input type="checkbox" ng-model="ischildlabel" ng-init="ischildlabel=false" ng-disabled="selectoldlabel" style="margin-left:50px;margin-top:10px" >&nbsp;选择父标签:&nbsp;&nbsp;
+        <select name="alllabel" style="width:80px;height:25px"  ng-model="parentlabel" ng-disabled="selectoldlabel||!ischildlabel" ng-trim="true">
+            <option data-ng-repeat="x in labels">{{x}} </option>
+        </select>
+            <button type="button" class="btn btn-primary " style="margin-left:20px;padding-top:5px;height:30px" ng-click="get_label_tree()">查看标签树</button>
+        </div>
+
     </form>
 
     <br />
