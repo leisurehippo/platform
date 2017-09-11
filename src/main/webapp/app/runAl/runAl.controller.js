@@ -68,6 +68,7 @@
         });
 
         $scope.$watch('vm.check', function (newvalue, oldvalue) {
+            console.log(newvalue);
             vm.showResults = false;
             if (newvalue!="Mllib") {
                 GetAlgorithmParams.get({ProjectName:vm.projectName, AlgorithmName:vm.algrithmData[newvalue]},
@@ -95,6 +96,7 @@
                     });
             } else {
                 if (vm.alMLLib!=null)
+                    console.log("dddd")
                     GetParameter.get({Algorithm: vm.alMLLib},  function (res) {
                         for (var i = 0; i< res.length; i++) {
                             vm.param[i] = res[i].split(":");
@@ -130,6 +132,20 @@
                 }
 
                 angular.copy(vm.param, vm.paramMllib);
+                GetServerData.get({ProjectName:vm.projectName}, function (result) {
+                    for (var i = 0; i< result.length; i++) {
+                        vm.serverData[i] = result[i].split("+");
+                        vm.checkList[i] = false;
+                        if (vm.serverData[i][1] == '0') {
+                            vm.serverData[i][1] = false;
+                        }else
+                            vm.serverData[i][1] = true;
+
+                    }
+                    console.log(vm.serverData);
+                }, function (res) {
+                    console.log(res);
+                });
                 console.log( vm.paramMllib);
             }, function (res) {
                 console.log(res);
