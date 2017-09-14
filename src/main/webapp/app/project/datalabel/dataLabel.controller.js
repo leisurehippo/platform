@@ -5,12 +5,12 @@ angular
     .module('jhipsterSampleApplicationApp')
     .controller('DataLabelController',DataLabelController);
 
-DataLabelController.$inject = ['$scope','$http', '$state', '$injector','dataLabelservice','Submitservice','Initservice'];
-function DataLabelController($scope, $http, $state,$injector, dataLabelservice,Submitservice,Initservice) {
+DataLabelController.$inject = ['$scope','$http', '$state', '$injector','dataLabelservice','Submitservice','Labeldrawservice','Initservice'];
+function DataLabelController($scope, $http, $state,$injector, dataLabelservice,Submitservice,Labeldrawservice,Initservice) {
     $scope.run = run;
     $scope.submit=submit;
     $scope.jump=jump;
-    $scope.get_label_tree=get_label_tree;
+    $scope.draw=draw;
     $scope.rm_dialog=rm_dialog;
     $scope.keywords="";
     $scope.selectdb=false;
@@ -31,6 +31,9 @@ function DataLabelController($scope, $http, $state,$injector, dataLabelservice,S
     $scope.nokey=false;
     $scope.labelexist=false;
     $scope.wait_show=false;
+    $scope.tree_url="tree.png";
+    $scope.tree_id=1;
+    $scope.showtree=false;
     $scope.items=[];
     $scope.jump_page="";
     $scope.type=0;
@@ -46,6 +49,7 @@ function DataLabelController($scope, $http, $state,$injector, dataLabelservice,S
     $('#myModal').modal({keyboard:false,backdrop:'static',show:false});
     $('#waitModal').modal({keyboard:false,backdrop:'static',show:false});
     get_init(true);
+    $scope.$on("$destroy",rm_dialog);
 
     /**
           跟后台同步参数，关闭模态框时更新
@@ -188,6 +192,8 @@ function DataLabelController($scope, $http, $state,$injector, dataLabelservice,S
                 alert("新建标签不能与已有标签重复！");
              else if(result.response_code==-1)
                 alert("服务器发生错误！");
+              else if(result.response_code==-3)
+                  alert("(父)标签不存在，可能已经被删除！");
 
         },function failure() {
             $('#waitModal').modal('hide');
@@ -237,6 +243,8 @@ function DataLabelController($scope, $http, $state,$injector, dataLabelservice,S
         else if(result.response_code==-2){
              alert("新建标签不能与已有标签重复！");
         }
+        else if(result.response_code==-3)
+             alert("(父)标签不存在，可能已经被删除！");
         else{
             alert("写入成功，写入"+result.success_count+"条！");
             page=result.page;
@@ -375,15 +383,24 @@ function DataLabelController($scope, $http, $state,$injector, dataLabelservice,S
               */
          function rm_dialog()
          {
-                console.log('aaaaaaaaa');
+                console.log('rm_dialog!');
                 $('#myModal').remove();
                 $('#waitModal').remove();
          }
 
         //获取标签关系树
-        function get_label_tree()
-        {
-
-        }
+        function draw()
+            {
+                Labeldrawservice.get({},function success(result)
+                {
+                    console.log(result);
+                    $scope.showtree=true;
+                    $scope.tree_id=($scope.tree_id+1) % 10000;
+                    $scope.tree_url="tree.png?id="+$scope.tree_id;
+                },function fail()
+                {
+                    alert("标签树显示失败！");
+                })
+            }
 
 }

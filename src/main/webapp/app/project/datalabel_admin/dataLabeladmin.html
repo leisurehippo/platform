@@ -7,11 +7,12 @@
 </ul>
 
 <div align="left" style="margin-top:20px">
-    <button type="button" class="btn btn-primary " ng-click="get_label_tree()" >查看标签树</button>
+    <button type="button" class="btn btn-primary " ng-click="draw()" >查看标签树</button>
 </div>
 
-<div ng-show="showtree">
-
+<div ng-if="showtree">
+    <br \>
+<img ng-src={{tree_url}} style="width:100%;height:100%">
 </div>
 
 <div class="radio" style="margin-bottom:20px">
@@ -70,8 +71,9 @@
             <div class="form-group">
                 <label  class="col-sm-2 control-label">目标标签:</label>
                 <div class="col-sm-5">
-                    <select class="form-control" ng-model="chenge_tlabel" ng-trim="true">
+                    <select class="form-control" ng-model="change_tlabel" ng-trim="true">
                         <option data-ng-repeat="y in labels">{{y}}</option>
+                        <option>(成为根标签)</option>
                     </select>
                 </div>
             </div>
@@ -102,6 +104,94 @@
         </form>
     </div>
 </div>
+
+<div class="radio" style="margin-bottom:20px">
+    <label>
+        <input type="radio" name="label" ng-value="'rename'" ng-model="labelcontrol"  >
+        标签重命名
+    </label>
+    <div ng-show="labelcontrol=='rename'">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label  class="col-sm-2 control-label">原始标签:</label>
+                <div class="col-sm-5">
+                    <select class="form-control" ng-model="old_name" ng-trim="true">
+                        <option data-ng-repeat="y in labels">{{y}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label  class="col-sm-2 control-label">新标签:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" placeholder="name" ng-model="new_name" ng-trim="true">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="radio" style="margin-bottom:20px">
+    <label>
+        <input type="radio" name="label" ng-value="'join'" ng-model="labelcontrol"  >
+        标签归并
+    </label>
+    <div ng-show="labelcontrol=='join'">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label  class="col-sm-2 control-label">待合并的标签数量:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" placeholder="num" ng-model="join_num" ng-trim="true">
+                </div>
+            </div>
+            <div data-ng-repeat="x in range(join_num) track by $index">
+                <div class="form-group" >
+                    <label  class="col-sm-2 control-label">标签{{$index}}:</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" id="join{{$index}}" ng-trim="true">
+                            <option data-ng-repeat="y in labels">{{y}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label  class="col-sm-2 control-label">合并到目标标签:</label>
+                <div class="col-sm-5">
+                    <select class="form-control" ng-model="join_target" ng-trim="true">
+                        <option data-ng-repeat="y in labels">{{y}}</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="radio" style="margin-bottom:20px">
+    <label>
+        <input type="radio" name="label" ng-value="'create'" ng-model="labelcontrol"  >
+        新建标签
+    </label>
+    <div ng-show="labelcontrol=='create'">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label  class="col-sm-2 control-label">新建标签名称:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" placeholder="name" ng-model="new_label" ng-trim="true">
+                </div>
+            </div>
+            <div class="form-group">
+                <label  class="col-sm-2 control-label">
+                    <input type="checkbox" ng-model="select_parent"  > 选择父标签:
+                </label>
+                <div class="col-sm-5">
+                    <select class="form-control" ng-model="new_parent_label" ng-trim="true">
+                        <option data-ng-repeat="y in labels">{{y}}</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
 
 <div align="center">
     <button type="button" class="btn btn-primary " ng-click="submit()" >确定</button>

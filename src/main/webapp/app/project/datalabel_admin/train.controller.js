@@ -23,18 +23,23 @@ function DataLabelTrainController($scope, $http, $state,$injector, Labeltrainser
             $scope.labels=[];
             Initservice.get({get_dbname:false},function success(result)
             {
+                console.log(result.all_label);
                 for(i in result.all_label)
                 {
-                    label=result.all_label[i];
-                    $scope.labels.push(label);
+                    $scope.labels.push(i);
                }
             },function failure(result){})
         }
 
 
         function submit()
+        {
+            console.log($scope.train_all);
+            Labeltrainservice.get({train_label:$scope.train_label,train_all:$scope.train_all},function success(result)
             {
-                console.log($scope.train_all);
 
-            }
+            },function fail(result)
+            {
+            })
+        }
 }

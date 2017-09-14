@@ -1,0 +1,14 @@
+digraph tree{node[fontname = "Microsoft YaHei"];
+ "hhhh(2)";
+"hhhh(2)"[color=red style=filled];
+"(0)";
+"(0)"[color=gold style=filled];
+"黄金22(0)";
+"黄金33(0)";
+"黄金(7)"->"黄金33(0)"
+"测试(1)";
+"测试(1)"[color=red style=filled];
+"呵呵(2)";
+"呵呵(2)"[color=red style=filled];
+"黄金(7)";
+}

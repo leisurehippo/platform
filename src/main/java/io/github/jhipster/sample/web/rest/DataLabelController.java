@@ -6,11 +6,10 @@ package io.github.jhipster.sample.web.rest;
 
 import com.google.gson.Gson;
 import io.github.jhipster.sample.web.rest.model.*;
-import org.apache.hadoop.yarn.webapp.hamlet.Hamlet;
-import org.hibernate.cfg.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -105,7 +104,7 @@ class DataLabelResponse {
         dataset = new ArrayList<ResponseEntity>();
         //成功处理的微博数量
         success_count = 0;
-        //0：成功    -1：失败    1：成功但是到达了最后一页    -2:新建标签出现重复
+        //0：成功    -1：失败    1：成功但是到达了最后一页    -2:新建标签出现重复  -3:(父)标签不存在，或者已经被删除
         response_code = 0;
         //前端维护自己在后台的分页，初始为0
         page = 0;
@@ -151,6 +150,8 @@ public class DataLabelController {
     private SinaDataInfoDAO sinaDataInfoDAO;
     @Autowired
     private TableInfoDAO tableInfoDAO;
+    @Autowired
+    private DatalabelServiceBean datalabelServiceBean;
     private static final String rootdir="./src/main/java/io/github/jhipster/sample/web/rest/";
     private static final String temp_path="/temp/";
     private static final String python_path="/python/";
@@ -160,6 +161,7 @@ public class DataLabelController {
     private static final String img_path="./src/main/webapp/";
     private static final int num_per_page = 500; //每次返回至少num_per_page条数据
     private static final int num_per_search = 500;  //每次向数据库查询num_per_search条数据
+    private  static  final String Root_Target_Name="(成为根标签)";
 
 
     /**
@@ -178,13 +180,14 @@ public class DataLabelController {
         LabelInitResponse labelInitResponse = new LabelInitResponse();
         //返回标签以及是否是root标签
         for (int i = 0; i < all_labels.size(); i++) {
-            String clabel = all_labels.get(i).getChild_label();
-            String plabel = all_labels.get(i).getParent_label();
+            String clabel = all_labels.get(i).getChild_label().trim();
+            String plabel = all_labels.get(i).getParent_label().trim();
             boolean isroot = false;
-            if(plabel.trim().length()<=0)
+            if(plabel.length()<=0)
                 isroot=true;
-
-            labelInitResponse.all_label.put(clabel,isroot);
+            if(clabel.length()>0) {
+                labelInitResponse.all_label.put(clabel, isroot);
+            }
         }
         //返回数据库的可选表名以及表注释
         if(get_dbname)
@@ -255,10 +258,10 @@ public class DataLabelController {
         dbname=dbname.trim().split("\\(")[0];
         if (selectoldlabel) {
             tag = "+"+ oldlabel.trim();
-            if(!labelRelationInfoDAO.exists(oldlabel))//收到了一个不存在的已有标签，忽略
+            if(!labelRelationInfoDAO.exists(oldlabel))//收到了一个不存在的已有标签
             {
                 dataLabelResponse.success_count =  0;
-                dataLabelResponse.response_code = 0;
+                dataLabelResponse.response_code = -3;
                 Gson gson = new Gson();
                 return gson.toJson(dataLabelResponse);
             }
@@ -270,21 +273,28 @@ public class DataLabelController {
         String _child=tag.substring(1);
         if (ischildlabel) {
             _parent=parentlabel.trim();
+            if(!labelRelationInfoDAO.exists(_parent)){//收到了不存在的父标签
+                dataLabelResponse.success_count =  0;
+                dataLabelResponse.response_code = -3;
+                Gson gson = new Gson();
+                return gson.toJson(dataLabelResponse);
+            }
         }
-
-        //检查该标签关系是否存在
-        String par=labelRelationInfoDAO.findParent(tag.substring(1));
-        boolean isexist=true;
-        if(par!=null && !par.trim().equals(_parent))//新建标签重复
-        {
-            dataLabelResponse.success_count = count;
-            dataLabelResponse.response_code = -2;
-            Gson gson = new Gson();
-            return gson.toJson(dataLabelResponse);
-        }
-        if(par==null)
-        {
-            isexist=false;
+        boolean isexist = false;
+        if(!selectoldlabel) {//当创建新标签时
+            //检查该标签关系是否存在
+            String _par = labelRelationInfoDAO.findParent(_child);
+            if (_par!=null && !_par.equals(_parent))//新建标签重复
+            {
+                dataLabelResponse.success_count = 0;
+                dataLabelResponse.response_code = -2;
+                Gson gson = new Gson();
+                return gson.toJson(dataLabelResponse);
+            }
+            else if(_par!=null)
+            {
+                isexist=true;
+            }
         }
         Map<String,Map> relation=null;
         Map<String,String> childtoparent=null;
@@ -296,28 +306,58 @@ public class DataLabelController {
             parenttochild= relation.get("parenttochild");
         }
         logger.info("labelresult size:" + labelresult.size());
-        for (int i = 0; i < labelresult.size(); i++) {
-            //提交的的参数里只有id没有微博内容，去原始数据库里查询，这样可以避免在内存里保存微博内容，并且可以减少前端传参的量
-            DataInfo _data = dataInfoDAO.findBySince_id(dbname, labelresult.get(i));
-            //除了标签本身，每次还需要将该标签所有的父标签都加入
-            try {
-                dataLabelInfoDAO.save(new DataLabelInfo(new LabelDataSetKey(labelresult.get(i), tag), _data.getWeibo_time(), _data.getWeibo_content()));
-                count++;
-                //保证至少写入一条记录后，才加上标签关系
-                if(!isexist)
-                    labelRelationInfoDAO.save(new LabelRelationInfo(_parent,_child));
-               List<DataLabelInfo> infos= save_all_parents(tag.substring(1),childtoparent,parenttochild,_data);
-               dataLabelInfoDAO.save(infos);
-            } catch (Exception e) {
-                e.printStackTrace();
-                dataLabelResponse.success_count = count;
-                dataLabelResponse.response_code = -1;
-                Gson gson = new Gson();
-                return gson.toJson(dataLabelResponse);
-            }
-            logger.info(_data.getWeibo_content() + "----------" + tag);
+        List<DataLabelInfo> dataLabelInfos = new ArrayList<DataLabelInfo>();
+        try {
+            if(labelresult.size()>0) { //保证至少写入一条记录后，才加上标签关系,用Insert是因为child一旦存在就会报错，使用save的话多人操作会互相修改
+                //先插入内容表，再插入关系表，保证内容优先写入不浪费
+                for (int i = 0; i < labelresult.size(); i++) {
+                    //提交的的参数里只有id没有微博内容，去原始数据库里查询，这样可以避免在内存里保存微博内容，并且可以减少前端传参的量
+                    DataInfo _data = dataInfoDAO.findBySince_id(dbname, labelresult.get(i));
+                    dataLabelInfoDAO.save(new DataLabelInfo(new LabelDataSetKey(labelresult.get(i), tag), _data.getWeibo_time(), _data.getWeibo_content()));
+                    count++;
+                }
+                if(!selectoldlabel) {//创建新标签需要写入数据库
+//                    if(!isexist){
+//                        labelRelationInfoDAO.save(new LabelRelationInfo(_parent,_child));
+//                        isexist=true;
+//                    }
 
+                    try {
+                        if(!isexist) {
+                            labelRelationInfoDAO.insert(_parent, _child);
+                            isexist=true;
+                        }
+                    }catch (Exception e)
+                    {
+                        String par = labelRelationInfoDAO.findParent(_child);
+                        //插入新标签时，标签已经存在并且和新标签不同，报标签重复错误
+                        if(!par.equals(_parent)) {
+                            e.printStackTrace();
+                            dataLabelResponse.success_count = 0;
+                            dataLabelResponse.response_code = -2;
+                            Gson gson = new Gson();
+                            return gson.toJson(dataLabelResponse);
+                        }
+                        e.printStackTrace();
+                        dataLabelResponse.success_count = 0;
+                        dataLabelResponse.response_code = -1;
+                        Gson gson = new Gson();
+                        return gson.toJson(dataLabelResponse);
+                    }
+                }
+
+            }
+//               List<DataLabelInfo> infos= save_all_parents(tag.substring(1),childtoparent,parenttochild,_data);
+//               dataLabelInfoDAO.save(infos);
+        } catch (Exception e) {
+            e.printStackTrace();
+            dataLabelResponse.success_count = count;
+            dataLabelResponse.response_code = -1;
+            Gson gson = new Gson();
+            return gson.toJson(dataLabelResponse);
         }
+
+
 
         Gson gson=new Gson();
         dataLabelResponse=gson.fromJson(dataSelect(keywords, dbname, selecttime, timestart, timeend, selectoldlabel, oldlabel, newlabel, type, page,selectkey,parentlabel,ischildlabel,session),DataLabelResponse.class);
@@ -330,7 +370,6 @@ public class DataLabelController {
         return gson.toJson(dataLabelResponse);
 
     }
-
 
 
 //    public Map<List<String>,Boolean> get_label_data()
@@ -367,7 +406,7 @@ public class DataLabelController {
     /**
      * 使用命令行调用python，将结果写入到文件中
      */
-    public void use_python(String command) throws IOException {
+    public void exec_cmd(String command) throws IOException {
         Process p = Runtime.getRuntime().exec(command);//需要检查是否出错
         BufferedReader br = new BufferedReader(new InputStreamReader(p.getErrorStream()));
         String li = null;
@@ -379,6 +418,7 @@ public class DataLabelController {
         logger.info(command);
         logger.info(String.valueOf(p.exitValue()));
         logger.info(sb.toString());
+        
     }
 
     /**
@@ -388,7 +428,7 @@ public class DataLabelController {
         String save_path = rootdir+temp_path+"sina_"+session_id+".txt";
         String py_path = rootdir+python_path+search_file;
         String command = "python "+ py_path+" "+save_path;
-        use_python(command);
+        exec_cmd(command);
         List<SinaDataInfo> sinadata = new ArrayList<SinaDataInfo>();
         List<DataInfo> data = new ArrayList<DataInfo>();
         try {
@@ -426,7 +466,6 @@ public class DataLabelController {
     public List<DataInfo> fliter(List<DataInfo> data, String tag, String session_id) throws IOException {
         String infile = rootdir+temp_path+"temp_" + session_id + ".txt";
         String outfile = rootdir+temp_path+"out_" + session_id + ".txt";
-
         try {
             FileWriter file = new FileWriter(infile);
             for (int i = 0; i < data.size(); i++) {
@@ -451,7 +490,7 @@ public class DataLabelController {
             //command = "python ./src/main/java/io/github/jhipster/sample/web/rest/python/test.py";
             //        PythonInterpreter interpreter = new PythonInterpreter();
             //        interpreter.execfile("./src/main/java/io/github/jhipster/sample/web/rest/python/test.py");
-            use_python(command);
+            exec_cmd(command);
             data = new ArrayList<DataInfo>();
             try {
                 InputStreamReader read = new InputStreamReader(new FileInputStream(outfile));
@@ -471,14 +510,14 @@ public class DataLabelController {
         {
             e.printStackTrace();
         }finally {
-            if (deletefile(infile))
-                logger.info("文件" + infile + "删除成功!");
-            else
-                logger.info("文件" + infile + "删除失败!");
-            if (deletefile(outfile))
-                logger.info("文件" + outfile + "删除成功!");
-            else
-                logger.info("文件" + outfile + "删除失败!");
+//            if (deletefile(infile))
+//                logger.info("文件" + infile + "删除成功!");
+//            else
+//                logger.info("文件" + infile + "删除失败!");
+//            if (deletefile(outfile))
+//                logger.info("文件" + outfile + "删除成功!");
+//            else
+//                logger.info("文件" + outfile + "删除失败!");
         }
         return data;
     }
@@ -553,29 +592,33 @@ public class DataLabelController {
     /**
      * 根据root节点和数据内的标签关系字典，得到从root开始的所有子节点,后序遍历
      */
-    public List<String> get_all_child(String root,Map<String,List<String>> parenttochild)
-    {
+    public List<String> get_all_child(String root,Map<String,List<String>> parenttochild) throws InterruptedException {
         Stack all_child = new Stack();
         List<String> children=new ArrayList<>();
         all_child.push(root);
         List<String> childlist = parenttochild.get(root);
-        while(childlist!=null)
+        while(!all_child.empty())
         {
-            for(int i=0;i<childlist.size();i++)
-            {
-                all_child.push(childlist.get(i));
+            if(childlist!=null) {
+                for (int i = 0; i < childlist.size(); i++) {
+                    all_child.push(childlist.get(i));
+                }
             }
             String top_label= (String) all_child.peek();
             List<String> top_label_child = parenttochild.get(top_label);
-            if(top_label_child.size()<=0)//栈顶元素时叶子结点
+            logger.info("!!!!!!!!!!!!"+top_label+"---------------->>"+(top_label_child==null));
+            if(top_label_child==null)//栈顶元素时叶子结点
             {
                 children.add((String) all_child.pop());//访问该叶子结点并弹出
+                childlist=null;
             }
             else
             {
-                if(parenttochild.get(top_label).contains(children.get(children.size()-1)))//栈顶元素不是叶子结点，但是上一个访问的是它的孩子，现在就该访问它了
+                if(children.size()>0&&top_label_child.contains(children.get(children.size()-1)))//栈顶元素不是叶子结点，但是上一个访问的是它的孩子，现在就该访问它了
                 {
                     children.add((String) all_child.pop());
+                    childlist=null;
+
                 }
                 else
                 {
@@ -607,8 +650,8 @@ public class DataLabelController {
         String parent_label = null;
         for(int i=0;i<labelRelationInfos.size();i++)
         {
-            child_label = labelRelationInfos.get(i).getChild_label();
-            parent_label = labelRelationInfos.get(i).getParent_label();
+            child_label = labelRelationInfos.get(i).getChild_label().trim();
+            parent_label = labelRelationInfos.get(i).getParent_label().trim();
             parentmap.put(child_label,parent_label);
             childlist = childmap.get(parent_label);
             if(childlist==null)
@@ -632,7 +675,7 @@ public class DataLabelController {
      * 这样将child全部加上parent标签，并且select操作将内存压力放到了数据库里而不是服务器上
      * 因为使用的是CrudRepository,需要改成jdbc才能拼接sql,这样还要自己封装crud接口，遇到内存瓶颈再说吧。
      */
-    public List<DataLabelInfo> save_parent(String par,String childroot,Map<String,List<String>> parenttochild) {
+    public List<DataLabelInfo> save_parent(String par,String childroot,Map<String,List<String>> parenttochild) throws InterruptedException {
         List<String> all_child = get_all_child(childroot,parenttochild);
         List<DataLabelInfo> dataLabelInfos = new ArrayList<DataLabelInfo>();
         for(int j =0;j<all_child.size();j++) {//取出所有子标签的所有微博
@@ -685,26 +728,194 @@ public class DataLabelController {
     }
 
     /**
+     * 标签新建
+     */
+    @GetMapping("/Labelcreateservice")
+    @ResponseBody
+    public String create_label(@RequestParam("new_label") String new_label,@RequestParam("new_parent_label") String new_parent_label,@RequestParam("select_parent") Boolean select_parent){
+
+        Gson gson=new Gson();
+        Map status = new HashMap<String,Boolean>();
+        new_label=new_label.trim();
+        new_parent_label=new_parent_label.trim();
+        if(!select_parent){
+            new_parent_label="";
+        }
+        if(new_label.length()<=0|| labelRelationInfoDAO.exists(new_label)){
+            status.put("status",false);
+            return gson.toJson(status);
+        }
+        try {
+            labelRelationInfoDAO.insert(new_parent_label, new_label);
+        }catch (Exception e){
+            e.printStackTrace();
+            status.put("status",false);
+            return gson.toJson(status);
+        }
+        status.put("status",true);
+        return gson.toJson(status);
+    }
+
+
+    /**
+     * 标签合并
+     */
+    @GetMapping("/Labeljoinservice")
+    @ResponseBody
+    public String join_labels( @RequestParam("joined_labels") List<String> joined_labels,@RequestParam("join_target") String join_target )
+    {
+
+        Gson gson = new Gson();
+        Map status = new HashMap<String,Boolean>();
+        join_target=join_target.trim();
+
+        try{
+            if(join_target.length()<=0|| joined_labels.size()<1 || !labelRelationInfoDAO.exists(join_target))
+            {
+                status.put("status",false);
+                return gson.toJson(status);
+            }
+            for(int i =0;i<joined_labels.size();i++) {
+                String label = joined_labels.get(i).trim();
+                if(label.equals(join_target)){
+                    continue;
+                }
+                if(label.length()>0&& labelRelationInfoDAO.exists(label)) {
+                    datalabelServiceBean.update_name(label, join_target);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            status.put("status",false);
+            return gson.toJson(status);
+        }
+        status.put("status",true);
+        return gson.toJson(status);
+    }
+
+    /**
+     * 标签重命名
+     */
+    @GetMapping("/Labelrenameservice")
+    @ResponseBody
+    public String rename_labels( @RequestParam("old_name") String old_name,@RequestParam("new_name") String new_name )
+    {
+
+        Gson gson = new Gson();
+        Map status = new HashMap<String,Boolean>();
+        old_name=old_name.trim();
+        new_name=new_name.trim();
+
+        try{
+            if(!labelRelationInfoDAO.exists(old_name)|| labelRelationInfoDAO.exists(new_name) ||new_name.length()<=0 || old_name.length()<=0)
+            {
+                status.put("status",false);
+                return gson.toJson(status);
+            }
+            if(old_name.equals(new_name)){
+                status.put("status",true);
+                return gson.toJson(status);
+            }
+          datalabelServiceBean.rename(old_name,new_name);
+        }catch (Exception e){
+            e.printStackTrace();
+            status.put("status",false);
+            return gson.toJson(status);
+        }
+        status.put("status",true);
+        return gson.toJson(status);
+    }
+
+
+    /**
      * 标签迁移
      */
     @GetMapping("/Labelchangeservice")
     @ResponseBody
-    public String change_labels( String parent,String childroot)
+    public String change_labels( @RequestParam("change_label") String change_label,@RequestParam("change_tlabel") String change_tlabel,@RequestParam("ischangeall") boolean ischangeall)
     {
 
         Gson gson = new Gson();
-        return gson.toJson(true);
+        Map status = new HashMap<String,Boolean>();
+        change_label=change_label.trim();
+        change_tlabel=change_tlabel.trim();
+        try{
+            if(!change_tlabel.equals(Root_Target_Name)) {
+
+                if (!labelRelationInfoDAO.exists(change_label) || !labelRelationInfoDAO.exists(change_tlabel) || change_label.length() <= 0 || change_tlabel.length() <= 0) {
+                    status.put("status", false);
+                    return gson.toJson(status);
+                }
+                if (change_label.trim().equals(change_tlabel.trim())) {
+                    status.put("status", true);
+                    return gson.toJson(status);
+                }
+            }
+            else{
+                change_tlabel="";
+            }
+            if(!ischangeall)//不迁移子标签
+            {
+                String parent = labelRelationInfoDAO.findParent(change_label);
+                List<String> child_list = labelRelationInfoDAO.findChild(change_label);
+                for(int i=0;i<child_list.size();i++)
+                {
+                    labelRelationInfoDAO.update_parent(parent,child_list.get(i));
+                }
+            }
+
+            labelRelationInfoDAO.update_parent(change_tlabel,change_label);
+        }catch (Exception e){
+            e.printStackTrace();
+            status.put("status",false);
+            return gson.toJson(status);
+        }
+        status.put("status",true);
+        return gson.toJson(status);
     }
 
-    /**
-     * 标签删除
-     */
+//    /**
+//     * 标签删除
+//     */
     @GetMapping("/Labeldelservice")
     @ResponseBody
-    public String delete_labels(String label,boolean delete_child)
+    public String delete_labels(@RequestParam("del_label") String label,@RequestParam("isdelall") boolean delete_child)
     {
         Gson gson = new Gson();
-        return gson.toJson(true);
+        Map status = new HashMap<String ,Boolean>();
+        label=label.trim();
+        if(label.length()<=0)
+        {
+            status.put("status",false);
+            return gson.toJson(status);
+        }
+        try {
+            if (!delete_child) {
+                List<String> labels = labelRelationInfoDAO.findChild(label);
+                String parent = labelRelationInfoDAO.findParent(label);
+                for (int i = 0; i < labels.size(); i++) {
+                    labelRelationInfoDAO.update_parent(parent, labels.get(i));
+                }
+                labelRelationInfoDAO.delete(label);
+            } else//删除所有子标签
+            {
+                Map<String, Map> relation = get_label_relation();
+                Map<String, List<String>> parenttochild = relation.get("parenttochild");
+                List<String> child_list = get_all_child(label, parenttochild);
+                for (int i = 0; i < child_list.size(); i++) {
+                    logger.info(child_list.get(i));
+                    labelRelationInfoDAO.delete(child_list.get(i));
+                }
+            }
+
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            status.put("status",false);
+            return gson.toJson(status);
+        }
+        status.put("status",true);
+        return gson.toJson(status);
     }
 
     /**
@@ -712,41 +923,188 @@ public class DataLabelController {
      */
     @GetMapping("/Labelmergeservice")
     @ResponseBody
-    public String merge_labels(@RequestParam("merged_labels") String[] merged_labels,@RequestParam("merge_label") String merge_label) throws Exception {
+    public String merge_labels(@RequestParam("merged_labels") List<String> merged_labels,@RequestParam("merge_label") String merge_label) throws Exception {
         merge_label=merge_label.trim();
+        Gson gson = new Gson();
+        Map status = new HashMap<String ,Boolean>();
         String p =labelRelationInfoDAO.findParent(merge_label);
-        //汇聚数量必须大于2个，汇聚标签不能为空，汇聚标签要么不存在，要么只能为root标签
-        if(merged_labels.length<2 || merge_label.length()<=0|| (p!=null&&p.length()>0) )
+        //汇聚数量必须大于1个，汇聚标签不能为空，汇聚标签要么不存在，要么只能为root标签
+        if(merged_labels.size()<1 || merge_label.length()<=0|| (p!=null&&p.length()>0) )
         {
-            Gson gson = new Gson();
-            return gson.toJson(false);
+            status.put("status",false);
+            return gson.toJson(status);
         }
         Map<String, Map> relation = get_label_relation();
         Map<String,String> childtoparent = relation.get("childtoparent");
         Map<String,List<String>>parenttochild= relation.get("parenttochild");
         List<DataLabelInfo> dataLabelInfos = new ArrayList<DataLabelInfo>();
-        labelRelationInfoDAO.save(new LabelRelationInfo("",merge_label));
+        try {
+            labelRelationInfoDAO.save(new LabelRelationInfo("", merge_label));
 
-
-        for(int i=0;i<merged_labels.length;i++)
+            for (int i = 0; i < merged_labels.size(); i++) {
+                if(merged_labels.get(i).trim().length()>0) {
+                    if(merge_label.equals(merged_labels.get(i).trim()))
+                        continue;
+                    if(labelRelationInfoDAO.exists(merged_labels.get(i).trim())) {//待汇聚标签必须存在，否则忽略
+                        labelRelationInfoDAO.save(new LabelRelationInfo(merge_label, merged_labels.get(i).trim()));
+                    }
+                }
+            }
+        }catch (Exception e)
         {
-            labelRelationInfoDAO.save(new LabelRelationInfo(merge_label,merged_labels[i].trim()));
-            dataLabelInfoDAO.save(save_all_parents(merged_labels[i],childtoparent,parenttochild,null));
+            e.printStackTrace();
+            status.put("status",false);
+            return gson.toJson(status);
         }
-
-
-        Gson gson = new Gson();
-        return gson.toJson(true);
+        status.put("status",true);
+        return gson.toJson(status);
 
     }
+
 
     /**
      * 建立标签树，并做成图片保存
      */
-    public String get_label_tree()
+    @GetMapping("/Labeldrawservice")
+    @ResponseBody
+    public String get_label_tree(HttpSession session)
     {
         Gson gson = new Gson();
-        return gson.toJson(false);
+        Map status = new HashMap<String,Boolean>();
+        boolean result =true;
+        String img_file=img_path+"tree.png";
+        String img_dot=rootdir+temp_path+"tree_"+session.getId()+".dot";
+
+        try{
+            Map<String, Map> relation = get_label_relation();
+            Map<String,String> childtoparent = relation.get("childtoparent");
+            Map<String,List<String>> parenttochild = relation.get("parenttochild");
+            List<String> all_data_tags= dataLabelInfoDAO.findAllTagswithnoflag();
+            Set<String> all_relation_tags=new HashSet<String>(childtoparent.keySet());
+            Set<String> all_relation_parent = new HashSet<String>(parenttochild.keySet());
+            all_relation_parent.remove("");
+            Set<String> error_parent=new HashSet<String>(all_relation_parent);//标签关系表中的异常父标签，就是只在parent_label中出现而不在child_label中出现,父标签为空的不算
+            Set<String> data_tag_set = new HashSet<String>(all_data_tags) ;
+            error_parent.removeAll(all_relation_tags);
+            Set<String> error_data =new HashSet<String>(data_tag_set);//内容表中的异常标签，就是内容表中有这个标签而关系表没有
+            error_data.removeAll(all_relation_tags);
+            Map<String,Long> tag_attr_map = new HashMap<String,Long>();//包括关系表内所有的标签和内容表内的所有标签
+
+            for(String label : all_data_tags)
+            {
+                label=label.trim();
+                tag_attr_map.put(label,dataLabelInfoDAO.countTag("+"+label));
+            }
+            all_relation_tags.addAll(all_relation_parent);//包含了标签表所有的子标签和父标签
+            for(String label:all_relation_tags){
+                if(tag_attr_map.get(label.trim())==null) {
+                    tag_attr_map.put(label.trim(), 0L);
+                }
+            }
+
+
+            save_dot_file(img_dot,childtoparent,tag_attr_map,error_data,error_parent);
+            String cmd="dot -Tpng "+img_dot+" -o "+img_file;
+            exec_cmd(cmd);
+            result=true;
+        }catch (Exception e){
+            e.printStackTrace();
+            result=false;
+        }finally {
+//            if(deletefile(img_dot))
+//                logger.info("文件" + img_dot + "删除成功!");
+//            else
+//                logger.info("文件" + img_dot + "删除失败!");
+        }
+        status.put("status",result);
+        return gson.toJson(status);
+    }
+
+    private void save_dot_file(String img_dot,Map<String,String> childtoparent,Map<String,Long> tag_attr_map,Set<String> error_data,Set<String> error_parent) throws IOException {
+        FileWriter file = new FileWriter(img_dot);
+
+        file.write("digraph tree{node[fontname = \"Microsoft YaHei\"];\n ");
+        for(String child : tag_attr_map.keySet()){
+            child=child.trim();
+            String parent=childtoparent.get(child);
+            if(parent==null){
+                parent="";
+            }
+            parent=parent.trim();
+            Long child_num = tag_attr_map.get(child);
+            Long parent_num=0L;
+            if(tag_attr_map.containsKey(parent)) {
+                parent_num = tag_attr_map.get(parent);
+            }
+            String child_with_num="\""+child+"("+child_num+")\"";;
+            String parent_with_num="\""+parent+"("+Math.abs(parent_num)+")\"";
+            file.write(child_with_num+";"+'\n');
+            if(error_data.contains(child)) {
+                file.write(child_with_num+"[color=red style=filled]" + ";" + '\n');
+            }
+            if(error_parent.contains(child) || child.length()<=0){
+                file.write(child_with_num+"[color=gold style=filled]" + ";" + '\n');
+            }
+            if(parent.length()>0) {//父标签是空的不画出来，因为是root标签
+                file.write(parent_with_num + "->" + child_with_num + '\n');
+            }
+        }
+        file.write("}");
+        file.close();
+    }
+
+
+    /**
+     * 训练模型
+     */
+    @GetMapping("/Labeltrainservice")
+    @ResponseBody
+    public String train( @RequestParam("train_label") String train_label,@RequestParam("train_all") boolean train_all,HttpSession session)
+    {
+        boolean result =false;
+        Map status = new HashMap<String ,Boolean>();
+        Gson gson = new Gson();
+        String path = rootdir+temp_path+"train_"+session.getId()+".txt";
+        try{
+            if(!labelRelationInfoDAO.exists(train_label) || train_label.trim().length()<=0)
+            {
+                status.put("status",false);
+                return gson.toJson(status);
+            }
+            List<DataLabelInfo> dataLabelInfos = dataLabelInfoDAO.findByTag(train_label.trim());
+
+            FileWriter file = new FileWriter(path);
+            //写入该标签所有的微博到文件中
+            for(int i=0;i<dataLabelInfos.size();i++)
+            {
+                DataLabelInfo info = dataLabelInfos.get(i);
+                file.write(info.getKey().getSince_id()+'\t'+info.getWeibo_time()+'\t'+info.getWeibo_content()+'\t'+info.getKey().getTag()+'\n');
+            }
+            file.close();
+            String type = "retrain";
+            String model_dir = rootdir+model_path;
+            String pyfile = rootdir+python_path+classfy_file;
+            if(!train_all)
+            {
+                type="update";
+            }
+            String cmd = "python "+  pyfile + " "+type+" "+model_dir;
+            exec_cmd(cmd);
+            result=true;
+
+        }catch (Exception e){
+            e.printStackTrace();
+            result=false;
+
+        }finally {
+            if (deletefile(path))
+                logger.info("文件" + path + "删除成功!");
+            else
+                logger.info("文件" + path + "删除失败!");
+
+        }
+        status.put("status",result);
+        return gson.toJson(status);
     }
 
 

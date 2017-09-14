@@ -4,7 +4,7 @@
 <div id="testdiv"></div>
 
 <ul class="nav nav-tabs" >
-    <li role="presentation" ><a ui-sref="dataLabel" data-ng-click="rm_dialog()">新浪搜索</a></li>
+    <li role="presentation" ><a ui-sref="dataLabel" >新浪搜索</a></li>
     <li role="presentation" class="active"><a ui-sref="dataLabel_db">数据库搜索</a></li>
 <div ng-init="type=1"></div>
 
@@ -100,7 +100,11 @@
         <select name="alllabel" style="width:80px;height:25px"  ng-model="parentlabel" ng-disabled="selectoldlabel||!ischildlabel" ng-trim="true">
             <option data-ng-repeat="x in labels">{{x}} </option>
         </select>
-            <button type="button" class="btn btn-primary " style="margin-left:20px;padding-top:5px;height:30px" ng-click="get_label_tree()">查看标签树</button>
+            <button type="button" class="btn btn-primary " style="margin-left:20px;padding-top:5px;height:30px" ng-click="draw()">查看标签树</button>
+            <div ng-if="showtree">
+                <br />
+                <img ng-src="{{tree_url}}">
+            </div>
         </div>
 
     </form>
