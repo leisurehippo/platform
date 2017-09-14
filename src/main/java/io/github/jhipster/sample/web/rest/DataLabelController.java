@@ -416,7 +416,6 @@ public class DataLabelController {
         }
         logger.info("~~~~~~~~~~~~~~~~~~~~~~~");
         logger.info(command);
-        logger.info(String.valueOf(p.exitValue()));
         logger.info(sb.toString());
         
     }
