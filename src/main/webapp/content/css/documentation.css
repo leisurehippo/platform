@@ -1,4 +1,15 @@
 /*!
  * Your CSS files will be generated in this directory by "gulp sass"
  */
-
+@font-face {font-family: "titleFont";
+    src: url('../fonts/titleFont.eot?t=1489192348890'); /* IE9*/
+    src: url('../fonts/titleFont.eot?t=1489192348890#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('../fonts/titleFont.woff?t=1489192348890') format('woff'), /* chrome, firefox */
+    url('../fonts/titleFont.ttf?t=1489192348890') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+    url('../fonts/titleFont.svg?t=1489192348890#iconfont') format('svg'); /* iOS 4.1- */
+}
+h1 {
+    font-family:"titleFont",方正水云简体_准,"Helvetica Neue",Arial,sans-serif;
+    text-align:center;
+    font-size : 5em;
+}
