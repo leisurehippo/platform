@@ -140,3 +140,11 @@ Desktop.ini
 # ESLint
 ######################
 .eslintcache
+
+#####################
+#hubo
+####################
+/src/main/webapp/tree.png
+/src/main/java/io/github/jhipster/sample/web/rest/temp/
+mylog.out
+
