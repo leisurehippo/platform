@@ -294,7 +294,7 @@
                                                     },
                                                     views: {
                                                         'content@': {
-                                                            templateUrl: "app/project/datalabel_admin/dataLabeltrain.html",
+                                                            templateUrl: "app/project/datalabel_train/dataLabeltrain.html",
                                                             controller: "DataLabelTrainController",
                                                             controllerAs: 'vm'
                                                         }
@@ -302,6 +302,22 @@
                                                     params: {
 
                                                     }
+         }).state("dataLabel_manage", {
+                                                                url: "/dataLabel/manage",
+                                                                parent: 'app',
+                                                                data: {
+                                                                    authorities: []
+                                                                },
+                                                                views: {
+                                                                    'content@': {
+                                                                        templateUrl: "app/project/datalabel_manage/dataLabelmanage.html",
+                                                                        controller: "DataLabelManageController",
+                                                                        controllerAs: 'vm'
+                                                                    }
+                                                                },
+                                                                params: {
+
+                                                                }
          }).state("fileUpload", {
             url: "/fileUpload",
             parent: 'app',

@@ -1,0 +1,106 @@
+
+<html >
+<body>
+<ul class="nav nav-tabs">
+    <li role="presentation"><a ui-sref="dataLabel">新浪搜索</a></li>
+    <li role="presentation"  ><a  ui-sref="dataLabel_db" >数据库搜索</a></li>
+    <li role="presentation" ><a ui-sref="dataLabel_train">领域标注器训练</a></li>
+    <li role="presentation" class="active"><a ui-sref="dataLabel_manage">语料库管理</a></li>
+</ul>
+
+<div class="radio" style="margin-bottom:20px" >
+    <label>
+        <input type="radio" name="label" ng-value="'look'" ng-model="dbcontrol"  >
+        语料库查看
+    </label>
+    <div ng-show="dbcontrol=='look'">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label  class="col-sm-2 control-label">选择语料库:</label>
+                <div class="col-sm-5">
+                    <select id="db1" ng-change="when_change(1)"  class="form-control" ng-model="look_db" ng-trim="true">
+                        <option data-ng-repeat="y in dbs">{{y}}</option>
+                    </select>
+                </div>
+                <p id="text1" style="color:blue;padding-top:5px" ></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="radio" style="margin-bottom:20px">
+    <label>
+        <input type="radio" name="label" ng-value="'create'" ng-model="dbcontrol"  >
+        语料库创建
+    </label>
+    <div ng-show="dbcontrol=='create'">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label  class="col-sm-2 control-label">目标标签数量:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" placeholder="num" ng-model="label_num" ng-trim="true">
+                </div>
+            </div>
+            <div data-ng-repeat="x in range(label_num) track by $index">
+                <div class="form-group" >
+                    <label  class="col-sm-2 control-label">标签{{$index}}:</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" id="target{{$index}}" ng-trim="true">
+                            <option data-ng-repeat="y in labels">{{y}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label  class="col-sm-2 control-label">输入语料库名称:</label>
+                <label class="col-sm-1 control-label" style="margin-left:-10px;margin-right:-20px">label_</label>
+                <div class="col-sm-5">
+                    <input type="text" style="width:87%" class="form-control" placeholder="name" ng-model="input_db" ng-trim="true">
+                </div>
+            </div>
+
+            <div class="form-group">
+            <label  class="col-sm-2 control-label">创建人:</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" placeholder="name" ng-model="create_people" ng-trim="true">
+            </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-5">
+                    <button type="button" class="btn btn-primary " ng-click="draw()" style="float:right">查看标签树</button>
+                </div>
+                <div ng-if="showtree" >
+                    <img ng-src={{tree_url}} style="width:100%;height:100%;margin-top:10px">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="radio" style="margin-bottom:20px">
+    <label>
+        <input type="radio" name="label" ng-value="'del'" ng-model="dbcontrol"  >
+        语料库删除
+    </label>
+    <div ng-show="dbcontrol=='del'">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label  class="col-sm-2 control-label">删除语料库:</label>
+                <div class="col-sm-5">
+                    <select id="db2" ng-change="when_change(2)" class="form-control" ng-model="del_db" ng-trim="true">
+                        <option data-ng-repeat="y in del_dbs">{{y}}</option>
+                    </select>
+                </div>
+                <p id="text2" style="color:blue;padding-top:5px" ></p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div align="center">
+    <button type="button" class="btn btn-primary " ng-click="submit()" >确定</button>
+</div>
+</body>
+</html>

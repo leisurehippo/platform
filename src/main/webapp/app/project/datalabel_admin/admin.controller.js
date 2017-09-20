@@ -81,7 +81,7 @@ function DataLabelAdminController($scope,$http, $state,$injector, Labelchangeser
     {
         $scope.labels=[];
         $scope.rootlabels=[];
-        Initservice.get({get_dbname:false},function success(result)
+        Initservice.get({get_dbname_type:0},function success(result)
         {
             for(label in result.all_label)
             {

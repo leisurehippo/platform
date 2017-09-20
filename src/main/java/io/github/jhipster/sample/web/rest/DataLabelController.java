@@ -116,10 +116,13 @@ class DataLabelResponse {
 class LabelInitResponse {
     public Map<String,Boolean> all_label;
     public List<String> all_dbnames;
+    public List<String> comment_content;
 
     public LabelInitResponse() {
         all_dbnames=new ArrayList<String>();
         all_label = new HashMap<String,Boolean>();
+        comment_content=new ArrayList<String>();
+
     }
 }
 
@@ -162,6 +165,9 @@ public class DataLabelController {
     private static final int num_per_page = 500; //每次返回至少num_per_page条数据
     private static final int num_per_search = 500;  //每次向数据库查询num_per_search条数据
     private  static  final String Root_Target_Name="(成为根标签)";
+    private static final String Data_table_prefix="data";//所有的原始语料表名都是"data_...."
+    private static final String Label_table_prefix="label";//所有被标注的语料表名都是"label_..."
+    private static final String Label_data_set="label_data_set";//标注的表名
 
 
     /**
@@ -175,10 +181,10 @@ public class DataLabelController {
      */
     @GetMapping("/Initservice")
     @ResponseBody
-    public String returnInit(@RequestParam("get_dbname") boolean get_dbname) {
+    public String returnInit(@RequestParam("get_dbname_type") int get_dbname_type) {
         List<LabelRelationInfo> all_labels = (List<LabelRelationInfo>) labelRelationInfoDAO.findAll();
         LabelInitResponse labelInitResponse = new LabelInitResponse();
-        //返回标签以及是否是root标签
+        //返回标签以及是否是root标签,去掉空标签
         for (int i = 0; i < all_labels.size(); i++) {
             String clabel = all_labels.get(i).getChild_label().trim();
             String plabel = all_labels.get(i).getParent_label().trim();
@@ -190,19 +196,33 @@ public class DataLabelController {
             }
         }
         //返回数据库的可选表名以及表注释
-        if(get_dbname)
+        //type=1  返回原始数据表
+        if(get_dbname_type>0)
         {
-            String database = tableInfoDAO.getDatabaseName();
-            List<TableInfo> tableInfos = tableInfoDAO.findTableAndComment(database);
+            logger.info("``````````````````````"+get_dbname_type);
+            List<TableInfo> tableInfos = tableInfoDAO.findTableAndComment();
             for(int j=0;j<tableInfos.size();j++)
             {
                 String name = tableInfos.get(j).getTable_name().trim();
                 String comment=tableInfos.get(j).getTable_comment().trim();
                 String[] fname = name.split("_");
-                if(fname[0].trim().equals("data"))
-                {
-                    labelInitResponse.all_dbnames.add(name+"("+comment+")");
+                //type=1  返回原始数据表
+                if(get_dbname_type==1) {
+                    if(fname[0].trim().equals(Data_table_prefix))
+                    {
+                        labelInitResponse.all_dbnames.add(name);
+                        labelInitResponse.comment_content.add(comment);
+                    }
                 }
+                //type=2  返回标注数据表
+                else if(get_dbname_type==2) {
+                    if(fname[0].trim().equals(Label_table_prefix))
+                    {
+                        labelInitResponse.all_dbnames.add(name);
+                        labelInitResponse.comment_content.add(comment);
+                    }
+                }
+
             }
         }
         Gson gson = new Gson();
@@ -307,13 +327,16 @@ public class DataLabelController {
         }
         logger.info("labelresult size:" + labelresult.size());
         List<DataLabelInfo> dataLabelInfos = new ArrayList<DataLabelInfo>();
+        Date now=new Date();
+        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String ctime=dateFormat.format(now);
         try {
             if(labelresult.size()>0) { //保证至少写入一条记录后，才加上标签关系,用Insert是因为child一旦存在就会报错，使用save的话多人操作会互相修改
                 //先插入内容表，再插入关系表，保证内容优先写入不浪费
                 for (int i = 0; i < labelresult.size(); i++) {
                     //提交的的参数里只有id没有微博内容，去原始数据库里查询，这样可以避免在内存里保存微博内容，并且可以减少前端传参的量
                     DataInfo _data = dataInfoDAO.findBySince_id(dbname, labelresult.get(i));
-                    dataLabelInfoDAO.save(new DataLabelInfo(new LabelDataSetKey(labelresult.get(i), tag), _data.getWeibo_time(), _data.getWeibo_content()));
+                    dataLabelInfoDAO.insert(new DataLabelInfo(new LabelDataSetKey(labelresult.get(i), tag), _data.getWeibo_time(), _data.getWeibo_content(),ctime),Label_data_set);
                     count++;
                 }
                 if(!selectoldlabel) {//创建新标签需要写入数据库
@@ -417,7 +440,7 @@ public class DataLabelController {
         logger.info("~~~~~~~~~~~~~~~~~~~~~~~");
         logger.info(command);
         logger.info(sb.toString());
-        
+
     }
 
     /**
@@ -591,7 +614,7 @@ public class DataLabelController {
     /**
      * 根据root节点和数据内的标签关系字典，得到从root开始的所有子节点,后序遍历
      */
-    public List<String> get_all_child(String root,Map<String,List<String>> parenttochild) throws InterruptedException {
+    public List<String> get_all_child(String root,Map<String,List<String>> parenttochild) {
         Stack all_child = new Stack();
         List<String> children=new ArrayList<>();
         all_child.push(root);
@@ -665,66 +688,69 @@ public class DataLabelController {
         return relation;
     }
 
-    /**
-     * 将一个父标签，打到所有子标签中,返回所有的微博
-     * 选择返回微博，而不是直接save，是考虑到数据库的回滚，避免只修改了部分子标签就挂掉了。将所有的微博一次性save，会变成一个事务，不会出现只有部分操作完成的情况
-     * 但是这样的缺点是会读数据到内存，量大了就吃不消。优化的话，应该拼接sql语句并作为事务提交到数据库:
-     * insert into tb1
-     * select since_id,...,parent from  tb2 where tag = child1 or tag = child2 or ...
-     * 这样将child全部加上parent标签，并且select操作将内存压力放到了数据库里而不是服务器上
-     * 因为使用的是CrudRepository,需要改成jdbc才能拼接sql,这样还要自己封装crud接口，遇到内存瓶颈再说吧。
-     */
-    public List<DataLabelInfo> save_parent(String par,String childroot,Map<String,List<String>> parenttochild) throws InterruptedException {
-        List<String> all_child = get_all_child(childroot,parenttochild);
-        List<DataLabelInfo> dataLabelInfos = new ArrayList<DataLabelInfo>();
-        for(int j =0;j<all_child.size();j++) {//取出所有子标签的所有微博
-            String child = all_child.get(j);
-            List<DataLabelInfo> Infos = dataLabelInfoDAO.findByTag('+' + child.trim());
+//    /**
+//     * 将一个父标签，打到所有子标签中,返回所有的微博
+//     * 选择返回微博，而不是直接save，是考虑到数据库的回滚，避免只修改了部分子标签就挂掉了。将所有的微博一次性save，会变成一个事务，不会出现只有部分操作完成的情况
+//     * 但是这样的缺点是会读数据到内存，量大了就吃不消。优化的话，应该拼接sql语句并作为事务提交到数据库:
+//     * insert into tb1
+//     * select since_id,...,parent from  tb2 where tag = child1 or tag = child2 or ...
+//     * 这样将child全部加上parent标签，并且select操作将内存压力放到了数据库里而不是服务器上
+//     * 因为使用的是CrudRepository,需要改成jdbc才能拼接sql,这样还要自己封装crud接口，遇到内存瓶颈再说吧。
+//     */
+//    public List<DataLabelInfo> save_parent(String par,String childroot,Map<String,List<String>> parenttochild) throws InterruptedException {
+//        List<String> all_child = get_all_child(childroot,parenttochild);
+//        List<DataLabelInfo> dataLabelInfos = new ArrayList<DataLabelInfo>();
+//        for(int j =0;j<all_child.size();j++) {//取出所有子标签的所有微博
+//            String child = all_child.get(j);
+//            List<DataLabelInfo> Infos = dataLabelInfoDAO.findByTag('+' + child.trim());
+//
+//            //将该子标签对应的所有微博都加上父标签
+//            for (int i = 0; i < Infos.size(); i++) {
+//                DataLabelInfo Info = Infos.get(i);
+//                DataLabelInfo newinfo = new DataLabelInfo(new LabelDataSetKey(Info.getKey().getSince_id(), '+' + par.trim()), Info.getWeibo_time(), Info.getWeibo_content(),Info.getCreate_time());
+//                dataLabelInfos.add(newinfo);
+//            }
+//
+//        }
+//        return dataLabelInfos;
+//
+//    }
 
-            //将该子标签对应的所有微博都加上父标签
-            for (int i = 0; i < Infos.size(); i++) {
-                DataLabelInfo Info = Infos.get(i);
-                DataLabelInfo newinfo = new DataLabelInfo(new LabelDataSetKey(Info.getKey().getSince_id(), '+' + par.trim()), Info.getWeibo_time(), Info.getWeibo_content());
-                dataLabelInfos.add(newinfo);
-            }
-
-        }
-        return dataLabelInfos;
-
-    }
-
-    /**
-     * 找某个节点的所有父标签并打到子标签上
-     * data:null 表示将所有的父标签打到所有的子标签的记录上  not null 表示将所有的父标签只打到这一条记录上
-     */
-    public  List<DataLabelInfo> save_all_parents(String child,Map<String,String> childtpparent,Map<String,List<String>> parenttochild,DataInfo data ) throws Exception {
-
-
-        String parent = childtpparent.get(child).trim();
-        List<DataLabelInfo> dataLabelInfos=new ArrayList<DataLabelInfo>();
-        while(parent.length()>0)
-        {
-            //将每个父标签打到子标签中,子标签微博中已经包含了该子标签下所有子标签的微博
-            if(data==null) {
-                //List<DataLabelInfo> Infos= save_parent(parent,child,parenttochild);
-                List<DataLabelInfo> Infos = dataLabelInfoDAO.findByTag("+"+child);
-                for(int i=0;i<Infos.size();i++)
-                {
-                    DataLabelInfo Info = Infos.get(i);
-                    DataLabelInfo newinfo = new DataLabelInfo(new LabelDataSetKey(Info.getKey().getSince_id(), '+' + parent.trim()), Info.getWeibo_time(), Info.getWeibo_content());
-                    dataLabelInfos.add(newinfo);
-                }
-
-            }
-            //将每个父标签打到data中
-            else{
-                dataLabelInfos.add(new DataLabelInfo(new LabelDataSetKey(data.getSince_id(), '+'+parent), data.getWeibo_time(), data.getWeibo_content()));
-
-            }
-            parent = childtpparent.get(parent).trim();
-        }
-        return dataLabelInfos;
-    }
+//    /**
+//     * 找某个节点的所有父标签并打到子标签上
+//     * data:null 表示将所有的父标签打到所有的子标签的记录上  not null 表示将所有的父标签只打到这一条记录上
+//     */
+//    public  List<DataLabelInfo> save_all_parents(String child,Map<String,String> childtpparent,Map<String,List<String>> parenttochild,DataInfo data ) throws Exception {
+//
+//
+//        String parent = childtpparent.get(child).trim();
+//        List<DataLabelInfo> dataLabelInfos=new ArrayList<DataLabelInfo>();
+//        Date now=new Date();
+//        SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        String ctime=dateFormat.format(now);
+//        while(parent.length()>0)
+//        {
+//            //将每个父标签打到子标签中,子标签微博中已经包含了该子标签下所有子标签的微博
+//            if(data==null) {
+//                //List<DataLabelInfo> Infos= save_parent(parent,child,parenttochild);
+//                List<DataLabelInfo> Infos = dataLabelInfoDAO.findByTag("+"+child);
+//                for(int i=0;i<Infos.size();i++)
+//                {
+//                    DataLabelInfo Info = Infos.get(i);
+//                    DataLabelInfo newinfo = new DataLabelInfo(new LabelDataSetKey(Info.getKey().getSince_id(), '+' + parent.trim()), Info.getWeibo_time(), Info.getWeibo_content(),Info.getCreate_time());
+//                    dataLabelInfos.add(newinfo);
+//                }
+//
+//            }
+//            //将每个父标签打到data中
+//            else{
+//                dataLabelInfos.add(new DataLabelInfo(new LabelDataSetKey(data.getSince_id(), '+'+parent), data.getWeibo_time(), data.getWeibo_content(),ctime));
+//
+//            }
+//            parent = childtpparent.get(parent).trim();
+//        }
+//        return dataLabelInfos;
+//    }
 
     /**
      * 标签新建
@@ -1106,7 +1132,101 @@ public class DataLabelController {
         return gson.toJson(status);
     }
 
+    /**
+     * 查看语料库
+     */
+    @GetMapping("/DBlookservice")
+    @ResponseBody
+    public String returnlook( @RequestParam("look_db") String look_db) {
+        Gson gson = new Gson();
+        look_db=look_db.trim();
 
+        return gson.toJson("");
+    }
+
+
+    /**
+     * 删除语料库
+     */
+    @GetMapping("/DBdelservice")
+    @ResponseBody
+    public String dedel( @RequestParam("del_db") String del_db) {
+        Gson gson = new Gson();
+        Map status = new HashMap<String, Boolean>();
+        try{
+            del_db=del_db.trim().split("\\(")[0].trim();
+            if(del_db.length()<=0||del_db.contains(Label_data_set))//不允许删除总表
+            {
+                status.put("status",false);
+                return gson.toJson(status);
+            }
+            dataLabelInfoDAO.drop_table(del_db);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            status.put("status",false);
+            return gson.toJson(status);
+        }
+        status.put("status",true);
+        return gson.toJson(status);
+    }
+
+    /**
+     * 创建语料库
+     */
+    @GetMapping("/DBcreateservice")
+    @ResponseBody
+    public String createdb( @RequestParam("create_name") String create_name,@RequestParam("create_people") String create_people,@RequestParam("target_labels") List<String> target_labels) {
+        Map status = new HashMap<String, Boolean>();
+        Gson gson = new Gson();
+        try {
+            create_name = create_name.trim();
+            create_people = create_people.trim();
+            //检查参数，不能为空,语料库命名必须规范
+            if (create_name.length() <= 0 || create_people.length() <= 0 || target_labels.size() <= 0 || !create_name.substring(0, 6).equals(Label_table_prefix + "_") || create_name.substring(6).length() <= 0||dataLabelInfoDAO.exist_table(create_name)) {
+                status.put("status", false);
+                return gson.toJson(status);
+            }
+            Set<String> targets = new HashSet<String>(target_labels);//去重
+            Map<String, Map> relation = get_label_relation();
+            Map<String, List<String>> parenttochild = relation.get("parenttochild");
+            Date now=new Date();
+            SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String ctime=dateFormat.format(now);
+            String comment="";
+            dataLabelInfoDAO.create_table(create_name);
+            for (String label : targets) {
+                label = label.trim();
+                if (label.length()<=0||!labelRelationInfoDAO.exists(label))
+                    continue;
+                List<String> child_list = get_all_child(label, parenttochild);
+                boolean haslabel=false;//只有插入到表中才算有效，写入到注释中
+                for(int i=0;i<child_list.size();i++)//对每个label，将所有的子标签微博都抽取出来
+                {
+                    String tag="+"+child_list.get(i);
+                    List<DataLabelInfo>dataLabelInfos= dataLabelInfoDAO.replaceTag(tag,"+"+label);
+
+                    if(dataLabelInfos.size()>0) {
+                        dataLabelInfoDAO.insert(dataLabelInfos, create_name);
+                        haslabel=true;
+                    }
+                }
+                if(haslabel)
+                {
+                    comment+="+"+label;
+                }
+            }
+            comment+="#"+create_people+"#"+ctime;//表的注释包括包含的标签，创建人和时间，用#隔开
+            dataLabelInfoDAO.add_table_comment(create_name,comment);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            status.put("status", false);
+            return gson.toJson(status);
+        }
+        status.put("status", true);
+        return gson.toJson(status);
+    }
 }
 
 

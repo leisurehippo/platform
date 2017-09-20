@@ -31,9 +31,9 @@ public class TableInfoDAO {
     private JdbcTemplate jdbcTemplate;
 
     @Transactional(readOnly = true)
-    public List<TableInfo> findTableAndComment(String database)
+    public List<TableInfo> findTableAndComment()
     {
-
+        String database = getDatabaseName();
         return jdbcTemplate.query("select table_name,table_comment from information_schema.tables where table_schema = ? "
            ,new Object[]{database} , new TableInfoRowMapper());
     }
