@@ -635,11 +635,15 @@
       if (this.pickerPosition === 'top-left' || this.pickerPosition === 'top-right') {
         top = offset.top - this.picker.outerHeight();
       } else {
+        if(typeof(this.height)=="undefined")
+        {
+          this.picker.hide();
+        }
         top = offset.top + this.height;
       }
 
-      top = top - containerOffset.top;
-      left = left - containerOffset.left;
+      top = top- containerOffset.top;
+      left = left- containerOffset.left;
 
       this.picker.css({
         top:    top,

@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -47,7 +48,13 @@ public class DataInfoDAO {
 
     public DataInfo findBySince_id(String dbname,String id)
     {
-        return jdbcTemplate.queryForObject("select since_id,weibo_time,weibo_content from "+dbname+" where since_id=?", new Object[]{id},new DataInfoRowMapper());
+        DataInfo result=null;
+        try {
+            result= jdbcTemplate.queryForObject("select since_id,weibo_time,weibo_content from " + dbname + " where since_id=?", new Object[]{id}, new DataInfoRowMapper());
+        }catch (EmptyResultDataAccessException e){
+            result=null;
+        }
+        return result;
     }
 
     public List<DataInfo> fliterByTimeAndKey(String dbname,String timestart,String timeend,String keysentence,int start,int num_per_search)

@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 
 @Entity
-@Table(name="label_data_set")
+//@Table(name="label_data_set")
 public class DataLabelInfo implements Serializable{
 
     private static final long serialVersionUID = 1L;
@@ -20,14 +20,16 @@ public class DataLabelInfo implements Serializable{
     @EmbeddedId LabelDataSetKey key;
     private  String weibo_content;
     private String weibo_time;
+    private  String create_time;
 
     public DataLabelInfo(){
     }
 
-    public DataLabelInfo(LabelDataSetKey _key,String time,String content){
+    public DataLabelInfo(LabelDataSetKey _key,String time,String content,String ctime){
         key=_key;
         weibo_content=content;
         weibo_time=time;
+        create_time=ctime;
 
     }
 
@@ -43,6 +45,8 @@ public class DataLabelInfo implements Serializable{
         return weibo_time;
     }
 
+    public String getCreate_time(){return create_time;}
+
     public void setKey(LabelDataSetKey _key){
         this.key=_key;
     }
@@ -55,9 +59,11 @@ public class DataLabelInfo implements Serializable{
         this.weibo_time=weibo_time;
     }
 
+    public void setCreate_time(String ctime){this.create_time=ctime;}
+
     public  String toString()
     {
-        return  "since_id: "+key.getSince_id()+" tag: "+key.getTag()+" weibo_content: "+weibo_content+" weibo_time: "+weibo_time;
+        return  "since_id: "+key.getSince_id()+" tag: "+key.getTag()+" weibo_content: "+weibo_content+" weibo_time: "+weibo_time+" create_time: "+create_time;
     }
 
 

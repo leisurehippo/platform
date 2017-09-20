@@ -277,7 +277,7 @@ def gen_model(raw_data, fea_th = 0.01, fea_imp_uri = ''):
 		 scale_pos_weight=1,
 		 seed=27)
     print 'trainX shape =',trainX.shape
-    
+    print trainY
     model = modelfit(xgb1, trainX, trainY)
     
     if len(fea_imp_uri)>0 :
@@ -300,6 +300,7 @@ def model_pred(raw_data, model_uri, proba_th = 0.5):
     if not os.path.exists(model_uri):
         raw_data['tag'] = 1
         raw_data['proba'] = 1
+        print "Error: can't find model!!!"
         return raw_data[['since_id','time','weibo_content','tag','proba']]
     model = joblib.load(model_uri)
     
@@ -379,8 +380,12 @@ def multi_tag_incremental_train(raw_data_uri, model_save_uri, fea_imp_uri = '', 
     print 'data processing...'
     raw_data = pd.read_table(raw_data_uri,sep = '\t',header = None, names = ['since_id','time','weibo_content','tag'])
     raw_data = raw_data.loc[~raw_data[u'weibo_content'].isnull(),:]
-    raw_data.reset_index(drop = True,inplace = True)    
-    raw_data['tag'] = raw_data['tag'].apply(lambda x: x.strip())
+    raw_data.reset_index(drop = True,inplace = True)
+    if raw_data['tag'].dtype != 'O':
+        # '+123456' pandas 读进来时变成了 123456，这里转为 '+123456'        
+        raw_data['tag'] = raw_data['tag'].apply(lambda x: '+' + str(x).strip())
+    else:
+        raw_data['tag'] = raw_data['tag'].apply(lambda x: x.strip())
     
     for words in filter_words:
         fix_index = raw_data.loc[raw_data.weibo_content.str.find(words) != -1, u'weibo_content'].index
@@ -420,15 +425,20 @@ def gen_multi_model(raw_data_uri, model_save_uri, fea_th=0.01, fea_imp_uri = '',
     fea_imp_uri : 模型的特征重要性保存的位置，长度为0则不保存,精确到文件夹，如 /home/tmp/
     '''
     
-#    #just test
+    #just test
 #    model_save_uri= u'./xgb_model/'
-#    raw_data_uri = u'../data/api_test_data.txt'
+#    raw_data_uri = u'../data/api_test_int_type.txt'
 #    fea_imp_uri = u'../data/tmp.csv'
     
     raw_data = pd.read_table(raw_data_uri,sep = '\t',header = None, names = ['since_id','time','weibo_content','tag'])
     raw_data = raw_data.loc[~raw_data[u'weibo_content'].isnull(),:]
     raw_data.reset_index(drop = True,inplace = True)
-    raw_data['tag'] = raw_data['tag'].apply(lambda x: x.strip())
+    if raw_data['tag'].dtype != 'O':
+        # '+123456' pandas 读进来时变成了 123456，这里转为 '+123456'        
+        raw_data['tag'] = raw_data['tag'].apply(lambda x: '+' + str(x).strip())
+    else:
+        raw_data['tag'] = raw_data['tag'].apply(lambda x: x.strip())
+        
     
     for words in filter_words:
         fix_index = raw_data.loc[raw_data.weibo_content.str.find(words) != -1, u'weibo_content'].index
@@ -469,18 +479,21 @@ def data_pred(raw_data_uri, model_uri, rst_save_uri, proba_th=0.5, filter_words 
     '''
     
 #    #just test
-#    raw_data_uri = u'../data/api_test_data.txt'
+#    raw_data_uri = u'../data/temp_hkEVi6zRYKUvW-rlpVNMFaqeYTmw1_ZyTYMZ_JaW.txt'
 #    model_uri= u'./xgb_model/'
-#    rst_save_uri = u'../data/tmp/'
+#    rst_save_uri = u'../data/tmp/test.txt'
     
     raw_data = pd.read_table(raw_data_uri, sep = '\t',header = None, names = ['since_id','time','weibo_content','tag'])
     raw_data = raw_data.loc[~raw_data[u'weibo_content'].isnull(),:]
     raw_data.reset_index(drop = True,inplace = True)
-    # for i,x in enumerate(raw_data['tag']):
-    #     if isinstance(x,float):
-    #         print i
-    raw_data['tag'] = raw_data['tag'].apply(lambda x: x.strip())  
-        
+
+
+    if raw_data['tag'].dtype != 'O':
+        # '+123456' pandas 读进来时变成了 123456，这里转为 '+123456'
+        raw_data['tag'] = raw_data['tag'].apply(lambda x: '+' + str(x).strip())
+    else:
+        raw_data['tag'] = raw_data['tag'].apply(lambda x: x.strip())
+
     for words in filter_words:
         fix_index = raw_data.loc[raw_data.weibo_content.str.find(words) != -1, u'weibo_content'].index
         raw_data.loc[fix_index, u'weibo_content'] = raw_data.loc[fix_index,u'weibo_content'].apply(lambda x: x.replace(words,''))
@@ -501,7 +514,6 @@ def data_pred(raw_data_uri, model_uri, rst_save_uri, proba_th=0.5, filter_words 
       
 if __name__ == "__main__":
     import os
-    print os.getcwd()
     _type = sys.argv[1].strip()
     if _type == 'predict':
         data_pred(sys.argv[2].strip(),sys.argv[3].strip(),sys.argv[4].strip())

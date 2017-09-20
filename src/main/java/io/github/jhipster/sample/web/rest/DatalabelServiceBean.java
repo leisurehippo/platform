@@ -26,6 +26,7 @@ public class DatalabelServiceBean {
     @Autowired
     private LabelRelationInfoDAO labelRelationInfoDAO;
 
+
     public void update_label_set(String old_name,String new_name) throws Exception{
         Set<String> oldids = dataLabelInfoDAO.get_sinceidByTag("+"+old_name);
         Set<String> newids = dataLabelInfoDAO.get_sinceidByTag("+"+new_name);

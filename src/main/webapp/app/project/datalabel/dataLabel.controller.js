@@ -48,36 +48,52 @@ function DataLabelController($scope, $http, $state,$injector, dataLabelservice,S
 //    $injector.get('$templateCache').removeAll();
     $('#myModal').modal({keyboard:false,backdrop:'static',show:false});
     $('#waitModal').modal({keyboard:false,backdrop:'static',show:false});
-    get_init(true);
+    get_init(1);
     $scope.$on("$destroy",rm_dialog);
+    $('.form_datetime').datetimepicker({
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        minView:2,
+        });
+
+
 
     /**
           跟后台同步参数，关闭模态框时更新
     */
     $(function () { $('#myModal').on('hide.bs.modal', function () {
-     get_init(false);
+     get_init(0);
      })
      });
 
     /**
          向后台请求初始化参数
      */
-    function get_init(get_dbname)
+    function get_init(get_dbname_type)
     {
         $scope.labels=[];
-        Initservice.get({get_dbname:get_dbname},function success(result)
+        Initservice.get({get_dbname_type:get_dbname_type},function success(result)
         {
 
             for(label in result.all_label)
             {
                 $scope.labels.push(label);
            }
-           if(get_dbname)//获取最新的数据库表
+           if(get_dbname_type==1)//获取最新的数据库表
            {
                 $scope.dbnames=[];
                 for(j in result.all_dbnames)
                     {
                         db=result.all_dbnames[j];
+                        var comment = result.comment_content[j];
+                        if(comment!=""){
+                            db=db+"("+comment+")";
+                        }
                         $scope.dbnames.push(db);
                    }
             }
