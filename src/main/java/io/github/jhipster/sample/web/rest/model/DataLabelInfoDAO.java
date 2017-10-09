@@ -64,7 +64,7 @@ public class DataLabelInfoDAO {
     {
         String sql="update "+Label_Table_Name+" set tag=? where tag=? and since_id=? ";
         Object[] params=new Object[]{new_name,old_name,old_id};
-        int[] types = new int[]{Types.VARCHAR,Types.VARCHAR};
+        int[] types = new int[]{Types.VARCHAR,Types.VARCHAR,Types.VARCHAR};
         jdbcTemplate.update(sql,params,types);
     }
 
@@ -185,6 +185,22 @@ public class DataLabelInfoDAO {
     public void drop_table(String del_db) {
         String sql="drop table "+del_db;
         jdbcTemplate.update(sql);
+    }
+
+    @Transactional(readOnly = true)
+    public List<DataLabelInfo> findAll(String look_db) {
+        return jdbcTemplate.query("select * from "+look_db,new Object[]{},new DataLabelInfoRowMapper());
+    }
+
+    @Transactional(readOnly = true)
+    public List<DataLabelInfo> findAllbypage(String db,int start,int page)
+    {
+        return jdbcTemplate.query("select * from "+db+" limit ?,?",new Object[]{start,page},new DataLabelInfoRowMapper());
+    }
+
+    @Transactional(readOnly = true)
+    public int count(String db) {
+        return jdbcTemplate.queryForObject("select count(*) from "+db,Integer.class);
     }
 }
 

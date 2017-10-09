@@ -29,6 +29,7 @@ function DataLabelController($scope, $http, $state,$injector, dataLabelservice,S
     $scope.nodbname=false;
     $scope.notag=false;
     $scope.nokey=false;
+    $scope.check_time=true;
     $scope.labelexist=false;
     $scope.wait_show=false;
     $scope.tree_url="tree.png";
@@ -74,17 +75,18 @@ function DataLabelController($scope, $http, $state,$injector, dataLabelservice,S
     /**
          向后台请求初始化参数
      */
-    function get_init(get_dbname_type)
+    function get_init(init_type)
     {
         $scope.labels=[];
-        Initservice.get({get_dbname_type:get_dbname_type},function success(result)
+        $scope.jump_page="";
+        Initservice.get({init_type:init_type},function success(result)
         {
 
             for(label in result.all_label)
             {
                 $scope.labels.push(label);
            }
-           if(get_dbname_type==1)//获取最新的数据库表
+           if(init_type==1)//获取最新的数据库表,只有初始时会同步，否则会丢失已经选择的数据库
            {
                 $scope.dbnames=[];
                 for(j in result.all_dbnames)
@@ -202,14 +204,10 @@ function DataLabelController($scope, $http, $state,$injector, dataLabelservice,S
             console.log(result);
             page=result.page;
             show_content(result);
-            if(result.response_code==1)
-                alert("已经是最后一页了！");
-            else if(result.response_code==-2)
-                alert("新建标签不能与已有标签重复！");
-             else if(result.response_code==-1)
-                alert("服务器发生错误！");
-              else if(result.response_code==-3)
-                  alert("(父)标签不存在，可能已经被删除！");
+            if(result.response_code<0)
+                alert(result.response_str);
+             else if(result.response_code==1)
+                alert("已经到达最后一页！");
 
         },function failure() {
             $('#waitModal').modal('hide');
@@ -251,21 +249,9 @@ function DataLabelController($scope, $http, $state,$injector, dataLabelservice,S
         $('#waitModal').modal('hide');
         $('#myModal').modal('show');
         console.log(result);
-
-        if(result.response_code==-1)
-        {
-            alert("数据库写入发生错误，成功写入"+result.success_count+"条！");
-        }
-        else if(result.response_code==-2){
-             alert("新建标签不能与已有标签重复！");
-        }
-        else if(result.response_code==-3)
-             alert("(父)标签不存在，可能已经被删除！");
-        else{
-            alert("写入成功，写入"+result.success_count+"条！");
+        alert(result.response_str);
+        if(result.response_code>=0){
             page=result.page;
-            if(result.response_code==1)
-                alert("已经是最后一页了！");
             show_content(result);
         }
          },function () {
@@ -289,6 +275,10 @@ function DataLabelController($scope, $http, $state,$injector, dataLabelservice,S
         else{
             $scope.nodbname=false;
         }
+        if($scope.selecttime&&($scope.timestart==""||$scope.timeend==""))
+            $scope.check_time=false;
+        else
+            $scope.check_time=true;
         if($scope.type)//数据库搜索页
         {
             if($scope.selectkey&&!$scope.keywords)
@@ -315,9 +305,6 @@ function DataLabelController($scope, $http, $state,$injector, dataLabelservice,S
          else{
             $scope.notag=false;
          }
-         console.log($scope.newlabel);
-         console.log($scope.labels);
-        console.log($.inArray($scope.newlabel,$scope.labels));
         if(!$scope.selectoldlabel && $.inArray($scope.newlabel,$scope.labels)>=0)
         {
             $scope.labelexist=true;
@@ -325,7 +312,7 @@ function DataLabelController($scope, $http, $state,$injector, dataLabelservice,S
         else{
             $scope.labelexist=false;
         }
-        if($scope.notag||$scope.nokey||$scope.nodbname||$scope.labelexist)
+        if($scope.notag||$scope.nokey||$scope.nodbname||$scope.labelexist||!$scope.check_time)
         {
             return false;
          }
@@ -346,7 +333,7 @@ function DataLabelController($scope, $http, $state,$injector, dataLabelservice,S
                 var p = parseInt($scope.jump_page);
                 if(p>totalPages)
                 {
-                    p=totalPages
+                    p=totalPages;
                 }
                 if(p<1)
                 {

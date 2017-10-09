@@ -9,101 +9,110 @@
 </ul>
 <br />
 
-
-<div >
-
-    <div>
-        <label>
-            关键词:&nbsp;&nbsp;
+<form class="form-horizontal" style="margin-top:20px">
+    <div class="form-group" >
+        <label class="col-sm-2 control-label">
+            关键词:
         </label>
-        <input type="text" placeholder="keywords" style="width:500px;" ng-model="keywords" ng-trim="true" >&nbsp;（以+号连接多个关键词）
-        <span ng-show="nokey" style="color:red">关键词是必须的！</span>
-    </div>
-
-
-    <div>
-        <label>
-            <input type="checkbox" ng-model="selecttime" ng-init="selecttime=false">时间范围:
-        </label>
-    </div>
-    <div ng-show="selecttime">
-        <div class="container" >
-            <form action="" class="form-horizontal"  role="form">
-                <fieldset>
-
-                    <div class="form-group">
-
-                        <div class="input-group date form_datetime col-md-3" style="float:left;" data-date-format="yyyy-mm-dd" data-link-field="dtp_input1">
-                            <input class="form-control" size="16" type="text" value="" ng-model="timestart" readonly>
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                        </div>
-
-                        <div >
-                            <label for="dtp_input1" class="col-md-1 control-label" style="width:3.3333333333%;float:left;">到</label>
-                        </div>
-
-                        <div class="input-group date form_datetime col-md-3" style="float:left;"  data-date-format="yyyy-mm-dd" data-link-field="dtp_input1">
-                            <input class="form-control" size="16" type="text" value="" ng-model="timeend" readonly>
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
-                        </div>
-
-                        <input type="hidden" id="dtp_input1" value="" /><br/>
-                    </div>
-
-                </fieldset>
-            </form>
+        <div class="col-sm-5">
+            <input type="text" class="form-control"  placeholder="keywords"  ng-model="keywords" ng-trim="true" >（以+号连接多个关键词）
+            <span ng-show="nokey" style="color:red">关键词是必须的！</span>
         </div>
     </div>
-    <script type="text/javascript">
-    $('.form_datetime').datetimepicker({
-        language:  'zh-CN',
-        weekStart: 1,
-        todayBtn:  1,
-    autoclose: 1,
-    todayHighlight: 1,
-    startView: 2,
-    forceParse: 0,
-    minView:2,
-    });
-</script>
 
-    <div>
-        <label>
-            标签选择:
-        </label>
+    <div class="form-group" >
+        <div class="col-sm-2 control-label">
+            <label>
+                <input type="checkbox"  ng-model="selecttime" ng-init="selecttime=false">时间范围:
+            </label>
+        </div>
+        <div class="col-sm-5">
+            <div class="container" >
+                    <fieldset>
+                        <div class="form-group">
+                            <div class="input-group date form_datetime col-md-3" style="float:left;" data-date-format="yyyy-mm-dd" data-link-field="dtp_input1">
+                                <input class="form-control" size="16" type="text" value="" ng-model="timestart" readonly ng-disabled="!selecttime">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+
+                            <div >
+                                <label for="dtp_input1" class="col-md-1 control-label" style="width:3.3333333333%;float:left;">到</label>
+                            </div>
+
+                            <div class="input-group date form_datetime col-md-3" style="float:left;"  data-date-format="yyyy-mm-dd" data-link-field="dtp_input1">
+                                <input class="form-control" size="16" type="text" value="" ng-model="timeend" readonly ng-disabled="!selecttime">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
+                            </div>
+                            <input type="hidden" id="dtp_input1" value="" /><br/>
+                        </div>
+                    </fieldset>
+            </div>
+        </div>
     </div>
-    <form>
-        <div>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio"  name="labelselect" ng-value="true"  ng-model="selectoldlabel" ng-init="selectoldlabel=true" />
-            已有标签:
-            <select name="labels" style="width:80px;height:25px"  ng-model="oldlabel" ng-disabled="!selectoldlabel">
+
+    <div class="form-group" style="margin-top:-15px" >
+        <div class="col-sm-2 control-label">
+            <label >
+                标签选择:
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group" >
+        <div class="col-sm-2 control-label">
+            <label >
+                <input type="radio"  name="labelselect" ng-value="true"  ng-model="selectoldlabel" ng-init="selectoldlabel=true" />已有标签:
+            </label>
+        </div>
+        <div class="col-sm-5" >
+            <select name="labels" class="form-control"   ng-model="oldlabel" ng-disabled="!selectoldlabel">
                 <option data-ng-repeat="x in labels">{{x}} </option>
             </select>
-            <span ng-show="notag&&selectoldlabel" style="color:red">标签是必须的！</span>
-        </div><div style="padding-top:10px">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio"  name="labelselect" ng-value="false"  ng-model="selectoldlabel" ng-trim="true" />
-        写入新标签:
-        <input type="text" placeholder="label" style="width:500px;"  ng-model="newlabel" ng-disabled="selectoldlabel" />
-        <span ng-show="notag&&!selectoldlabel" style="color:red">标签是必须的！</span>
+            <span ng-show="notag&&selectoldlabel" style="color:red">标签不能为空！</span>
+        </div>
     </div>
-    </form>
-    <br />
-    <div style="height:30px">
-        <label>写入数据库:&nbsp;&nbsp;</label>
-        <input type="text" placeholder="dbname" style="width:500px;" ng-model="dbname" ng-trim="true">
-        <span ng-show="nodbname" style="color:red">数据库名称是必须的！</span>
+
+    <div class="form-group" >
+        <label class="col-sm-2 control-label">
+            <input type="radio"  name="labelselect"  ng-value="false"  ng-model="selectoldlabel" ng-trim="true" />写入新标签:
+        </label>
+        <div class="col-sm-5">
+            <input type="text" placeholder="label" class="form-control"  ng-model="newlabel" ng-disabled="selectoldlabel" ng-trim="true" />
+            <span ng-show="notag&&!selectoldlabel" style="color:red">标签是必须的！</span>
+            <span ng-show="labelexist" style="color:red">新标签不能和已有标签一样！</span>
+            <br />
+        </div>
+    </div>
+
+    <div class="form_group" style="margin-top:-15px">
+        <div class="col-sm-2"></div>
+        <label class="col-sm-2 control-label" style="margin-left:-100px">
+            <input type="checkbox" ng-model="ischildlabel" ng-init="ischildlabel=false" ng-disabled="selectoldlabel"  >选择父标签:
+        </label>
+        <div class="col-sm-3">
+            <select name="alllabel"  class="form-control"  ng-model="parentlabel" ng-disabled="selectoldlabel||!ischildlabel" ng-trim="true">
+                <option data-ng-repeat="x in labels">{{x}} </option>
+            </select>
+        </div>
+        <button type="button" class="btn btn-primary " style="margin-left:20px;padding-top:5px;height:30px" ng-click="draw()">查看标签树</button>
+        <div ng-if="showtree">
+            <br />
+            <img ng-src="{{tree_url}}">
+        </div>
     </div>
 
     <br />
     <div align="center">
-        <button type="button" class="btn btn-primary " ng-click="run(1)" >搜索</button>
+        <button type="button" class="btn btn-primary " ng-click="run()" >搜索</button>
     </div>
-</div>
+
+</form>
 
 
 <div>
-    <div class="modal in " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"  >
+    <div class="modal in " id="myModal"  >
         <div class="modal-dialog">
+
             <li class="modal-content" style="width:800px">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -129,14 +138,14 @@
                 <div id="get_content">
 
                 </div>
-
             </li>
+
         </div>
 
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">关闭
             </button>
-            <button type="button" class="btn btn-primary" ng-click="submit(1)">
+            <button type="button" class="btn btn-primary" ng-click="submit()">
                 提交
             </button>
         </div>
@@ -144,11 +153,12 @@
 </div>
 
 
+
 <div>
-    <div class="modal  in" id="waitModal" tabindex="-1" role="dialog" aria-labelledby="waitModalLabel" aria-hidden="true" >
+    <div class="modal  in" id="waitModal" >
         <table width=100% height=100%>
             <tr><td><center>
-                <img src="wait.gif" style="width:50%;height:50%;">
+                <img src="wait.gif" style="width:20%;height:20%;">
             </center></td></tr>
         </table>
     </div>

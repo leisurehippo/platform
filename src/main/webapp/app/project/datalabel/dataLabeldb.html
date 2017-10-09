@@ -13,12 +13,12 @@
 
 <form class="form-horizontal" style="margin-top:20px">
     <div class="form-group" >
-        <label  class="col-sm-2 control-label">数据库名称:</label>
+        <label  class="col-sm-2 control-label">表名称:</label>
         <div class="col-sm-5">
             <select class="form-control" ng-model="dbname" ng-trim="true">
                 <option data-ng-repeat="y in dbnames">{{y}}</option>
             </select>
-            <span ng-show="nodbname" style="color:red">数据库名称是必须的！</span>
+            <span ng-show="nodbname" style="color:red">数据库名称不能为空！</span>
         </div>
     </div>
 
@@ -30,7 +30,7 @@
         </div>
         <div class="col-sm-5">
             <input type="text" class="form-control"  placeholder="keywords"  ng-model="keywords" ng-trim="true" ng-disabled="!selectkey">（以+号连接多个关键词）
-            <span ng-show="nokey" style="color:red">关键词是必须的！</span>
+            <span ng-show="nokey" style="color:red">关键词不能为空！</span>
         </div>
         </div>
     </div>
@@ -58,9 +58,11 @@
                                 <input class="form-control" size="16" type="text" value="" ng-model="timeend" readonly ng-disabled="!selecttime">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-th"></span></span>
                             </div>
-
+                            <div style="margin-top:8px;padding-left:520px">(不包括最后一天)</div>
                             <input type="hidden" id="dtp_input1" value="" /><br/>
+
                         </div>
+                        <span ng-show="!check_time" style="color:red">时间不能为空！</span>
                     </fieldset>
                 </div>
             </div>
@@ -84,7 +86,7 @@
             <select name="labels" class="form-control"   ng-model="oldlabel" ng-disabled="!selectoldlabel">
                 <option data-ng-repeat="x in labels">{{x}} </option>
             </select>
-            <span ng-show="notag&&selectoldlabel" style="color:red">标签是必须的！</span>
+            <span ng-show="notag&&selectoldlabel" style="color:red">标签不能为空！</span>
         </div>
     </div>
 
@@ -94,7 +96,7 @@
         </label>
         <div class="col-sm-5">
             <input type="text" placeholder="label" class="form-control"  ng-model="newlabel" ng-disabled="selectoldlabel" ng-trim="true" />
-            <span ng-show="notag&&!selectoldlabel" style="color:red">标签是必须的！</span>
+            <span ng-show="notag&&!selectoldlabel" style="color:red">标签不能为空！</span>
             <span ng-show="labelexist" style="color:red">新标签不能和已有标签一样！</span>
             <br />
         </div>
@@ -113,7 +115,7 @@
             <button type="button" class="btn btn-primary " style="margin-left:20px;padding-top:5px;height:30px" ng-click="draw()">查看标签树</button>
             <div ng-if="showtree">
                 <br />
-                <img ng-src="{{tree_url}}">
+                <img ng-src="{{tree_url}}" style="width:100%;height:100%">
             </div>
     </div>
 </form>
@@ -122,12 +124,13 @@
     <div align="center">
         <button type="button" class="btn btn-primary " ng-click="run()" >搜索</button>
     </div>
-</div>
+
 
 
 <div>
 <div class="modal in " id="myModal"  >
     <div class="modal-dialog">
+
         <li class="modal-content" style="width:800px">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -153,8 +156,8 @@
             <div id="get_content">
 
             </div>
-
         </li>
+
     </div>
 
     <div class="modal-footer">

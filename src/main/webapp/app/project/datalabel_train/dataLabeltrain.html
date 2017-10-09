@@ -10,26 +10,39 @@
     <div class="form-group" >
         <label  class="col-sm-2 control-label">选择训练标签:</label>
         <div class="col-sm-5">
-            <select class="form-control" ng-model="train_label" ng-trim="true">
+            <select class="form-control" ng-model="train_label" ng-trim="true" >
                 <option data-ng-repeat="y in labels">{{y}}</option>
             </select>
+            <span ng-show="!check_train_label" style="color:red">标签不能为空！</span>
+            <p id="text1" style="color:blue;padding-top:5px" ng-moel="uptimes[train_label]">{{uptimes[train_label]}}</p>
         </div>
     </div>
-    <div class="form-group" >
-    <label  class="col-sm-2 control-label">选择训练方式:</label>
-    <div class="col-sm-5">
-        <select class="form-control" ng-model="train_all" ng-trim="true">
-            <option value="true">重新提取特征并训练</option>
-            <option value="false">保持原有特征进行增量训练</option>
-        </select>
-    </div>
-    </div>
+    <!--<div class="form-group" >-->
+    <!--<label  class="col-sm-2 control-label">选择训练方式:</label>-->
+    <!--<div class="col-sm-5">-->
+        <!--<select class="form-control" ng-model="train_all" ng-trim="true">-->
+            <!--<option value="true">重新提取特征并训练</option>-->
+            <!--<option value="false">保持原有特征进行增量训练</option>-->
+        <!--</select>-->
+        <!--<span ng-show="!check_train_all" style="color:red">训练方式不能为空！</span>-->
+    <!--</div>-->
+    <!--</div>-->
 </form>
 
 
 
-<div align="center">
+<div align="center" style="margin-top:20px">
     <button type="button" class="btn btn-primary " ng-click="submit()" >确定</button>
+</div>
+
+<div>
+    <div class="modal  in" id="waitModal" >
+        <table width=100% height=100%>
+            <tr><td><center>
+                <img src="wait.gif" style="width:20%;height:20%;">
+            </center></td></tr>
+        </table>
+    </div>
 </div>
 
 </body>

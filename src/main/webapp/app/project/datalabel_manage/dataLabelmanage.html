@@ -10,7 +10,7 @@
 
 <div class="radio" style="margin-bottom:20px" >
     <label>
-        <input type="radio" name="label" ng-value="'look'" ng-model="dbcontrol"  >
+        <input type="radio" name="label" ng-value="'look'" ng-model="dbcontrol"  ng-change="radio_change()">
         语料库查看
     </label>
     <div ng-show="dbcontrol=='look'">
@@ -21,6 +21,7 @@
                     <select id="db1" ng-change="when_change(1)"  class="form-control" ng-model="look_db" ng-trim="true">
                         <option data-ng-repeat="y in dbs">{{y}}</option>
                     </select>
+                    <span ng-show="!check_label" style="color:red">语料库不能为空！</span>
                 </div>
                 <p id="text1" style="color:blue;padding-top:5px" ></p>
             </div>
@@ -30,7 +31,7 @@
 
 <div class="radio" style="margin-bottom:20px">
     <label>
-        <input type="radio" name="label" ng-value="'create'" ng-model="dbcontrol"  >
+        <input type="radio" name="label" ng-value="'create'" ng-model="dbcontrol"  ng-change="radio_change()" >
         语料库创建
     </label>
     <div ng-show="dbcontrol=='create'">
@@ -39,6 +40,7 @@
                 <label  class="col-sm-2 control-label">目标标签数量:</label>
                 <div class="col-sm-5">
                     <input type="text" class="form-control" placeholder="num" ng-model="label_num" ng-trim="true">
+                    <span ng-show="!check_num" style="color:red">必须为有效正数！</span>
                 </div>
             </div>
             <div data-ng-repeat="x in range(label_num) track by $index">
@@ -57,6 +59,9 @@
                 <label class="col-sm-1 control-label" style="margin-left:-10px;margin-right:-20px">label_</label>
                 <div class="col-sm-5">
                     <input type="text" style="width:87%" class="form-control" placeholder="name" ng-model="input_db" ng-trim="true">
+                    <span ng-show="!check_label" style="color:red">名称不能为空！</span>
+                    <span ng-show="check_exist" style="color:red"> 语料库名称已存在！</span>
+                    <span ng-show="!check_name" style="color:red">不允许带有label_data_set，请重新命名！</span>
                 </div>
             </div>
 
@@ -64,6 +69,7 @@
             <label  class="col-sm-2 control-label">创建人:</label>
             <div class="col-sm-5">
                 <input type="text" class="form-control" placeholder="name" ng-model="create_people" ng-trim="true">
+                <span ng-show="!check_people" style="color:red">创建人不能为空！</span>
             </div>
             </div>
 
@@ -81,7 +87,7 @@
 
 <div class="radio" style="margin-bottom:20px">
     <label>
-        <input type="radio" name="label" ng-value="'del'" ng-model="dbcontrol"  >
+        <input type="radio" name="label" ng-value="'del'" ng-model="dbcontrol"  ng-change="radio_change()" >
         语料库删除
     </label>
     <div ng-show="dbcontrol=='del'">
@@ -92,6 +98,8 @@
                     <select id="db2" ng-change="when_change(2)" class="form-control" ng-model="del_db" ng-trim="true">
                         <option data-ng-repeat="y in del_dbs">{{y}}</option>
                     </select>
+                    <span ng-show="!check_label" style="color:red">名称不能为空！</span>
+
                 </div>
                 <p id="text2" style="color:blue;padding-top:5px" ></p>
             </div>
@@ -102,5 +110,63 @@
 <div align="center">
     <button type="button" class="btn btn-primary " ng-click="submit()" >确定</button>
 </div>
+
+<div>
+    <div class="modal fade in " id="myModal"  >
+        <div class="modal-dialog">
+
+            <li class="modal-content" style="width:1300px;margin-left:-300px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h5 class="modal-title" id="myModalLabel" style="font-size:16px">
+                        语料库查看
+                    </h5>
+                </div>
+                <form class="form-inline">
+                    <div class="form-group">
+                        <ul id='page' ></ul>
+                    </div >
+                    <div style="float:right;margin-top:30px" >
+                        跳转到
+                        <input type="text" ng-model="jump_page" ng-trim="true" style="width:30px;height:25px" >&nbsp;页
+                        <button type="button" class="btn btn-primary" ng-click="jump()" style="margin-left:10px;height:30px;padding-top:3px">
+                            跳转
+                        </button>
+                    </div>
+
+                </form>
+                <div id="get_content">
+                    <table border="1" style="table-layout: fixed;word-break: break-all; word-wrap: break-word;font-size:16px">
+                        <tr >
+                            <th style="text-align:center;width:11%">id</th>
+                            <th style="text-align:center;width:67%">内容</th>
+                            <th style="text-align:center;width:13%">创建时间</th>
+                            <th style="text-align:center;width:9%">标签</th>
+                        </tr>
+                        <div >
+                            <tr data-ng-repeat="x in dataset">
+                                <td>{{x.since_id}}</td>
+                                <td style="padding-left:15px">{{x.weibo_content}}</td>
+                                <td style="padding-left:15px">{{x.create_time}}</td>
+                                <td style="padding-left:15px">{{x.tag}}</td>
+                            </tr>
+                        </div>
+                    </table>
+                </div>
+
+            </li>
+
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">关闭
+            </button>
+        </div>
+    </div><!-- /.modal-content -->
+</div>
+
+
 </body>
 </html>
