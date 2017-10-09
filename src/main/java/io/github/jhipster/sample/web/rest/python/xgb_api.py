@@ -476,12 +476,12 @@ def gen_multi_model(raw_data_uri, model_save_uri,train_label, fea_th=0.01, fea_i
         train_tag=all_tag
     elif train_label in all_tag:
         train_tag.append(train_label)
-    print train_tag
     for crt_tag in train_tag:
         crt_tag = crt_tag[1:]
         crt_data = raw_data.copy()
         crt_data.loc[:,'crt_tag'] = 0
         crt_data.loc[raw_data.tag.str[1:] == crt_tag,'crt_tag'] = 1
+        print crt_data['crt_tag'].value_counts()
         postive_ids = crt_data.loc[crt_data.crt_tag == 1,'since_id'].tolist()
         #去重
         crt_data = crt_data.loc[~((crt_data['crt_tag'] == 0) & (raw_data['since_id'].isin(postive_ids))),:]

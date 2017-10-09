@@ -1211,7 +1211,7 @@ public class DataLabelController {
             List<DataLabelInfo> dataLabelInfos = dataLabelInfoDAO.findAll(Label_data_set);
 
             FileWriter file = new FileWriter(path);
-            //写入该标签所有的微博到文件中
+            //写入所有的微博到文件中
             for(int i=0;i<dataLabelInfos.size();i++)
             {
                 DataLabelInfo info = dataLabelInfos.get(i);
