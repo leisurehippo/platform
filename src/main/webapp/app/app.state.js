@@ -428,9 +428,21 @@
                     controllerAs: 'vm'
                 }
             },
-            params: {
-
-            }
+            params: {}
+        }).state("visualization", {
+            url: "/data-visualization",
+            parent: 'app',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: "app/data-visualization/data-visualization.html",
+                    controller: "VisualizationController",
+                    controllerAs: 'vm'
+                }
+            },
+            params: {}
         });
     }
 })();
