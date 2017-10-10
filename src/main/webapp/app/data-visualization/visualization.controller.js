@@ -14,6 +14,9 @@ function VisualizationController($scope, $http, $state) {
     var t;
     var t2;
 
+    var pieChart1 = echarts.init(document.getElementById('dPie1'));
+    var pieChart2 = echarts.init(document.getElementById('dPie2'));
+    var defectLineData;
     var url = host + 'lines?callback=JSON_CALLBACK';
     $http.jsonp(url).success(function (data) {
         var lines = data;
@@ -33,7 +36,7 @@ function VisualizationController($scope, $http, $state) {
         //     '站点11': [120.4651,36.3373]    //青岛  00119007043000
         //
         // };
-        var myChart2 = echarts.init(document.getElementById('main'));
+        var mapChart = echarts.init(document.getElementById('main'));
         var geoCoordMap = {
             '00118000000100': [118.3118, 35.2936],  //临沂  00118000000100
             '00119006965550': [119.2786, 35.5023],   //日照 00119006965550
@@ -68,7 +71,8 @@ function VisualizationController($scope, $http, $state) {
                     key: key
                 });
                 yellowDataLine.push(lineName);
-            } else if (value.color == "蓝色") {
+            }
+            else if (value.color == "蓝色") {
                 var lineName = [];
                 lineName.push({
                     name: value.station_start
@@ -80,7 +84,8 @@ function VisualizationController($scope, $http, $state) {
                     key: key
                 });
                 blueDataLine.push(lineName);
-            } else if (value.color == "绿色") {
+            }
+            else if (value.color == "绿色") {
                 var lineName = [];
                 lineName.push({
                     name: value.station_start
@@ -93,7 +98,8 @@ function VisualizationController($scope, $http, $state) {
                 });
                 greenDataLine.push(lineName);
                 console.log(greenDataLine);
-            } else if (value.color == "红色") {
+            }
+            else if (value.color == "红色") {
                 var lineName = [];
                 lineName.push({
                     name: value.station_start
@@ -105,7 +111,8 @@ function VisualizationController($scope, $http, $state) {
                     key: key
                 });
                 redDataLine.push(lineName);
-            } else if (value.color == "深红色") {
+            }
+            else if (value.color == "深红色") {
                 var lineName = [];
                 lineName.push({
                     name: value.station_start
@@ -117,7 +124,8 @@ function VisualizationController($scope, $http, $state) {
                     key: key
                 });
                 crimsonDataLine.push(lineName);
-            } else if (value.color == "紫色") {
+            }
+            else if (value.color == "紫色") {
                 var lineName = [];
                 lineName.push({
                     name: value.station_start
@@ -130,8 +138,6 @@ function VisualizationController($scope, $http, $state) {
                 });
                 purpleDataLine.push(lineName);
             }
-
-
         });
 
         var convertData = function (data) {
@@ -162,18 +168,18 @@ function VisualizationController($scope, $http, $state) {
                 var dataItem = data[i];
                 array.push({
                     name: dataItem.station_start,
-                    value: geoCoordMap[dataItem.station_start],
+                    value: geoCoordMap[dataItem.station_start]
 
                 });
                 if (dataItem.station_start != dataItem.station_end) {
                     array.push({
                         name: dataItem.station_end,
-                        value: geoCoordMap[dataItem.station_end],
+                        value: geoCoordMap[dataItem.station_end]
                     });
                 }
             }
             return array;
-        }
+        };
 
 
         var color = ['yellow', 'green', 'blue', 'purple', 'red', 'crimson'];
@@ -243,7 +249,7 @@ function VisualizationController($scope, $http, $state) {
             {name: 'vlevel'},
             {name: 'importance'}
         ];
-        var option2 = {
+        var mapOption = {
             tooltip: {
                 padding: 10,
                 backgroundColor: '#222',
@@ -310,7 +316,7 @@ function VisualizationController($scope, $http, $state) {
             series: mapseries
         };
 
-        function changeInfo(params) {
+        function changeTableInfo(params) {
             $scope.lineInfo = lines[params.data.keyLine];
             $("#info").html(
                 "<h5>线路名称: " + $scope.lineInfo.line_name + "</h5>" +
@@ -334,13 +340,24 @@ function VisualizationController($scope, $http, $state) {
             );
             $("#navLine").css("border-top", "1px solid");
             $("#navLine").css("padding", "5px");
-
         }
 
-        myChart2.setOption(option2);
+        function changeDefectInfo(params) {
+            console.log("get the device_id of clicked line:" + lines[params.data.keyLine].device_id);
+            statisticsDefectLines(defectLineData, lines[params.data.keyLine].device_id);
+            console.log('get the information of defect-line pie1 chart of clicked line');
+            console.log(pieChart1.getOption());
+        }
+
+        function changeInfo(params) {
+            changeTableInfo(params);
+            changeDefectInfo(params);
+        }
+
+        mapChart.setOption(mapOption);
 
         //饼图
-        var myChart3 = echarts.init(document.getElementById('vPie'));
+        var voltagePieChart = echarts.init(document.getElementById('vPie'));
         var firstLevel = [];
         var secondLevel = [];
         var thirdLevel = [];
@@ -361,7 +378,7 @@ function VisualizationController($scope, $http, $state) {
                 });
             }
         });
-        var option3 = {
+        var voltagePieOption = {
             title: {
                 text: '电压等级分布',
                 x: 'center'
@@ -415,82 +432,82 @@ function VisualizationController($scope, $http, $state) {
                 }
             ]
         };
-        myChart3.setOption(option3);
-        myChart2.on('click', function (params) {
+        voltagePieChart.setOption(voltagePieOption);
+        mapChart.on('click', function (params) {
             clearTimeout(t);
             console.log(params);
             if (params.componentType == "series") {
                 if (params.seriesType == "lines") {
                     function set() {
-                        myChart3.setOption({
+                        voltagePieChart.setOption({
                             series: [{
                                 data: [
                                     {value: firstLevel.length, name: '交流110kV', itemStyle: {normal: {opacity: 1}}},
                                     {value: secondLevel.length, name: '交流220kV', itemStyle: {normal: {opacity: 1}}},
-                                    {value: thirdLevel.length, name: '交流500kV', itemStyle: {normal: {opacity: 1}}},
+                                    {value: thirdLevel.length, name: '交流500kV', itemStyle: {normal: {opacity: 1}}}
                                 ]
                             }]
                         });
-                        console.log(myChart3.getOption());
+                        console.log(voltagePieChart.getOption());
                     }
 
                     changeInfo(params);
                     if (params.data.vlevel == "交流110kV") {
-                        myChart3.setOption({
+                        voltagePieChart.setOption({
                             series: [{
                                 data: [
                                     {value: firstLevel.length, name: '交流110kV', itemStyle: {normal: {opacity: 0.5}}},
                                     {value: secondLevel.length, name: '交流220kV'},
                                     {value: thirdLevel.length, name: '交流500kV'}
-                                ],
-                            }]
-                        });
-                        t = setTimeout(function () {
-                            set();
-                        }, 2000);
-                    } else if (params.data.vlevel == "交流220kV") {
-                        myChart3.setOption({
-                            series: [{
-                                data: [
-                                    {value: firstLevel.length, name: '交流110kV'},
-                                    {value: secondLevel.length, name: '交流220kV', itemStyle: {normal: {opacity: 0.5}}},
-                                    {value: thirdLevel.length, name: '交流500kV'}
-                                ],
-                            }]
-                        });
-                        t = setTimeout(function () {
-                            set();
-                        }, 2000);
-                    } else if (params.data.vlevel == "交流500kV") {
-                        myChart3.setOption({
-                            series: [{
-                                data: [
-                                    {value: firstLevel.length, name: '交流110kV'},
-                                    {value: secondLevel.length, name: '交流220kV'},
-                                    {value: thirdLevel.length, name: '交流500kV', itemStyle: {normal: {opacity: 0.5}}}
-                                ],
+                                ]
                             }]
                         });
                         t = setTimeout(function () {
                             set();
                         }, 2000);
                     }
-
-
+                    else if (params.data.vlevel == "交流220kV") {
+                        voltagePieChart.setOption({
+                            series: [{
+                                data: [
+                                    {value: firstLevel.length, name: '交流110kV'},
+                                    {value: secondLevel.length, name: '交流220kV', itemStyle: {normal: {opacity: 0.5}}},
+                                    {value: thirdLevel.length, name: '交流500kV'}
+                                ]
+                            }]
+                        });
+                        t = setTimeout(function () {
+                            set();
+                        }, 2000);
+                    }
+                    else if (params.data.vlevel == "交流500kV") {
+                        voltagePieChart.setOption({
+                            series: [{
+                                data: [
+                                    {value: firstLevel.length, name: '交流110kV'},
+                                    {value: secondLevel.length, name: '交流220kV'},
+                                    {value: thirdLevel.length, name: '交流500kV', itemStyle: {normal: {opacity: 0.5}}}
+                                ]
+                            }]
+                        });
+                        t = setTimeout(function () {
+                            set();
+                        }, 2000);
+                    }
                 }
             }
         });
-        myChart3.on('click', function (params) {
+        voltagePieChart.on('click', function (params) {
             clearTimeout(t2);
 
             function secSet(series) {
-                myChart2.setOption({
+                mapChart.setOption({
                     series: series
                 });
             }
 
-            var secOption = myChart2.getOption();
-            option2 = angular.copy(secOption);
+            var secOption = mapChart.getOption();
+            mapOption = angular.copy(secOption);
             var secSeries = secOption.series;
             if (params.componentType == "series") {
                 if (params.seriesType == "pie") {
@@ -499,14 +516,14 @@ function VisualizationController($scope, $http, $state) {
                             var secData = secSeries[i].data;
                             for (var j = 0; j < secData.length; j++) {
                                 if (secData[j].vlevel == "交流110kV") {
-                                    option2.series[i].data[j].lineStyle = {};
-                                    option2.series[i].data[j].lineStyle.normal = {};
-                                    option2.series[i].data[j].lineStyle.normal.width = 3;
+                                    mapOption.series[i].data[j].lineStyle = {};
+                                    mapOption.series[i].data[j].lineStyle.normal = {};
+                                    mapOption.series[i].data[j].lineStyle.normal.width = 3;
                                 }
                             }
                         }
-                        myChart2.setOption(option2);
-                        console.log(myChart2.getOption());
+                        mapChart.setOption(mapOption);
+                        console.log(mapChart.getOption());
                         t2 = setTimeout(function () {
                             secSet(secSeries);
                         }, 2000);
@@ -516,14 +533,14 @@ function VisualizationController($scope, $http, $state) {
                             var secData = secSeries[i].data;
                             for (var j = 0; j < secData.length; j++) {
                                 if (secData[j].vlevel == "交流220kV") {
-                                    option2.series[i].data[j].lineStyle = {};
-                                    option2.series[i].data[j].lineStyle.normal = {};
-                                    option2.series[i].data[j].lineStyle.normal.width = 3;
+                                    mapOption.series[i].data[j].lineStyle = {};
+                                    mapOption.series[i].data[j].lineStyle.normal = {};
+                                    mapOption.series[i].data[j].lineStyle.normal.width = 3;
                                 }
                             }
                         }
-                        myChart2.setOption(option2);
-                        console.log(myChart2.getOption());
+                        mapChart.setOption(mapOption);
+                        console.log(mapChart.getOption());
                         t2 = setTimeout(function () {
                             secSet(secSeries);
                         }, 2000);
@@ -533,14 +550,14 @@ function VisualizationController($scope, $http, $state) {
                             var secData = secSeries[i].data;
                             for (var j = 0; j < secData.length; j++) {
                                 if (secData[j].vlevel == "交流500kV") {
-                                    option2.series[i].data[j].lineStyle = {};
-                                    option2.series[i].data[j].lineStyle.normal = {};
-                                    option2.series[i].data[j].lineStyle.normal.width = 3;
+                                    mapOption.series[i].data[j].lineStyle = {};
+                                    mapOption.series[i].data[j].lineStyle.normal = {};
+                                    mapOption.series[i].data[j].lineStyle.normal.width = 3;
                                 }
                             }
                         }
-                        myChart2.setOption(option2);
-                        console.log(myChart2.getOption());
+                        mapChart.setOption(mapOption);
+                        console.log(mapChart.getOption());
                         t2 = setTimeout(function () {
                             secSet(secSeries);
                         }, 2000);
@@ -891,26 +908,46 @@ function VisualizationController($scope, $http, $state) {
     $http.jsonp(urlDefectLine).success(function (data) {
         console.log('get date from defect-lines');
         /*$scope.defectLineData = data;*/
-        statisticsDefectLines(data);
+        defectLineData = data;
+        statisticsDefectLines(data, 0);
     }).error(function (msg) {
         console.log(msg);
     });
 
-    function statisticsDefectLines(data) {
+    function statisticsDefectLines(data, id) {
+        console.log('get the line id in statisticsDefectLines:' + id);
         var levels = {};
         var places = {};
-        $.each(data, function (i, obj) {
-            if (obj.level in levels) {
-                levels[obj.level] += 1
-            } else {
-                levels[obj.level] = 1
-            }
-            if (obj.place in places) {
-                places[obj.place] += 1
-            } else {
-                places[obj.place] = 1
-            }
-        });
+        //刚打开页面时显示是所有缺陷线路信息的饼图统计
+        if (id === 0) {
+            $.each(data, function (i, obj) {
+                if (obj.level in levels) {
+                    levels[obj.level] += 1
+                } else {
+                    levels[obj.level] = 1
+                }
+                if (obj.place in places) {
+                    places[obj.place] += 1
+                } else {
+                    places[obj.place] = 1
+                }
+            });
+        }
+        else {
+            $.each(data, function (i, obj) {
+                //console.log('obj:'+obj.device_id);
+                if ((obj.level in levels) && (obj.device_id === id)) {
+                    levels[obj.level] += 1
+                } else if (obj.device_id === id) {
+                    levels[obj.level] = 1
+                }
+                if ((obj.place in places) && (obj.device_id === id)) {
+                    places[obj.place] += 1
+                } else if (obj.device_id === id) {
+                    places[obj.place] = 1
+                }
+            });
+        }
         places['其他'] = 0;
 
         $.each(places, function (i, val) {
@@ -919,16 +956,14 @@ function VisualizationController($scope, $http, $state) {
                 places['其他'] += val;
             }
         });
-        //console.log(places);
-        //console.log(Object.keys(places));
-        //console.log(levels);
-        //console.log(Object.keys(levels));
+        //console.log('places:'+places);
+        console.log('places:' + Object.keys(places));
+        //console.log('levels'+levels);
+        console.log('levels' + Object.keys(levels));
         showDefectLinesGraph(places, levels);
     }
 
     function showDefectLinesGraph(places, levels) {
-        var pieChart1 = echarts.init(document.getElementById('dPie1'));
-        var pieChart2 = echarts.init(document.getElementById('dPie2'));
         var showPlaces = [];
         var showLevels = [];
         $.each(places, function (i, val) {
@@ -938,7 +973,7 @@ function VisualizationController($scope, $http, $state) {
             showLevels.push({value: val, name: i});
         });
         console.log('begin to draw pie graph of defect-lines');
-        //console.log(showPlaces);
+        console.log(showPlaces);
         var pieOption1 = {
             title: {
                 text: '电网线路故障部位统计',
@@ -1166,7 +1201,7 @@ function VisualizationController($scope, $http, $state) {
                     },
                     areaStyle: {normal: {}},
                     data: ic_end
-                },
+                }
             ]
         };
         lineStatusChart.setOption(lineStatusOption);
