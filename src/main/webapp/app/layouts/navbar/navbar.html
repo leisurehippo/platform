@@ -15,7 +15,7 @@
         <div class="navbar-collapse" uib-collapse="vm.isNavbarCollapsed" ng-switch="vm.isAuthenticated()">
             <ul class="nav navbar-nav navbar-right">
                 <li ui-sref-active="active">
-                    <a ui-sref="home" ng-click="vm.collapseNavbar()">
+                    <a ui-sref="homeNew" ng-click="vm.collapseNavbar()">
                         <span class="glyphicon glyphicon-home"></span>
                         <span class="hidden-sm">Home</span>
                     </a>
@@ -69,7 +69,8 @@
                             </a>
                         </li>
                         <li ui-sref-active="active" ng-switch-when="true">
-                            <a ui-sref="home" ng-click="vm.collapseNavbar();">
+                        <li ui-sref-active="active" ng-switch-when="true">
+                            <a ui-sref="visualization" ng-click="vm.collapseNavbar();">
                                 <span class="glyphicon glyphicon-bishop"></span>&nbsp;
                                 <span >数据可视化</span>
                             </a>
