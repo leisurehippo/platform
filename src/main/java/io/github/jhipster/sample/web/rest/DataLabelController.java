@@ -172,8 +172,8 @@ public class DataLabelController {
     private static final String classfy_file="xgb_api.py";
     private static final String search_file="get_sina_weibo.py";
     private static final String img_path="./src/main/webapp/";
-    private static final int num_per_page = 500; //每次返回至少num_per_page条数据
-    private static final int num_per_search = 500;  //每次向数据库查询num_per_search条数据
+    private static final int num_per_page = 200; //每次返回至少num_per_page条数据
+    private static final int num_per_search = 45000;  //每次向数据库查询num_per_search条数据
     private  static  final String Root_Target_Name="(成为根标签)";
     private static final String Data_table_prefix="data";//所有的原始语料表名都是"data_...."
     private static final String Label_table_prefix="label";//所有被标注的语料表名都是"label_..."
@@ -605,11 +605,8 @@ public class DataLabelController {
                 content = content.replace('\n', ' ');
                 content = content.replace('\t', ' ');
                 String time = data.get(i).getWeibo_time();
-                if (!dataLabelInfoDAO.exists(new LabelDataSetKey(id, tag)))//去重
-                {
-                    //去重后的微博写入文件，再调用python脚本进行筛选
-                    file.write(id + '\t' + time + '\t' + content + '\t' + tag + '\n');
-                }
+                file.write(id + '\t' + time + '\t' + content + '\t' + tag + '\n');
+
             }
             file.close();
 
@@ -630,8 +627,12 @@ public class DataLabelController {
 
                     while ((lines = bufread.readLine()) != null) {
                         String[] line = lines.trim().split("\t");
-                        if (line.length == 3)
-                            data.add(new DataInfo(line[0].trim(), line[1].trim(), line[2].trim()));
+                        if (line.length == 3) {
+                            if (!dataLabelInfoDAO.exists(new LabelDataSetKey(line[0].trim(), tag)))//去重
+                            {
+                                data.add(new DataInfo(line[0].trim(), line[1].trim(), line[2].trim()));
+                            }
+                        }
                     }
                     read.close();
                 } catch (IOException e) {
@@ -674,12 +675,14 @@ public class DataLabelController {
     public DataLabelResponse search_db(Param param ,HttpSession session) throws IOException {
         long now = System.currentTimeMillis();
         int pagestart = 0;
+        int count=0;
         List<DataInfo>   dbdata = new ArrayList<DataInfo>();
         DataLabelResponse dataLabelResponse = new DataLabelResponse();
         logger.info("page:" + param.page + " " + param.keywords);
         //每次向数据库查询num_per_search条微博，筛选后加入到结果队列中，不停循环直到结果队列满足一定长度
         while (dbdata.size() < num_per_page) {
             pagestart = param.page * num_per_search;
+            count+=num_per_search;
             List<DataInfo> temp = null;
             if (param.selecttime) {
                 temp = dataInfoDAO.fliterByTimeAndKey(param.dbname, param.timestart, param.timeend, param.keywords, pagestart, num_per_search);
@@ -712,6 +715,8 @@ public class DataLabelController {
         }
         dataLabelResponse.page = param.page;
         logger.info("cost:"+(System.currentTimeMillis()-now)/1000/60+" min");
+        logger.info("扫描数据库:"+count+"条");
+        logger.info("返回数据:"+dataLabelResponse.dataset.size()+"条");
         return dataLabelResponse;
     }
 
