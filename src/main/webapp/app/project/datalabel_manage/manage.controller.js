@@ -74,7 +74,6 @@ function DataLabelManageController($scope, $http, $state,$injector, DBlookservic
      */
     function init()
     {
-        $scope.look_db="";
         $scope.input_db="";
         $scope.del_db="";
         $scope.dbs=[];
@@ -188,7 +187,7 @@ function DataLabelManageController($scope, $http, $state,$injector, DBlookservic
         {
             init();
             if(result.response_code==-1){
-                alert("服务器出现未知错误！");
+                alert(result.response_str);
                 result=new Array();
                 result['dataset']=[];
                 result['page']=0;
