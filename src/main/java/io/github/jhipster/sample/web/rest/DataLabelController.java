@@ -619,6 +619,10 @@ public class DataLabelController {
                 //        PythonInterpreter interpreter = new PythonInterpreter();
                 //        interpreter.execfile("./src/main/java/io/github/jhipster/sample/web/rest/python/test.py");
                 exec_cmd(command);
+            }
+            else{
+                outfile=infile;//选择了关键词，直接对原始数据去重
+            }
                 data = new ArrayList<DataInfo>();
                 try {
                     InputStreamReader read = new InputStreamReader(new FileInputStream(outfile));
@@ -627,7 +631,7 @@ public class DataLabelController {
 
                     while ((lines = bufread.readLine()) != null) {
                         String[] line = lines.trim().split("\t");
-                        if (line.length == 3) {
+                        if ((line.length == 3 && !selectkey) || (line.length==4 && selectkey)) {
                             if (!dataLabelInfoDAO.exists(new LabelDataSetKey(line[0].trim(), tag)))//去重
                             {
                                 data.add(new DataInfo(line[0].trim(), line[1].trim(), line[2].trim()));
@@ -638,7 +642,7 @@ public class DataLabelController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
+
         }catch (Exception e)
         {
             e.printStackTrace();

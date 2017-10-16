@@ -193,8 +193,10 @@ function DataLabelController($scope, $http, $state,$injector, dataLabelservice,S
         {
             return;
         }
+
         $('#waitModal').modal('show');
         $('#myModal').modal('hide');
+
         dataLabelservice.get({keywords:$scope.keywords,selectkey:$scope.selectkey,dbname:$scope.dbname,selecttime:$scope.selecttime,timestart
         :$scope.timestart,timeend:$scope.timeend,selectoldlabel:$scope.selectoldlabel,oldlabel:$scope.oldlabel,newlabel:$scope.newlabel,type:$scope.type,
         ischildlabel:$scope.ischildlabel,parentlabel:$scope.parentlabel,page:0}, function success(result) {
