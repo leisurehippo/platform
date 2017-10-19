@@ -173,7 +173,7 @@ public class DataLabelController {
     private static final String search_file="get_sina_weibo.py";
     private static final String img_path="./src/main/webapp/";
     private static final int num_per_page = 200; //每次返回至少num_per_page条数据
-    private static final int num_per_search = 45000;  //每次向数据库查询num_per_search条数据
+    private static final int num_per_search = 200;  //每次向数据库查询num_per_search条数据
     private  static  final String Root_Target_Name="(成为根标签)";
     private static final String Data_table_prefix="data";//所有的原始语料表名都是"data_...."
     private static final String Label_table_prefix="label";//所有被标注的语料表名都是"label_..."
@@ -428,8 +428,12 @@ public class DataLabelController {
                 for (int i = 0; i < labelresult.size(); i++) {
                     //提交的的参数里只有id没有微博内容，去原始数据库里查询，这样可以避免在内存里保存微博内容，并且可以减少前端传参的量
                     DataInfo _data = dataInfoDAO.findBySince_id(dbname, labelresult.get(i));
+                    if(_data==null)
+                        continue;
+                    //如果是重复标注,忽略掉
                     dataLabelInfoDAO.insert(new DataLabelInfo(new LabelDataSetKey(labelresult.get(i), tag), _data.getWeibo_time(), _data.getWeibo_content(),ctime),Label_data_set);
                     count++;
+
                 }
                 if(!selectoldlabel) {//创建新标签需要写入数据库
 //                    if(!isexist){
@@ -611,7 +615,7 @@ public class DataLabelController {
             file.close();
 
             //筛选,只有未选择关键词时才开启
-            if(!selectkey) {
+            if(false) {
                 String model_dir = rootdir + model_path;
                 String pyfile = rootdir + python_path + classfy_file;
                 String command = "python " + pyfile + " predict " + infile + " " + model_dir + " " + outfile;
@@ -628,10 +632,11 @@ public class DataLabelController {
                     InputStreamReader read = new InputStreamReader(new FileInputStream(outfile));
                     BufferedReader bufread = new BufferedReader(read);
                     String lines = null;
+                    //List<LabelDataSetKey> exists_label = dataLabelInfoDAO.findallId();
 
                     while ((lines = bufread.readLine()) != null) {
                         String[] line = lines.trim().split("\t");
-                        if ((line.length == 3 && !selectkey) || (line.length==4 && selectkey)) {
+                        if ((line.length == 4 && !selectkey) || (line.length==4 && selectkey)) {
                             if (!dataLabelInfoDAO.exists(new LabelDataSetKey(line[0].trim(), tag)))//去重
                             {
                                 data.add(new DataInfo(line[0].trim(), line[1].trim(), line[2].trim()));
