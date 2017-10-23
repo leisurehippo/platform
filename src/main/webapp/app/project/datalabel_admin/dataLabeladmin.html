@@ -1,0 +1,212 @@
+<html>
+<body >
+<ul class="nav nav-tabs" >
+    <li role="presentation" class="active"><a ui-sref="dataLabel_admin">标签管理</a></li>
+</ul>
+
+<div align="left" style="margin-top:20px">
+    <button type="button" class="btn btn-primary " ng-click="draw()" >查看标签树</button>
+</div>
+
+<div ng-if="showtree">
+    <br \>
+<img ng-src={{tree_url}} style="width:100%;height:100%">
+</div>
+
+<div class="radio" style="margin-bottom:20px">
+    <label>
+        <input type="radio" name="label" ng-value="'merge'" ng-model="labelcontrol" ng-change="radio_change()" >
+        标签汇聚
+    </label>
+    <div ng-show="labelcontrol=='merge'">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label  class="col-sm-2 control-label">需要汇聚的标签数量:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" placeholder="num" ng-model="merge_num" ng-trim="true">
+                    <span ng-show="!check_num" style="color:red">必须为有效正数！</span>
+                </div>
+            </div>
+            <div data-ng-repeat="x in range(merge_num) track by $index">
+                <div class="form-group" >
+                    <label  class="col-sm-2 control-label">标签{{$index}}:</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" id="{{$index}}" ng-trim="true">
+                            <option data-ng-repeat="y in rootlabels">{{y}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label  class="col-sm-2 control-label">汇聚后的标签名称:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" placeholder="name" ng-model="merge_label" ng-trim="true">
+                    <span ng-show="!check_label" style="color:red">标签不能为空！</span>
+                    <span ng-show="check_exist" style="color:red">标签已存在！</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="radio" style="margin-bottom:20px">
+    <label>
+        <input type="radio" name="label" ng-value="'change'" ng-model="labelcontrol" ng-change="radio_change()">
+        标签迁移
+    </label>
+    <div ng-show="labelcontrol=='change'">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label  class="col-sm-2 control-label">待迁移标签:</label>
+                <div class="col-sm-5">
+                    <select class="form-control" ng-model="change_label" ng-trim="true">
+                        <option data-ng-repeat="y in labels">{{y}}</option>
+                    </select>
+                    <span ng-show="!check_label" style="color:red">标签不能为空！</span>
+                </div>
+                <div style="padding-top:5px">
+                    <label>
+                        <input type="checkbox" ng-model="ischangeall"  > 迁移该标签下的所有子标签
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label  class="col-sm-2 control-label">目标标签:</label>
+                <div class="col-sm-5">
+                    <select class="form-control" ng-model="change_tlabel" ng-trim="true">
+                        <option data-ng-repeat="y in labels">{{y}}</option>
+                        <option>(成为根标签)</option>
+                    </select>
+                    <span ng-show="!check_tlabel" style="color:red">标签不能为空！</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="radio" style="margin-bottom:20px">
+    <label>
+        <input type="radio" name="label" ng-value="'del'" ng-model="labelcontrol"  ng-change="radio_change()">
+        标签删除
+    </label>
+    <div ng-show="labelcontrol=='del'">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label  class="col-sm-2 control-label">删除标签:</label>
+                <div class="col-sm-5">
+                    <select class="form-control" ng-model="del_label" ng-trim="true">
+                        <option data-ng-repeat="y in labels">{{y}}</option>
+                    </select>
+                    <span ng-show="!check_label" style="color:red">标签不能为空！</span>
+                </div>
+                <div style="padding-top:5px">
+                    <label>
+                        <input type="checkbox" ng-model="isdelall" > 删除该标签下的所有子标签
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="radio" style="margin-bottom:20px">
+    <label>
+        <input type="radio" name="label" ng-value="'rename'" ng-model="labelcontrol"  ng-change="radio_change()">
+        标签重命名
+    </label>
+    <div ng-show="labelcontrol=='rename'">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label  class="col-sm-2 control-label">原始标签:</label>
+                <div class="col-sm-5">
+                    <select class="form-control" ng-model="old_name" ng-trim="true">
+                        <option data-ng-repeat="y in labels">{{y}}</option>
+                    </select>
+                    <span ng-show="!check_label" style="color:red">标签不能为空！</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label  class="col-sm-2 control-label">新标签:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" placeholder="name" ng-model="new_name" ng-trim="true">
+                    <span ng-show="!check_tlabel" style="color:red">标签不能为空！</span>
+                    <span ng-show="check_exist" style="color:red">新标签名称已存在！</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="radio" style="margin-bottom:20px">
+    <label>
+        <input type="radio" name="label" ng-value="'join'" ng-model="labelcontrol"  ng-change="radio_change()">
+        标签归并
+    </label>
+    <div ng-show="labelcontrol=='join'">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label  class="col-sm-2 control-label">待合并的标签数量:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" placeholder="num" ng-model="join_num" ng-trim="true">
+                    <span ng-show="!check_num" style="color:red">必须为有效正数！</span>
+                </div>
+            </div>
+            <div data-ng-repeat="x in range(join_num) track by $index">
+                <div class="form-group" >
+                    <label  class="col-sm-2 control-label">标签{{$index}}:</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" id="join{{$index}}" ng-trim="true">
+                            <option data-ng-repeat="y in labels">{{y}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label  class="col-sm-2 control-label">合并到目标标签:</label>
+                <div class="col-sm-5">
+                    <select class="form-control" ng-model="join_target" ng-trim="true">
+                        <option data-ng-repeat="y in labels">{{y}}</option>
+                    </select>
+                    <span ng-show="!check_label" style="color:red">标签不能为空！</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="radio" style="margin-bottom:20px">
+    <label>
+        <input type="radio" name="label" ng-value="'create'" ng-model="labelcontrol"  ng-change="radio_change()">
+        新建标签
+    </label>
+    <div ng-show="labelcontrol=='create'">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label  class="col-sm-2 control-label">新建标签名称:</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" placeholder="name" ng-model="new_label" ng-trim="true">
+                    <span ng-show="!check_label" style="color:red">标签不能为空！</span>
+                    <span ng-show="check_exist" style="color:red">标签已存在！</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label  class="col-sm-2 control-label">
+                    <input type="checkbox" ng-model="select_parent"  > 选择父标签:
+                </label>
+                <div class="col-sm-5">
+                    <select class="form-control" ng-model="new_parent_label" ng-trim="true" ng-disabled="!select_parent">
+                        <option data-ng-repeat="y in labels">{{y}}</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div align="center">
+    <button type="button" class="btn btn-primary " ng-click="submit()" >确定</button>
+</div>
+
+</body>
+</html>

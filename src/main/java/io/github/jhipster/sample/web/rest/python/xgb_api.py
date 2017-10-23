@@ -23,6 +23,14 @@ import matplotlib.pylab as plt
 #rcParams['font.sans-serif'] = ['SimHei']
 
 
+def strdecode(sentence):
+    if not isinstance(sentence, unicode):
+        try:
+            sentence = sentence.decode('utf-8')
+        except UnicodeDecodeError:
+            sentence = sentence.decode('gbk', 'ignore')
+    return sentence
+
 def get_object(filename):
 	"""
 	从目标文件中获取数据
@@ -267,24 +275,28 @@ def gen_model(raw_data, fea_th = 0.01, fea_imp_uri = ''):
     trainY = trainX['tag']
     trainX.drop('tag',axis=1,inplace = True)
 
-
+    
     print 'training data...'
+    unbalance_ratio = (trainY.shape[0] - sum(trainY))*1.0/sum(trainY) # 处理数据不平衡
+    
     xgb1 = XGBClassifier(
 		 n_estimators=1000,
 		 max_depth=5,
 		 min_child_weight=1,
 		 objective= 'binary:logistic',
-		 scale_pos_weight=1,
-		 seed=27)
+		 scale_pos_weight=unbalance_ratio if unbalance_ratio>=5 else 1,
+		 random_state=27)
     print 'trainX shape =',trainX.shape
+    
+#    print unbalance_ratio, xgb1.get_xgb_params()
     
     model = modelfit(xgb1, trainX, trainY)
     
     if len(fea_imp_uri)>0 :
-        save_fea_imp(model.booster(), fea_imp_uri)
+        save_fea_imp(model.get_booster(), fea_imp_uri)
 
     model_attr = {'params':str(model.get_xgb_params())}
-    model = model.booster() # booster 才有 增量训练 的接口
+    model = model.get_booster() # booster 才有 增量训练 的接口
     model.set_attr(**model_attr)
     return model
 
@@ -300,6 +312,7 @@ def model_pred(raw_data, model_uri, proba_th = 0.5):
     if not os.path.exists(model_uri):
         raw_data['tag'] = 1
         raw_data['proba'] = 1
+        print "Error: can't find model!!!"
         return raw_data[['since_id','time','weibo_content','tag','proba']]
     model = joblib.load(model_uri)
     
@@ -351,22 +364,26 @@ def incremental_train(raw_data, model_save_uri, fea_imp_uri = ''):
     trainX = trainX.ix[:,fea_names]
     d_train = xgb.DMatrix(trainX, trainY)    
     saved_params = ast.literal_eval(model.attr('params'))
+    unbalance_ratio = (trainY.shape[0] - sum(trainY))*1.0/sum(trainY) # 处理数据不平衡    
+    saved_params['scale_pos_weight'] = unbalance_ratio if unbalance_ratio >=5 else 1
+#    print unbalance_ratio, saved_params
     model = xgb.train(saved_params, d_train, xgb_model = model,
                     num_boost_round = saved_params['n_estimators'])
     
     if len(fea_imp_uri)>0 :
-        save_fea_imp(model.booster(), fea_imp_uri)    
+        save_fea_imp(model.get_booster(), fea_imp_uri)    
     return model
 
 #==============================================================================
 # 调用下面三个接口：增量训练、生成模型、模型预测
 #==============================================================================
 
-def multi_tag_incremental_train(raw_data_uri, model_save_uri, fea_imp_uri = '', filter_words = []):
+def multi_tag_incremental_train(raw_data_uri, model_save_uri,train_label, fea_imp_uri = '', filter_words = []):
     '''
     增量训练
     raw_data : 训练数据['since_id','time','weibo_content','tag'(多个标签)]
     model_save_uri : 模型存储路径，精确到 文件夹
+    train_label:string 表示要训练的label名称
     fea_imp_uri : 模型的特征重要性保存的位置，长度为0则不保存
     filter_words : 过滤掉weibo_content中的词
     return      : 返回 增量训练 后的xgb模型
@@ -379,19 +396,30 @@ def multi_tag_incremental_train(raw_data_uri, model_save_uri, fea_imp_uri = '', 
     print 'data processing...'
     raw_data = pd.read_table(raw_data_uri,sep = '\t',header = None, names = ['since_id','time','weibo_content','tag'])
     raw_data = raw_data.loc[~raw_data[u'weibo_content'].isnull(),:]
-    raw_data.reset_index(drop = True,inplace = True)    
-    raw_data['tag'] = raw_data['tag'].apply(lambda x: x.strip())
+    raw_data.reset_index(drop = True,inplace = True)
+    if raw_data['tag'].dtype != 'O':
+        # '+123456' pandas 读进来时变成了 123456，这里转为 '+123456'        
+        raw_data['tag'] = raw_data['tag'].apply(lambda x: '+' + str(x).strip())
+    else:
+        raw_data['tag'] = raw_data['tag'].apply(lambda x: x.strip())
     
     for words in filter_words:
         fix_index = raw_data.loc[raw_data.weibo_content.str.find(words) != -1, u'weibo_content'].index
         raw_data.loc[fix_index, u'weibo_content'] = raw_data.loc[fix_index,u'weibo_content'].apply(lambda x: x.replace(words,''))
     
     print 'raw_data shape =', raw_data.shape
-    for crt_tag in raw_data.tag.unique().tolist():
+    train_tag=[]
+    train_label=strdecode(train_label)
+    all_tag=raw_data.tag.unique().tolist()
+    if train_label=='+all':
+        train_tag=all_tag
+    elif train_label in all_tag:
+        train_tag.append(train_label)
+    for crt_tag in train_tag:
         crt_tag = crt_tag[1:]
         crt_data = raw_data.copy()
         crt_data.loc[:,'crt_tag'] = 0
-        crt_data.loc[raw_data.tag.str.contains(crt_tag),'crt_tag'] = 1
+        crt_data.loc[raw_data.tag.str[1:] == crt_tag,'crt_tag'] = 1
         postive_ids = crt_data.loc[crt_data.crt_tag == 1,'since_id'].tolist()
         #去重
         crt_data = crt_data.loc[~((crt_data['crt_tag'] == 0) & (raw_data['since_id'].isin(postive_ids))),:]
@@ -399,7 +427,7 @@ def multi_tag_incremental_train(raw_data_uri, model_save_uri, fea_imp_uri = '', 
         crt_data.rename_axis({'crt_tag':'tag'},axis=1,inplace=True)
         print crt_tag,'shape =',crt_data.shape
       
-        crt_model = incremental_train(crt_data, model_save_uri+u'xgb_'+ crt_tag.decode('utf-8'))
+        crt_model = incremental_train(crt_data, model_save_uri+u'xgb_'+ hashlib.md5(crt_tag.decode('utf-8')).hexdigest())
         print 'update model:',crt_tag,':',hashlib.md5(crt_tag).hexdigest()
         save_object(crt_model, model_save_uri+u'xgb_'+ hashlib.md5(crt_tag).hexdigest())
         
@@ -411,16 +439,17 @@ def multi_tag_incremental_train(raw_data_uri, model_save_uri, fea_imp_uri = '', 
 
 
     
-def gen_multi_model(raw_data_uri, model_save_uri, fea_th=0.1, fea_imp_uri = '', filter_words = []):
+def gen_multi_model(raw_data_uri, model_save_uri,train_label, fea_th=0.01, fea_imp_uri = '', filter_words = []):
     '''
     第一次生成模型
     raw_data :   [since_id, time, weibo_content, tag(多个标签)]
     model_save_uri:模型保存的路径，精确到 文件夹，如 /home/tmp/
+    train_label:string 表示要训练的label名称
     fea_th      : 特征出现频率低于该 阈值 则移除
     fea_imp_uri : 模型的特征重要性保存的位置，长度为0则不保存,精确到文件夹，如 /home/tmp/
     '''
     
-#    #just test
+    #just test
 #    model_save_uri= u'./xgb_model/'
 #    raw_data_uri = u'../data/api_test_data.txt'
 #    fea_imp_uri = u'../data/tmp.csv'
@@ -428,18 +457,31 @@ def gen_multi_model(raw_data_uri, model_save_uri, fea_th=0.1, fea_imp_uri = '', 
     raw_data = pd.read_table(raw_data_uri,sep = '\t',header = None, names = ['since_id','time','weibo_content','tag'])
     raw_data = raw_data.loc[~raw_data[u'weibo_content'].isnull(),:]
     raw_data.reset_index(drop = True,inplace = True)
-    raw_data['tag'] = raw_data['tag'].apply(lambda x: x.strip())
+    if raw_data['tag'].dtype != 'O':
+        # '+123456' pandas 读进来时变成了 123456，这里转为 '+123456'        
+        raw_data['tag'] = raw_data['tag'].apply(lambda x: '+' + str(x).strip())
+    else:
+        raw_data['tag'] = raw_data['tag'].apply(lambda x: x.strip())
+        
     
     for words in filter_words:
         fix_index = raw_data.loc[raw_data.weibo_content.str.find(words) != -1, u'weibo_content'].index
         raw_data.loc[fix_index, u'weibo_content'] = raw_data.loc[fix_index,u'weibo_content'].apply(lambda x: x.replace(words,''))
     
     print 'raw_data shape =', raw_data.shape
-    for crt_tag in raw_data.tag.unique().tolist():
+    train_tag=[]
+    train_label=strdecode(train_label)
+    all_tag=raw_data.tag.unique().tolist()
+    if train_label=='+all':
+        train_tag=all_tag
+    elif train_label in all_tag:
+        train_tag.append(train_label)
+    for crt_tag in train_tag:
         crt_tag = crt_tag[1:]
         crt_data = raw_data.copy()
         crt_data.loc[:,'crt_tag'] = 0
-        crt_data.loc[raw_data.tag.str.contains(crt_tag),'crt_tag'] = 1
+        crt_data.loc[raw_data.tag.str[1:] == crt_tag,'crt_tag'] = 1
+        print crt_data['crt_tag'].value_counts()
         postive_ids = crt_data.loc[crt_data.crt_tag == 1,'since_id'].tolist()
         #去重
         crt_data = crt_data.loc[~((crt_data['crt_tag'] == 0) & (raw_data['since_id'].isin(postive_ids))),:]
@@ -469,18 +511,20 @@ def data_pred(raw_data_uri, model_uri, rst_save_uri, proba_th=0.5, filter_words 
     '''
     
 #    #just test
-#    raw_data_uri = u'../data/api_test_data.txt'
+#    raw_data_uri = u'../data/temp_hkEVi6zRYKUvW-rlpVNMFaqeYTmw1_ZyTYMZ_JaW.txt'
 #    model_uri= u'./xgb_model/'
-#    rst_save_uri = u'../data/tmp/'
+#    rst_save_uri = u'../data/tmp/test.txt'
     
     raw_data = pd.read_table(raw_data_uri, sep = '\t',header = None, names = ['since_id','time','weibo_content','tag'])
     raw_data = raw_data.loc[~raw_data[u'weibo_content'].isnull(),:]
     raw_data.reset_index(drop = True,inplace = True)
-    # for i,x in enumerate(raw_data['tag']):
-    #     if isinstance(x,float):
-    #         print i
-    raw_data['tag'] = raw_data['tag'].apply(lambda x: x.strip())  
-        
+
+    if raw_data['tag'].dtype != 'O':
+        # '+123456' pandas 读进来时变成了 123456，这里转为 '+123456'
+        raw_data['tag'] = raw_data['tag'].apply(lambda x: '+' + str(x).strip())
+    else:
+        raw_data['tag'] = raw_data['tag'].apply(lambda x: x.strip())
+
     for words in filter_words:
         fix_index = raw_data.loc[raw_data.weibo_content.str.find(words) != -1, u'weibo_content'].index
         raw_data.loc[fix_index, u'weibo_content'] = raw_data.loc[fix_index,u'weibo_content'].apply(lambda x: x.replace(words,''))
@@ -500,13 +544,14 @@ def data_pred(raw_data_uri, model_uri, rst_save_uri, proba_th=0.5, filter_words 
             
       
 if __name__ == "__main__":
-    import os
-    print os.getcwd()
-    _type = sys.argv[1].strip()
-    if _type == 'predict':
-        data_pred(sys.argv[2].strip(),sys.argv[3].strip(),sys.argv[4].strip())
-    elif _type=='update':
-        multi_tag_incremental_train(sys.argv[2].strip(),sys.argv[3].strip())
-    elif _type=="retrain":
-        gen_multi_model(sys.argv[2].strip(),sys.argv[3].strip())
+#     pass
+     import os
+     print os.getcwd()
+     _type = sys.argv[1].strip()
+     if _type == 'predict':
+         data_pred(sys.argv[2].strip(),sys.argv[3].strip(),sys.argv[4].strip())
+     elif _type=='update':
+         multi_tag_incremental_train(sys.argv[2].strip(),sys.argv[3].strip(),sys.argv[4].strip())
+     elif _type=="retrain":
+         gen_multi_model(sys.argv[2].strip(),sys.argv[3].strip(),sys.argv[4].strip())
 

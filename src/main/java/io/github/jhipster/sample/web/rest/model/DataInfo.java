@@ -14,7 +14,6 @@ import java.io.Serializable;
 public class DataInfo implements Serializable{
 
     private static final long serialVersionUID = 1L;
-
     @Id private String since_id;
     private String weibo_time;
     private  String weibo_content;
@@ -54,5 +53,5 @@ public class DataInfo implements Serializable{
         this.weibo_time=weibo_time;
     }
 
-
+    
 }

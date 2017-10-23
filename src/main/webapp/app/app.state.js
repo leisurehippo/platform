@@ -263,14 +263,62 @@
                                 views: {
                                     'content@': {
                                         templateUrl: "app/project/datalabel/dataLabeldb.html",
-                                        controller: "DataLabelController2",
+                                        controller: "DataLabelController",
                                         controllerAs: 'vm'
                                     }
                                 },
                                 params: {
 
                                 }
-        }).state("fileUpload", {
+        }).state("dataLabel_admin", {
+                                          url: "/dataLabel/admin",
+                                          parent: 'app',
+                                          data: {
+                                              authorities: []
+                                          },
+                                          views: {
+                                              'content@': {
+                                                  templateUrl: "app/project/datalabel_admin/dataLabeladmin.html",
+                                                  controller: "DataLabelAdminController",
+                                                  controllerAs: 'vm'
+                                              }
+                                          },
+                                          params: {
+
+                                          }
+        }).state("dataLabel_train", {
+                                                    url: "/dataLabel/train",
+                                                    parent: 'app',
+                                                    data: {
+                                                        authorities: []
+                                                    },
+                                                    views: {
+                                                        'content@': {
+                                                            templateUrl: "app/project/datalabel_train/dataLabeltrain.html",
+                                                            controller: "DataLabelTrainController",
+                                                            controllerAs: 'vm'
+                                                        }
+                                                    },
+                                                    params: {
+
+                                                    }
+         }).state("dataLabel_manage", {
+                                                                url: "/dataLabel/manage",
+                                                                parent: 'app',
+                                                                data: {
+                                                                    authorities: []
+                                                                },
+                                                                views: {
+                                                                    'content@': {
+                                                                        templateUrl: "app/project/datalabel_manage/dataLabelmanage.html",
+                                                                        controller: "DataLabelManageController",
+                                                                        controllerAs: 'vm'
+                                                                    }
+                                                                },
+                                                                params: {
+
+                                                                }
+         }).state("fileUpload", {
             url: "/fileUpload",
             parent: 'app',
             data: {
@@ -380,9 +428,21 @@
                     controllerAs: 'vm'
                 }
             },
-            params: {
-
-            }
+            params: {}
+        }).state("visualization", {
+            url: "/data-visualization",
+            parent: 'app',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: "app/data-visualization/data-visualization.html",
+                    controller: "VisualizationController",
+                    controllerAs: 'vm'
+                }
+            },
+            params: {}
         });
     }
 })();

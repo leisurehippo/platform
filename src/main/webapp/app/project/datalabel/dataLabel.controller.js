@@ -5,59 +5,104 @@ angular
     .module('jhipsterSampleApplicationApp')
     .controller('DataLabelController',DataLabelController);
 
-DataLabelController.$inject = ['$scope', '$http', '$state', 'dataLabelservice','Submitservice','Initservice'];
-function DataLabelController($scope, $http, $state, dataLabelservice,Submitservice,Initservice) {
+DataLabelController.$inject = ['$scope','$http', '$state', '$injector','dataLabelservice','Submitservice','Labeldrawservice','Initservice'];
+function DataLabelController($scope, $http, $state,$injector, dataLabelservice,Submitservice,Labeldrawservice,Initservice) {
     $scope.run = run;
     $scope.submit=submit;
     $scope.jump=jump;
+    $scope.draw=draw;
+    $scope.rm_dialog=rm_dialog;
     $scope.keywords="";
     $scope.selectdb=false;
     $scope.dbname="";
     $scope.selectsina=false;
     $scope.selecttime=false;
+    $scope.ischildlabel=false;
     $scope.timestart="";
     $scope.timeend="";
     $scope.writedb="";
     $scope.oldlabel="";
     $scope.newlabel="";
+    $scope.parentlabel="";
     $scope.selectoldlabel=true;
     $scope.selectkey=false;
     $scope.nodbname=false;
     $scope.notag=false;
     $scope.nokey=false;
+    $scope.check_time=true;
+    $scope.labelexist=false;
     $scope.wait_show=false;
+    $scope.tree_url="tree.png";
+    $scope.tree_id=1;
+    $scope.showtree=false;
     $scope.items=[];
     $scope.jump_page="";
     $scope.type=0;
     var page=0;
     var text="";
     $scope.labels=[];
+    $scope.dbnames=[];
     var perpage=10;
     var element = $('#page');
     var totalPages=0;
     var options=null;
-//    $('#myModal').modal({keyboard:false,backdrop:'static',show:false});
-//    $('#waitModal').modal({keyboard:false,backdrop:'static',show:false});
-//    $('#waitModal').modal('hide');
-//    $('#myModal').modal('hide');
+//    $injector.get('$templateCache').removeAll();
+    $('#myModal').modal({keyboard:false,backdrop:'static',show:false});
+    $('#waitModal').modal({keyboard:false,backdrop:'static',show:false});
+    get_init(1);
+    $scope.$on("$destroy",rm_dialog);
+    $('.form_datetime').datetimepicker({
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        forceParse: 0,
+        minView:2,
+        });
 
-    console.log('4444444444444');
-    get_init();
+
+
+    /**
+          跟后台同步参数，关闭模态框时更新
+    */
+    $(function () { $('#myModal').on('hide.bs.modal', function () {
+     get_init(0);
+     })
+     });
+
     /**
          向后台请求初始化参数
      */
-    function get_init()
+    function get_init(init_type)
     {
-        Initservice.get({},function success(result)
+        $scope.labels=[];
+        $scope.jump_page="";
+        Initservice.get({init_type:init_type},function success(result)
         {
-            for(i in result.all_label)
+
+            for(label in result.all_label)
             {
-                label=result.all_label[i];
                 $scope.labels.push(label);
            }
+           if(init_type==1)//获取最新的数据库表,只有初始时会同步，否则会丢失已经选择的数据库
+           {
+                $scope.dbnames=[];
+                for(j in result.all_dbnames)
+                    {
+                        db=result.all_dbnames[j];
+                        var comment = result.comment_content[j];
+                        if(comment!=""){
+                            db=db+"("+comment+")";
+                        }
+                        $scope.dbnames.push(db);
+                   }
+            }
 
-
-        },function failure(result){})
+        },function failure(result){
+         alert('参数初始化失败！');
+        })
     }
 
     /**
@@ -148,18 +193,23 @@ function DataLabelController($scope, $http, $state, dataLabelservice,Submitservi
         {
             return;
         }
+
         $('#waitModal').modal('show');
         $('#myModal').modal('hide');
+
         dataLabelservice.get({keywords:$scope.keywords,selectkey:$scope.selectkey,dbname:$scope.dbname,selecttime:$scope.selecttime,timestart
-        :$scope.timestart,timeend:$scope.timeend,selectoldlabel:$scope.selectoldlabel,oldlabel:$scope.oldlabel,newlabel:$scope.newlabel,type:$scope.type,page:0}, function success(result) {
+        :$scope.timestart,timeend:$scope.timeend,selectoldlabel:$scope.selectoldlabel,oldlabel:$scope.oldlabel,newlabel:$scope.newlabel,type:$scope.type,
+        ischildlabel:$scope.ischildlabel,parentlabel:$scope.parentlabel,page:0}, function success(result) {
             $('#waitModal').modal('hide');
             $('#myModal').modal('show');
 
             console.log(result);
             page=result.page;
             show_content(result);
-            if(result.response_code==1)
-                alert("已经是最后一页了！");
+            if(result.response_code<0)
+                alert(result.response_str);
+             else if(result.response_code==1)
+                alert("已经到达最后一页！");
 
         },function failure() {
             $('#waitModal').modal('hide');
@@ -196,20 +246,14 @@ function DataLabelController($scope, $http, $state, dataLabelservice,Submitservi
         $('#waitModal').modal('show');
         $('#myModal').modal('hide');
         Submitservice.get({labelresult:postdata,keywords:$scope.keywords,selectkey:$scope.selectkey,dbname:$scope.dbname,selecttime:$scope.selecttime,timestart
-        :$scope.timestart,timeend:$scope.timeend,selectoldlabel:$scope.selectoldlabel,oldlabel:$scope.oldlabel,newlabel:$scope.newlabel,type:$scope.type,page:page}, function success(result) {
+        :$scope.timestart,timeend:$scope.timeend,selectoldlabel:$scope.selectoldlabel,oldlabel:$scope.oldlabel,newlabel:$scope.newlabel,type:$scope.type,page:page,
+        ischildlabel:$scope.ischildlabel,parentlabel:$scope.parentlabel}, function success(result) {
         $('#waitModal').modal('hide');
         $('#myModal').modal('show');
         console.log(result);
-
-        if(result.response_code==-1)
-        {
-            alert("数据库写入发生错误，成功写入"+result.success_count+"条！");
-        }
-        else{
-            alert("写入成功，写入"+result.success_count+"条！");
+        alert(result.response_str);
+        if(result.response_code>=0){
             page=result.page;
-            if(result.response_code==1)
-                alert("已经是最后一页了！");
             show_content(result);
         }
          },function () {
@@ -233,6 +277,10 @@ function DataLabelController($scope, $http, $state, dataLabelservice,Submitservi
         else{
             $scope.nodbname=false;
         }
+        if($scope.selecttime&&($scope.timestart==""||$scope.timeend==""))
+            $scope.check_time=false;
+        else
+            $scope.check_time=true;
         if($scope.type)//数据库搜索页
         {
             if($scope.selectkey&&!$scope.keywords)
@@ -259,8 +307,14 @@ function DataLabelController($scope, $http, $state, dataLabelservice,Submitservi
          else{
             $scope.notag=false;
          }
-
-        if($scope.notag||$scope.nokey||$scope.nodbname)
+        if(!$scope.selectoldlabel && $.inArray($scope.newlabel,$scope.labels)>=0)
+        {
+            $scope.labelexist=true;
+        }
+        else{
+            $scope.labelexist=false;
+        }
+        if($scope.notag||$scope.nokey||$scope.nodbname||$scope.labelexist||!$scope.check_time)
         {
             return false;
          }
@@ -281,7 +335,7 @@ function DataLabelController($scope, $http, $state, dataLabelservice,Submitservi
                 var p = parseInt($scope.jump_page);
                 if(p>totalPages)
                 {
-                    p=totalPages
+                    p=totalPages;
                 }
                 if(p<1)
                 {
@@ -329,4 +383,29 @@ function DataLabelController($scope, $http, $state, dataLabelservice,Submitservi
                     that.$element.trigger('hidden.bs.modal');
                 })
             }
+         /**
+              * 解决页面在切换导航的时候，模态框对象不会销毁的bug，原因不明，会导致切换导航后新页面的模态框和原来的重合
+              */
+         function rm_dialog()
+         {
+                console.log('rm_dialog!');
+                $('#myModal').remove();
+                $('#waitModal').remove();
+         }
+
+        //获取标签关系树
+        function draw()
+            {
+                Labeldrawservice.get({},function success(result)
+                {
+                    console.log(result);
+                    $scope.showtree=true;
+                    $scope.tree_id=($scope.tree_id+1) % 10000;
+                    $scope.tree_url="tree.png?id="+$scope.tree_id;
+                },function fail()
+                {
+                    alert("标签树显示失败！");
+                })
+            }
+
 }
