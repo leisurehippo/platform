@@ -50,7 +50,7 @@ public class DataInfoDAO {
     {
         DataInfo result=null;
         try {
-            result= jdbcTemplate.queryForObject("select since_id,weibo_time,weibo_content from " + dbname + " where since_id=?", new Object[]{id}, new DataInfoRowMapper());
+            result= jdbcTemplate.queryForObject("select since_id,weibo_time,weibo_content from " + dbname + " where since_id=? limit 1", new Object[]{id}, new DataInfoRowMapper());
         }catch (EmptyResultDataAccessException e){
             result=null;
         }
