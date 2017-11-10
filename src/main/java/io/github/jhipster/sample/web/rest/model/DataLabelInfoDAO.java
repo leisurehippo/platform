@@ -195,7 +195,7 @@ public class DataLabelInfoDAO {
     @Transactional(readOnly = true)
     public List<DataLabelInfo> findAllbypage(String db,int start,int page)
     {
-        return jdbcTemplate.query("select * from "+db+" limit ?,?",new Object[]{start,page},new DataLabelInfoRowMapper());
+        return jdbcTemplate.query("select * from "+db+" order by create_time desc limit ?,? ",new Object[]{start,page},new DataLabelInfoRowMapper());
     }
 
     @Transactional(readOnly = true)
