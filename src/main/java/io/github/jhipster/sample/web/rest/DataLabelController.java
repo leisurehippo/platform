@@ -637,9 +637,18 @@ public class DataLabelController {
                     while ((lines = bufread.readLine()) != null) {
                         String[] line = lines.trim().split("\t");
                         if ((line.length == 4 && !selectkey) || (line.length==4 && selectkey)) {
-                            if (!dataLabelInfoDAO.exists(new LabelDataSetKey(line[0].trim(), tag)))//去重
+                            //if (!dataLabelInfoDAO.exists(new LabelDataSetKey(line[0].trim(), tag)))//去重
+                            List<String> taglist=dataLabelInfoDAO.findTagbyId(line[0].trim());
+                            if(taglist==null||taglist.size()==0)
                             {
                                 data.add(new DataInfo(line[0].trim(), line[1].trim(), line[2].trim()));
+                            }
+                            else if(!taglist.contains(tag))
+                            {
+                                String tags="";
+                                for(String exist_tag:taglist)
+                                    tags+=exist_tag;
+                                data.add(new DataInfo(line[0].trim(), line[1].trim(), line[2].trim()+"------------>>>"+tags));
                             }
                         }
                     }

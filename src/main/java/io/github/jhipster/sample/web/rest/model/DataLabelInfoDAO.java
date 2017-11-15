@@ -160,6 +160,14 @@ public class DataLabelInfoDAO {
         return true;
     }
 
+    @Transactional(readOnly = true)
+    public List<String> findTagbyId(String since_id)
+    {
+
+        return jdbcTemplate.queryForList("select tag from "+Label_Table_Name+" where since_id=? "
+            ,new Object[]{since_id} , String.class);
+    }
+
     @Transactional
     public void delete(LabelDataSetKey labelDataSetKey) {
         String sql="delete from "+Label_Table_Name+" where since_id=? and tag=?";
