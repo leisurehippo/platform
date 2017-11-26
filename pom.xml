@@ -97,6 +97,28 @@
     </properties>
 
     <dependencies>
+    	<!-- db driver -->
+    	
+	    <dependency>
+	    	<groupId>com.hynnet</groupId>
+	    	<artifactId>oracle-driver-ojdbc6</artifactId>
+	    	<version>12.1.0.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/postgresql/postgresql -->
+		<dependency>
+		    <groupId>postgresql</groupId>
+		    <artifactId>postgresql</artifactId>
+		    <version>9.4.1208-jdbc42-atlassian-hosted</version>
+		</dependency>
+			<!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/sqljdbc4 -->
+		<dependency>
+		    <groupId>com.microsoft.sqlserver</groupId>
+		    <artifactId>sqljdbc4</artifactId>
+		    <version>4.0</version>
+		    <scope>test</scope>
+		</dependency>
+	
+	
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-hibernate5</artifactId>
@@ -224,6 +246,7 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
+        
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>

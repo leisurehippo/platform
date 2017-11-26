@@ -27,6 +27,7 @@ function AllFileDataController($scope, $http, $state, GetHdfsData, GetAlgorithmD
     }, function (res) {
 
     });
+    //监控projectName变量，看是否改变，全局
     $scope.$watch('vm.projectName', function (oldValue,newValue) {
         console.log(vm.projectName);
         vm.serverData = [];
@@ -48,6 +49,7 @@ function AllFileDataController($scope, $http, $state, GetHdfsData, GetAlgorithmD
 
     });
 
+    //函数定义
     vm.changeCheck = changeCheck;
     function changeCheck(index) {
          console.log("dddd");
@@ -77,7 +79,7 @@ function AllFileDataController($scope, $http, $state, GetHdfsData, GetAlgorithmD
 
     }
 
-
+    
     vm.fileUpHdfs = fileUpHdfs;
     vm.nameList = [];
     function fileUpHdfs() {
