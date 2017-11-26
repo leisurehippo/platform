@@ -443,6 +443,23 @@
                 }
             },
             params: {}
-        });
+        }).state("etl", {
+            url: "/etl",
+            parent: 'app',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: "app/etl/etl.html",
+                    controller: "ETLController",
+                    controllerAs: 'vm'
+                }
+            },
+            params: {}
+        })
+        
+        
+        ;
     }
 })();
