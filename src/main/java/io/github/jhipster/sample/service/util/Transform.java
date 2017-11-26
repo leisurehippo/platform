@@ -34,20 +34,4 @@ public class Transform {
 		return res.toString();
 	}
 	
-	public static void main(String []args){
-		List<String> paras = new ArrayList<String>();
-		paras.add("1");
-		paras.add("3");
-		String name = "dx_substr";
-		TransformItem item = new TransformItem(name, 0, paras);
-		TransformItem item1 = new TransformItem(name, 0, paras);
-		TransformItem item2 = new TransformItem(name, 0, paras);
-		Transform transform = new Transform();
-		transform.add(item);
-		transform.add(item1);
-		transform.add(item2);
-		System.out.println(transform.toString());
-		
-		
-	}
 }

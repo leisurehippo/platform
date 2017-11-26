@@ -96,15 +96,5 @@ public class Parameter {
 		return res.toString();
 	}
 	
-	public static void main(String[] args){
-		DBConnection dbConn = new DBConnection("mysql", "127.0.0.1","123", "test");
-		List<String> column = new ArrayList<String>();
-		column.add("name");
-		column.add("id");
-		Parameter parameter = new Parameter(true, "root", "123", dbConn, "user", column);
-		System.out.println(parameter.toString());
-	}
-	
-
 	
 }

@@ -54,16 +54,4 @@ public class TransformItem {
 		return res.toString();
 	}
 	
-	public static void main(String[] args) throws JSONException{
-		List<String> paras = new ArrayList<String>();
-		paras.add("1");
-		paras.add("3");
-		String name = "dx_substr";
-		TransformItem item = new TransformItem(name, 0, paras);
-		System.out.println(item.toString());
-		JSONObject json = new JSONObject(item.toString());
-		System.out.println(json.toString());
-	}
-	
-	
 }

@@ -101,14 +101,6 @@ public class DBUtil {
   
     }
 	
-	
-	public static void main(String[] args){
-		
-		DBConnection dbConn = new DBConnection("mysql","localhost", "3306", "test","root","123");
-		List<String> tables = DBUtil.getTables(dbConn);
-		System.out.println(tables.toString());
-		List<String> columns = DBUtil.getColumnsOfTable(dbConn, "user_copy_1");
-		System.out.println(columns.toString());
-	}
+
 
 }
