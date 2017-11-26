@@ -70,11 +70,6 @@ public class DBConnection {
 		}
 		return url;
 	}
-	
-	public static void main(String[] args){
-		DBConnection conn = new DBConnection("oracle","127.0.0.1","8080","test");
-		System.out.println(conn.getJdbcUrl());
-	}
 
 	public String getUsername() {
 		return username;
