@@ -148,3 +148,4 @@ Desktop.ini
 /src/main/java/io/github/jhipster/sample/web/rest/temp/
 mylog.out
 
+/.apt_generated/

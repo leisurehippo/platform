@@ -159,7 +159,7 @@ public class FileUploadingUtil {
                     //"\\\\" for windows "/" for linux
                     //remember to modify!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     //-------------------------------------------------------
-                    String [] arrList = file2.getAbsolutePath().split("\\\\");
+                    String [] arrList = file2.getAbsolutePath().split("/");
                     //get the last item
                     results.add(arrList[arrList.length-1]);
                 }
