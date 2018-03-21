@@ -16,6 +16,7 @@ function LRTrainController($scope, $http, $state, GetHdfsFile, GetParameter, Tra
     vm.modelName = "";
     vm.train = train;
     GetHdfsFile.get({}, function (res) {
+        console.log("dddd");
         console.log(res);
         vm.fileData = res;
     }, function (res) {
@@ -44,7 +45,7 @@ function LRTrainController($scope, $http, $state, GetHdfsFile, GetParameter, Tra
             console.log(res);
         });
     });
-    
+
     function train() {
         console.log( vm.dataName);
         var params = "{";
@@ -69,8 +70,8 @@ function LRTrainController($scope, $http, $state, GetHdfsFile, GetParameter, Tra
         });
 
     }
-    
-    
+
+
 
 
 

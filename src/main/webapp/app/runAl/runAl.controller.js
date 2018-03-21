@@ -47,6 +47,7 @@
 
         var type="Algorithm";
         $scope.$watch('vm.projectName', function () {
+            console.log("run-al-server");
             vm.serverData = [];
             vm.paramDes = [];
             vm.param = [];
@@ -68,6 +69,7 @@
         });
 
         $scope.$watch('vm.check', function (newvalue, oldvalue) {
+            console.log("11111");
             console.log(newvalue);
             vm.showResults = false;
             if (newvalue!="Mllib") {
@@ -133,6 +135,7 @@
 
                 angular.copy(vm.param, vm.paramMllib);
                 GetServerData.get({ProjectName:vm.projectName}, function (result) {
+                    console.log(result);
                     for (var i = 0; i< result.length; i++) {
                         vm.serverData[i] = result[i].split("+");
                         vm.checkList[i] = false;
