@@ -68,10 +68,11 @@ public class Parameter {
 			res.put("username",username);
 			res.put("password", password);
 			res.put("column", column);
+			/* some database does not support write mode, so for simplification,  I remove it.
 			if(!reader){
 				res.put("writeMode", "insert");
 			}
-			
+			*/
 			//为了简单起见，jdbcUrl和table只能为单个。
 			JSONArray conn = new JSONArray();
 			JSONObject connOb = new JSONObject();
