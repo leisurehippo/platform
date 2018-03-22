@@ -68,6 +68,7 @@ public class DBConnection {
 			default:
 				break;
 		}
+		System.out.print(url);
 		return url;
 	}
 

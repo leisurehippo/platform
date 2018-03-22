@@ -35,7 +35,7 @@ public class ETLService {
 	public boolean runJob(String job, String dataXPath, String jsonPath){
 		FileUtil.saveToFile(jsonPath, job);
 		boolean flag = EtlJobUtil.runJob(dataXPath, jsonPath);
-		FileUtil.removeFile(jsonPath);
+		//FileUtil.removeFile(jsonPath);
 		return flag;
 	}
 	

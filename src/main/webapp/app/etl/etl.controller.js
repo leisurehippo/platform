@@ -22,6 +22,13 @@ function ETLController($scope, $http, ETLService){
 		url = "etl/tables";
 
 		$http.post(url, data).success(function(result) {  
+			if (result.length <= 0){
+				console.log('fail')
+				alert('the connection infos are not correct, please check it carefully')
+			}
+			else{
+				alert('success!')
+			}
 		    console.log(result);
 		    vm.i_tables = result;
 		    console.log(vm.i_tables);
@@ -104,7 +111,14 @@ function ETLController($scope, $http, ETLService){
 		};
 		url = "etl/tables";
 
-		$http.post(url, data).success(function(result) {  
+		$http.post(url, data).success(function(result) { 
+			if (result.length <= 0){
+				console.log('fail')
+				alert('the connection infos are not correct, please check it carefully')
+			}
+			else{
+				alert('success!')
+			}
 		    console.log(result);
 		    vm.o_tables = result;
 		    console.log(vm.o_tables);
@@ -157,7 +171,8 @@ function ETLController($scope, $http, ETLService){
     			"table":vm.o_table,
     			"column":Array.from(vm.o_selected)	
 		};
-		transform = [];
+		transform = vm.transformItems;
+		console.log(vm.transformItems)
 		data = {
 				"writer":writer,
 				"reader":reader,
@@ -193,6 +208,7 @@ function ETLController($scope, $http, ETLService){
 	}
 	function addTransItem(name, columnIndex, paras){
 		if (!validIndex(columnIndex)){
+			console.log(columnIndex);
 			alert("超出输入表的列数，请重新输入");
 			return;
 		}
@@ -202,6 +218,7 @@ function ETLController($scope, $http, ETLService){
 				"paras":paras
 		};
 		vm.transformItems.push(item);
+		console.log(vm.transformItems);
 	};
 
 	

@@ -13,6 +13,8 @@ public class DBUtil {
 	public static Connection getConnection(DBConnection dbConn){
 		Connection conn = null;
 		try{
+			System.out.print(dbConn.getJdbcDriver());
+
 			Class.forName(dbConn.getJdbcDriver());
 			conn = DriverManager.getConnection(dbConn.getJdbcUrl(),dbConn.getUsername(), dbConn.getPassword());
 		}catch (Exception e) {
@@ -21,6 +23,9 @@ public class DBUtil {
 		return conn;
 	}
 	public static void closeConn(Connection conn){
+		if (conn == null){
+			return;
+		}
 		try {
 			conn.close();
 		} catch (SQLException e) {
@@ -30,6 +35,7 @@ public class DBUtil {
 	}
 	
 	public static boolean checkConn(DBConnection dbConn){
+		System.out.print("check");
 		Connection conn = null;
 		try{
 			Class.forName(dbConn.getJdbcDriver());
@@ -53,6 +59,9 @@ public class DBUtil {
 		
 		try{
 			conn = getConnection(dbConn);
+			if(conn==null){
+				return tables;
+			}
 			dbmd = conn.getMetaData();
 			ResultSet rs = dbmd.getTables(null, "%", "%", new String[] { "TABLE" });
 			
@@ -61,6 +70,7 @@ public class DBUtil {
 				System.out.print(tableName);
 				tables.add(tableName);
 			}
+			
 			
 		}catch(Exception e){
 			e.printStackTrace();
@@ -74,9 +84,12 @@ public class DBUtil {
 		Connection conn = null;
 		DatabaseMetaData dbmd = null;
 		try{
+			System.out.println("get columns:" + tableName);
 			conn = getConnection(dbConn);
 			dbmd = conn.getMetaData();
-			ResultSet rs = dbmd.getColumns(null, getSchema(conn), tableName.toUpperCase(), "%");
+			//ResultSet rs = dbmd.getColumns(null, getSchema(conn), tableName.toUpperCase(), "%");
+			ResultSet rs = dbmd.getColumns(conn.getCatalog(), conn.getSchema(), tableName, "%");
+		
 			while(rs.next()){
 				String colName = rs.getString("COLUMN_NAME");
 				System.out.print(colName);
@@ -93,11 +106,15 @@ public class DBUtil {
 	
 	private static String getSchema(Connection conn) throws Exception {  
         String schema;  
-        schema = conn.getMetaData().getUserName();  
+        //schema = conn.getMetaData().getUserName();  
+        schema = conn.getSchema();
         if ((schema == null) || (schema.length() == 0)) {  
             throw new Exception("ORACLE数据库模式不允许为空");  
         }  
-        return schema.toUpperCase().toString();  
+
+        System.out.println("schema"+  conn.getSchema());
+        //return schema.toUpperCase().toString();  
+        return schema;
   
     }
 	

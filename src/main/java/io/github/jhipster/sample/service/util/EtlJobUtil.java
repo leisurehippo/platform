@@ -1,7 +1,9 @@
 package io.github.jhipster.sample.service.util;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -42,9 +44,13 @@ public class EtlJobUtil {
 	}
 	
 	public static boolean runJob(String dataXPath, String jsonPath){
+		/**
+		 * 注意运行的python环境必须为2.7,不能为3。在Eclipse测试时，更改环境后需重启Eclipse
+		 */
+		
 		System.out.println("prepare to execute transform");
 		String[] pargs = new String[]{"python",dataXPath,jsonPath};
-		System.out.println(jsonPath);
+		System.out.println(Arrays.toString(pargs));
 		if(!FileUtil.checkFile(jsonPath)){
 			return false;
 		}
@@ -71,6 +77,28 @@ public class EtlJobUtil {
 			e.printStackTrace();
 		}
 		return flag;
+	}
+	
+	public static void main(String[] args) throws IOException, InterruptedException{
+		System.out.println("test");
+		//String[] pargs = {"python","C:/代码相关/平台/datax/bin/datax.py","C:/代码相关/平台/datax/bin/job.json"};
+		String pargs = "python C:/代码相关/平台/datax/bin/datax.py C:/代码相关/平台/datax/bin/job.json";
+		//String pargs = "python C:/代码相关/平台/datax/bin/test.py";
+		System.out.println(pargs);
+		Process process = Runtime.getRuntime().exec(pargs);
+		BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));  
+        String line;  
+        
+        while ((line = in.readLine()) != null) {  
+        	System.out.println(line); //测试时使用，完成时删除
+            if (line.contains("ERROR")){
+            	System.out.println("Fail");
+            	//break;
+            }
+        }  
+        in.close();  
+        process.waitFor();  
+        System.out.println("end"); 
 	}
 	
 	
