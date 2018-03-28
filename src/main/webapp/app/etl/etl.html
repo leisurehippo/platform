@@ -1,21 +1,21 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-lg-4 col-md-4 ">
-			<h3>Input source</h3>	
-			 <div class="panel-heading">
-                   <button class="btn btn-primary" data-toggle="modal" data-target="#i-Modal" >create db connnection</button>
-             </div>				
-							
-			<div class="form-group row">
-				<label class="coltrol-label">table: </label>
-				 <select style="width:120px;height: 30px;margin-bottom: 10px;" ng-model="vm.i_table">
-            		<option ng-repeat="item in vm.i_tables">{{item}}</option>
-        		</select>
+			<h3>输入源配置</h3>	
+			<div>
+            	<button class="btn btn-primary" data-toggle="modal" data-target="#i-Modal" >
+            	<span class="glyphicon glyphicon-cog" aria-hidden="true"> 配置数据库</span>
+            	</button>
 			</div>
-			
+			<div>		
+			<label class="coltrol-label">选择数据来源表: </label>
+			 <select style="width:120px;height: 30px;margin-bottom: 10px;" ng-model="vm.i_table">
+           		<option ng-repeat="item in vm.i_tables">{{item}}</option>
+       		</select>
+			</div>	
 			<div class="form-group row" >
 				<div class="col-lg-6">
-					<label class="coltrol-label">columns:</label>
+					<label class="coltrol-label">选择表中所需转换输出的列(对应顺序):</label>
 					<div ng-repeat="item in vm.i_columns" >	
 						<div>
 		       				<input  type="checkbox" name="{{item}}" ng-checked="vm.isSelected('i',item)" ng-click="vm.updateSelection($event,'i',item)">
@@ -29,7 +29,49 @@
 		</div>
 		
 		<div class="col-lg-4 col-md-4">
-			<h3>Transforms</h3>
+			<h3>输出源配置</h3>
+			 <div >
+                   <button class="btn btn-primary" data-toggle="modal" data-target="#o-Modal" >
+                      <span class="glyphicon glyphicon-cog" aria-hidden="true"> 配置数据库</span>
+                   </button>
+             </div>	
+             <div>
+				<label class="coltrol-label">选择数据输出端表</label>
+				 <select style="width:120px;height: 30px;margin-bottom: 10px;" ng-model="vm.o_table">
+            		<option ng-repeat="item in vm.o_tables">{{item}}</option>
+        		</select>
+			</div>
+			
+			<div class="form-group row">
+				<div class="col-lg-4">
+					<label class="coltrol-label">选择表中所需输入的列(对应输入):</label>
+					<div ng-repeat="item in vm.o_columns" >	
+						<div>
+		       				<input  type="checkbox" name="{{item}}" ng-checked="vm.isSelected('o',item)" ng-click="vm.updateSelection($event,'o',item)">
+							{{item}}
+						</div>		
+					</div>	
+				</div>
+				<div class="col-lg-4 ">
+					<h5>输入列</h5>
+					<ul class="list-group"  >
+						<li class="list-group-item" ng-repeat="item in vm.i_selected_list">{{item}}</li>
+					</ul>
+					
+				</div>
+				<div class="col-lg-4">
+					<h5>输出列</h5>
+					<ul class="list-group"  >
+						<li class="list-group-item" ng-repeat="item in vm.o_selected_list">{{item}}</li>
+					</ul>
+				</div>
+			</div>
+		
+		</div>
+		
+		
+		<div class="col-lg-4 col-md-4">
+			<h3>数据转换配置</h3>
 			<div class="btn-group" role="group">
 				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#t1-Modal" >substr</button>
 				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#t2-Modal" >pad</button>
@@ -38,16 +80,16 @@
 				<button type="button" class="btn btn-danger" data-toggle="modal" ng-click="vm.rmTransItem()" >RemoveAll</button>
 			</div>
 			
-			<h4>transform items：</h4>
+			<h5>已添加的转换</h5>
 			<table class="table">
 				<thead>
 					<tr>
 					  <th>#</th>
-					  <th>name</th>
-					  <th>column</th>
-					  <th>p1</th>
-					  <th>p2</th>
-					  <th>p3</th>
+					  <th>转换类型</th>
+					  <th>对应的列</th>
+					  <th>参数1</th>
+					  <th>参数2</th>
+					  <th>参数3</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -62,44 +104,7 @@
 		
 		</div>
 		
-		<div class="col-lg-4 col-md-4">
-			<h3>Output source</h3>
-			 <div class="panel-heading">
-                   <button class="btn btn-primary" data-toggle="modal" data-target="#o-Modal" >create db connnection</button>
-             </div>	
-             <div class="form-group row">
-				<label class="coltrol-label">table</label>
-				 <select style="width:120px;height: 30px;margin-bottom: 10px;" ng-model="vm.o_table">
-            		<option ng-repeat="item in vm.o_tables">{{item}}</option>
-        		</select>
-			</div>
-			
-			<div class="form-group row">
-				<div class="col-lg-4">
-					<h5>columns</h5>
-					<div ng-repeat="item in vm.o_columns" >	
-						<div>
-		       				<input  type="checkbox" name="{{item}}" ng-checked="vm.isSelected('o',item)" ng-click="vm.updateSelection($event,'o',item)">
-							{{item}}
-						</div>		
-					</div>	
-				</div>
-				<div class="col-lg-4 ">
-					<h5>input_columns</h5>
-					<ul class="list-group"  >
-						<li class="list-group-item" ng-repeat="item in vm.i_selected_list">{{item}}</li>
-					</ul>
-					
-				</div>
-				<div class="col-lg-4">
-					<h5>output_columns</h5>
-					<ul class="list-group"  >
-						<li class="list-group-item" ng-repeat="item in vm.o_selected_list">{{item}}</li>
-					</ul>
-				</div>
-			</div>
 		
-		</div>
 	
 	</div> <!-- end of row -->
 	<div>
@@ -112,12 +117,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h3 class="modal-title" id="myModalLabel">input database setting</h3>
+                    <h3 class="modal-title" id="myModalLabel">输入源数据库配置</h3>
                 </div>
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label class="control-label" >dbType:</label>
+                            <label class="control-label" >数据库类型:</label>
                             <select style="width:120px;height: 30px;margin-bottom: 10px;" ng-model="vm.i_dbType">
 					          <option >mysql</option>
 						      <option >postgresql</option>
@@ -161,12 +166,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h3 class="modal-title" id="myModalLabel">database setting</h3>
+                    <h3 class="modal-title" id="myModalLabel">输出端数据库配置</h3>
                 </div>
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label class="control-label" >dbType:</label>
+                            <label class="control-label" >数据库类型:</label>
                             <select style="width:120px;height: 30px;margin-bottom: 10px;" ng-model="vm.o_dbType">
 						          <option >mysql</option>
 						          <option >postgresql</option>
@@ -210,7 +215,7 @@
 	            <div class="modal-content">
 		            <div class="modal-header">
 		                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-		                <h3 class="modal-title" id="myModalLabel">dx_substr</h3>
+		                <h3 class="modal-title" id="myModalLabel">提取子串</h3>
 		            </div>
 		            <div class="modal-body">
 		                    <div class="row">
@@ -238,7 +243,7 @@
 	            <div class="modal-content">
 		            <div class="modal-header">
 		                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-		                <h3 class="modal-title" id="myModalLabel">dx_pad</h3>
+		                <h3 class="modal-title" id="myModalLabel">添加重复字符</h3>
 		            </div>
 		            <div class="modal-body">
 		                    <div class="row">
@@ -274,7 +279,7 @@
 	            <div class="modal-content">
 		            <div class="modal-header">
 		                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-		                <h3 class="modal-title" id="myModalLabel">dx_replace</h3>
+		                <h3 class="modal-title" id="myModalLabel">替换字符串</h3>
 		            </div>
 		            <div class="modal-body">
 		                    <div class="row">
@@ -306,7 +311,7 @@
             <div class="modal-content">
 	            <div class="modal-header">
 	                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
-	                <h3 class="modal-title" id="myModalLabel">dx_fliter</h3>
+	                <h3 class="modal-title" id="myModalLabel">过滤操作</h3>
 	            </div>
 	            <div class="modal-body">
 	                    <div class="row">
