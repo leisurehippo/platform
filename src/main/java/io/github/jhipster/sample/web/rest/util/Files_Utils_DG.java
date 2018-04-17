@@ -29,7 +29,7 @@ public class Files_Utils_DG {
             String suffix = multipartFile.getOriginalFilename().substring(multipartFile.getOriginalFilename().lastIndexOf("."));
             //filePath+fileName the complex file Name
             String absolutePath = getAndSetAbsolutePath(request, filePath, suffix);
-            //return relative Path
+            //return relative Pathq
             String relativePath = getRelativePath(filePath, suffix);
             try {
                 //save file

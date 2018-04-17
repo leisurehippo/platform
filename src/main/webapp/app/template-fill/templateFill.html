@@ -1,0 +1,170 @@
+<script src="bower_components/bootstrap-fileinput/js/fileinput.js"></script>
+
+<div class="container-fluid">
+<div class="row">
+	<div class="col-lg-4 col-md-4 ">
+		<h3>电网文本任务配置</h3>
+	    <button class="btn btn-primary" data-toggle="modal" data-target="#create_task_modal">创建任务</button>
+	    <button class="btn btn-danger" ng-click="vm.delete_all()">删除所有任务</button>
+		<input type="checkbox"  ng-click="vm.update_selection($event)">线路设备转换
+		<table class="table">
+					<thead>
+						<tr>
+						  <th>#</th>
+						  <th>任务名</th>
+						  <th>删除</th>
+						  <th>配置</th>
+						  <th>上传</th>
+						  <th>运行</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="task in vm.tasks">
+						  <th>{{$index}}</th>
+						  <th>{{task.name}}</th>
+						  <th>
+	    					<button class="btn btn-danger" ng-click="vm.delete_task(task.name)">
+								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+							</button>
+						  </th>
+						  <th>
+							  <button class="btn btn-default" ng-click="vm.edit_task(task.name)" data-toggle="modal" data-target="#edit_task_modal">
+								   <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+							  </button>
+						  </th>
+						  <th>
+							  <button class="btn btn-default" ng-click="vm.file_upload(task.name)" data-toggle="modal" data-target="#myModal">
+								   <span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
+							  </button>
+						  </th>
+			
+						   <th>
+	    					<button class="btn btn-default" ng-click="vm.run_task(task.name)">
+								<span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+							</button>
+						  </th>
+						
+						</tr>
+					</tbody>
+		</table>	  
+
+		
+	</div>
+	
+	<div class="col-lg-8 col-md-8 ">
+		<h3>输出文本获取</h3>	
+		<div>
+			<button type="button" class="btn btn-primary"  ng-click="vm.updateResult()">保存修改</button>
+			<label>下载输出文本:</label>
+			<a ng-href="{{fileUrl}}" download="result.txt" ng-click="vm.download()">download</a>
+		</div>
+			<table class="table">
+					<thead>
+						<tr>
+						  <th>#</th>
+						  <th>报告名</th>
+						  <th>故障名称</th>
+  						  <th>单位名称</th>
+  						  <th>变电站名称</th>
+  						  <th>电压等级</th>
+  						  <th>投运时间</th>
+  						  <th>型号</th>
+  						  <th>生产厂家</th>
+  						  <th>设备类型</th> 
+  						  <th>测试环境温度</th>
+  						  <th>测试环境湿度</th>
+  						  <th>故障发现时间</th>
+  						  <th>测试时天气</th>
+  						  <th>缺陷等级</th>
+  						  <th>地理位置</th>
+  						  <th>塔号</th>
+  						 
+						</tr>
+					</thead>
+					<tbody>
+				
+					</tbody>
+		</table>
+	</div>
+		
+	
+</div>
+</div>
+
+<form>
+    <div class="modal fade" id="myModal" tabindex="1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">请选择文件</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="file" name="file" id="txt_file" multiple class="file-loading" />
+                </div></div>
+        </div>
+    </div>
+</form>
+
+<div class="modal fade" id="create_task_modal" role="dialog" >
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+				<h3 class="modal-title" id="myModalLabel">创建任务</h3>
+			</div>
+			<div class="modal-body">
+				<label>任务名</label>
+				<input type="text" ng-model="vm.c_taskname">
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="vm.create_task()">create</button>
+				
+			</div>
+		</div>
+	</div>
+</div>  
+
+<div class="modal fade" id="edit_task_modal" role="dialog" >
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+				<h3 class="modal-title" id="myModalLabel">任务:{{vm.cur_task}}</h3>
+			</div>
+			<div class="modal-body">
+				<button class="btn btn-danger" ng-click="vm.deleteFileList(vm.cur_task)" >删除所有文件</button>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>文件名</th>
+							<th>删除</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="file in vm.filelist">
+							<th>{{$index}}</th>
+							<th>{{file}}</th>
+							<th>
+								<button class="btn btn-danger" ng-click="vm.delete_task_file(vm.cur_task,file)">
+									<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+								</button>
+							</th>
+						</tr>
+
+					</tbody>
+				</table>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+				
+			</div>
+		</div>
+	</div>
+</div>  
+
+
+

@@ -1,5 +1,7 @@
 package io.github.jhipster.sample.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -109,5 +111,14 @@ public class ETLService {
 		DBConnection dbConn = new DBConnection(dbType, ip, port, database, username, password);
 		return DBUtil.checkConn(dbConn);
 				
+	}
+	
+	public void saveToFile(String file_path, File f){
+		try {
+			FileUtil.saveToFile(file_path, f);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

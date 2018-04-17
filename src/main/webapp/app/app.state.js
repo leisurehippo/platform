@@ -457,6 +457,34 @@
                 }
             },
             params: {}
+        }).state("textetl", {
+            url: "/textetl",
+            parent: 'app',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: "app/etl/textETL.html",
+                    controller: "TextETLController",
+                    controllerAs: 'vm'
+                }
+            },
+            params: {}
+        }).state("templatefill", {
+            url: "/templatefill",
+            parent: 'app',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: "app/template-fill/templateFill.html",
+                    controller: "TemplateFillController",
+                    controllerAs: 'vm'
+                }
+            },
+            params: {}
         })
         
         
