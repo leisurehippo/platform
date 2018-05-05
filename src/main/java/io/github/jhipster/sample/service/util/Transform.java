@@ -6,6 +6,11 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * Base class of ETL module
+ * @author zzs
+ *
+ */
 public class Transform {
 	private List<TransformItem> items;
 	

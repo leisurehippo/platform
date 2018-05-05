@@ -14,6 +14,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import io.github.jhipster.sample.service.TemplateFillService;
+import io.github.jhipster.sample.service.util.TemplateFillTask;
 import io.github.jhipster.sample.web.rest.util.FileUploadingUtil;
 
 @RestController
@@ -34,7 +36,7 @@ import io.github.jhipster.sample.web.rest.util.FileUploadingUtil;
 public class TemplateFillController {
 	   private static FileUploadingUtil fileUtil = new FileUploadingUtil();
 	   private static String ProjectPathPrefix = "src/main/webappfiles/Project/TemplateFill";	
-	
+	   private static TemplateFillService service = new TemplateFillService();
 	
 	  /**
      * 文件上传具体实现方法, 直接上传文件到Project目录下;
@@ -44,7 +46,7 @@ public class TemplateFillController {
 	 * @throws IOException 
 	 * @throws UnsupportedEncodingException 
      */
-    @PostMapping("/uploadETLFile")
+    @PostMapping("/uploadFile")
     @ResponseBody
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    @RequestParam(value = "taskname")  String taskname
@@ -77,60 +79,123 @@ public class TemplateFillController {
         return res.toString();
     }
     
-    @RequestMapping("/getTasks")
+    @GetMapping("/addTask")
+    @ResponseBody
+    public String addTask(@RequestParam(value="taskname") String taskname,@RequestParam(value="type") String type) throws JSONException{
+    	System.out.println("add Task");
+    	JSONObject res = new JSONObject();
+    	String username = "root"; // may be modified later
+    	boolean flag = service.addTask(taskname, type, username);
+    	res.put("flag", flag);
+    	return res.toString();
+    }
+    
+    @GetMapping("/delTask")
+    @ResponseBody
+    public String delTask(@RequestParam(value="taskname") String taskname) throws JSONException{
+    	JSONObject res = new JSONObject();
+    	boolean flag = service.delTask(taskname);
+    	res.put("flag", flag);
+    	return res.toString();
+    }
+    
+    @GetMapping("/updateTask")
+    @ResponseBody
+    public String updateTask(String taskname, String type) throws JSONException{
+    	JSONObject res = new JSONObject();
+    	boolean flag = service.updateTask(taskname, type);
+    	res.put("flag", flag);
+    	return res.toString();
+    }
+    
+    @GetMapping("/getTask")
+    @ResponseBody
+    public String getTask(String taskname) throws JSONException{
+    	JSONObject res = new JSONObject();
+    	TemplateFillTask task = service.getTask(taskname);
+    
+    	if(task == null){
+    		res.put("task", "null");
+    	}
+    	else{
+    		res.put("task", task);
+    	}
+    	return res.toString();
+    }
+    
+    
+    @GetMapping("/getAllTasks")
 	@ResponseBody
     public String getTasks() throws JSONException{
 		JSONObject res = new JSONObject();
-		
-		List<String> tasks = fileUtil.listDir(ProjectPathPrefix, true);
+    	List<TemplateFillTask> tasks = service.getAllTasks();
+    	System.out.println(tasks.size());
 		res.put("tasks",tasks);
 		return res.toString();
     }
     
-    @RequestMapping("delTasks")
-    @ResponseBody
-    public String delTasks(@RequestParam(value="taskname") String taskname){
-    	JSONObject res = new JSONObject();
-    	
-    	String dirPath = ProjectPathPrefix + '/'+taskname;
-    	boolean flag = fileUtil.deleteDirectory(dirPath);
-    	return res.toString();
+    @GetMapping("/searchByTime")
+   	@ResponseBody
+    public String searchTaskByTime(String beginTime, String endTime) throws JSONException{
+		JSONObject res = new JSONObject();
+		List<TemplateFillTask> tasks = service.searchTaskByTime(beginTime, endTime);
+		res.put("tasks", tasks);
+		return res.toString();
     }
     
-    @RequestMapping("getTaskFiles")
+    @GetMapping("/searchByType")
+   	@ResponseBody
+    public String searchTaskByType(String type) throws JSONException{
+		JSONObject res = new JSONObject();
+		List<TemplateFillTask> tasks = service.searchTaskByType(type);
+		res.put("tasks", tasks);
+		return res.toString();
+    }
+    
+    @GetMapping("/getTaskFiles")
     @ResponseBody
     public String getTaskFiles(@RequestParam(value="taskname") String taskname) throws JSONException{
     	JSONObject res = new JSONObject();
-    	String dir_path = ProjectPathPrefix + "/newdir";
-    	List<String> files = fileUtil.listDir(dir_path, false);
+    	List<String> files = service.getTaskFiles(taskname);
     	res.put("files",files);
     	return res.toString();
     }
     
-    @RequestMapping("addTask")
+    @GetMapping("/delTaskFiles")
     @ResponseBody
-    public String addTask(@RequestParam(value="taskname") String taskname) throws JSONException{
+    public String delTaskFiles(@RequestParam(value="taskname") String taskname) throws JSONException{
     	JSONObject res = new JSONObject();
-        File file = new File(ProjectPathPrefix + '/' + taskname);
-        if(file.exists()){
-        	res.put("flag", false);
-        }
-        else{
-        	res.put("flag", true);
-        	file.mkdirs();
-        }
-    	
+    	boolean flag = fileUtil.deleteDirectory(ProjectPathPrefix+'/'+taskname+"/original");
+    	res.put("flag",flag);
     	return res.toString();
     }
     
-    public String runTask(@RequestParam(value="taskname") String taskname,
-            				@RequestParam(value = "xianlu")  boolean xianlu) throws JSONException{
-    	TemplateFillService service = new TemplateFillService();
+    @GetMapping("/delTaskFile")
+    @ResponseBody
+    public String delTaskFile(String taskname, String filename) throws JSONException{
     	JSONObject res = new JSONObject();
-    	String task_path = ProjectPathPrefix + "/" + taskname;
-    	boolean flag = service.runTask(task_path, xianlu);
+    	boolean flag = fileUtil.deleteFile(ProjectPathPrefix+'/'+taskname+"/original"+"/"+filename);
+    	res.put("flag",flag);
+    	return res.toString();
+    }
+    
+
+    @GetMapping("/runTask")
+    @ResponseBody
+    public String runTask(@RequestParam(value="taskname") String taskname) throws JSONException{
+    	JSONObject res = new JSONObject();
+    	boolean flag = service.runTask(taskname);
     	res.put("flag", flag);
 
+    	return res.toString();
+    }
+    
+    @GetMapping("/getResult")
+    @ResponseBody
+    public String getResult(@RequestParam(value="taskname") String taskname) throws JSONException{
+    	JSONObject res = new JSONObject();
+    	JSONArray result_infos = service.getResult(taskname);
+    	res.put("result_infos", result_infos);
     	return res.toString();
     }
     
@@ -141,6 +206,7 @@ public class TemplateFillController {
 		HttpServletRequest request =  ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
 		InputStream inputStream = null;  
         OutputStream outputStream = null;
+        System.out.println(taskname);
         String result_file_path = ProjectPathPrefix +"/"+taskname+ "/result.txt";
         System.out.println(result_file_path);
 		File file=new File(result_file_path);
@@ -167,5 +233,7 @@ public class TemplateFillController {
 	        	e.printStackTrace();
 	        }
 	}
+    
+
     
 }
