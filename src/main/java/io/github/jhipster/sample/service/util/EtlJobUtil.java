@@ -79,27 +79,6 @@ public class EtlJobUtil {
 		return flag;
 	}
 	
-	public static void main(String[] args) throws IOException, InterruptedException{
-		System.out.println("test");
-		//String[] pargs = {"python","C:/代码相关/平台/datax/bin/datax.py","C:/代码相关/平台/datax/bin/job.json"};
-		String pargs = "python C:/代码相关/平台/datax/bin/datax.py C:/代码相关/平台/datax/bin/job.json";
-		//String pargs = "python C:/代码相关/平台/datax/bin/test.py";
-		System.out.println(pargs);
-		Process process = Runtime.getRuntime().exec(pargs);
-		BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));  
-        String line;  
-        
-        while ((line = in.readLine()) != null) {  
-        	System.out.println(line); //测试时使用，完成时删除
-            if (line.contains("ERROR")){
-            	System.out.println("Fail");
-            	//break;
-            }
-        }  
-        in.close();  
-        process.waitFor();  
-        System.out.println("end"); 
-	}
 	
 	
 }

@@ -70,10 +70,4 @@ public class TemplateFillTask {
 		return false;	
 	}
 	
-	public static void main(String args[]){
-		TemplateFillTask task = new TemplateFillTask("test", "root", "a1");
-		LocalDate date = LocalDate.parse("2018-04-21");
-		System.out.println(date.toString());
-	}
-
 }

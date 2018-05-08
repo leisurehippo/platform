@@ -286,14 +286,6 @@ public class TemplateFillService {
 		   }
 	   }
 	   return res;
-   }
-   
-   public static void main(String[] args){
-	  TemplateFillService service = new TemplateFillService();
-	  
-	  System.out.println(service.getResult("test"));
-   }
-
-   
+   }   
    
 }
