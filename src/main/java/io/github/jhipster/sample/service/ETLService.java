@@ -121,4 +121,16 @@ public class ETLService {
 			e.printStackTrace();
 		}
 	}
+	
+	public void deleteDirFiles(String dir_path){
+		 File dirFile = new File(dir_path);
+        // 如果dir对应的文件不存在，或者不是一个目录，则退出
+        if (!dirFile.exists() || !dirFile.isDirectory()) {
+            return ;
+        }
+        for(File file : dirFile.listFiles()){
+        	file.delete();	
+        }
+	}
+	
 }

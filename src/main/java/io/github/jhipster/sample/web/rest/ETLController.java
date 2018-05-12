@@ -101,7 +101,8 @@ public class ETLController {
                                    @RequestParam(value = "skipHead")  boolean skipHead
                                    ) throws JSONException, UnsupportedEncodingException, IOException{
         JSONObject object = new JSONObject();
-      
+	    ETLService service = new ETLService();
+
         String fileName = file.getOriginalFilename();
         String fileExtension = "";
         fileExtension = fileName.substring(fileName.lastIndexOf("."));
@@ -112,7 +113,7 @@ public class ETLController {
         }
         boolean flagUpload;
         try{
-            fileUtil.deleteDirectory(ProjectPathPrefix+"/data");
+            service.deleteDirFiles(ProjectPathPrefix+"/data");
             flagUpload = fileUtil.uploadFile(file,ProjectPathPrefix+"/data/");
         }catch (Exception e){
             object.put("result", "fail");
@@ -204,9 +205,8 @@ public class ETLController {
 	    job_res.put("job", job);
 	    
 		JSONObject res = new JSONObject();
-		for(String file : fileUtil.listDir(ProjectPathPrefix+"/result", false)){
-			fileUtil.deleteFile(file);
-		}
+
+		service.deleteDirFiles(ProjectPathPrefix+"/result");
 		
 		if(service.runJob(job_res.toString())){
 			res.put("message", "success");
@@ -214,12 +214,18 @@ public class ETLController {
 		else{
 			res.put("message", "fail");	
 		}
-		
-	    String result_etl_file_path = fileUtil.listDir(ProjectPathPrefix+"/result", false).get(0);
-        File f = new File(result_etl_file_path);
-        String result_txt_path = ProjectPathPrefix+"/result/result.txt";
-        service.saveToFile(result_txt_path,f);
-        res.put("result_file_path", result_txt_path);
+		System.out.println(job_res.toString());
+		String result_etl_file_path = "";
+		File dirFile = new File(ProjectPathPrefix+"/result");
+		for(File file : dirFile.listFiles()){
+        	result_etl_file_path = file.getAbsolutePath();
+        }
+	    System.out.println(result_etl_file_path);
+        //File f = new File(result_etl_file_path);
+        //String result_txt_path = ProjectPathPrefix+"/result/result.txt";
+        //service.saveToFile(result_txt_path,f);
+        //res.put("result_file_path", result_txt_path);
+		res.put("result_file_path", result_etl_file_path);
 		return res.toString();
 	}
     @GetMapping(value="/download")

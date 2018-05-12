@@ -59,7 +59,6 @@ public class EtlJobUtil {
 			Process process = Runtime.getRuntime().exec(pargs);
 			BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));  
             String line;  
-  
             while ((line = in.readLine()) != null) {  
             	System.out.println(line); //测试时使用，完成时删除
                 if (line.contains("ERROR")){
@@ -67,8 +66,13 @@ public class EtlJobUtil {
                 	flag = false;
                 	break;
                 }
-            }  
-            in.close();  
+            }
+	        BufferedReader e_in = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+	        while((line = e_in.readLine())!=null){
+	        	System.out.println(line);
+	        }
+            in.close(); 
+            e_in.close();
             process.waitFor();  
             System.out.println("end"); 
             return flag;
