@@ -214,17 +214,11 @@ public class ETLController {
 		else{
 			res.put("message", "fail");	
 		}
-		System.out.println(job_res.toString());
 		String result_etl_file_path = "";
 		File dirFile = new File(ProjectPathPrefix+"/result");
 		for(File file : dirFile.listFiles()){
         	result_etl_file_path = file.getAbsolutePath();
         }
-	    System.out.println(result_etl_file_path);
-        //File f = new File(result_etl_file_path);
-        //String result_txt_path = ProjectPathPrefix+"/result/result.txt";
-        //service.saveToFile(result_txt_path,f);
-        //res.put("result_file_path", result_txt_path);
 		res.put("result_file_path", result_etl_file_path);
 		return res.toString();
 	}
