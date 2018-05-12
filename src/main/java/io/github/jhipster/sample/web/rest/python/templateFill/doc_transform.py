@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*- 
 from docx import Document
 from win32com import client as wc
 import os
