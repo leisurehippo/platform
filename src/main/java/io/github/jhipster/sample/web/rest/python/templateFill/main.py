@@ -348,7 +348,7 @@ def extract_info(root, xianlu=False):
         except IndexError as e:
             case_dict={}
             traceback.print_exc()
-        file_name =  _filename[:-4].decode('GB2312')     
+        file_name =  _filename[:-4].decode('utf-8')    
         case_dict[u'报告名称']=(u'报告名称',file_name)
         if not xianlu:
             fault = get_fault_1(file_name)
@@ -373,7 +373,7 @@ def extract_info(root, xianlu=False):
         bad_level=''
         for i in range(len(lines)):
             line = lines[i].strip()
-            line = line.decode('gb2312')
+            line = line.decode('utf-8')
             if '\r' in line or len(line)<2:
                 continue
             line=re.sub('[\s\u3000]+','',line)
