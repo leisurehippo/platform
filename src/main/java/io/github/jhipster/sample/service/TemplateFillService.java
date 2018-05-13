@@ -40,8 +40,8 @@ public class TemplateFillService {
 		pargs.add(PYTHON_PATH+"/main.py");
 		pargs.add(ab_taskpath);
 		pargs.add(PYTHON_PATH);
-		if(!xianlu){
-			pargs.add("false");
+		if(xianlu){
+			pargs.add("true");
 		}
 		
 		String[] args = pargs.toArray(new String[0]);
