@@ -7,42 +7,42 @@ from docx import Document
 import codecs
 import traceback
 import argparse
-
+import chardet
 manufacturer_dict = set()
 device_type_dict = set()
 parts_dict=set()
 location_dict=set()
 level_dict=set()
 
-equip_pattern=re.compile(r"(\d+[k千]*[伏v]+)([^-线站厂所,.，。；;、：:(（）)]*[线站厂所])",re.I)
-ta_pattern=re.compile(r'#(\d+)')
-size_pattern=re.compile(r'([\w\d]+[-/*×.()]+){1,10}[\w\d]+\)*',re.I|re.A)
-distance_pattern=re.compile(r'\d+\.*\d+k*m|^\d+\.\d+$',re.I)
-company_stop_words=['山东送变电工程公司','LG']
-runtime_pat=re.compile(r'\d+年(\d+月)*(\d+日)*|\d+-\d+-\d+')
+equip_pattern=re.compile(u"(\d+[k千]*[伏v]+)([^-线站厂所,.，。；;、：:(（）)]*[线站厂所])",re.I)
+ta_pattern=re.compile(u'#(\d+)')
+size_pattern=re.compile(u'([\w\d]+[-/*×.()]+){1,10}[\w\d]+\)*',re.I)
+distance_pattern=re.compile(u'\d+\.*\d+k*m|^\d+\.\d+$',re.I)
+company_stop_words=[u'山东送变电工程公司',u'LG']
+runtime_pat=re.compile(u'\d+年(\d+月)*(\d+日)*|\d+-\d+-\d+')
 
 
 def get_substation(substation, line):
     if len(substation) > 0:
         return substation
     line = line.replace(' ','').strip()
-    line = re.sub('([kK][vV])|(千伏)','kV',line)
-    p_substation = '.+变电站'
+    line = re.sub(u'([kK][vV])|(千伏)','kV',line)
+    p_substation = u'.+变电站'
     m3 = re.search(p_substation, line)
     if m3 != None and len(substation)==0:
         seg_list = list(jieba.cut(m3.group(0).replace(' ','')))
         res = ''.join(seg_list[-3:])
-        if 'kV' in res:
+        if u'kV' in res:
             if len(seg_list[-1]) != 3:
                 substation = seg_list[-1]
             else:
-                substation = re.sub('\d+kV','',res)
+                substation = re.sub(u'\d+kV','',res)
         else:
             substation = ''.join(seg_list[-2:])
-    block_words = ['在', '于', '发现', '对', '该', '×', '某', '所有','X','此','为']
+    block_words = [u'在', u'于', u'发现', u'对', u'该', u'×', u'某', u'所有',u'X',u'此',u'为']
     for word in block_words:
         if word in substation:
-            substation = '某变电站'
+            substation = u'某变电站'
             break
 
     return substation
@@ -50,20 +50,21 @@ def get_substation(substation, line):
 
 
 def get_unit_name(unit_name, line):
-    if '单位名称' in line and len(unit_name) == 0:
-        line = line.replace('：', ':')
-        words = line.split(':')
+    if u'单位名称' in line and len(unit_name) == 0:
+        line = line.replace(u'：', ':')
+        words = line.split(u':')
         if len(words)>1:
             unit_name= words[1]
         else:
             unit_name = line[4:]
-        unit_name = unit_name.strip().strip('【').strip('】')
+        unit_name = unit_name.strip().strip(u'【').strip(u'】')
     return unit_name
 
 def get_device(device_type, line):
     if len(device_type) != 0:
         return device_type
     for device in device_type_dict:
+        #device = device.encode('UTF-8')
         if device in line:
             device_type = device
             break
@@ -80,9 +81,8 @@ def get_xianlu(device_type,line):
 
 def get_voltage(voltage, line):
     line = line.replace(' ','')
-    line = line.replace('千伏','kV')
-    line = line.replace('KV','kV')
-    m = re.search('\d+kV', line)
+    line = re.sub(u'([kK][vV])|(千伏)','kV',line)
+    m = re.search(u'\d+kV', line)
     if m != None and len(voltage) == 0:
         voltage = m.group(0)
     return voltage
@@ -90,17 +90,17 @@ def get_voltage(voltage, line):
 def get_run_date(run_date, line):
     if len(run_date) != 0:
         return run_date
-    line = line.replace('：',':').replace(' ','')
-    date = '\d+年(\d+月)*(\d+日?)*'
-    p1 = date + '((投入运行)|(投运))'
-    p2 = '投运日期为' + date
-    p3 = '投运日期为'+'\d+-\d+-\d+'
-    p4 = '投运日期:' + date
+    line = line.replace(u'：',u':').replace(' ','')
+    date = u'\d+年(\d+月)*(\d+日?)*'
+    p1 = date + u'((投入运行)|(投运))'
+    p2 = u'投运日期为' + date
+    p3 = u'投运日期为'+u'\d+-\d+-\d+'
+    p4 = u'投运日期:' + date
     # m1 = re.search(p1, line)
     # m2 = re.search(p2, line)
     # m3 = re.search(p3, line)
     # m4 = re.search(p4, line)
-    if '投运' in line:
+    if u'投运' in line:
         m5=re.search(runtime_pat,line)
         if m5:
             run_date=m5.group(0)
@@ -108,7 +108,7 @@ def get_run_date(run_date, line):
     if not run_date:
         m1 = re.search(p1, line)
         if m1 != None:
-            run_date = m1.group(0).replace('投入运行','投运')[:-2]
+            run_date = m1.group(0).replace(u'投入运行',u'投运')[:-2]
     # elif m2 != None:
     # 	run_date = m2.group(0)[5:]
     # elif m3 != None:
@@ -116,7 +116,7 @@ def get_run_date(run_date, line):
     # elif m4 != None:
     # 	run_date = m4.group(0)[5:]
 
-    return run_date.replace('年','/').replace('月','/').replace('日','').strip('/')
+    return run_date.replace(u'年','/').replace(u'月','/').replace(u'日','').strip('/')
 
 
 # ust find the first date appear in the head of line
@@ -124,8 +124,8 @@ def get_find_date(accident_date, line):
     if len(accident_date) != 0:
         return accident_date
     line = line.strip()
-    for word in re.split('[。；]', line):
-        p = '^\d+年(\d+月)*(\d+日)*'
+    for word in re.split(u'[。；]', line):
+        p = u'^\d+年(\d+月)*(\d+日)*'
         m = re.search(p, word.replace(' ',''))
         if m != None:
             accident_date = m.group(0)
@@ -136,13 +136,13 @@ def get_device_id(device_id, line):
     if len(device_id) !=0 :
         return device_id
 
-    m = re.search('([A-Za-z0-9]+[-/]+){1,10}[A-Z0-9\.]+', line)
-    if m != None and re.search('[A-Z]+', m.group(0)) != None:
+    m = re.search(u'([A-Za-z0-9]+[-/]+){1,10}[A-Z0-9\.]+', line)
+    if m != None and re.search(u'[A-Z]+', m.group(0)) != None:
         device_id = m.group(0)
     return device_id
 
 def get_device_id2(device_id,line):
-    for li in re.split('[,，。；、：？:?!！]',line):
+    for li in re.split(u'[,，。；、：？:?!！]',line):
         for word in jieba.cut(li,HMM=False):
             if word in parts_dict:
                 possible_size=size_pattern.search(li)
@@ -180,30 +180,30 @@ def get_manufacturer(manufacturer, line):
     for m in manufacturer_dict:
         if m in line:
             return m
-    replace_words = ['为','了', '系', '由', '是', '，', '使用', ' ', ':', '利用', '结合']
-    block_list = ['系','员工','于','该']
-    if '生产' in line and len(manufacturer)==0:
-        lines = re.split('[，,.。;；]',line)
+    replace_words = [u'为',u'了', u'系', u'由', u'是', u'，', u'使用', u' ', u':', u'利用', u'结合']
+    block_list = [u'系',u'员工',u'于',u'该']
+    if u'生产' in line and len(manufacturer)==0:
+        lines = re.split(u'[，,.。;；]',line)
         for l in lines:
-            if '生产' in l:
+            if u'生产' in l:
                 line = l
                 break
-        line = line.replace(' ','').replace('：',' ').strip()
+        line = line.replace(' ','').replace(u'：',' ').strip()
         for word in replace_words:
-            line = line.replace(word, '系')
-        p2 = '生产厂家系.*'
+            line = line.replace(word, u'系')
+        p2 = u'生产厂家系.*'
         m2 = re.search(p2, line)
         if m2 != None:
             manufacturer = m2.group(0)[5:]
             return manufacturer
 
-        p1 = '系.*(生产|制造)'
+        p1 = u'系.*(生产|制造)'
         m1 = re.search(p1, line)
         if m1 != None:
             manufacturer = m1.group(0)[1:-2]
-        if len(line) > 2 and line[-2:] == '生产' and len(manufacturer)==0:
+        if len(line) > 2 and line[-2:] == u'生产' and len(manufacturer)==0:
             manufacturer = line[:-2]
-    manufacturer = re.sub('[于在]?\d+年(\d+月)?(\d+日?)?','',manufacturer)
+    manufacturer = re.sub(u'[于在]?\d+年(\d+月)?(\d+日?)?','',manufacturer)
     if len(manufacturer) > 0:
         for word in block_list:
             if word in manufacturer:
@@ -229,9 +229,9 @@ def get_weather(weather, line):
     if len(weather) != 0:
         return weather
     for word in line.split(' '):
-        if '天气：' in word:
-            word = word.replace('情况','')
-            weather = word.split('：')[-1].replace('。','')
+        if u'天气：' in word:
+            word = word.replace(u'情况','')
+            weather = word.split(u'：')[-1].replace(u'。','')
     return weather
 
 def get_weather_2(weather, line):
@@ -243,23 +243,22 @@ def get_weather_2(weather, line):
         if weather_word in line and weather_word not in set(weather):
             res.append(weather_word)
     if len(res) == 2:
-        weather = res[0] + '转' + res[1]
+        weather = res[0] + u'转' + res[1]
     elif len(res) > 2:
-        weather = '晴'
+        weather = u'晴'
     else:
         weather = res[0]
     return weather
 def get_temperature(temperature, line):
     if len(temperature) != 0:
         return temperature
-    if '温度' in line:
+    if u'温度' in line:
         line = line.replace(' ','')
-        for word in re.split('[,。，；]',line):
-            if '测试温度' in word or '环境温度' in word or '测试环境' in word:
-                #print(word)
-                m = re.search('-?\d+[度(℃)(°C)]',word)
+        for word in re.split(u'[,。，；]',line):
+            if u'测试温度' in word or u'环境温度' in word or u'测试环境' in word:
+                m = re.search(u'-?\d+[度(℃)(°C)]',word)
                 if m != None:
-                    temperature = re.search('-?\d+',m.group(0)).group(0) + '℃'
+                    temperature = re.search(u'-?\d+',m.group(0)).group(0) + u'℃'
     return temperature
 
 
@@ -267,30 +266,32 @@ def get_humidity(humidity, line):
     line = line.replace(' ','')
     if len(humidity) != 0:
         return humidity
-    for word in re.split('[，。；]', line):
-        if '湿度' in word:
-            m = re.search('\d+[%％]', word)
+    for word in re.split(u'[，。；]', line):
+        if u'湿度' in word:
+            m = re.search(u'\d+[%％]', word)
             if m != None:
                 humidity = m.group(0)
     return humidity
 
 def get_fault_1(file_name):
-    file_name = file_name.replace('-','')
+    file_name = file_name.replace(u'-','')
     res = ''
-    detect_words = ['发现','检测','诊断','检测']
+    detect_words = [u'发现',u'检测',u'诊断',u'检测']
     for word in detect_words:
         if word in file_name:
-            res = file_name.split('发现')[-1]
+            res = file_name.split(u'发现')[-1]
             break
     return res
 
 
 def get_fault_2(file_name):
-    res = ''.join(file_name.split('-')[-3:])
+    file_name = file_name.strip().replace('-',' ').replace('_',' ')
+    res = ''.join(file_name.split(' ')[-3:])
     return res
 
 def get_fault_xianlu(file_name):
-    file_name=file_name.strip().split('-')
+    file_name = file_name.strip().replace('-',' ').replace('_',' ')
+    file_name=file_name.strip().split(' ')
     res=''
     if len(file_name)>1:
         if file_name[-1].isdigit():
@@ -322,7 +323,7 @@ def get_tower_id(tower_id,line):
     if tower_id:
         return tower_id
     for m in ta_pattern.finditer(line):
-        tower_id=set([('塔号',m.group(1))])
+        tower_id=set([(u'塔号',m.group(1))])
     return tower_id
 
 def extract_info(root, xianlu=False):
@@ -336,31 +337,29 @@ def extract_info(root, xianlu=False):
         # if _filename!='07-新疆-射频局部放电检测发现220kV变压器套管局部放电缺陷.txt':
         # 	continue
         file_path=dir_path+'/'+_filename
-        print(file_path)
         try:
-            file=open(file_path,'r')
+            file=codecs.open(file_path,'r')
             lines = file.readlines()
         except UnicodeDecodeError:
-            file = open(file_path,'r',encoding='latin-1')
+            file = codecs.open(file_path,'r',encoding='latin-1')
             lines = file.readlines()
         try:
             case_dict = analyse_table(docx_path+_filename[:-4]+'.docx')
         except IndexError as e:
             case_dict={}
             traceback.print_exc()
-        case_dict['报告名称']=('报告名称', _filename[:-4])
-
-        if xianlu:
-            fault = get_fault_1(_filename[:-4])
+        file_name =  _filename[:-4].decode('GB2312')     
+        case_dict[u'报告名称']=(u'报告名称',file_name)
+        if not xianlu:
+            fault = get_fault_1(file_name)
         else:
-            fault=get_fault_xianlu(_filename[:-4])
-
-        case_dict['故障名称']=('故障名称', fault)
+            fault=get_fault_xianlu(file_name)
+        case_dict[u'故障名称']=(u'故障名称', fault)
         device_type = ''
         unit_name = ''
         substation = ''
         voltage = ''
-        voltage = get_voltage(voltage, _filename)
+        voltage = get_voltage(voltage, file_name)
         run_date = ''
         device_id = set()
         manufacturer = set()
@@ -374,6 +373,7 @@ def extract_info(root, xianlu=False):
         bad_level=''
         for i in range(len(lines)):
             line = lines[i].strip()
+            line = line.decode('gb2312')
             if '\r' in line or len(line)<2:
                 continue
             line=re.sub('[\s\u3000]+','',line)
@@ -396,55 +396,31 @@ def extract_info(root, xianlu=False):
                 device_type=get_xianlu(device_type,line)
                 tower_id=get_tower_id(tower_id,line)
 
-        if substation == '某变电站':
+        if substation == u'某变电站':
             substation = ''
-        case_dict['单位名称']=('单位名称', unit_name)
-        case_dict['变电站名称']=('变电站名称', substation)
-        case_dict['电压等级']=('电压等级', voltage)
-        case_dict['投运时间']=('投运时间', run_date)
-        if '型号'  in case_dict:
-            device_id|=case_dict['型号'][1]
-        case_dict['型号']=('型号', device_id)
-        case_dict['生产厂家']=('生产厂家', manufacturer)
-        case_dict['设备类型']=('设备类型', device_type)
-        case_dict['测试环境温度']=('测试环境温度', temperature)
-        case_dict['测试环境湿度']=('测试环境湿度', humidity)
-        case_dict['故障发现时间']=('故障发现时间', find_date)
-        case_dict['测试时天气']=('测试时天气', weather)
-        case_dict['缺陷等级']=('缺陷等级',bad_level)
-        case_dict['地理位置']=('地理位置',location)
+        case_dict[u'单位名称']=(u'单位名称', unit_name)
+        case_dict[u'变电站名称']=(u'变电站名称', substation)
+        case_dict[u'电压等级']=(u'电压等级', voltage)
+        case_dict[u'投运时间']=(u'投运时间', run_date)
+        if u'型号'  in case_dict:
+            device_id|=case_dict[u'型号'][1]
+        case_dict[u'型号']=('型号', device_id)
+        case_dict[u'生产厂家']=('生产厂家', manufacturer)
+        case_dict[u'设备类型']=('设备类型', device_type)
+        case_dict[u'测试环境温度']=('测试环境温度', temperature)
+        case_dict[u'测试环境湿度']=('测试环境湿度', humidity)
+        case_dict[u'故障发现时间']=('故障发现时间', find_date)
+        case_dict[u'测试时天气']=('测试时天气', weather)
+        case_dict[u'缺陷等级']=('缺陷等级',bad_level)
+        case_dict[u'地理位置']=('地理位置',location)
         if xianlu:
-            if '塔号' in case_dict:
-                tower_id|=case_dict['塔号'][1]
-            case_dict['塔号']=('塔号',tower_id)
+            if u'塔号' in case_dict:
+                tower_id|=case_dict[u'塔号'][1]
+            case_dict[u'塔号']=(u'塔号',tower_id)
         if len(fault) == 0 and len(device_type)>0:
-            case_dict['故障名称'] = ('故障名称',device_type+'故障')
-
+            case_dict[u'故障名称'] = (u'故障名称',device_type+u'故障')
         cases.append(case_dict)
     return cases
-
-
-"""
-columns = ["file_name","fault_name","substation","tower_id","voltaget","device_type","device_id","manufacturer",
-"run_date","find_date","weather","temperature","humidity",
-"location","bad_level","protective_action","protective_device","situation","other_time"]
-"""
-def save_to_file(cases, file_path):
-    #write to target file
-    columns = ['报告名称','故障名称', '单位名称', '变电站名称', '塔号','电压等级', '设备类型','型号','生产厂家',
-    '投运时间', '故障发现时间','测试时天气','测试环境温度', '测试环境湿度',
-    '地理位置','缺陷等级', '保护动作','保护装置','故障前情况','故障时情况','其他时间']
-    result = open(file_path, 'w', encoding='utf-8')
-    for case in cases:
-        for key in columns:
-            if len(case[key][1]) == 0:
-                val = '#'
-            else:
-                val = str(case[key][1])
-                val = val.replace(' ','')
-            result.write(str(val) +' ')
-        result.write('\n')
-    result.close()
 
 
 def statistic(cases):
@@ -476,13 +452,13 @@ def test_table(filename):
         print('#########')
 
 def analyse_table(fullfilename):
-    key_words=['塔号','型号','时间','故障前','故障时','保护动作','保护装置']
+    key_words=[u'塔号',u'型号',u'时间',u'故障前',u'故障时',u'保护动作',u'保护装置']
     doc=Document(fullfilename)
     # test_table(fullfilename)
     # return result_dict
     case_dict={}
-    result_dict={'塔号':set(),'型号':set(),'其他时间':set(),'故障前情况':set(),'故障时情况':set(),'投运时间':''\
-    ,'保护动作':set(),'保护装置':set()}
+    result_dict={u'塔号':set(),u'型号':set(),u'其他时间':set(),u'故障前情况':set(),u'故障时情况':set(),u'投运时间':''\
+    ,u'保护动作':set(),u'保护装置':set()}
     for t in doc.tables:
         lastrow=[]
         last_valid_index={}
@@ -494,13 +470,13 @@ def analyse_table(fullfilename):
                 currow.append(cell)
                 for key in key_words:
                     if key in cell:#查找含有关键词的表头
-                        if key=='故障前' or key=='故障时':
-                            key+='情况'
-                        if key=='时间' :
-                            if cell=='投运时间':
+                        if key==u'故障前' or key==u'故障时':
+                            key+=u'情况'
+                        if key==u'时间' :
+                            if cell==u'投运时间':
                                 key=cell
                             else:
-                                key='其他时间'
+                                key=u'其他时间'
                         valid_index[key]=valid_index.get(key,[])
                         valid_index[key].append(ind)
                         break
@@ -515,7 +491,7 @@ def analyse_table(fullfilename):
                         #result_dict[key]=result_dict.get(key,set())
                         for index in last_valid_index[key]:
                             if currow[index] and lastrow[index]:
-                                if key!='投运时间':
+                                if key!=u'投运时间':
                                     result_dict[key].add((lastrow[index],currow[index]))
                                 else:
                                     result_dict[key]=currow[index]
@@ -530,6 +506,32 @@ def analyse_table(fullfilename):
     return case_dict
 
 
+"""
+columns = ["file_name","fault_name","substation","tower_id","voltaget","device_type","device_id","manufacturer",
+"run_date","find_date","weather","temperature","humidity",
+"location","bad_level","protective_action","protective_device","situation","other_time"]
+"""
+def save_to_file(cases, file_path):
+    #write to target file
+    columns = [u'报告名称',u'故障名称', u'单位名称', u'变电站名称', u'塔号',u'电压等级', u'设备类型',u'型号',u'生产厂家',
+    u'投运时间', u'故障发现时间',u'测试时天气',u'测试环境温度', u'测试环境湿度',
+    u'地理位置',u'缺陷等级', u'保护动作',u'保护装置',u'故障前情况',u'故障时情况',u'其他时间']
+    result = codecs.open(file_path, 'w', encoding='utf8')
+    for case in cases:
+        for key in columns:
+            if len(case[key][1]) == 0:
+                val = '#'
+            else:
+                val = case[key][1]
+
+            if type(val) == set:
+                val = ','.join([v[0] +':'+ v[1] if type(v) == tuple else v for v in val])
+            val = val.replace(' ','').replace('\n','')
+            line = val +' '
+            result.write(line)
+        result.write('\n')
+    result.close()
+    
 def main(root_dir, dict_path, xianlu):
     print("main....")
     manufacturer_filename = dict_path +'/merge_company.txt'
@@ -553,32 +555,31 @@ def main(root_dir, dict_path, xianlu):
     jieba.load_userdict(location_filename)
     jieba.load_userdict(device_type_file_name)
 
-    manufacturer_file=open(manufacturer_filename,'r',encoding='utf-8')
+    manufacturer_file=codecs.open(manufacturer_filename,'r',encoding='utf-8')
     for line in manufacturer_file:
         manufacturer_dict.add(line.strip())
 
-    with open(device_type_file_name, 'r', encoding='utf-8') as f:
+    with codecs.open(device_type_file_name, 'r', encoding='utf-8') as f:
         for line in f.readlines():
             device_type_dict.add(line.strip())
 
-    with open(parts_filename,'r',encoding='utf-8') as f:
+    with codecs.open(parts_filename,'r',encoding='utf-8') as f:
         for line in f:
             parts_dict.add(line.strip())
 
-    with open(location_filename,'r',encoding='utf-8') as f:
+    with codecs.open(location_filename,'r',encoding='utf-8') as f:
         for line in f:
             location_dict.add(line.strip())
 
-    with open(level_filename,'r',encoding='utf-8') as f:
+    with codecs.open(level_filename,'r',encoding='utf-8') as f:
         for line in f:
             level_dict.add(line.strip())
 
     print("begin....")
     cases = extract_info(root_dir,xianlu)
-    #res = statistic(cases)
-    #show_statistic(res)
     save_to_file(cases, root_dir+'/'+'result.txt')
     print("end")
+
 if __name__ == '__main__':
     import sys
     print("running...")
