@@ -35,7 +35,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/map/map.html',
+                    templateUrl: 'app/elec/map/map.html',
                     controller: 'MapController',
                     controllerAs: 'vm'
                 }
@@ -48,7 +48,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: "app/defect-lines/defect-lines-chart.html",
+                    templateUrl: "app/elec/defect-lines/defect-lines-chart.html",
                     controller: "DefectLineController",
                     controllerAs: 'vm'
                 }
@@ -64,7 +64,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: "app/defect-lines/defect-lines-table.html",
+                    templateUrl: "app/elec/defect-lines/defect-lines-table.html",
                     controller: "DefectLineController_t",
                     controllerAs: 'vm'
                 }
@@ -80,7 +80,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: "app/defect-transformers/defect-transformers-chart.html",
+                    templateUrl: "app/elec/defect-transformers/defect-transformers-chart.html",
                     controller: "DefectTransformerController",
                     controllerAs: 'vm'
                 }
@@ -96,7 +96,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: "app/defect-transformers/defect-transformers-table.html",
+                    templateUrl: "app/elec/defect-transformers/defect-transformers-table.html",
                     controller: "DefectTransformerController_t",
                     controllerAs: 'vm'
                 }
@@ -112,7 +112,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: "app/gas/gas-chart.html",
+                    templateUrl: "app/elec/gas/gas-chart.html",
                     controller: "GasController",
                     controllerAs: 'vm'
                 }
@@ -126,7 +126,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: "app/gas/gas-table.html",
+                    templateUrl: "app/elec/gas/gas-table.html",
                     controller: "GasController_t",
                     controllerAs: 'vm'
                 }
@@ -140,7 +140,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: "app/weather/weather-chart.html",
+                    templateUrl: "app/elec/weather/weather-chart.html",
                     controller: "WeatherController",
                     controllerAs: 'vm'
                 }
@@ -154,7 +154,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: "app/weather/weather-table.html",
+                    templateUrl: "app/elec/weather/weather-table.html",
                     controller: "WeatherController_t",
                     controllerAs: 'vm'
                 }
@@ -168,7 +168,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: "app/line-status/line-status-chart.html",
+                    templateUrl: "app/elec/line-status/line-status-chart.html",
                     controller: "LineStatusController",
                     controllerAs: 'vm'
                 }
@@ -184,7 +184,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: "app/line-status/line-status-table.html",
+                    templateUrl: "app/elec/line-status/line-status-table.html",
                     controller: "LineStatusController_t",
                     controllerAs: 'vm'
                 }
@@ -200,7 +200,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: "app/lines/lines.html",
+                    templateUrl: "app/elec/lines/lines.html",
                     controller: "LineStatusController",
                     controllerAs: 'vm'
                 }
@@ -214,7 +214,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: "app/transformers/transformers.html",
+                    templateUrl: "app/elec/transformers/transformers.html",
                     controller: "TransformerController",
                     controllerAs: 'vm'
                 }
@@ -437,7 +437,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: "app/data-visualization/data-visualization.html",
+                    templateUrl: "app/elec/data-visualization/data-visualization.html",
                     controller: "VisualizationController",
                     controllerAs: 'vm'
                 }
@@ -481,6 +481,20 @@
                 'content@': {
                     templateUrl: "app/template-fill/templateFill.html",
                     controller: "TemplateFillController",
+                    controllerAs: 'vm'
+                }
+            },
+            params: {}
+        }).state("elec", {
+            url: "/elec",
+            parent: 'app',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: "app/elec/elec.html",
+                    controller: "ElecController",
                     controllerAs: 'vm'
                 }
             },

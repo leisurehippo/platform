@@ -20,152 +20,30 @@
                         <span class="hidden-sm">Home</span>
                     </a>
                 </li>
-                <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
-                <!--<li ng-class="{active: vm.$state.includes('entity')}" ng-switch-when="true" uib-dropdown class="dropdown pointer">-->
-                    <!--<a class="dropdown-toggle" uib-dropdown-toggle href="" id="entity-menu">-->
-                        <!--<span>-->
-                            <!--<span class="glyphicon glyphicon-th-list"></span>-->
-                            <!--<span class="hidden-sm" data-translate="global.menu.entities.main">-->
-                                <!--Entities-->
-                            <!--</span>-->
-                            <!--<b class="caret"></b>-->
-                        <!--</span>-->
-                    <!--</a>-->
-                    <!--<ul class="dropdown-menu" uib-dropdown-menu>-->
-                        <!--<li ui-sref-active="active">-->
-                                <!--<a ui-sref="bank-account" ng-click="vm.collapseNavbar()">-->
-                                    <!--<span class="glyphicon glyphicon-asterisk"></span>&nbsp;-->
-                                    <!--<span data-translate="global.menu.entities.bankAccount">Bank Account</span>-->
-                                <!--</a>-->
-                            <!--</li>-->
-                        <!--<li ui-sref-active="active">-->
-                                <!--<a ui-sref="label" ng-click="vm.collapseNavbar()">-->
-                                    <!--<span class="glyphicon glyphicon-asterisk"></span>&nbsp;-->
-                                    <!--<span data-translate="global.menu.entities.label">Label</span>-->
-                                <!--</a>-->
-                            <!--</li>-->
-                        <!--<li ui-sref-active="active">-->
-                                <!--<a ui-sref="operation" ng-click="vm.collapseNavbar()">-->
-                                    <!--<span class="glyphicon glyphicon-asterisk"></span>&nbsp;-->
-                                    <!--<span data-translate="global.menu.entities.operation">Operation</span>-->
-                                <!--</a>-->
-                            <!--</li>-->
-                        <!--&lt;!&ndash; jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here &ndash;&gt;-->
-                    <!--</ul>-->
-                <!--</li>-->
                 <li ui-sref-active="active" uib-dropdown class="dropdown pointer">
                     <a class="dropdown-toggle" uib-dropdown-toggle href="">
                         <span>
-                            <span class="glyphicon glyphicon-adjust"></span>
-                            <span class="hidden-sm">模块</span>
+                            <span class="glyphicon glyphicon-globe"></span>
+                            <span class="hidden-sm">项目</span>
                             <b class="caret"></b>
                         </span>
                     </a>
                     <ul class="dropdown-menu" uib-dropdown-menu>
                         <li ui-sref-active="active" ng-switch-when="true">
-                            <a ui-sref="map" ng-click="vm.collapseNavbar();">
-                                <span class="glyphicon glyphicon-map-marker"></span>&nbsp;
-                                <span >地图</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active="active" ng-switch-when="true">
-                        <li ui-sref-active="active" ng-switch-when="true">
-                            <a ui-sref="visualization" ng-click="vm.collapseNavbar();">
-                                <span class="glyphicon glyphicon-bishop"></span>&nbsp;
-                                <span >数据可视化</span>
-                            </a>
-                        </li>
-                        <!--<li ui-sref-active="active" ng-switch-when="true">
-                            <a ui-sref="home" ng-click="vm.collapseNavbar();">
-                                <span class="glyphicon glyphicon-align-center"></span>&nbsp;
-                                <span >大数据预测</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active="active" ng-switch-when="true">
-                            <a ui-sref="home" ng-click="vm.collapseNavbar();">
-                                <span class="glyphicon glyphicon-asterisk"></span>&nbsp;
-                                <span >故障缺陷排查</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active="active" ng-switch-when="true">
-                            <a ui-sref="home" ng-click="vm.collapseNavbar();">
-                                <span class="glyphicon glyphicon-certificate"></span>&nbsp;
-                                <span >历史数据展示</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active="active" ng-switch-when="true">
-                            <a ui-sref="home" ng-click="vm.collapseNavbar();">
-                                <span class="glyphicon glyphicon-dashboard"></span>&nbsp;
-                                <span >设备线路详情</span>
-                            </a>
-                        </li>-->
-                    </ul>
-                </li>
-                <li ui-sref-active="active" uib-dropdown class="dropdown pointer">
-                    <a class="dropdown-toggle" uib-dropdown-toggle href="">
-                        <span>
-                            <span class="glyphicon glyphicon-paperclip"></span>
-                            <span class="hidden-sm">数据观测</span>
-                            <b class="caret"></b>
-                        </span>
-                    </a>
-                    <ul class="dropdown-menu" uib-dropdown-menu>
-                        <li ui-sref-active="active" ng-switch-when="true">
-                            <a ui-sref="transformers" ng-click="vm.collapseNavbar();">
-                                <span class="glyphicon glyphicon-object-align-top"></span>&nbsp;
-                                <span >主变</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active="active" ng-switch-when="true">
-                            <a ui-sref="lines" ng-click="vm.collapseNavbar();">
+                            <a ui-sref="elec" ng-click="vm.collapseNavbar();">
                                 <span class="glyphicon glyphicon-fire"></span>&nbsp;
-                                <span >线路</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active="active" ng-switch-when="true">
-                            <a ui-sref="defect-lines-chart" ng-click="vm.collapseNavbar();">
-                                <span class="glyphicon glyphicon-align-center"></span>&nbsp;
-                                <span >线路缺陷</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active="active" ng-switch-when="true">
-                            <a ui-sref="defect-transformers-chart" ng-click="vm.collapseNavbar();">
-                                <span class="glyphicon glyphicon-glass"></span>&nbsp;
-                                <span >主变缺陷</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active="active" ng-switch-when="true">
-                            <a ui-sref="gas-chart" ng-click="vm.collapseNavbar();">
-                                <span class="glyphicon glyphicon-hdd"></span>&nbsp;
-                                <span >在线监测</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active="active" ng-switch-when="true">
-                            <a ui-sref="line-status-chart" ng-click="vm.collapseNavbar();">
-                                <span class="glyphicon glyphicon-pawn"></span>&nbsp;
-                                <span >线路状态</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active="active" ng-switch-when="true">
-                            <a ui-sref="weather-chart" ng-click="vm.collapseNavbar();">
-                                <span class="glyphicon glyphicon-knight"></span>&nbsp;
-                                <span >气象</span>
+                                <span >电网</span>
                             </a>
                         </li>
                     </ul>
+                    
                 </li>
-                <!--<li ui-sref-active="active">-->
-                    <!--<a ui-sref="allFileData" ng-click="vm.collapseNavbar()">-->
-                        <!--<span class="glyphicon glyphicon-upload"></span>-->
-                        <!--<span class="hidden-sm">项目管理</span>-->
-                    <!--</a>-->
-                <!--</li>-->
-
+                
                 <li ui-sref-active="active" uib-dropdown class="dropdown pointer" >
                     <a class="dropdown-toggle" uib-dropdown-toggle href="">
                         <span>
                             <span class="glyphicon glyphicon-pushpin"></span>
-                            <span>本地项目</span>
+                            <span>平台工具</span>
                              <b class="caret"></b>
                         </span>
                     </a>
@@ -183,34 +61,26 @@
                             </a>
                         </li>
                         <li  ui-sref-active="active" ng-switch-when="true">
-                            <a ui-sref="dataLabel_admin" ng-click="vm.collapseNavbar();">
-                                <span class="glyphicon glyphicon-wrench"></span>&nbsp;
-                                <span >语料标注管理</span>
-                            </a>
-                        </li>
-                        <li  ui-sref-active="active" ng-switch-when="true">
                             <a ui-sref="etl" ng-click="vm.collapseNavbar();">
                                 <span class="glyphicon glyphicon-wrench"></span>&nbsp;
                                 <span>数据抽取转换</span>
+                            </a>
+                        </li>                 
+                        <li  ui-sref-active="active" ng-switch-when="true">
+                            <a ui-sref="projectManage" ng-click="vm.collapseNavbar();">
+                                <span class="glyphicon glyphicon-wrench"></span>&nbsp;
+                                <span>算法项目管理</span>
                             </a>
                         </li>
                          <li  ui-sref-active="active" ng-switch-when="true">
                             <a ui-sref="templatefill" ng-click="vm.collapseNavbar();">
                                 <span class="glyphicon glyphicon-wrench"></span>&nbsp;
-                                <span>电网文本模板提取</span>
+                                <span>文本模板提取</span>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li ui-sref-active="active" uib-dropdown class="dropdown pointer" >
-                    <a ui-sref="projectManage" ng-click="vm.collapseNavbar()">
-                        <span>
-                            <span class="glyphicon"></span>
-                            <span>项目管理</span>
-                            <!--<b class="caret"></b>-->
-                        </span>
-                    </a>
-                </li>
+
                 <!--<li ui-sref-active="active" uib-dropdown class="dropdown pointer" >-->
                     <!--<a ui-sref="LRTrain" ng-click="vm.collapseNavbar()">-->
                         <!--<span>-->
@@ -220,15 +90,16 @@
                         <!--</span>-->
                     <!--</a>-->
                 <!--</li>-->
+                <!-- 
                 <li ui-sref-active="active" uib-dropdown class="dropdown pointer" >
                     <a ui-sref="RunAl" ng-click="vm.collapseNavbar()">
                         <span>
                             <span class="glyphicon glyphicon-level-up"></span>
                             <span>运行</span>
-                            <!--<b class="caret"></b>-->
                         </span>
                     </a>
                 </li>
+                 -->
                 <li ng-class="{active: vm.$state.includes('account')}" uib-dropdown class="dropdown pointer">
                     <a class="dropdown-toggle" uib-dropdown-toggle href="" id="account-menu">
                         <span>

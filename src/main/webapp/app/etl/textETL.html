@@ -56,6 +56,7 @@
 	<div class="col-lg-4 col-md-4 ">
 		<h3>输出文本获取</h3>	
 		<button type="button" class="btn btn-primary"  ng-click="vm.run()">开始转换</button>
+		<button type="button" class="btn btn-primary" ui-sref="etl">返回数据库数据转换</button>
 		<div>
 			<label>下载输出文本:</label>
 			<a ng-href="{{fileUrl}}" download="result.txt" ng-click="vm.download()">download</a>

@@ -1,4 +1,21 @@
 <div class="form-group">
+    <ul class="nav nav-tabs">
+        <li role="presentation">
+            <a ui-sref="projectManage">项目管理</a>
+        </li>
+        <li role="presentation" >
+            <a ui-sref="allFileData">数据文件</a>
+        </li>
+        <li role="presentation">
+            <a ui-sref="allFileAl">算法文件</a>
+        </li>
+          <li role="presentation"  class="active">
+            <a ui-sref="RunAl">运行</a>
+        </li>
+    </ul>
+</div>
+
+<div class="form-group">
     <label style="margin-left: 15px;margin-right: 20px">选择项目:</label>
     <select style="width: 30%;height: 30px;margin-bottom: 10px;" ng-model="vm.projectName">
         <option ng-repeat="item in vm.projects">{{item}}</option>
