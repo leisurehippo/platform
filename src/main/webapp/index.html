@@ -18,8 +18,12 @@
     <link rel="stylesheet" href="bower_components/bootstrap-fileinput/css/fileinput.css">
     <link rel="stylesheet" href="bower_components/bootstrap-fileinput/css/fileinput.min.css">
     <link rel="stylesheet" href="bower_components/bootstrap-fileinput/css/fileinput-rtl.css">
+    
+    <link rel="stylesheet" href="bower_components/bootstrap-select/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="bower_components/bootstrap-table/dist/bootstrap-table.css">
+    
     <link rel="stypesheet" href="bower_components/bootstrap-table/dist/bootstrap-table.min.css">
+
 
     <link rel="stylesheet" href="bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css">
     <!-- endinject -->
@@ -99,6 +103,9 @@
     <script src="bower_components/FileSaver/FileSaver.js"></script>
     <script src="bower_components/bootstrap-table/dist/bootstrap-table.js"></script>
     <script src="bower_components/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js"></script>
+    <script src="bower_components/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+
+	<script src="bower_components/g6/index.js"></script>
     <!-- endinject -->
     <!-- endbuild -->
 
@@ -274,17 +281,27 @@
     <script src="app/elec/weather/weather.controller.js"></script>
     <script src="app/elec/weather/weather.controller_t.js"></script>
     <script src="app/elec/transformers/transformers.controller.js"></script>
+    <script src="app/elec/elec.controller.js"></script>
     
     
+    <script src="app/algorithm_project/allFileData/allFileData.controller.js"></script>
+    <script src="app/algorithm_project/allFileData/get-all-data.service.js"></script>
+    <script src="app/algorithm_project/allFileData/get-algorithm-data.service.js"></script>
+    <script src="app/algorithm_project/allFileData/file-upload-hdsf.service.js"></script>
+    <script src="app/algorithm_project/allFileAl/allFileAl.controller.js"></script>
+    <script src="app/algorithm_project/allFileData/get-server-data.service.js"></script>
+    <script src="app/algorithm_project/allFileData/get-server-project.service.js"></script>
+    <script src="app/algorithm_project/runAl/get-algorithm-param.js"></script>
+    <script src="app/algorithm_project/runAl/run-millib.service.js"></script>    
+    <script src="app/algorithm_project/runAl/runAl.controller.js"></script>
+    <script src="app/algorithm_project/allFileAl/upload-params-describe.service.js"></script> 
+    <script src="app/algorithm_project/projectManage/projectManage.controller.js"></script>
+    <script src="app/algorithm_project/projectManage/create-Project.service.js"></script>
+    <script src="app/algorithm_project/projectManage/edit-project.service.js"></script>
+    <script src="app/algorithm_project/projectManage/delete-project.service.js"></script>
+    <script src="app/algorithm_project/projectManage/get-project-des.js"></script>
     
-
-    <script src="app/project/pso-local/psoLocal.controller.js"></script>
-    <script src="app/project/pso-local/runLocal.service.js"></script>
-    <script src="app/fileUpload/fileUpload.service.js"></script>
-    <script src="app/allFileData/allFileData.controller.js"></script>
-    <script src="app/allFileData/get-all-data.service.js"></script>
-    <script src="app/allFileData/get-algorithm-data.service.js"></script>
-    <script src="app/allFileData/file-upload-hdsf.service.js"></script>
+    
     <script src="app/MLLib/predict/LR/Train/LRTrain.controller.js"></script>
     <script src="app/MLLib/predict/LR/Train/get-hdfs-file.service.js"></script>
     <script src="app/MLLib/predict/LR/Test/LRTest.controller.js"></script>
@@ -292,20 +309,12 @@
     <script src="app/MLLib/predict/LR/Test/get-models.service.js"></script>
     <script src="app/MLLib/predict/LR/Train/get-parameter.service.js"></script>
     <script src="app/MLLib/predict/LR/Train/train-model.service.js"></script>
-    <script src="app/allFileAl/allFileAl.controller.js"></script>
-    <script src="app/allFileData/get-server-data.service.js"></script>
-    <script src="app/allFileData/get-server-project.service.js"></script>
-    <script src="app/projectManage/projectManage.controller.js"></script>
-    <script src="app/projectManage/create-Project.service.js"></script>
-    <script src="app/projectManage/edit-project.service.js"></script>
-    <script src="app/projectManage/delete-project.service.js"></script>
-    <script src="app/projectManage/get-project-des.js"></script>
-    <script src="app/runAl/runAl.controller.js"></script>
-    <script src="app/allFileAl/upload-params-describe.service.js"></script>
+
     <script src="app/directive/carousel.directive.js"></script>
     <script src="app/directive/footer.directive.js"></script>
-    <script src="app/runAl/get-algorithm-param.js"></script>
-    <script src="app/runAl/run-millib.service.js"></script>
+    <script src="app/project/pso-local/psoLocal.controller.js"></script>
+    <script src="app/project/pso-local/runLocal.service.js"></script>
+    <script src="app/fileUpload/fileUpload.service.js"></script>
     
     <!-- ETL components -->
     <script src="app/etl/etl.controller.js"></script>
@@ -316,9 +325,21 @@
     <script src="app/template-fill/templateFill.controller.js"></script>
     <script src="app/template-fill/tableExport.js"></script> 
     <!--<script src="app/directive/maptitle.directive.js"></script>-->
-
+    
+    <!-- Algorithm project components -->
+	<script src="app/algo_project/taskManage/task.controller.js"></script>
+	<script src="app/algo_project/fileManage/file.controller.js"></script>
+	<script src="app/algo_project/vis/vis.controller.js"></script>
+	<script src="app/algo_project/run/run.controller.js"></script>
+	<script src="app/algo_project/runML/runml.controller.js"></script>	
+	<script src="app/algo_project/runML/runml.service.js"></script>	
+	<script src="app/algo_project/project.value.js"></script>
+	<script src="app/algo_project/algo.service.js"></script>
+	<script src="app/algo_project/filedownload.js"></script>
+	
 
     <script src="js/lib/bootstrap-paginator.js"></script>
+    
 
     <!-- endinject -->
     <!-- endbuild -->

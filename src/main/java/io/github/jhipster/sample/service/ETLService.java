@@ -20,6 +20,8 @@ import io.github.jhipster.sample.service.util.TransformItem;
 @Service
 public class ETLService {
 
+	private static FileUtil fileUtil = new FileUtil();
+	
 	@SuppressWarnings("unchecked")
 	public String getJob(Map<String, Object>data){
 		Map<String,Object> reader_map = (Map<String, Object>) data.get("reader");
@@ -35,7 +37,7 @@ public class ETLService {
 	}
 	
 	public boolean runJob(String job, String dataXPath, String jsonPath){
-		FileUtil.saveToFile(jsonPath, job);
+		fileUtil.saveToFile(jsonPath, job);
 		boolean flag = EtlJobUtil.runJob(dataXPath, jsonPath);
 		//FileUtil.removeFile(jsonPath);
 		return flag;
@@ -115,7 +117,7 @@ public class ETLService {
 	
 	public void saveToFile(String file_path, File f){
 		try {
-			FileUtil.saveToFile(file_path, f);
+			fileUtil.saveToFile(file_path, f);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

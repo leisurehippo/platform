@@ -239,85 +239,85 @@
 
             }
         }).state("dataLabel", {
-                      url: "/dataLabel",
-                      parent: 'app',
-                      data: {
-                          authorities: []
-                      },
-                      views: {
-                          'content@': {
-                              templateUrl: "app/project/datalabel/dataLabel.html",
-                              controller: "DataLabelController",
-                              controllerAs: 'vm'
-                          }
-                      },
-                      params: {
+              url: "/dataLabel",
+              parent: 'app',
+              data: {
+                  authorities: []
+              },
+              views: {
+                  'content@': {
+                      templateUrl: "app/project/datalabel/dataLabel.html",
+                      controller: "DataLabelController",
+                      controllerAs: 'vm'
+                  }
+              },
+              params: {
 
-                      }
+              }
         }).state("dataLabel_db", {
-                                url: "/dataLabel/db",
-                                parent: 'app',
-                                data: {
-                                    authorities: []
-                                },
-                                views: {
-                                    'content@': {
-                                        templateUrl: "app/project/datalabel/dataLabeldb.html",
-                                        controller: "DataLabelController",
-                                        controllerAs: 'vm'
-                                    }
-                                },
-                                params: {
+                url: "/dataLabel/db",
+                parent: 'app',
+                data: {
+                    authorities: []
+                },
+                views: {
+                    'content@': {
+                        templateUrl: "app/project/datalabel/dataLabeldb.html",
+                        controller: "DataLabelController",
+                        controllerAs: 'vm'
+                    }
+                },
+                params: {
 
-                                }
+                }
         }).state("dataLabel_admin", {
-                                          url: "/dataLabel/admin",
-                                          parent: 'app',
-                                          data: {
-                                              authorities: []
-                                          },
-                                          views: {
-                                              'content@': {
-                                                  templateUrl: "app/project/datalabel_admin/dataLabeladmin.html",
-                                                  controller: "DataLabelAdminController",
-                                                  controllerAs: 'vm'
-                                              }
-                                          },
-                                          params: {
-
-                                          }
+	          url: "/dataLabel/admin",
+	          parent: 'app',
+	          data: {
+	              authorities: []
+	          },
+	          views: {
+	              'content@': {
+	                  templateUrl: "app/project/datalabel_admin/dataLabeladmin.html",
+	                  controller: "DataLabelAdminController",
+	                  controllerAs: 'vm'
+	              }
+	          },
+	          params: {
+	
+	          }
         }).state("dataLabel_train", {
-                                                    url: "/dataLabel/train",
-                                                    parent: 'app',
-                                                    data: {
-                                                        authorities: []
-                                                    },
-                                                    views: {
-                                                        'content@': {
-                                                            templateUrl: "app/project/datalabel_train/dataLabeltrain.html",
-                                                            controller: "DataLabelTrainController",
-                                                            controllerAs: 'vm'
-                                                        }
-                                                    },
-                                                    params: {
+            url: "/dataLabel/train",
+            parent: 'app',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: "app/project/datalabel_train/dataLabeltrain.html",
+                    controller: "DataLabelTrainController",
+                    controllerAs: 'vm'
+                }
+            },
+            params: {
 
-                                                    }
+            }
          }).state("dataLabel_manage", {
-                                                                url: "/dataLabel/manage",
-                                                                parent: 'app',
-                                                                data: {
-                                                                    authorities: []
-                                                                },
-                                                                views: {
-                                                                    'content@': {
-                                                                        templateUrl: "app/project/datalabel_manage/dataLabelmanage.html",
-                                                                        controller: "DataLabelManageController",
-                                                                        controllerAs: 'vm'
-                                                                    }
-                                                                },
-                                                                params: {
+            url: "/dataLabel/manage",
+            parent: 'app',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: "app/project/datalabel_manage/dataLabelmanage.html",
+                    controller: "DataLabelManageController",
+                    controllerAs: 'vm'
+                }
+            },
+            params: {
 
-                                                                }
+            }
          }).state("fileUpload", {
             url: "/fileUpload",
             parent: 'app',
@@ -342,7 +342,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: "app/allFileData/allFileData.html",
+                    templateUrl: "app/algorithm_project/allFileData/allFileData.html",
                     controller: "AllFileDataController",
                     controllerAs: 'vm'
                 }
@@ -359,7 +359,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: "app/allFileAl/allFileAl.html",
+                    templateUrl: "app/algorithm_project/allFileAl/allFileAl.html",
                     controller: "AllFileAlController",
                     controllerAs: 'vm'
                 }
@@ -407,7 +407,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: "app/projectManage/projectManage.html",
+                    templateUrl: "app/algorithm_project/projectManage/projectManage.html",
                     controller: "ProjectManageController",
                     controllerAs: 'vm'
                 }
@@ -423,7 +423,7 @@
             },
             views: {
                 'content@': {
-                    templateUrl: "app/runAl/runAl.html",
+                    templateUrl: "app/algorithm_project/runAl/runAl.html",
                     controller: "RunAlController",
                     controllerAs: 'vm'
                 }
@@ -495,6 +495,76 @@
                 'content@': {
                     templateUrl: "app/elec/elec.html",
                     controller: "ElecController",
+                    controllerAs: 'vm'
+                }
+            },
+            params: {}
+        }).state("task", {
+            url: "/task",
+            parent: 'app',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: "app/algo_project/taskManage/task.html",
+                    controller: "TaskController",
+                    controllerAs: 'vm'
+                }
+            },
+            params: {}
+        }).state("taskFile", {
+            url: "/taskFile",
+            parent: 'app',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: "app/algo_project/fileManage/file.html",
+                    controller: "TaskFileController",
+                    controllerAs: 'vm'
+                }
+            },
+            params: {}
+        }).state("visualize", {
+            url: "/visualize",
+            parent: 'app',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: "app/algo_project/vis/vis.html",
+                    controller: "VisualizeController",
+                    controllerAs: 'vm'
+                }
+            },
+            params: {}
+        }).state("taskRun", {
+            url: "/taskRun",
+            parent: 'app',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: "app/algo_project/run/run.html",
+                    controller: "RunController",
+                    controllerAs: 'vm'
+                }
+            },
+            params: {}
+        }).state("taskRunML", {
+            url: "/taskRunML",
+            parent: 'app',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: "app/algo_project/runML/runML.html",
+                    controller: "RunMLController",
                     controllerAs: 'vm'
                 }
             },

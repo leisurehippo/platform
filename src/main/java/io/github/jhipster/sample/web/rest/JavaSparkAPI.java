@@ -1,12 +1,17 @@
 package io.github.jhipster.sample.web.rest;
 
 import io.github.jhipster.sample.web.rest.model.SparkEstimate;
+import io.github.jhipster.sample.web.rest.model.SparkRegression;
 import io.github.jhipster.sample.web.rest.support.Classification;
+import io.github.jhipster.sample.web.rest.support.Cluster;
+import io.github.jhipster.sample.web.rest.support.Regression;
+
 import org.apache.spark.ml.Model;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import io.github.jhipster.sample.service.JavaSparkService;
 import io.github.jhipster.sample.web.rest.model.SparkClassification;
 import io.github.jhipster.sample.web.rest.model.SparkCluster;
 import org.apache.spark.ml.linalg.Vector;
@@ -25,7 +30,6 @@ import java.util.*;
 @RestController
 @RequestMapping("/api")
 public class JavaSparkAPI {
-    private static String ProjectPathPrefix = "src/main/webappfiles/Project/";
     private static String HDFSPathPrefix = "/user/hadoop/data_platform/data/";
 
     static HDFSFileUtil hdfsFileUtil = new HDFSFileUtil();
@@ -33,7 +37,7 @@ public class JavaSparkAPI {
     static SparkCluster sparkCluster = new SparkCluster();
     static FileController fileController = new FileController();
     static SparkClassification sparkClassification = new SparkClassification();
-
+    private static JavaSparkService service = new JavaSparkService();
 
 
 
@@ -61,87 +65,85 @@ public class JavaSparkAPI {
 
     @GetMapping("/getLibraryParameter")
     @ResponseBody
-    public  List<String> getLibraryParameter(@RequestParam(value = "Algorithm") String Algorithm){
-        String []arrParam = sparkClassification.getParam(Algorithm).split("\n");
-        List<String> resList = new ArrayList<String> ();
-        for (int i = 0; i < arrParam.length; i++) {
-            String result = "";
-            String []arrDefault = arrParam[i].split(":");
-            if (arrDefault.length == 3){
-                result = arrDefault[0] + ":" +arrDefault[2].substring(1,arrDefault[2].length()-1);
-                resList.add(result);
-            }
-        }
-        return resList;
+    public  List<String> getLibraryParameter(@RequestParam(value = "Algorithm") String Algorithm, @RequestParam(value = "type")String type){
+    	return service.getLibraryParameter(Algorithm, type);
     }
-
+    
+    
     /**
-     * pipeline
-     * @param ProjectName
-     * @param trainDataName
-     * @param testDataName
-     * @param Parameters
-     * @param Algorithm
+     * 返回已经支持的Spark算法
      * @return
-     * @throws Exception
      */
-    @GetMapping("/runMLlib")
+    @GetMapping("/getSparkAlgorithms")
     @ResponseBody
-    public List<String> SparkTrain(@RequestParam(value = "ProjectName") String ProjectName,
-                              @RequestParam(value = "trainDataName") String trainDataName,
-                              @RequestParam(value = "testDataName") String testDataName,
-                              @RequestParam(value = "Parameters") String Parameters,
-                              @RequestParam(value = "Algorithm") String Algorithm) throws Exception{
-        Date date = new Date();
-        // get data columns
-        String[] trainFeatureCols = getDataColumns(ProjectName, trainDataName);
-        String trainHdfsDir = HDFSPathPrefix + ProjectName + "/Data/" + trainDataName;
-        // read data
-        Dataset<Row> trainDataset = sparkUtil.readData(trainHdfsDir, "HDFS", "json",trainFeatureCols, "label");
-        System.out.println(trainDataset.count());
-        for(String column : trainDataset.columns())
-            System.out.println(column);
-        JSONObject trainParam = new JSONObject(Parameters);
-//        {'maxIter':10, 'regParam' : 0.5, 'elasticNetParam' : 0.8, 'standardization' : true}
-
-        String modelName = ProjectName + "_" + Algorithm + "_" +  trainDataName + "_" + String.valueOf(date.getTime());
-        String modelPath = hdfsFileUtil.HDFSPath("/user/hadoop/data_platform/model/" + modelName);
-
-        // predict
-        String[] testFeatureCols = getDataColumns(ProjectName, testDataName);
-        String testHdfsDir = HDFSPathPrefix + ProjectName + "/Data/" + testDataName;
-        List<String> result = new ArrayList<String>();
-        Dataset<Row> testDataset = sparkUtil.readData(testHdfsDir, "HDFS", "json",testFeatureCols, "label");
-        SparkEstimate sparkEstimate = new SparkEstimate();
-        switch (Algorithm){
-            case "lr":
-                sparkClassification.lr(trainParam, trainDataset, modelPath);
-                Model model = sparkEstimate.loadModel(modelPath, Classification.LR);
-                Dataset<Row> rows = sparkEstimate.predict(testDataset, model);
-                for (Row r: rows.collectAsList()) {
-                    result.add(r.get(3).toString());
-//                    result.add("(" + r.get(0) + ", " + r.get(1) + ") -> prob=" + r.get(2) + ", prediction=" + r.get(3));
-                }
-                break;
-            default:
-                break;
-        }
-
-        return result;
+    public List<String> getSparkAlgorithms(@RequestParam(value = "type") String type){
+    	List<String> algos = new ArrayList<String>();
+    	if(type.equals("classification")){
+	    	for(Classification cls : Classification.values()){
+	    		algos.add(cls.toString().toLowerCase());
+			}
+    	}
+    	else if(type.equals("regression")){
+	    	for(Regression reg : Regression.values()){
+	    		algos.add(reg.toString().toLowerCase());
+			}
+    	}
+    	else if(type.equals("cluster")){
+    		for(Cluster clu : Cluster.values()){
+	    		algos.add(clu.toString().toLowerCase());
+			}
+    	}
+    	System.out.println(type);
+    	return algos;
     }
 
-    public static void testCluster() throws Exception{
-        SparkCluster sparkCluster = new SparkCluster();
-        String[] featureCols = {"wigth", "age", "heigth", "interets"};
-        Dataset<Row> dataset = sparkUtil.readData("/user/hadoop/data_platform/data.json", "HDFS", "json",
-            featureCols, "label");
-        System.out.println(dataset.count());
-        for(String column : dataset.columns())
-            System.out.println(column);
-        JSONObject jsonObject = new JSONObject("{'K':10, 'seed' : 10, 'initSteps' : 30, 'tol' : 0.5}");
-        Vector[] vectors = sparkCluster.kmeans(jsonObject, dataset);
-        for(Vector vector : vectors) {
-            System.out.println(vector);
-        }
+    
+    /**
+     * 训练模型
+     * @param project: 当前项目
+     * @param task: 当前任务
+     * @param algo: 所使用的算法
+     * @param para: 算法对应的参数
+     * @param trainData: 训练数据文件 HDFS地址
+     * @param testData: 测试数据文件 HDFS地址
+     * @return
+     */
+    @GetMapping("/train")
+    @ResponseBody
+    public List<String> train(@RequestParam(value = "project") String project,
+    						  @RequestParam(value = "task") String task,
+    						  @RequestParam(value = "algoType") String algo_type,    						  
+    						  @RequestParam(value = "algo") String algo,
+    						  @RequestParam(value = "para") String para,
+    						  @RequestParam(value = "trainData") String trainData,
+    						  @RequestParam(value = "testData") String testData
+    						){
+    	List<String> res = new ArrayList<String>();
+    	try {
+			res = service.SparkTrain(project, task, trainData, testData, para, algo_type, algo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	return res;
     }
+    
+    @GetMapping("/test")
+    @ResponseBody
+    public List<String> test(@RequestParam(value = "project") String project,
+							  @RequestParam(value = "task") String task,
+    						  @RequestParam(value = "algoType") String algo_type,    						  							  
+							  @RequestParam(value = "algo") String algo,
+							  @RequestParam(value = "testData") String testData,
+							  @RequestParam(value = "model") String modelName){
+    	List<String> res = new ArrayList<String>();
+    	try {
+			res = service.SparkTest(project, task, testData, algo, algo_type, modelName);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return res;
+
+    }
+    
 }

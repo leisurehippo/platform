@@ -1,0 +1,125 @@
+ <h2 class="text-center">{{vm.projectName_CN}}</h2>
+ <ul class="nav nav-tabs">
+       <li role="presentation">
+           <a ui-sref="task">任务管理</a>
+       </li>
+       <li role="presentation">
+           <a ui-sref="taskFile">文件管理</a>
+       </li>
+       <li role="presentation">
+           <a ui-sref="taskRun">任务运行</a>
+       </li>
+        <li role="presentation" class="active">
+           <a ui-sref="taskRunML">HDFS任务运行</a>
+       </li>
+        <li role="presentation">
+           <a ui-sref="visualize">结果可视化</a>
+       </li>
+  </ul>
+  
+ <div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-3">
+			<div class="input-group " >		
+				<span class="input-group-addon" >选择任务</span>
+				<select class="form-control" ng-model="vm.cur_task">
+		       		<option ng-repeat="task in vm.tasks">{{task.task_name}}</option>
+		     	</select>
+	     	</div>
+     	</div>
+     	<div class="col-lg-3">
+			<div class="input-group " >						
+				<span class="input-group-addon">选择类型</span>
+				<select class="form-control"  ng-model="vm.type_cn">
+		       		<option ng-repeat="(id,value) in vm.type_map">{{id}}</option>
+		     	</select>
+	     	</div>
+     	</div>
+     	<div class="col-lg-3">
+			<div class="input-group " >						
+				<span class="input-group-addon" >选择算法</span>
+				<select class="form-control"  ng-model="vm.cur_algo">
+		       		<option ng-repeat="algo in vm.algos">{{algo}}</option>
+		     	</select>
+	     	</div>
+     	</div>
+	   <div class="col-lg-3">
+	   		<div class="input-group " >						
+				<span class="input-group-addon" >模式</span>
+				<select title="训练模式下，train_data将被忽略。" class="form-control" ng-model="vm.mode">
+		       		<option selected="selected">train</option>
+		       		<option>test</option>		       		
+		     	</select>	     	
+		     </div>			
+     	</div>
+	</div>
+	
+	<hr />
+	<h4>数据模型配置</h4>
+	
+	<div class="row">
+		<div class="col-lg-3">
+			<div class="input-group " >		
+				<span class="input-group-addon" >训练数据</span>
+				<select class="form-control" ng-model="vm.train_file">
+		       		<option ng-repeat="file in vm.data_files">{{file}}</option>
+		     	</select>
+	     	</div>
+     	</div>
+		<div class="col-lg-3">
+			<div class="input-group " >		
+				<span class="input-group-addon" >测试数据</span>
+				<select class="form-control" ng-model="vm.test_file">
+		       		<option ng-repeat="file in vm.data_files">{{file}}</option>
+		     	</select>
+	     	</div>
+     	</div>
+		<div class="col-lg-3">
+			<div class="input-group " >		
+				<span class="input-group-addon" >模型</span>
+				<select class="form-control" ng-model="vm.cur_model">
+		       		<option ng-repeat="file in vm.model_files">{{file}}</option>
+		     	</select>
+	     	</div>
+     	</div>  
+     	<div class="col-lg-3">
+     		<div class="btn-group" role="group" aria-label="...">     	
+		     	<button class="btn btn-default" ng-click="vm.run()">
+					运行 <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+				</button>
+				<button class="btn btn-default" data-toggle="modal" data-target="#log_modal">
+					Log  <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+				</button>
+			</div>
+     	</div>     	   	     	
+	</div>
+	
+	<hr />
+	<h4>参数配置</h4>
+	<div class="row" ng-repeat="item in vm.para">
+		<div class="col-lg-4">
+			<div class="input-group " >
+				<span class="input-group-addon" id="$index">{{item.name}}</span>
+   				<input class="form-control"  ng-model="item.value" >		
+            </div>
+		</div>
+	</div>	
+</div> 
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="log_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">程序运行log</h4>
+      </div>
+      <pre>{{vm.log}}</pre>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

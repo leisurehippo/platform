@@ -1,0 +1,57 @@
+  <h2 class="text-center">{{vm.projectName_CN}}</h2>
+ 
+ <ul class="nav nav-tabs">
+       <li role="presentation">
+           <a ui-sref="task">任务管理</a>
+       </li>
+       <li role="presentation">
+           <a ui-sref="taskFile">文件管理</a>
+       </li>
+       <li role="presentation">
+           <a ui-sref="taskRun">任务运行</a>
+       </li>
+        <li role="presentation" >
+           <a ui-sref="taskRunML">HDFS任务运行</a>
+       </li>       
+         <li role="presentation" class="active">
+           <a ui-sref="visualize">结果可视化</a>
+       </li>
+  </ul>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-3">
+			<div class="input-group " >		
+				<span class="input-group-addon" >选择任务</span>
+				<select class="form-control" ng-model="vm.cur_task">
+		       		<option ng-repeat="task in vm.tasks">{{task.task_name}}</option>
+		     	</select>
+	     	</div>
+     	</div>
+     	<div class="col-lg-3">
+			<div class="input-group " >						
+				<span class="input-group-addon">选择结果文件</span>
+				<select class="form-control"  ng-model="vm.cur_res_file">
+		       		<option ng-repeat="file in vm.result_files">{{file}}</option>
+		     	</select>
+	     	</div>
+     	</div>
+     	<div class="col-lg-3">
+			<div class="input-group " >						
+				<span class="input-group-addon" >选择数据格式</span>
+				<select class="form-control"  ng-model="vm.cur_type">
+		       		<option ng-repeat="type in vm.types">{{file}}</option>
+		     	</select>
+	     	</div>
+     	</div>
+	   <div class="col-lg-3">
+	     	<button class="btn btn-default" ng-click="vm.run()">
+				显示 <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+			</button>
+	     	<a id="download" class="btn btn-default" ng-href="{{fileUrl}}" download="{{vm.cur_res_file}}">
+				下载 <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
+			</a>			
+			
+     	</div>
+	</div>
+
+</div>

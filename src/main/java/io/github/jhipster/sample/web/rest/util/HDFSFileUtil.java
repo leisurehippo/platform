@@ -5,6 +5,7 @@ import org.apache.hadoop.fs.BlockLocation;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.net.URI;
@@ -17,23 +18,29 @@ public class HDFSFileUtil {
 
     private static FileSystem fs;
     private static String hadoop_master;
+    private static String platform_root;
     static {
         try{
             Properties properties = new Properties();
             properties.load(HDFSFileUtil.class.getResourceAsStream("/cluster.properties"));
             hadoop_master = "hdfs://" + properties.getProperty("hadoop_master_ip") + ":" + properties.getProperty("hadoop_port");
             fs = FileSystem.get(new URI(hadoop_master), new Configuration(), "hadoop");
+            platform_root = properties.getProperty("data_platform_root");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public String root(){
+    	return hadoop_master + platform_root;
+    }
+    
     public String HDFSPath(String path) {
-        return hadoop_master + path;
+        return hadoop_master + platform_root + path;
     }
 
     public void upload(String sourcePath, String targetPath, boolean isRemove) throws Exception{
-        fs.copyFromLocalFile(isRemove, new Path(sourcePath), new Path(HDFSPath(targetPath)));
+        fs.copyFromLocalFile(isRemove, new Path(sourcePath), new Path(targetPath));
     }
 
     public boolean mkdir(String path) throws IllegalArgumentException, IOException{
@@ -86,4 +93,10 @@ public class HDFSFileUtil {
         }
         return nameList;
     }
+    
+    @Test
+    public void test(){
+    	System.out.print("test");
+    }
+    
 }

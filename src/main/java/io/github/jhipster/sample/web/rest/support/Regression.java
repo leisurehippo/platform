@@ -1,11 +1,10 @@
 package io.github.jhipster.sample.web.rest.support;
 
-
-public enum Classification {
+public enum Regression {
     LR,
     DT,
     RF,
     GBT,
-    MUTPERCEPTION,
-    NB;
 }
+
+

@@ -4,6 +4,7 @@ package io.github.jhipster.sample.web.rest.util;
 import org.apache.ivy.util.StringUtils;
 import org.apache.spark.SparkConf;
 import org.apache.spark.ml.feature.RFormula;
+import org.apache.spark.ml.feature.StringIndexer;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
@@ -11,6 +12,7 @@ import io.github.jhipster.sample.web.rest.support.DataType;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -26,17 +28,23 @@ public class SparkUtil {
             properties.load(SparkUtil.class.getResourceAsStream("/cluster.properties"));
             String master = properties.getProperty("spark_master_ip");
             String port = properties.getProperty("spark_port");
-            SparkConf conf = new SparkConf().setAppName("data-platform").setMaster("spark://" + master + ":" + port).set("spark.sql.warehouse.dir", "/spark-warehouse/");
+            SparkConf conf = new SparkConf().setAppName("data-platform").setMaster("spark://" + master + ":" + port)
+            					.set("spark.sql.warehouse.dir", "/spark-warehouse/");
+            conf.set("spark.debug.maxToStringFields", "100");
             spark = SparkSession.builder().config(conf).getOrCreate();
             hdfsFileUtil = factoryUtil.getHDFSUtil();
         }catch (Exception e) {
             e.printStackTrace();
         }
     }
+    
+    public SparkSession getSession(){
+    	return spark;
+    }
 
     private Dataset<Row> readFromHDFS(String path, String dataFormat) throws Exception {
-        if(!hdfsFileUtil.checkFile(path)) {
-            throw new FileNotFoundException(path + "not found on hadoop!");
+        if(!hdfsFileUtil.checkFile(hdfsFileUtil.HDFSPath(path))) {
+            throw new FileNotFoundException(hdfsFileUtil.HDFSPath(path) + "not found on hadoop!");
         }
         return spark.read().format(dataFormat).load(hdfsFileUtil.HDFSPath(path));
     }
@@ -51,12 +59,16 @@ public class SparkUtil {
         return spark.sql(sql);
     }
 
-    private Dataset<Row> transformData(Dataset<Row> dataset, String[] featureCols, String labelCol) throws Exception{
+    public Dataset<Row> transformData(Dataset<Row> dataset, String[] featureCols, String labelCol) throws Exception{
         String [] columns = dataset.columns();
         List<String> columnList = java.util.Arrays.asList(columns);
-        for(String featureCol : featureCols)
+        for(String featureCol : featureCols){
             if (!columnList.contains(featureCol))
                 throw new Exception(featureCol + " not in data column!");
+        	if(featureCol.equals("features")){
+        		return dataset;
+        	}
+        }
         if(!labelCol.equals("") && !columnList.contains(labelCol))
             throw new Exception(labelCol + " not in data column!");
         RFormula formula = new RFormula();
@@ -74,6 +86,8 @@ public class SparkUtil {
         return formula.fit(dataset).transform(dataset);
     }
 
+  
+    //原来的版本。需要feature cols。 但是现在为了简便。默认除了Label col外，其他全是Feature col
     public Dataset<Row> readData(String dataPath, String dataType, String dataFormat, String[] featureCols, String labelCol) throws Exception{
         if (dataType.equals(DataType.HDFS.toString())) {
             return transformData(readFromHDFS(dataPath, dataFormat), featureCols, labelCol);
@@ -84,6 +98,44 @@ public class SparkUtil {
         } else {
             return null;
         }
+    }
+    
+    
+    //更新后的版本
+    public Dataset<Row> readData(String dataPath, String dataType, String dataFormat,String labelCol) throws Exception{
+    	Dataset<Row> dataset = null;
+    	if(labelCol == ""){
+    		labelCol = "label";
+    	}
+    	if (dataType.equals(DataType.HDFS.toString())) {
+    		dataset = readFromHDFS(dataPath, dataFormat);
+        } 
+    	else if(dataType.equals(DataType.LOCAL.toString())){
+        	dataset = readFromLocal(dataPath, dataFormat);
+        } 
+    	else if (dataType.equals(DataType.SQL.toString())) {
+            dataset =  readFromSQL(dataPath);
+        } 
+    	if(dataset == null){
+    		return null;
+    	}
+    	//提取出Label column
+		List<String> features = new ArrayList<String>();
+    	String[] cols = dataset.columns();
+    	for(String col :cols){
+			if(! col.equals(labelCol)){
+				features.add(col);
+			}
+		}
+		Dataset<Row> _dataset = transformData(dataset, features.toArray(new String[0]), labelCol);
+		//一种丑陋的写法，将label强行变为double
+	    StringIndexer indexer = new StringIndexer()
+	    	      .setInputCol("label")
+	    	      .setOutputCol("labelIndexed");
+	    _dataset = indexer.fit(_dataset).transform(_dataset);
+	    _dataset = _dataset.drop("label");
+	    _dataset = _dataset.withColumnRenamed("labelIndexed", "label");
+    	return _dataset;
     }
 
     public String [] getColumns(String dataPath, String dataType, String dataFormat) throws Exception{

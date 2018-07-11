@@ -28,23 +28,10 @@ function AllFileDataController($scope, $http, $state, GetHdfsData, GetAlgorithmD
 
     });
     //监控projectName变量，看是否改变，全局
-    $scope.$watch('vm.projectName', function (oldValue,newValue) {
-        console.log(vm.projectName);
-        vm.serverData = [];
-        if (vm.projectName!=null) {
-            GetServerData.get({ProjectName:vm.projectName}, function (result) {
-                for (var i = 0; i< result.length; i++) {
-                    vm.serverData[i] = result[i].split("+");
-                    vm.checkList[i] = false;
-                    if (vm.serverData[i][1] == '0') {
-                        vm.serverData[i][1] = false;
-                    }else
-                        vm.serverData[i][1] = true;
+    $scope.$watch('vm.task', function (oldValue,newValue) {
+        console.log(vm.task);
+        if (vm.task!=null) {
 
-                }
-                console.log(vm.serverData);
-            }, function (result) {
-            });
         }
 
     });

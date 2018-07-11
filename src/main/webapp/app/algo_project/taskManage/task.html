@@ -1,0 +1,186 @@
+ <h2 class="text-center">{{vm.projectName_CN}}</h2>
+ <ul class="nav nav-tabs">
+       <li role="presentation" class="active">
+           <a ui-sref="task" >任务管理</a>
+       </li>
+       <li role="presentation">
+           <a ui-sref="taskFile">文件管理</a>
+       </li>
+       <li role="presentation" >
+           <a ui-sref="taskRun">任务运行</a>
+       </li>
+        <li role="presentation">
+           <a ui-sref="taskRunML">HDFS任务运行</a>
+       </li>       
+         <li role="presentation">
+           <a ui-sref="visualize">结果可视化</a>
+       </li>
+  </ul>
+
+<div class="container-fluid">
+		<div class="row">
+		<div class="btn-toolbar" role="toolbar" >
+			<div class="btn-group" role="group">
+				<button class="btn btn-default" data-toggle="modal" data-target="#create_task_modal">
+					创建 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+				</button>
+				<button class="btn btn-default" ng-click="vm.get_all()">
+					显示所有 <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+				</button>
+			</div>
+			<div class="btn-group" role="group">
+				<button class="btn btn-default" data-toggle="modal" data-target="#search_TimeModal">
+					按时间查询 <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
+				<button class="btn btn-default" data-toggle="modal" data-target="#search_NameModal">
+					按名字查询 <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
+			</div>
+			<!-- 
+			<div class="btn-group" role="group">
+				<button class="btn btn-danger" ng-click="vm.delete_all()">删除所有</button>
+			</div>
+			-->
+		</div>
+		<table class="table table-bordered .table-condensed">
+					<thead>
+						<tr>
+						  <th>#</th>
+						  <th>任务名</th>
+						  <th>创建时间</th>
+						  <th>描述</th>						  
+						  <th>删除</th>
+						  <th>配置</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="task in vm.tasks">
+						  <th>{{$index}}</th>
+						  <th>{{task.task_name}}</th>
+						  <th>{{task.date}}</th>
+						  <th>{{task.desc}}</th>
+						  <th>
+	    					<button class="btn btn-danger" ng-click="vm.delete_task($index)">
+								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+							</button>
+						  </th>
+						  <th>
+							  <button class="btn btn-default" ng-click="vm.edit_task($index)" data-toggle="modal" data-target="#edit_task_modal">
+								   <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+							  </button>
+						  </th>
+						</tr>
+					</tbody>
+		</table>
+	</div>	  
+</div>
+
+<div class="modal fade" id="create_task_modal" role="dialog" >
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+				<h3 class="modal-title" id="myModalLabel">创建任务</h3>
+			</div>
+			<div class="modal-body">
+				<div class="input-group input-group-lg">
+				  <span class="input-group-addon" id="sizing-addon1">任务名称: </span>
+				  <input type="text" class="form-control" ng-model="vm.c_taskname" placeholder="task1" aria-describedby="sizing-addon1">
+				</div>
+				<div class="input-group input-group-lg">
+				  <span class="input-group-addon" id="sizing-addon1">任务描述: </span>
+				  <input type="text" class="form-control" ng-model="vm.c_taskdesc" placeholder="task1" aria-describedby="sizing-addon1">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="vm.create_task()">创建</button>
+			</div>
+		</div>
+	</div>
+</div>  
+
+ <div class="modal fade" id="search_NameModal" tabindex="-1" role="dialog" >
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">根据任务名搜索</h4>
+			</div>
+			<div class="modal-body">
+				<div class="input-group input-group-lg">
+				  <span class="input-group-addon" id="sizing-addon1">任务名称: </span>
+				  <input type="text" class="form-control" ng-model="vm.s_taskname" placeholder="task1" aria-describedby="sizing-addon1">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.searchByName()">查询</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="search_TimeModal" tabindex="-1" role="dialog" >
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">根据任务创建时间搜索</h4>
+			</div>
+			<div class="modal-body">
+				<label>起始时间</label>
+				<input type="text" value="2018-01-01" id="datetimepicker1" data-date-format="yyyy-mm-dd" ng-model="vm.beginTime">
+				<label>结束时间时间</label>
+				<input type="text" value="2018-12-12" id="datetimepicker2" data-date-format="yyyy-mm-dd" ng-model="vm.endTime">
+			</div>
+			 <script type="text/javascript">
+				$(function () {
+					$('#datetimepicker1').datetimepicker({
+						language: 'zh-CN',
+						minView: "month",//设置只显示到月份
+						initialDate: new Date(),//初始化当前日期
+						autoclose: true,//选中自动关闭
+						todayBtn: true//显示今日按钮
+					});
+					$('#datetimepicker2').datetimepicker({
+						language: 'zh-CN',
+						minView: "month",//设置只显示到月份
+						initialDate: new Date(),//初始化当前日期
+						autoclose: true,//选中自动关闭
+						todayBtn: true//显示今日按钮
+					});
+				});
+			</script>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.searchByTime()">查询</button>
+			</div>
+		</div>
+		
+	</div>
+</div>
+
+<div class="modal fade" id="edit_task_modal" role="dialog" >
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+				<h3 class="modal-title" id="myModalLabel">任务配置</h3>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<label class="col-lg-4">任务名:{{vm.cur_task.task_name}}</label>
+					<label class="col-lg-4">创建时间:{{vm.cur_task.date}}</label>
+				</div>
+    			<hr />
+				<div class="input-group input-group-lg">
+				  <span class="input-group-addon" id="sizing-addon1">任务描述: </span>
+				  <input type="text" class="form-control" ng-model="vm.e_taskdesc" placeholder="{{vm.cur_task.desc}}" aria-describedby="sizing-addon1">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.edit_task_submit()">更新</button>
+				
+			</div>
+		</div>
+	</div>
+</div>  

@@ -2,11 +2,12 @@ angular
     .module('jhipsterSampleApplicationApp')
     .controller('ElecController',ElecController);
 
-ElecController.$inject = ['$scope', '$state'];
+ElecController.$inject = ['$scope', '$state', 'projectName'];
 
-function ElecController($scope, $state){
-	
-	
+function ElecController($scope, $state, projectName){
+	var vm = this
+	projectName.name = "elec"
+
 	
 	
 }

@@ -51,7 +51,8 @@ public class EtlJobUtil {
 		System.out.println("prepare to execute transform");
 		String[] pargs = new String[]{"python",dataXPath,jsonPath};
 		System.out.println(Arrays.toString(pargs));
-		if(!FileUtil.checkFile(jsonPath)){
+		FileUtil fileUtil = new FileUtil();
+		if(!fileUtil.checkFile(jsonPath)){
 			return false;
 		}
 		boolean flag = true;
