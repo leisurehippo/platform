@@ -1,4 +1,4 @@
-  <h2 class="text-center">{{vm.projectName_CN}}</h2>
+ <h2 class="text-center">{{vm.projectName_CN}}: 数据挖掘任务管理</h2>
  
  <ul class="nav nav-tabs">
        <li role="presentation">
@@ -8,50 +8,273 @@
            <a ui-sref="taskFile">文件管理</a>
        </li>
        <li role="presentation">
+           <a ui-sref="preprocess">数据预处理</a>
+       </li>         
+       <li role="presentation">
            <a ui-sref="taskRun">任务运行</a>
        </li>
         <li role="presentation" >
            <a ui-sref="taskRunML">HDFS任务运行</a>
        </li>       
          <li role="presentation" class="active">
-           <a ui-sref="visualize">结果可视化</a>
+           <a ui-sref="visualize">数据可视化</a>
        </li>
   </ul>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-lg-3">
 			<div class="input-group " >		
-				<span class="input-group-addon" >选择任务</span>
+				<span class="input-group-addon" >任务</span>
 				<select class="form-control" ng-model="vm.cur_task">
 		       		<option ng-repeat="task in vm.tasks">{{task.task_name}}</option>
 		     	</select>
 	     	</div>
      	</div>
+	     <div class="col-lg-2">
+		     <div class="input-group" >		
+					<span class="input-group-addon" >类型</span>
+					<select class="form-control" ng-model="vm.fs">
+			       		<option >HDFS</option>
+			       		<option selected="selected">本地</option>
+			     	</select>
+		     </div>
+	     </div>     	
+     	<div class="col-lg-2">
+			<div class="input-group " >						
+				<span class="input-group-addon" >文件目录</span>
+				<select class="form-control"  ng-model="vm.data_type">
+		       		<option >data</option>
+		       		<option >result</option>		       		
+		     	</select>
+	     	</div>
+     	</div>     	
      	<div class="col-lg-3">
 			<div class="input-group " >						
-				<span class="input-group-addon">选择结果文件</span>
-				<select class="form-control"  ng-model="vm.cur_res_file">
-		       		<option ng-repeat="file in vm.result_files">{{file}}</option>
+				<span class="input-group-addon">选择文件</span>
+				<select class="form-control"  ng-model="vm.cur_file">
+		       		<option ng-repeat="file in vm.files">{{file}}</option>
 		     	</select>
 	     	</div>
      	</div>
-     	<div class="col-lg-3">
-			<div class="input-group " >						
-				<span class="input-group-addon" >选择数据格式</span>
-				<select class="form-control"  ng-model="vm.cur_type">
-		       		<option ng-repeat="type in vm.types">{{file}}</option>
-		     	</select>
-	     	</div>
-     	</div>
-	   <div class="col-lg-3">
-	     	<button class="btn btn-default" ng-click="vm.run()">
-				显示 <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
-			</button>
-	     	<a id="download" class="btn btn-default" ng-href="{{fileUrl}}" download="{{vm.cur_res_file}}">
+
+	   <div class="col-lg-2">
+	     	<a class="btn btn-default" ng-click="vm.download()" >
 				下载 <span class="glyphicon glyphicon-download" aria-hidden="true"></span>
-			</a>			
-			
+			</a>						
      	</div>
+	</div>
+	<hr />
+	<div class="row">
+     	<div class="col-lg-3">
+     		<div class="btn-group" role="group" aria-label="...">     	
+		     	<button class="btn btn-default" ng-click="vm.loadData()">
+					加载数据 <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+				</button>
+				<button class="btn btn-default" data-toggle="modal" data-target="#fileContent_modal">
+					预览数据  <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+				</button>
+			</div>
+     	</div> 	
+     	<div class="col-lg-3">
+     		<div class="btn-group" role="group" aria-label="...">     	
+				<button class="btn btn-default" data-toggle="modal" data-target="#line_modal">
+					折线图  <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+				</button>
+				<button class="btn btn-default" data-toggle="modal" data-target="#bar_modal">
+					柱状图  <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+				</button>
+				<button class="btn btn-default" data-toggle="modal" data-target="#point_modal">
+					点图 <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+				</button>				
+			</div>
+     	</div> 	     	
 	</div>
 
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="fileContent_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">数据预览</h4>
+      </div>
+      <div class="modal-body">
+        <pre>{{vm.data_preview}}</pre>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="line_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">折线图</h4>
+      </div>
+      <div class="modal-body">      
+      	<div class="container-fluid">
+			<h4>折线图配置</h4>      	
+      		<div class="row">
+	      		<div class="col-lg-3">
+					<div class="input-group " >		
+						<span class="input-group-addon" >x轴列</span>
+						<select class="form-control" ng-model="vm.line_x">
+				       		<option ng-repeat="col in vm.columns">{{col}}</option>
+				     	</select>
+			     	</div>  	
+	     		</div>
+	     		<div class="col-lg-3">
+					<div class="input-group " >		
+						<span class="input-group-addon" >y轴列</span>
+						<select class="form-control" ng-model="vm.line_y">
+				       		<option ng-repeat="col in vm.columns">{{col}}</option>
+				     	</select>
+			     	</div>	       		
+	     		</div>
+	     		<div class="col-lg-3">
+					<div class="input-group " >		
+						<span class="input-group-addon" >颜色列</span>
+						<select class="form-control" ng-model="vm.line_color">
+				       		<option ng-repeat="col in vm.columns">{{col}}</option>
+				     	</select>
+			     	</div>	       		
+	     		</div>  
+		     	<div class="col-lg-3">
+		     		<div class="btn-group" role="group" aria-label="...">     	
+				     	<button class="btn btn-default" ng-click="vm.render_line()">
+							渲染 <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+						</button>
+					</div>
+		     	</div>  	     		 
+     		</div><!-- end of row -->
+     		<div class="row">
+     			<div id="line-chart"></div> 
+     		</div>  		
+      	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="bar_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">柱状图</h4>
+      </div>
+      <div class="modal-body">
+      	<div class="container-fluid">
+			<h4>柱状图配置</h4>      	
+      		<div class="row">
+	      		<div class="col-lg-3">
+					<div class="input-group " >		
+						<span class="input-group-addon" >x轴列</span>
+						<select class="form-control" ng-model="vm.bar_x">
+				       		<option ng-repeat="col in vm.columns">{{col}}</option>
+				     	</select>
+			     	</div>  	
+	     		</div>
+	     		<div class="col-lg-3">
+					<div class="input-group " >		
+						<span class="input-group-addon" >y轴列</span>
+						<select class="form-control" ng-model="vm.bar_y">
+				       		<option ng-repeat="col in vm.columns">{{col}}</option>
+				     	</select>
+			     	</div>	       		
+	     		</div>
+	     		<div class="col-lg-3">
+					<div class="input-group " >		
+						<span class="input-group-addon" >颜色列</span>
+						<select class="form-control" ng-model="vm.bar_color">
+				       		<option ng-repeat="col in vm.columns">{{col}}</option>
+				     	</select>
+			     	</div>	       		
+	     		</div>  
+		     	<div class="col-lg-3">
+		     		<div class="btn-group" role="group" aria-label="...">     	
+				     	<button class="btn btn-default" ng-click="vm.render_bar()">
+							渲染 <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+						</button>
+					</div>
+		     	</div>  	     		 
+     		</div><!-- end of row -->
+     		<div class="row">
+     			<div id="bar-chart"></div> 
+     		</div>        	
+      	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="point_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">点图</h4>
+      </div>
+      <div class="modal-body">
+      	<div class="container-fluid">
+			<h4>折线图配置</h4>      	
+      		<div class="row">
+	      		<div class="col-lg-3">
+					<div class="input-group " >		
+						<span class="input-group-addon" >x轴列</span>
+						<select class="form-control" ng-model="vm.point_x">
+				       		<option ng-repeat="col in vm.columns">{{col}}</option>
+				     	</select>
+			     	</div>  	
+	     		</div>
+	     		<div class="col-lg-3">
+					<div class="input-group " >		
+						<span class="input-group-addon" >y轴列</span>
+						<select class="form-control" ng-model="vm.point_y">
+				       		<option ng-repeat="col in vm.columns">{{col}}</option>
+				     	</select>
+			     	</div>	       		
+	     		</div>
+	     		<div class="col-lg-3">
+					<div class="input-group " >		
+						<span class="input-group-addon" >颜色列</span>
+						<select class="form-control" ng-model="vm.point_color">
+				       		<option ng-repeat="col in vm.columns">{{col}}</option>
+				     	</select>
+			     	</div>	       		
+	     		</div>  
+		     	<div class="col-lg-3">
+		     		<div class="btn-group" role="group" aria-label="...">     	
+				     	<button class="btn btn-default" ng-click="vm.render_point()">
+							渲染 <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+						</button>
+					</div>
+		     	</div>  	     		 
+     		</div><!-- end of row -->
+     		<div class="row">
+     			<div id="point-chart"></div> 
+     		</div>       	
+      	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

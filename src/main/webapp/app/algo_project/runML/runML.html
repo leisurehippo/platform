@@ -1,4 +1,4 @@
- <h2 class="text-center">{{vm.projectName_CN}}</h2>
+ <h2 class="text-center">{{vm.projectName_CN}}: 数据挖掘任务管理</h2>
  <ul class="nav nav-tabs">
        <li role="presentation">
            <a ui-sref="task">任务管理</a>
@@ -7,13 +7,16 @@
            <a ui-sref="taskFile">文件管理</a>
        </li>
        <li role="presentation">
+           <a ui-sref="preprocess">数据预处理</a>
+       </li>         
+       <li role="presentation">
            <a ui-sref="taskRun">任务运行</a>
        </li>
         <li role="presentation" class="active">
            <a ui-sref="taskRunML">HDFS任务运行</a>
        </li>
         <li role="presentation">
-           <a ui-sref="visualize">结果可视化</a>
+           <a ui-sref="visualize">数据可视化</a>
        </li>
   </ul>
   
@@ -48,10 +51,10 @@
 				<span class="input-group-addon" >模式</span>
 				<select title="训练模式下，train_data将被忽略。" class="form-control" ng-model="vm.mode">
 		       		<option selected="selected">train</option>
-		       		<option>test</option>		       		
+		       		<option>test</option>		     
 		     	</select>	     	
 		     </div>			
-     	</div>
+     	</div>   	
 	</div>
 	
 	<hr />
@@ -68,16 +71,43 @@
      	</div>
 		<div class="col-lg-3">
 			<div class="input-group " >		
+				<span class="input-group-addon" >标注列</span>
+				<select class="form-control" ng-model="vm.train_label">
+					<option></option>								
+		       		<option ng-repeat="col in vm.train_cols">{{col}}</option>
+		     	</select>
+	     	</div>
+     	</div>
+     	     	
+		<div class="col-lg-3">
+			<div class="input-group " >		
 				<span class="input-group-addon" >测试数据</span>
 				<select class="form-control" ng-model="vm.test_file">
+					<option></option>								
 		       		<option ng-repeat="file in vm.data_files">{{file}}</option>
 		     	</select>
 	     	</div>
      	</div>
 		<div class="col-lg-3">
 			<div class="input-group " >		
+				<span class="input-group-addon" >标注列</span>
+				<select class="form-control" ng-model="vm.test_label">
+					<option></option>								
+		       		<option ng-repeat="col in vm.test_cols">{{col}}</option>
+		     	</select>
+	     	</div>
+     	</div>     	
+     	   	   	     	
+	</div>
+	
+	<hr />
+		
+	<div class="row">
+		<div class="col-lg-3">
+			<div class="input-group " >		
 				<span class="input-group-addon" >模型</span>
 				<select class="form-control" ng-model="vm.cur_model">
+					<option></option>				
 		       		<option ng-repeat="file in vm.model_files">{{file}}</option>
 		     	</select>
 	     	</div>
@@ -91,7 +121,7 @@
 					Log  <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
 				</button>
 			</div>
-     	</div>     	   	     	
+     	</div>  
 	</div>
 	
 	<hr />

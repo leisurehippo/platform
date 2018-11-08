@@ -9,7 +9,6 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.Test;
 
 import io.github.jhipster.sample.service.util.FileUtil;
 import io.github.jhipster.sample.web.rest.util.HDFSFileUtil;
@@ -133,32 +132,4 @@ public class AlgorithmParaService {
         return result.toString();
     }
     
-
-  
-    
-    @Test
-    public void test() throws JSONException{
-    	String project = "elec";
-    	String task = "testHDFS";
-   
-    	
-    	JSONObject jsonConfig = new JSONObject();
-    	jsonConfig.put("name", "test1");
-    	JSONArray array = new JSONArray();
-    	JSONObject item = new JSONObject();
-    	item.put("name", "filepath");
-    	item.put("type","file");
-    	
-    	array.put(item);
-    	jsonConfig.put("col", array);
-    	System.out.println(jsonConfig.toString());
-    	boolean flag = addParameterConfig(project, task, jsonConfig.toString(),true);
-    	System.out.print(flag);
-    	
-    	List<String> paras = listParameterConfigs(project, task);
-    	for(String para :paras){
-    		System.out.println(getParameterConfig(project, task, para));
-    	}
-    	
-    }
 }

@@ -219,7 +219,8 @@ public class  AlgorithmTaskController{
 	            response.reset();
 	         // 设置response的Header  
 	        	//1.设置文件ContentType类型，这样设置，会自动判断下载文件类型  
-	            response.setContentType("multipart/form-data");  
+
+		        response.setContentType("multipart/form-data");  
 	            response.addHeader("Content-Disposition","attachment;filename=" +file.getName());  
 	            response.addHeader("Content-Length", "" + file.length());  
 	            

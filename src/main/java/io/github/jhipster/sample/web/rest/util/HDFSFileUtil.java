@@ -5,8 +5,6 @@ import org.apache.hadoop.fs.BlockLocation;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
-import org.junit.Test;
-
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -31,9 +29,16 @@ public class HDFSFileUtil {
         }
     }
 
+    public String master(){
+    	return hadoop_master;
+    }
     public String root(){
     	return hadoop_master + platform_root;
     }
+    
+    public HDFSFileUtil() {
+		// TODO Auto-generated constructor stub
+	}
     
     public String HDFSPath(String path) {
         return hadoop_master + platform_root + path;
@@ -48,7 +53,7 @@ public class HDFSFileUtil {
     }
 
     public void download(String sourcePath ,String targetPath, boolean isRemove) throws IllegalArgumentException, IOException{
-        fs.copyToLocalFile(isRemove, new Path(sourcePath), new Path(targetPath));
+        fs.copyToLocalFile(isRemove, new Path(sourcePath), new Path(targetPath), true);
     }
 
     public boolean delFile(String path, boolean isDir) throws IllegalArgumentException, IOException{
@@ -94,9 +99,6 @@ public class HDFSFileUtil {
         return nameList;
     }
     
-    @Test
-    public void test(){
-    	System.out.print("test");
-    }
+
     
 }

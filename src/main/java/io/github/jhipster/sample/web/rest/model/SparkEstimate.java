@@ -59,7 +59,7 @@ public class SparkEstimate {
     	}
     	else if(type.equals("regression")){
     		return evaluate_regression(dataset, model);
-    	}else if(type.equals("cluster")){
+    	}else if(type.equals("cluster") || type.equals("custom")){
     		return evaluate_cluster(dataset, model);
     	}
     	return "Unknow type";
@@ -72,7 +72,7 @@ public class SparkEstimate {
     			  .setPredictionCol("prediction")
     			  .setMetricName("accuracy");
 		double accuracy = evaluator.evaluate(predictions);
-		return "Test Error = " + (1.0 - accuracy);
+		return "Test accuracy = " + (accuracy);
     }
     
     public String evaluate_regression(Dataset<Row> dataset, Model model){

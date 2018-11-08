@@ -1,14 +1,17 @@
  <script src="bower_components/bootstrap-fileinput/js/fileinput.js"></script>
  
- <h2 class="text-center">{{vm.projectName_CN}}</h2>
+ <h2 class="text-center">{{vm.projectName_CN}}: 数据挖掘任务管理</h2>
  
  <ul class="nav nav-tabs">
        <li role="presentation">
            <a ui-sref="task">任务管理</a>
        </li>
-       <li role="presentation" class="active"">
+       <li role="presentation" class="active">
            <a ui-sref="taskFile">文件管理</a>
        </li>
+       <li role="presentation">
+           <a ui-sref="preprocess">数据预处理</a>
+       </li>             
        <li role="presentation" >
            <a ui-sref="taskRun">任务运行</a>
        </li>
@@ -16,7 +19,7 @@
            <a ui-sref="taskRunML">HDFS任务运行</a>
        </li>       
          <li role="presentation">
-           <a ui-sref="visualize">结果可视化</a>
+           <a ui-sref="visualize">数据可视化</a>
        </li>
   </ul>
   

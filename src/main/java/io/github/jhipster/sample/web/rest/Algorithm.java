@@ -4,22 +4,8 @@ package io.github.jhipster.sample.web.rest;
  * Created by WJ on 2017/5/24.
  */
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.google.gson.JsonObject;
 import net.sf.json.JSONObject;
-import org.springframework.cloud.cloudfoundry.com.fasterxml.jackson.databind.util.JSONPObject;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.python.core.PyFunction;
-import org.python.core.PyInteger;
-import org.python.core.PyObject;
-import org.python.core.Py;
-import org.python.core.PySystemState;
-import org.python.util.PythonInterpreter;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;

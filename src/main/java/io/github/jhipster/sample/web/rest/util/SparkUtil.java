@@ -8,6 +8,8 @@ import org.apache.spark.ml.feature.StringIndexer;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
+
+import io.github.jhipster.sample.service.util.FileUtil;
 import io.github.jhipster.sample.web.rest.support.DataType;
 
 import java.io.File;
@@ -24,15 +26,25 @@ public class SparkUtil {
     static {
         try{
             FactoryUtil factoryUtil = FactoryUtil.getFactory();
+            hdfsFileUtil = factoryUtil.getHDFSUtil();
             Properties properties = new Properties();
             properties.load(SparkUtil.class.getResourceAsStream("/cluster.properties"));
             String master = properties.getProperty("spark_master_ip");
             String port = properties.getProperty("spark_port");
+            /*
             SparkConf conf = new SparkConf().setAppName("data-platform").setMaster("spark://" + master + ":" + port)
             					.set("spark.sql.warehouse.dir", "/spark-warehouse/");
             conf.set("spark.debug.maxToStringFields", "100");
+            */
+            SparkConf conf = new SparkConf()
+    	  			.setAppName("data-platform")
+    				.setMaster("local")
+    				.set("spark.sql.warehouse.dir", "/spark-warehouse/");
+            conf.set("spark.sql.crossJoin.enabled", "true");
+            //String jarPath = properties.getProperty("jar_path");
+           // String jarPath = hdfsFileUtil.master() + "/user/hadoop/runJars/jhipster-sample-application-0.0.1-SNAPSHOT.jar";
+            //conf.setJars(new String[]{jarPath});
             spark = SparkSession.builder().config(conf).getOrCreate();
-            hdfsFileUtil = factoryUtil.getHDFSUtil();
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -42,20 +54,21 @@ public class SparkUtil {
     	return spark;
     }
 
-    private Dataset<Row> readFromHDFS(String path, String dataFormat) throws Exception {
+    public Dataset<Row> readFromHDFS(String path, String dataFormat) throws Exception {
         if(!hdfsFileUtil.checkFile(hdfsFileUtil.HDFSPath(path))) {
             throw new FileNotFoundException(hdfsFileUtil.HDFSPath(path) + "not found on hadoop!");
         }
-        return spark.read().format(dataFormat).load(hdfsFileUtil.HDFSPath(path));
+        return spark.read().option("delimiter", " ").option("inferSchema",true).option("header", true).format(dataFormat).load(hdfsFileUtil.HDFSPath(path));
     }
 
-    private Dataset<Row> readFromLocal(String path, String dataFormat) throws Exception{
+    public Dataset<Row> readFromLocal(String path, String dataFormat) throws Exception{
+    	path = FileUtil.ProjectPathPrefix + path;
         if (!new File(path).exists())
             throw new FileNotFoundException(path + " not found on local!");
-        return spark.read().format(dataFormat).load(path);
+        return spark.read().option("delimiter", " ").option("inferSchema",true).option("header", true).format(dataFormat).load(path);
     }
 
-    private Dataset<Row> readFromSQL(String sql) {
+    public Dataset<Row> readFromSQL(String sql) {
         return spark.sql(sql);
     }
 
@@ -100,13 +113,23 @@ public class SparkUtil {
         }
     }
     
+    public Dataset<Row> readData(String dataPath, String dataType, String dataFormat) throws Exception{
+        if (dataType.equals(DataType.HDFS.toString())) {
+            return readFromHDFS(dataPath, dataFormat);
+        } else if (dataType.equals(DataType.LOCAL.toString())){
+            return readFromLocal(dataPath, dataFormat);
+        } else if (dataType.equals(DataType.SQL.toString())) {
+            return readFromSQL(dataPath);
+        } else {
+            return null;
+        }
+    }
+    
     
     //更新后的版本
     public Dataset<Row> readData(String dataPath, String dataType, String dataFormat,String labelCol) throws Exception{
     	Dataset<Row> dataset = null;
-    	if(labelCol == ""){
-    		labelCol = "label";
-    	}
+
     	if (dataType.equals(DataType.HDFS.toString())) {
     		dataset = readFromHDFS(dataPath, dataFormat);
         } 
@@ -127,7 +150,8 @@ public class SparkUtil {
 				features.add(col);
 			}
 		}
-		Dataset<Row> _dataset = transformData(dataset, features.toArray(new String[0]), labelCol);
+    	dataset.show();
+		Dataset<Row> _dataset = transformData(dataset, features.toArray(new String[0]), labelCol);	
 		//一种丑陋的写法，将label强行变为double
 	    StringIndexer indexer = new StringIndexer()
 	    	      .setInputCol("label")
@@ -140,7 +164,9 @@ public class SparkUtil {
 
     public String [] getColumns(String dataPath, String dataType, String dataFormat) throws Exception{
         if (dataType.equals(DataType.HDFS.toString())) {
-            return readFromHDFS(dataPath, dataFormat).columns();
+            Dataset<Row> dataset = readFromHDFS(dataPath, dataFormat);
+            dataset.show();
+            return dataset.columns();
         } else if (dataType.equals(DataType.LOCAL.toString())){
             return readFromLocal(dataPath, dataFormat).columns();
         } else if (dataType.equals(DataType.SQL.toString())) {

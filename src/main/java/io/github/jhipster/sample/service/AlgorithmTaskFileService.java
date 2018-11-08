@@ -4,15 +4,24 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.python.antlr.PythonParser.factor_return;
 import org.springframework.web.multipart.MultipartFile;
 
 import io.github.jhipster.sample.service.util.FileUtil;
+import io.github.jhipster.sample.web.rest.util.FactoryUtil;
 import io.github.jhipster.sample.web.rest.util.HDFSFileUtil;
+import io.github.jhipster.sample.web.rest.util.SparkUtil;
 
 public class AlgorithmTaskFileService {
-	
-    private static FileUtil fileUtil = new FileUtil();
-    private HDFSFileUtil hdfsFileUtil = new HDFSFileUtil();
+	private FactoryUtil factor = FactoryUtil.getFactory();
+    private  FileUtil fileUtil = new FileUtil();
+    private HDFSFileUtil hdfsFileUtil = factor.getHDFSUtil();
+    private SparkUtil sparkUtil = factor.getSparkUtil();
+
 
     public List<String> getTaskFiles(String project, String task, String dataType, boolean hdfs) throws IOException{
     	if(hdfs){
@@ -66,6 +75,7 @@ public class AlgorithmTaskFileService {
         try{
         	
 	        if(hdfs){
+	        	System.out.println(task_path);
 	        	hdfsFileUtil.download(hdfs_path, task_path, false);
 	        	return new File(task_path);
 	        }
@@ -78,5 +88,16 @@ public class AlgorithmTaskFileService {
         }
         return null;
 
+	}
+	
+	//暂时把header设为默认true
+	public List<String> getJsonData(String path, boolean hdfs, String dataFormat) throws Exception{
+		String dataType = "LOCAL";
+		if(hdfs){
+			dataType = "HDFS";
+		}
+		Dataset<Row> data = sparkUtil.readData(path, dataType, dataFormat);
+		List<String> jsonList = data.toJSON().collectAsList();
+		return jsonList;
 	}
 }

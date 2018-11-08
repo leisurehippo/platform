@@ -12,7 +12,8 @@ function RunMLController($scope, $http, projectName, GetAlgoTasks, RunMLService)
 	vm.type_map = {
 		"分类": "classification",
 		"回归":"regression",
-		"聚类": "cluster"
+		"聚类": "cluster",
+		"定制算法":"custom" 
 	}
 	
 	vm.type_cn = "分类"
@@ -20,8 +21,16 @@ function RunMLController($scope, $http, projectName, GetAlgoTasks, RunMLService)
 	vm.algos = []	
 	vm.cur_algo = null
 	vm.para = []
+	//load data files and data columns
 	vm.train_file = null
+	vm.train_cols = []
+	vm.train_label = ""	
+				
 	vm.test_file = null
+	vm.test_cols = []
+	vm.test_label = ""
+		
+	
 	vm.data_files = []	
 	vm.mode = "train"
 	vm.cur_model = null
@@ -53,6 +62,20 @@ function RunMLController($scope, $http, projectName, GetAlgoTasks, RunMLService)
 		getAlgoPara()
     });	
 	
+	$scope.$watch('vm.train_file', function (oldValue,newValue) {	
+		if(vm.cur_task == null) return
+		console.log(vm.train_file)
+		vm.train_cols = []
+		getColumns(vm.train_file, vm.train_cols)
+		console.log(vm.train_cols)
+    });	
+	
+	$scope.$watch('vm.test_file', function (oldValue,newValue) {	
+		if(vm.cur_task == null) return
+		console.log(vm.test_file)
+		getColumns(vm.test_file, vm.test_cols)
+    });	
+	
 	$scope.$watch('vm.mode', function (oldValue,newValue) {	
 		if(vm.cur_task == null) return
 		if(vm.mode == "test"){
@@ -77,7 +100,22 @@ function RunMLController($scope, $http, projectName, GetAlgoTasks, RunMLService)
 		vm.test_file = null
 		vm.data_files = []	
 		vm.mode = "train"
+		vm.test_label = ""
+		vm.train_label = ""
 		getHDFSAlgo()
+	}
+	
+	function getColumns(fileName, cols){
+		url = "api/getDataColumns"
+		url = url + '?ProjectName=' + vm.projectName 
+		url = url + '&task=' + vm.cur_task + '&DataName=' + fileName
+		$http.get(url).success(function(result){
+	    	for(i=0;i<result.length;i++){
+	    		item = result[i]
+		    	cols.push(item)
+	    	}
+	    });
+
 	}
 	
 	function getAlgoPara(){
@@ -132,7 +170,7 @@ function RunMLController($scope, $http, projectName, GetAlgoTasks, RunMLService)
 			
 			RunMLService.train.get({project:vm.projectName, task:vm.cur_task, algoType:vm.type,
 				algo:vm.cur_algo, para:JSON.stringify(para), trainData:vm.train_file,
-				testData: vm.test_file
+				trainLabel:vm.train_label, testData: vm.test_file, testLabel:vm.test_label
 			}, function (res) {
                 console.log(res)
                 alert("Done")
@@ -151,7 +189,7 @@ function RunMLController($scope, $http, projectName, GetAlgoTasks, RunMLService)
 			}
 			
 			RunMLService.test.get({project:vm.projectName, task:vm.cur_task, algoType:vm.type,
-				algo:vm.cur_algo, testData: vm.test_file, model:vm.cur_model
+				algo:vm.cur_algo, testData: vm.test_file, model:vm.cur_model, testLabel:vm.test_label
 				
 			},function(res){
                 console.log(res)

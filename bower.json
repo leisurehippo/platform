@@ -31,7 +31,7 @@
     "swagger-ui": "2.1.5",
     "bootstrap-table": "^1.12.1",
     "bootstrap-select": "1.13.1",
-    "g6": "https://gw.alipayobjects.com/os/antv/assets/g6/2.0.0/g6.js"
+    "g2": "https://gw.alipayobjects.com/os/antv/pkg/_antv.g2-3.2.8/dist/g2.min.js"
   },
   "devDependencies": {
     "angular-mocks": "1.5.8"

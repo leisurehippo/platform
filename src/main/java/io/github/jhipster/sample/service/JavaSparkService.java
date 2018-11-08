@@ -44,6 +44,9 @@ public class JavaSparkService {
     	else if(type.equals("cluster")){
     		model = sparkCluster;
     	}
+    	else{
+    		model = sparkCluster;
+    	}
     	return model;
     }
     
@@ -70,9 +73,19 @@ public class JavaSparkService {
         }
         return resList;
     }
+    public List<String> trainCustom(String ProjectName,String task,String trainDataName,   
+			String testDataName,String Parameters, String Algorithm){
+		List<String> result = new ArrayList<String>();
+		
+		
+		
+
+		return result;
+    }
     
-    public List<String> SparkTrain(String ProjectName,String task,String trainDataName,   
-    								String testDataName,String Parameters, String algo_type,
+    public List<String> SparkTrain(String ProjectName,String task,String trainDataName, 
+    								String trainLabel,String testDataName,String testLabel,
+    								String Parameters, String algo_type,
     								String Algorithm)throws Exception{
 			List<String> result = new ArrayList<String>();
 			result.add("Begin train, Algorithm: "+Algorithm+",trainData:"+trainDataName+",testDataName: "+testDataName);
@@ -82,25 +95,25 @@ public class JavaSparkService {
 			String date = format.format(new Date());
 			// get data columns
 			String trainHdfsDir = ProjectName+'/'+task+'/'+"/data/"+trainDataName;
-			String type = "json";
-			if(trainDataName.split("\\.")[1].equals("txt")){
-				type = "libsvm";
+			String type = trainDataName.split("\\.")[1];
+			if(type.equals("txt")){
+				type = "csv";
 			}
-			Dataset<Row> train = sparkUtil.readData(trainHdfsDir, "HDFS", type,"");
+			Dataset<Row> train = sparkUtil.readData(trainHdfsDir, "HDFS", type,trainLabel);
 			
 			train.show();
 			String testHdfsDir = ProjectName+'/'+task+'/'+"/data/"+testDataName;
-			type = "json";
-			if(trainDataName.split("\\.")[1].equals("txt")){
-				type = "libsvm";
+			type = testDataName.split("\\.")[1];
+			if(type.equals("txt")){
+				type = "csv";
 			}
-			Dataset<Row> test = sparkUtil.readData(testHdfsDir, "HDFS", type,"");
+			Dataset<Row> test = sparkUtil.readData(testHdfsDir, "HDFS", type,testLabel);
 
 			//add log info
-			String train_datainfo = train.showString(5, true);
+			String train_datainfo = train.showString(5, false);
 			result.add("Train Dataset Info:");
 			result.add(train_datainfo);
-			String test_datainfo = test.showString(5, true);
+			String test_datainfo = test.showString(5, false);
 			result.add("Test Dataset Info");
 			result.add(test_datainfo);
 			
@@ -124,18 +137,18 @@ public class JavaSparkService {
     
     
     public List<String> SparkTest(String ProjectName,String task,
-    								String testDataName,String Algorithm,String algo_type, 
+    								String testDataName, String testLabel, String Algorithm,String algo_type, 
     								String modelName) throws Exception{   
 		String testHdfsDir = ProjectName+'/'+task+'/'+"/data/"+testDataName;
-		String type = "json";
-		if(testDataName.split("\\.")[1].equals("txt")){
-			type = "libsvm";
+		String type = testDataName.split("\\.")[1];
+		if(type.equals("txt")){
+			type = "csv";
 		}
-		Dataset<Row> test = sparkUtil.readData(testHdfsDir, "HDFS", type,"");		
+		Dataset<Row> test = sparkUtil.readData(testHdfsDir, "HDFS", type, testLabel);		
 		List<String> result = new ArrayList<String>();
 		result.add("Begin test, Algorithm: "+Algorithm+",testDataName: "+testDataName+",ModelName: "+modelName);
 
-		String test_datainfo = test.showString(5, true);
+		String test_datainfo = test.showString(5, false);
 		result.add("Test Dataset Info:");
 		result.add(test_datainfo);
 		
@@ -150,8 +163,11 @@ public class JavaSparkService {
 			model = sparkEstimate.loadModel(modelPath, Cluster.valueOf(Algorithm.toUpperCase()));
 		}
 		Dataset<Row> rows = sparkEstimate.predict(test, model);
+		rows.show();
+		Dataset<Row> result_dataset = rows.select("prediction");
+		result_dataset.show();
 		result.add("Prediction:");
-		String prediction_info = rows.showString(5, true);
+		String prediction_info = rows.showString(5, false);
 		result.add(prediction_info);
 		
 		StringBuffer file_res = new StringBuffer();
@@ -159,12 +175,19 @@ public class JavaSparkService {
 		   file_res.append(r.get(0) + "\n");
 		}
 		
-		String result_name = modelName+"_"+testDataName+".txt";
+		String result_name = modelName+"_"+testDataName;
+		result_name = result_name.replace('.', '_') + ".csv";
+		
 		result.add("result save to:" + result_name);
-
+		
+		String result_path = ProjectName+'/'+task+'/'+"/result/"+result_name;		
+		result_dataset.write().mode("Overwrite").option("delimiter", " ").option("inferSchema",true).option("header", true).format("csv").save(hdfsFileUtil.HDFSPath(result_path));
+		
+		/*
 		// save predictions to local file. (not hdfs)
 		fileUtil.saveToFile(fileUtil.ProjectPathPrefix+ProjectName+"/"+task+"/"+"result/" + result_name, 
 								file_res.toString());
+		*/
 		return result;
 	}    		
     

@@ -569,6 +569,20 @@
                 }
             },
             params: {}
+        }).state("preprocess", {
+            url: "/preprocess",
+            parent: 'app',
+            data: {
+                authorities: []
+            },
+            views: {
+                'content@': {
+                    templateUrl: "app/algo_project/preprocess/preprocess.html",
+                    controller: "PreprocessController",
+                    controllerAs: 'vm'
+                }
+            },
+            params: {}
         })
         
         

@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import io.github.jhipster.sample.service.AlgorithmTaskFileService;
 import io.github.jhipster.sample.service.JavaSparkService;
 import io.github.jhipster.sample.web.rest.model.SparkClassification;
 import io.github.jhipster.sample.web.rest.model.SparkCluster;
@@ -38,7 +39,7 @@ public class JavaSparkAPI {
     static FileController fileController = new FileController();
     static SparkClassification sparkClassification = new SparkClassification();
     private static JavaSparkService service = new JavaSparkService();
-
+    private AlgorithmTaskFileService taskFileService = new AlgorithmTaskFileService();
 
 
 
@@ -57,11 +58,36 @@ public class JavaSparkAPI {
     @GetMapping("/getDataColumns")
     @ResponseBody
     public String [] getDataColumns(@RequestParam(value = "ProjectName") String ProjectName,
-                                    @RequestParam(value = "DataName") String DataName) throws Exception{
-        String hdfsDir = HDFSPathPrefix + ProjectName + "/Data/" + DataName;
-        String [] columns = sparkUtil.getColumns(hdfsDir, "HDFS", "json");
+    								@RequestParam(value = "task") String task,
+                                    @RequestParam(value = "DataName") String dataName) throws Exception{
+        String hdfsDir = ProjectName+'/'+task+'/'+"/data/"+dataName;
+        System.out.println(hdfsDir);
+		String type = dataName.split("\\.")[1];
+		if(type.equals("txt")){
+			type = "csv";
+		}
+        String [] columns = sparkUtil.getColumns(hdfsDir, "HDFS", type);
         return columns;
     }
+    
+    @GetMapping("/getJsonData")
+    @ResponseBody
+    public List<String> getJsonData(@RequestParam(value = "ProjectName") String projectName,
+    								@RequestParam(value = "task") String task,
+    								@RequestParam(value = "dataType") String dataType,   
+    								@RequestParam(value = "hdfs") boolean hdfs,    								    								
+                                    @RequestParam(value = "DataName") String dataName) throws Exception{
+        String hdfsDir = projectName+'/'+task+'/'+dataType+'/'+dataName;
+        System.out.println(hdfsDir);
+		String type = dataName.split("\\.")[1];
+		if(type.equals("txt")){
+			type = "csv";
+		}
+        List<String> data = taskFileService.getJsonData(hdfsDir, hdfs, type);
+        return data;
+    }    
+    
+    
 
     @GetMapping("/getLibraryParameter")
     @ResponseBody
@@ -93,6 +119,9 @@ public class JavaSparkAPI {
 	    		algos.add(clu.toString().toLowerCase());
 			}
     	}
+    	else{
+    		algos.add("kmeans");
+    	}
     	System.out.println(type);
     	return algos;
     }
@@ -116,13 +145,16 @@ public class JavaSparkAPI {
     						  @RequestParam(value = "algo") String algo,
     						  @RequestParam(value = "para") String para,
     						  @RequestParam(value = "trainData") String trainData,
-    						  @RequestParam(value = "testData") String testData
+    						  @RequestParam(value = "trainLabel") String trainLabel,    						  
+    						  @RequestParam(value = "testData") String testData,
+    						  @RequestParam(value = "testLabel") String testLabel    						  
     						){
     	List<String> res = new ArrayList<String>();
     	try {
-			res = service.SparkTrain(project, task, trainData, testData, para, algo_type, algo);
+			res = service.SparkTrain(project, task, trainData, trainLabel, testData, testLabel, para, algo_type, algo);
 		} catch (Exception e) {
 			e.printStackTrace();
+						
 		}
     	return res;
     }
@@ -134,10 +166,11 @@ public class JavaSparkAPI {
     						  @RequestParam(value = "algoType") String algo_type,    						  							  
 							  @RequestParam(value = "algo") String algo,
 							  @RequestParam(value = "testData") String testData,
+							  @RequestParam(value = "testLabel") String testLabel,							  
 							  @RequestParam(value = "model") String modelName){
     	List<String> res = new ArrayList<String>();
     	try {
-			res = service.SparkTest(project, task, testData, algo, algo_type, modelName);
+			res = service.SparkTest(project, task, testData, testLabel, algo, algo_type, modelName);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
